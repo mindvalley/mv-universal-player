@@ -1,6 +1,6 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import { defineCustomElement } from 'vue'
+import AudioPlayer from '@/components/AudioPlayer.ce.vue'
 
-import './assets/main.css'
+const AudioPlayerComponent = defineCustomElement(AudioPlayer)
 
-createApp(App).mount('#app')
+customElements.define('mv-audio-player', AudioPlayerComponent)

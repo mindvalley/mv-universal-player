@@ -1,7 +1,8 @@
 {
-  "name": "mv-universal-player",
+  "name": "@mindvalley/mv-universal-player",
   "version": "0.0.0",
   "private": true,
+  "repository": "https://github.com/mindvalley/mv-universal-player",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
