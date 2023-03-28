@@ -1,6 +1,6 @@
 import { defineCustomElement } from 'vue'
-import AudioPlayer from '@/components/AudioPlayer.ce.vue'
+import AudioPlayer from '@/components/Audio/AudioPlayer.ce.vue'
 
-const AudioPlayerComponent = defineCustomElement(AudioPlayer)
+export const MVAudioPlayer = defineCustomElement(AudioPlayer)
 
-customElements.define('mv-audio-player', AudioPlayerComponent)
+customElements.define('mv-audio-player', MVAudioPlayer)
