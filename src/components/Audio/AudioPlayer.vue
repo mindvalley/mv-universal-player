@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { stringify } from 'querystring'
 import VideoJsPlayer from 'video.js'
-import { onMounted, reactive, ref } from 'vue'
-import 'video.js/dist/video-js.css'
+import { onMounted, onUnmounted, reactive, ref } from 'vue'
 export interface Props {}
 
 export interface Source {
@@ -9,34 +9,89 @@ export interface Source {
   src: string
 }
 
-// eslint-disable-next-line vue/no-setup-props-destructure
-// const { id = 'audioPlayer' } = defineProps<Props>()
-const audioId = 'mv-audio-player-' + Math.random().toString().replace('.', '')
-let audioInstance: any
-
-// const sources: Source[] = reactive()
-
-onMounted(() => {
-  audioInstance = createInstance(audioId, { controls: true, playbackRates: [0.25, 0.5, 1, 2] })
+const props = defineProps({
+  id: {
+    type: String,
+    default: 'mv-audio-player-' + Math.random().toString().replace('.', '')
+  },
+  playbackRates: {
+    type: Array<Number>,
+    default() {
+      return [0.25, 0.5, 1, 2]
+    }
+  },
+  sources: {
+    type: Array<Source>,
+    default() {
+      return []
+    }
+  }
 })
 
-function createInstance(id: string, options: any) {
+let audioInstance: any
+
+onMounted(() => {
+  initialize()
+})
+
+onUnmounted(() => {
+  audioInstance.dispose()
+
+  if (audioInstance) {
+    audioInstance.dispose()
+  }
+})
+
+const initialize = () => {
+  audioInstance = createInstance(props.id, { controls: false, playbackRates: props.playbackRates })
+  updateSources(props.sources)
+}
+
+const createInstance = (id: string, options: any) => {
   if (id && id.trim()) {
     return VideoJsPlayer(id, options)
-  } else {
-    throw 'Id is required'
+  }
+}
+
+const updateSources = (sources: Source[]) => {
+  if (audioInstance) {
+    audioInstance.src(sources)
+  }
+}
+
+const play = () => {
+  if (audioInstance) {
+    audioInstance.play()
+  }
+}
+
+const pause = () => {
+  if (audioInstance) {
+    audioInstance.pause()
   }
 }
 </script>
 <template>
-  <div class="hello">hello</div>
-  <video :data-testid="audioId" :id="audioId" class="video-js vjs-default-skin">
-    <source src="//vjs.zencdn.net/v/oceans.mp4" />
-  </video>
+  <div class="mv-universal-player-container">
+    <div class="hello">hello</div>
+    <video
+      :data-testid="props.id"
+      :id="props.id"
+      class="video-js mv-universal-player--audio"
+      webkit-playsinline
+      playsinline
+    >
+      <source src="//vjs.zencdn.net/v/oceans.mp4" />
+      <p class="vjs-no-js">
+        To play the audio please enable JavaScript, and consider upgrading to a web browser that
+        <a href="https://videojs.com/html5-video-support/" target="_blank"> supports HTML5 video</a>
+      </p>
+    </video>
+  </div>
 </template>
 
 <style scoped>
-.hello {
-  color: red;
+.mv-universal-player--audio {
+  display: none;
 }
 </style>

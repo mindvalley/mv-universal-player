@@ -1,6 +1,6 @@
 <template>
   <div>App Component</div>
-  <AudioPlayer />
+  <AudioPlayer id="amit" />
 </template>
 
 <script setup lang="ts">
