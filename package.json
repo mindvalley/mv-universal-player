@@ -1,12 +1,26 @@
 {
   "name": "@mindvalley/mv-universal-player",
-  "main": "./dist/mv-universal-player.mjs",
-  "types": "./dist/src/main.d.ts",
-  "files": [
-    "dist/*"
-  ],
-  "version": "0.0.7",
+  "version": "0.0.14",
+  "author": "Mindvalley",
   "private": false,
+  "type": "module",
+  "main": "./dist/mv-universal-player.umd.cjs",
+  "module": "./dist/mv-universal-player.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/mv-universal-player.js",
+      "require": "./dist/mv-universal-player.umd.cjs"
+    },
+    "./dist/style.css": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
+    }
+  },
+  "files": [
+    "dist",
+    "src/components/"
+  ],
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
@@ -24,6 +38,9 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
   },
   "dependencies": {
     "video.js": "^8.0.4",

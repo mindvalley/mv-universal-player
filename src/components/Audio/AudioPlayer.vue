@@ -16,7 +16,6 @@ let audioInstance: any
 
 // const sources: Source[] = reactive()
 
-const count = ref(0)
 onMounted(() => {
   audioInstance = createInstance(audioId, { controls: true, playbackRates: [0.25, 0.5, 1, 2] })
 })
@@ -30,19 +29,13 @@ function createInstance(id: string, options: any) {
 }
 </script>
 <template>
-  <button @click="count++">increase</button>
-  <Teleport to="#teleport-id">
-    <div>
-      <div>{{ count }}</div>
-      <div class="hello">hello from teleport</div>
-      <video :data-testid="audioId" :id="audioId" class="video-js vjs-default-skin">
-        <source src="//vjs.zencdn.net/v/oceans.mp4" />
-      </video>
-    </div>
-  </Teleport>
+  <div class="hello">hello</div>
+  <video :data-testid="audioId" :id="audioId" class="video-js vjs-default-skin">
+    <source src="//vjs.zencdn.net/v/oceans.mp4" />
+  </video>
 </template>
 
-<style>
+<style scoped>
 .hello {
   color: red;
 }
