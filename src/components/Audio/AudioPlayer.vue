@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { stringify } from 'querystring'
 import VideoJsPlayer from 'video.js'
+// import type { VideoJsPlayer as Player } from 'video.js'
 import { onMounted, onUnmounted, reactive, ref } from 'vue'
 export interface Props {}
 
@@ -44,7 +45,7 @@ onUnmounted(() => {
 
 const initialize = () => {
   audioInstance = createInstance(props.id, { controls: false, playbackRates: props.playbackRates })
-  updateSources(props.sources)
+  setSources(props.sources)
 }
 
 const createInstance = (id: string, options: any) => {
@@ -53,8 +54,8 @@ const createInstance = (id: string, options: any) => {
   }
 }
 
-const updateSources = (sources: Source[]) => {
-  if (audioInstance) {
+const setSources = (sources: Source[]) => {
+  if (audioInstance && sources.length > 0) {
     audioInstance.src(sources)
   }
 }
@@ -69,6 +70,25 @@ const pause = () => {
   if (audioInstance) {
     audioInstance.pause()
   }
+}
+
+const setVolume = (volume: number) => {
+  if (audioInstance) {
+    audioInstance.volume(volume)
+  }
+}
+
+const setCurrentTime = (time: number) => {
+  if (audioInstance) {
+    audioInstance.currentTime(time)
+  }
+}
+
+const player = {
+  play,
+  pause,
+  setVolume,
+  setCurrentTime
 }
 </script>
 <template>
@@ -87,6 +107,7 @@ const pause = () => {
         <a href="https://videojs.com/html5-video-support/" target="_blank"> supports HTML5 video</a>
       </p>
     </video>
+    <slot :player="player"></slot>
   </div>
 </template>
 
