@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import VideoJsPlayer from 'video.js'
-import { onMounted, reactive } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
+import 'video.js/dist/video-js.css'
 export interface Props {}
 
 export interface Source {
@@ -15,6 +16,7 @@ let audioInstance: any
 
 // const sources: Source[] = reactive()
 
+const count = ref(0)
 onMounted(() => {
   audioInstance = createInstance(audioId, { controls: true, playbackRates: [0.25, 0.5, 1, 2] })
 })
@@ -28,14 +30,20 @@ function createInstance(id: string, options: any) {
 }
 </script>
 <template>
-  <Teleport to="body">
-    <video :data-testid="audioId" :id="audioId" class="video-js" webkit-playsinline playsinline>
-      <!-- <source
-      v-for="(source, index) in sources"
-      :src="source.url"
-      :type="source.contentType"
-      :key="index"
-    /> -->
-    </video>
+  <button @click="count++">increase</button>
+  <Teleport to="#teleport-id">
+    <div>
+      <div>{{ count }}</div>
+      <div class="hello">hello from teleport</div>
+      <video :data-testid="audioId" :id="audioId" class="video-js vjs-default-skin">
+        <source src="//vjs.zencdn.net/v/oceans.mp4" />
+      </video>
+    </div>
   </Teleport>
 </template>
+
+<style>
+.hello {
+  color: red;
+}
+</style>
