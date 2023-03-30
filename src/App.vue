@@ -5,6 +5,12 @@
     <button @click="player.play">Play</button>
     <button @click="player.pause">Pause</button>
   </AudioPlayer>
+  <div>App Component</div>
+  <AudioPlayer id="amit1" v-slot="{ player, state }" @play="play1" @pause="paused1">
+    {{ state }}
+    <button @click="player.play">Play</button>
+    <button @click="player.pause">Pause</button>
+  </AudioPlayer>
 </template>
 
 <script setup lang="ts">
