@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import VideoJsPlayer from 'video.js'
-import { onMounted, onUnmounted, ref, defineEmits, watch } from 'vue'
+import { onMounted, onUnmounted, ref, defineEmits, watch } from 'vue-demi'
 
 interface Source {
   type: string

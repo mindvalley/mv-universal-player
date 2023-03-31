@@ -17,6 +17,9 @@ export default defineConfig(({ command }: ConfigEnv) => {
   } else {
     return {
       plugins: [vue(), dts()],
+      optimizeDeps: {
+        exclude: ['vue-demi']
+      },
       build: {
         lib: {
           entry: resolve(__dirname, 'src/index.ts'),
