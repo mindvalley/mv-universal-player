@@ -1,6 +1,6 @@
 {
   "name": "@mindvalley/mv-universal-player",
-  "version": "0.0.16",
+  "version": "0.0.19",
   "author": "Mindvalley",
   "private": false,
   "type": "module",
@@ -49,8 +49,10 @@
     }
   },
   "dependencies": {
+    "@mindvalley/design-system": "^2.3.0",
     "video.js": "^8.0.4",
-    "vue-demi": "^0.13.11"
+    "vue-demi": "^0.13.11",
+    "vue-svg-sprite": "^2.2.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.31.1",
@@ -71,7 +73,7 @@
     "vite": "^4.1.4",
     "vite-plugin-dts": "^2.1.0",
     "vitest": "^0.29.1",
-    "vue-tsc": "^1.2.0",
-    "vue": "^3.2.47"
+    "vue": "^3.2.47",
+    "vue-tsc": "^1.2.0"
   }
 }

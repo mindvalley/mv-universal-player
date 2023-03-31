@@ -222,6 +222,11 @@
   resolved "https://registry.yarnpkg.com/@microsoft/tsdoc/-/tsdoc-0.14.2.tgz#c3ec604a0b54b9a9b87e9735dfc59e1a5da6a5fb"
   integrity sha512-9b8mPpKrfeGRuhFH5iO1iwCLeIIsV6+H1sRfxbkoGXIyQE2BTsPd9zqSqQJ+pv5sJ/hT5M1zvOFL02MnEezFug==
 
+"@mindvalley/design-system@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@mindvalley/design-system/-/design-system-2.3.0.tgz#62d58af1fece046f169c4eabae3d97d3b9f769f1"
+  integrity sha512-x5tVCR9xRxVQY+q3PE0c7XyRuG/S5Gcafh+Ae5Km4Ucj1/tJwDMFRUZHLsEYzs21u5KB1Pm66qJUZyEzi2xaeA==
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
@@ -3230,6 +3235,11 @@ vue-eslint-parser@^9.0.0, vue-eslint-parser@^9.0.1:
     esquery "^1.4.0"
     lodash "^4.17.21"
     semver "^7.3.6"
+
+vue-svg-sprite@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/vue-svg-sprite/-/vue-svg-sprite-2.2.1.tgz#cd7e63e78af911912f177d122ce798f5cabaa3e6"
+  integrity sha512-bPco2UxLkojw8iBtLtbgW/Mrvmspev0xUQdxQ6PbQvOJsgwsi6dg+Lagbd8Y6neMPlxrYu6kfb2LIUUeXb87Lw==
 
 vue-template-compiler@^2.7.14:
   version "2.7.14"

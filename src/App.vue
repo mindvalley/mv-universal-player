@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import AudioPlayer from './components/Audio/AudioPlayer.vue'
+import AudioPlayer from './components/audio/AudioPlayer/AudioPlayer.vue'
 
 const play1 = (event?: any) => {
   console.log('play clicked')
