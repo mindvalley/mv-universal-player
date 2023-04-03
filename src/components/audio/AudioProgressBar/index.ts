@@ -5,7 +5,7 @@ import AudioProgressBar from './AudioProgressBar.vue'
 
 export default {
   install(app: App) {
-    registerComponent(app, AudioProgressBar)
+    registerComponent(app, 'MVAudioProgressBar', AudioProgressBar)
   }
 } as Plugin
 

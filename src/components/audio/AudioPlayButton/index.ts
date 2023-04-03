@@ -5,7 +5,7 @@ import AudioPlayButton from './AudioPlayButton.vue'
 
 export default {
   install(app: App) {
-    registerComponent(app, AudioPlayButton)
+    registerComponent(app, 'MVAudioPlayButton', AudioPlayButton)
   }
 } as Plugin
 

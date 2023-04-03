@@ -5,7 +5,7 @@ import AudioRewindButton from './AudioRewindButton.vue'
 
 export default {
   install(app: App) {
-    registerComponent(app, AudioRewindButton)
+    registerComponent(app, 'MVAudioRewindButton', AudioRewindButton)
   }
 } as Plugin
 

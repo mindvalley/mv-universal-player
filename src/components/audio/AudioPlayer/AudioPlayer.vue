@@ -261,7 +261,7 @@ const player = {
 </script>
 <template>
   <div class="mv-universal-player-container">
-    <div class="hello">hello</div>
+    <div class="hello">hello header</div>
     <video
       :data-testid="props.id"
       :id="props.id"
@@ -276,11 +276,17 @@ const player = {
       </p>
     </video>
     <slot :player="player" :state="state"></slot>
+    <div class="hello">hello footer</div>
   </div>
 </template>
 
 <style scoped>
 .mv-universal-player--audio {
   display: none;
+}
+
+.hello {
+  color: green;
+  background-color: blue;
 }
 </style>

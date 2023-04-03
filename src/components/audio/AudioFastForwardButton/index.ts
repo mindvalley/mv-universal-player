@@ -5,7 +5,7 @@ import AudioFastForwardButton from './AudioFastForwardButton.vue'
 
 export default {
   install(app: App) {
-    registerComponent(app, AudioFastForwardButton)
+    registerComponent(app, 'MVAudioFastForwardButton', AudioFastForwardButton)
   }
 } as Plugin
 

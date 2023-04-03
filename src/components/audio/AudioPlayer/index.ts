@@ -5,7 +5,8 @@ import AudioPlayer from './AudioPlayer.vue'
 
 export default {
   install(app: App) {
-    registerComponent(app, AudioPlayer)
+    console.log('register mv audio player ----')
+    registerComponent(app, 'MVAudioPlayer', AudioPlayer)
   }
 } as Plugin
 

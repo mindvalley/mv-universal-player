@@ -1,6 +1,6 @@
 {
   "name": "@mindvalley/mv-universal-player",
-  "version": "0.0.19",
+  "version": "0.0.25",
   "author": "Mindvalley",
   "private": false,
   "type": "module",
@@ -19,7 +19,7 @@
   },
   "files": [
     "dist",
-    "src/components/"
+    "src"
   ],
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
@@ -49,7 +49,6 @@
     }
   },
   "dependencies": {
-    "@mindvalley/design-system": "^2.3.0",
     "video.js": "^8.0.4",
     "vue-demi": "^0.13.11",
     "vue-svg-sprite": "^2.2.1"

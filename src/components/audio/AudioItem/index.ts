@@ -5,7 +5,7 @@ import AudioItem from './AudioItem.vue'
 
 export default {
   install(app: App) {
-    registerComponent(app, AudioItem)
+    registerComponent(app, 'MVAudioItem', AudioItem)
   }
 } as Plugin
 
