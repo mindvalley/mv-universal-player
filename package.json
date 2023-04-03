@@ -49,6 +49,7 @@
     }
   },
   "dependencies": {
+    "@mindvalley/design-system": "^2.3.0",
     "video.js": "^8.0.4",
     "vue-demi": "^0.13.11",
     "vue-svg-sprite": "^2.2.1"

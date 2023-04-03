@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import VideoJsPlayer from 'video.js'
-import { onMounted, onUnmounted, ref, defineEmits, watch } from 'vue-demi'
-
+import { onMounted, onUnmounted, ref, defineEmits, watch, provide } from 'vue-demi'
+import { Player } from '../../../types/audio'
 interface Source {
   type: string
   src: string
 }
+
 const StateConfig = {
   src: {
     getter: (player: any) => player.src()
@@ -79,6 +80,9 @@ const StateConfig = {
   seekable: {
     events: ['progress', 'seeked'],
     getter: (player: any) => player.seekable()
+  },
+  audioItemId: {
+    getter: (player: any) => ''
   }
 }
 
@@ -227,8 +231,9 @@ const setSources = (sources: Source[]) => {
   }
 }
 
-const play = () => {
-  if (audioInstance) {
+const play = (audioItemId: string) => {
+  if (audioInstance && audioItemId) {
+    updateState('audioItemId', audioItemId)
     audioInstance.play()
     emit('play', 'hello play')
   }
@@ -247,17 +252,22 @@ const setVolume = (volume: number) => {
 }
 
 const setCurrentTime = (time: number) => {
-  if (audioInstance) {
+  if (audioInstance && time) {
+    console.log('audio player ====')
+    console.log(time)
     audioInstance.currentTime(time)
   }
 }
 
-const player = {
+const player: Player = {
   play,
   pause,
   setVolume,
   setCurrentTime
 }
+
+provide('player', player)
+provide('state', state)
 </script>
 <template>
   <div class="mv-universal-player-container">
@@ -275,7 +285,7 @@ const player = {
         <a href="https://videojs.com/html5-video-support/" target="_blank"> supports HTML5 video</a>
       </p>
     </video>
-    <slot :player="player" :state="state"></slot>
+    <slot :state="state"></slot>
     <div class="bg-yellow-500">hello footer</div>
   </div>
 </template>
