@@ -1,12 +1,4 @@
-import { registerComponent } from './../../../utils/plugins'
-import type { App, Plugin } from 'vue-demi'
+import MVAudioItem from './AudioItem.vue'
 
-import AudioItem from './AudioItem.vue'
-
-export default {
-  install(app: App) {
-    registerComponent(app, 'MVAudioItem', AudioItem)
-  }
-} as Plugin
-
-export { AudioItem as MVAudioItem }
+export { MVAudioItem }
+export default MVAudioItem

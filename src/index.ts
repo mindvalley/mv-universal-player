@@ -1,19 +1,23 @@
-import type { App } from 'vue'
-import * as plugins from './components/plugins'
-import { registerPlugin } from './utils/plugins'
+import * as components from './components'
+import './tailwind.css'
 
+import type { App } from 'vue-demi'
+const defaultComponents: any = components
 const MVUniversalPlayer = {
-  install: (app: App) => {
-    for (const componentKey in plugins) {
-      console.log('key ---------')
-      console.log(componentKey)
-      registerPlugin(app, (plugins as any)[componentKey])
-    }
+  install(app: App) {
+    Object.keys(defaultComponents).forEach((name) => {
+      app.component(name, defaultComponents[name])
+    })
   }
 }
 
 export default MVUniversalPlayer
-// export all vue components
-export * from './components'
-// export all components as vue plugin
-export * from './components/plugins'
+
+export {
+  MVAudioPlayer,
+  MVAudioFastForwardButton,
+  MVAudioItem,
+  MVAudioPlayButton,
+  MVAudioProgressBar,
+  MVAudioRewindButton
+} from './components'

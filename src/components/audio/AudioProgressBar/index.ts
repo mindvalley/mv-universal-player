@@ -1,12 +1,4 @@
-import { registerComponent } from './../../../utils/plugins'
-import type { App, Plugin } from 'vue-demi'
+import MVAudioProgressBar from './AudioProgressBar.vue'
 
-import AudioProgressBar from './AudioProgressBar.vue'
-
-export default {
-  install(app: App) {
-    registerComponent(app, 'MVAudioProgressBar', AudioProgressBar)
-  }
-} as Plugin
-
-export { AudioProgressBar as MVAudioProgressBar }
+export { MVAudioProgressBar }
+export default MVAudioProgressBar

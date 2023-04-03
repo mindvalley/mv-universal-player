@@ -23,12 +23,15 @@ export default defineConfig(({ command }: ConfigEnv) => {
       build: {
         lib: {
           entry: resolve(__dirname, 'src/index.ts'),
+          formats: ['es', 'cjs'],
           name: 'MV Universal Player',
-          fileName: 'mv-universal-player'
+          fileName: (format) => `mv-universal-player.${format}.js`
         },
         rollupOptions: {
           external: ['vue'],
           output: {
+            preserveModules: true,
+            exports: 'named',
             globals: {
               vue: 'Vue'
             }
