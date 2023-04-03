@@ -82,14 +82,14 @@ const StateConfig = {
   }
 }
 
-// type PlayerBaseState = {
-//   [K in keyof typeof StateConfig]: ReturnType<(typeof StateConfig)[K]['getter']>
-// }
+type PlayerBaseState = {
+  [K in keyof typeof StateConfig]: ReturnType<(typeof StateConfig)[K]['getter']>
+}
 
-// interface PlayerState extends PlayerBaseState {
-//   playing: boolean
-//   waiting: boolean
-// }
+interface PlayerState extends PlayerBaseState {
+  playing: boolean
+  waiting: boolean
+}
 
 const props = defineProps({
   id: {
@@ -111,7 +111,7 @@ const props = defineProps({
 })
 
 let audioInstance: any
-let state = ref({} as any)
+let state = ref({} as PlayerState)
 const emit = defineEmits(['play', 'pause', 'timeupdate', 'seeking', 'ended', 'ready'])
 
 watch(
@@ -211,7 +211,7 @@ const createState = () => {
   console.log(state)
 }
 
-const updateState = (key: keyof any, value: any) => {
+const updateState = (key: keyof PlayerState, value: any) => {
   state.value[key] = value as never
 }
 
