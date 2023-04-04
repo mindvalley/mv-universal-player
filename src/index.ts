@@ -19,5 +19,6 @@ export {
   MVAudioItem,
   MVAudioPlayButton,
   MVAudioProgressBar,
-  MVAudioRewindButton
+  MVAudioRewindButton,
+  MVAudioResource
 } from './components'

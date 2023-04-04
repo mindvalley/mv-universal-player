@@ -4,7 +4,8 @@ import {
   MVAudioFastForwardButton,
   MVAudioPlayButton,
   MVAudioRewindButton,
-  MVAudioProgressBar
+  MVAudioProgressBar,
+  MVAudioResource
 } from './audio'
 
 export {
@@ -13,5 +14,6 @@ export {
   MVAudioFastForwardButton,
   MVAudioPlayButton,
   MVAudioRewindButton,
-  MVAudioProgressBar
+  MVAudioProgressBar,
+  MVAudioResource
 }

@@ -4,6 +4,7 @@ import { MVAudioFastForwardButton } from './AudioFastForwardButton'
 import { MVAudioPlayButton } from './AudioPlayButton'
 import { MVAudioRewindButton } from './AudioRewindButton'
 import { MVAudioProgressBar } from './AudioProgressBar'
+import { MVAudioResource } from './AudioResource'
 
 export {
   MVAudioPlayer,
@@ -11,5 +12,6 @@ export {
   MVAudioFastForwardButton,
   MVAudioPlayButton,
   MVAudioRewindButton,
-  MVAudioProgressBar
+  MVAudioProgressBar,
+  MVAudioResource
 }
