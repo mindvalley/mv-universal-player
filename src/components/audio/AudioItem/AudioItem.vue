@@ -1,16 +1,20 @@
 <script setup lang="ts">
-import { inject, onMounted, ref, watch } from 'vue-demi'
-import { Player } from '../../../types/audio'
+import { inject, ref, watch } from 'vue-demi'
+import type { Player, Source } from '../../../types/audio'
 
 const props = defineProps({
   id: {
     type: String,
     default: () => 'mv-audio-item-' + Math.random().toString().replace('.', '')
+  },
+  sources: {
+    type: Array<Source>,
+    required: true
   }
 })
 
 const state: any = inject('state')
-const player: Player = inject('player')
+const player: Player = inject('player', {} as Player)
 const playing = ref(false)
 
 watch(
@@ -30,26 +34,27 @@ watch(
 )
 
 const play = () => {
-  if (player) {
-    player.play(props.id)
+  if (state.value.audioItemId !== props.id) {
+    console.log('props =')
+    console.log(props.sources)
+
+    player.setSources(props.sources)
   }
+  player.play(props.id)
 }
 
 const pause = () => {
-  if (player) {
-    player.pause()
-  }
+  player.pause()
 }
 
 const rewind = (seconds: number) => {
-  console.log('rewind ---')
-  if (player && seconds) {
+  if (state.value.audioItemId === props.id && player && seconds) {
     player.setCurrentTime(state.value.currentTime - seconds)
   }
 }
 
 const fastForward = (seconds: number) => {
-  if (player && seconds) {
+  if (state.value.audioItemId === props.id && player && seconds) {
     player.setCurrentTime(state.value.currentTime + seconds)
   }
 }

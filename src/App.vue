@@ -1,14 +1,21 @@
 <template>
   <div>App Component</div>
-  <AudioPlayer>
-    <AudioItem v-slot="{ play, pause, playing, rewind, fastForward }">
+  <AudioPlayer v-slot="{ state }">
+    {{ state }}
+    <AudioItem
+      v-slot="{ play, pause, playing, rewind, fastForward }"
+      :sources="[{ src: '//vjs.zencdn.net/v/oceans.mp4' }]"
+    >
       <div class="flex">
         <AudioRewindButton @rewind="(e) => rewind(e)" />
         <AudioPlayButton @play="play" @pause="pause" :playing="playing" />
         <AudioFastForwardButton @fast-forward="(e) => fastForward(e)" />
       </div>
     </AudioItem>
-    <AudioItem v-slot="{ play, pause, playing, rewind, fastForward }">
+    <AudioItem
+      v-slot="{ play, pause, playing, rewind, fastForward }"
+      :sources="[{ src: 'https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp4' }]"
+    >
       <div class="flex">
         <AudioRewindButton @rewind="(e) => rewind(e)" />
         <AudioPlayButton @play="play" @pause="pause" :playing="playing" />

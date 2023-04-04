@@ -1,11 +1,7 @@
 <script setup lang="ts">
 import VideoJsPlayer from 'video.js'
 import { onMounted, onUnmounted, ref, defineEmits, watch, provide } from 'vue-demi'
-import { Player } from '../../../types/audio'
-interface Source {
-  type: string
-  src: string
-}
+import type { Player, Source } from '../../../types/audio'
 
 const StateConfig = {
   src: {
@@ -93,6 +89,7 @@ type PlayerBaseState = {
 interface PlayerState extends PlayerBaseState {
   playing: boolean
   waiting: boolean
+  audioItemId: string
 }
 
 const props = defineProps({
@@ -104,12 +101,6 @@ const props = defineProps({
     type: Array<Number>,
     default() {
       return [0.25, 0.5, 1, 2]
-    }
-  },
-  sources: {
-    type: Array<Source>,
-    default() {
-      return []
     }
   }
 })
@@ -176,7 +167,6 @@ const initialize = () => {
     controls: false,
     playbackRates: props.playbackRates
   })
-  setSources(props.sources)
   createState()
 
   emit('ready')
@@ -204,9 +194,9 @@ const createState = () => {
 
   keys.forEach((key) => {
     const target = StateConfig[key]
-    const baseEvents = ['loadstart', 'loadedmetadata']
+    // const baseEvents = ['loadstart', 'loadedmetadata']
+    const baseEvents = ['']
     audioInstance.on(baseEvents.concat((target as any).events ?? []), () => {
-      console.log('fire ---')
       updateState(key, target.getter(audioInstance))
     })
   })
@@ -216,6 +206,8 @@ const createState = () => {
 }
 
 const updateState = (key: keyof PlayerState, value: any) => {
+  console.log('update state ---')
+  console.log(key)
   state.value[key] = value as never
 }
 
@@ -226,7 +218,9 @@ const createInstance = (id: string, options: any) => {
 }
 
 const setSources = (sources: Source[]) => {
-  if (audioInstance && sources.length > 0) {
+  console.log('sources ---')
+  console.log(sources)
+  if (audioInstance && sources?.length > 0) {
     audioInstance.src(sources)
   }
 }
@@ -263,7 +257,8 @@ const player: Player = {
   play,
   pause,
   setVolume,
-  setCurrentTime
+  setCurrentTime,
+  setSources
 }
 
 provide('player', player)
@@ -279,7 +274,6 @@ provide('state', state)
       webkit-playsinline
       playsinline
     >
-      <source src="//vjs.zencdn.net/v/oceans.mp4" />
       <p class="vjs-no-js">
         To play the audio please enable JavaScript, and consider upgrading to a web browser that
         <a href="https://videojs.com/html5-video-support/" target="_blank"> supports HTML5 video</a>
