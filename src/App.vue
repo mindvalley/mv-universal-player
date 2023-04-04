@@ -1,19 +1,20 @@
 <template>
-  <AudioPlayer>
+  <!-- <AudioPlayer>
     <div class="mx-auto max-w-3xl">
       <AudioResource
         v-for="section in filteredSections"
         :key="section.id"
         asset-type="audio"
         :asset-id="section.id"
-        :sources="section.primaryAsset?.renditions"
-        :duration="section.primaryAsset?.duration"
-        :poster-url="section.coverAsset?.url"
-        :title="section.info.title"
+        :sources="section.primaryAsset?.renditions || []"
+        :duration="section.primaryAsset?.duration || 0"
+        :poster-url="section.coverAsset?.url || ''"
+        :title="section.info?.title || ''"
         class="my-10"
       />
     </div>
-  </AudioPlayer>
+  </AudioPlayer> -->
+  <div>hello</div>
 </template>
 
 <script setup lang="ts">

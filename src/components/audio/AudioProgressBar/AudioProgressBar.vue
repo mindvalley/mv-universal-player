@@ -13,10 +13,10 @@ const props = defineProps({
 const emit = defineEmits<{
   (e: 'seek', currentTime: number): void
 }>()
-const seekerUi = ref(null)
+const seekerUi: any = ref(null)
 
 const seek = (event: any) => {
-  const completionPercentage = (event.offsetX / seekerUi.value?.offsetWidth) * 100
+  const completionPercentage = (event.offsetX / seekerUi.value.offsetWidth) * 100
   const currentTime = props.duration * (completionPercentage / 100)
   emit('seek', currentTime)
 }
