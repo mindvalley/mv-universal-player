@@ -1,6 +1,6 @@
 {
   "name": "@mindvalley/mv-universal-player",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "author": "Mindvalley",
   "private": false,
   "type": "module",
@@ -41,7 +41,8 @@
   },
   "peerDependencies": {
     "@vue/composition-api": "^1.0.0-rc.1",
-    "vue": "^2.0.0 || >=3.0.0"
+    "vue": "^2.0.0 || >=3.0.0",
+    "@mindvalley/design-system": "^2.3.0"
   },
   "peerDependenciesMeta": {
     "@vue/composition-api": {
@@ -49,7 +50,6 @@
     }
   },
   "dependencies": {
-    "@mindvalley/design-system": "^2.3.0",
     "video.js": "^8.0.4",
     "vue-demi": "^0.13.11",
     "vue-svg-sprite": "^2.2.1"
