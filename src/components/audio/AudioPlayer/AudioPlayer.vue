@@ -200,14 +200,9 @@ const createState = () => {
       updateState(key, target.getter(audioInstance))
     })
   })
-
-  console.log('----state -----')
-  console.log(state)
 }
 
 const updateState = (key: keyof PlayerState, value: any) => {
-  console.log('update state ---')
-  console.log(key)
   state.value[key] = value as never
 }
 
@@ -218,8 +213,6 @@ const createInstance = (id: string, options: any) => {
 }
 
 const setSources = (sources: Source[]) => {
-  console.log('sources ---')
-  console.log(sources)
   if (audioInstance && sources?.length > 0) {
     audioInstance.src(sources)
   }
@@ -266,7 +259,6 @@ provide('state', state)
 </script>
 <template>
   <div class="mv-universal-player-container">
-    <div class="hello">hello header</div>
     <video
       :data-testid="props.id"
       :id="props.id"
@@ -280,7 +272,6 @@ provide('state', state)
       </p>
     </video>
     <slot :state="state"></slot>
-    <div class="bg-yellow-500">hello footer</div>
   </div>
 </template>
 

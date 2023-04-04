@@ -16,12 +16,16 @@ const props = defineProps({
 const state: any = inject('state')
 const player: Player = inject('player', {} as Player)
 const playing = ref(false)
+const currentTime = ref(0)
+const emit = defineEmits<{
+  (e: 'currentTime', currentTime: number): void
+}>()
 
 watch(
-  state,
-  (newState) => {
-    if (newState.playing) {
-      if (newState.audioItemId === props.id) {
+  [() => state.value.playing, () => state.value.audioItemId],
+  ([newPlaying, newAudioItemId]) => {
+    if (newPlaying) {
+      if (newAudioItemId === props.id) {
         playing.value = true
       } else {
         playing.value = false
@@ -29,8 +33,17 @@ watch(
     } else {
       playing.value = false
     }
-  },
-  { deep: true }
+  }
+)
+
+watch(
+  [() => state.value.currentTime, () => state.value.audioItemId],
+  ([newCurrentTime, newAudioItemId]) => {
+    if (newAudioItemId === props.id) {
+      currentTime.value = newCurrentTime
+      emit('currentTime', currentTime.value)
+    }
+  }
 )
 
 const play = () => {
@@ -58,15 +71,23 @@ const fastForward = (seconds: number) => {
     player.setCurrentTime(state.value.currentTime + seconds)
   }
 }
+
+const seek = (time: number) => {
+  player.setCurrentTime(time)
+}
 </script>
 <template>
-  {{ state.currentTime }}
+  <div>
+    {{ state.currentTime }}
 
-  <slot
-    :play="play"
-    :pause="pause"
-    :playing="playing"
-    :rewind="rewind"
-    :fastForward="fastForward"
-  ></slot>
+    <slot
+      :play="play"
+      :pause="pause"
+      :playing="playing"
+      :rewind="rewind"
+      :fastForward="fastForward"
+      :seek="seek"
+      :currentTime="currentTime"
+    ></slot>
+  </div>
 </template>
