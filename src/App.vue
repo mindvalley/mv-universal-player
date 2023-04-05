@@ -9,7 +9,11 @@
         :sources="formatSources(section.media.mediaAsset?.renditions)"
         :duration="section.media.mediaAsset.duration"
         :poster-url="section.media.coverAsset?.url || ''"
-        :title="section.media.info?.title || ''"
+        :title="section.media.title || ''"
+        :artist-id="section.media.author.id"
+        :artist-name="section.media.author.name"
+        :ratings="section.media.averageRating"
+        :total-ratings="section.media.ratingsCount"
         class="my-10 max-w-3xl mx-auto"
       >
         <template #author-details v-if="section.media">

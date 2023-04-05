@@ -77,17 +77,13 @@ const seek = (time: number) => {
 }
 </script>
 <template>
-  <div>
-    {{ state.currentTime }}
-
-    <slot
-      :play="play"
-      :pause="pause"
-      :playing="playing"
-      :rewind="rewind"
-      :fastForward="fastForward"
-      :seek="seek"
-      :currentTime="currentTime"
-    ></slot>
-  </div>
+  <slot
+    :play="play"
+    :pause="pause"
+    :playing="playing"
+    :rewind="rewind"
+    :fastForward="fastForward"
+    :seek="seek"
+    :currentTime="currentTime"
+  ></slot>
 </template>

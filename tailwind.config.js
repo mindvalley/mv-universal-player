@@ -3,7 +3,7 @@
 import { colors } from '@mindvalley/design-system'
 
 module.exports = {
-  content: ['./src/**/*.{html,js,vue}'],
+  content: ['./src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     fontFamily: {
       sans: ['"Sharp Grotesk Book 19"', 'sans-serif']
@@ -71,5 +71,5 @@ module.exports = {
     }
   },
   safelist: ['aspect-square', 'aspect-video', 'aspect-portait'],
-  plugins: []
+  plugins: [require('./typography.js')()]
 }
