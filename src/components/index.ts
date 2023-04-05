@@ -8,6 +8,8 @@ import {
   MVAudioResource
 } from './audio'
 
+import { MVAuthorDetails } from './common'
+
 export {
   MVAudioPlayer,
   MVAudioItem,
@@ -15,5 +17,6 @@ export {
   MVAudioPlayButton,
   MVAudioRewindButton,
   MVAudioProgressBar,
-  MVAudioResource
+  MVAudioResource,
+  MVAuthorDetails
 }

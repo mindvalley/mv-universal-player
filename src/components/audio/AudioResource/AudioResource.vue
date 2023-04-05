@@ -83,6 +83,8 @@
         </div>
       </div>
     </AudioItem>
+
+    <slot name="author-details"></slot>
   </section>
 </template>
 
