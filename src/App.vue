@@ -1,16 +1,16 @@
 <template>
   <AudioPlayer>
-    <div class="mx-auto">
+    <div class="">
       <AudioResource
         v-for="section in filteredSections"
         :key="section.media.id"
         asset-type="audio"
         :asset-id="section.media.id"
-        :sources="section.media.mediaAsset?.renditions"
+        :sources="formatSources(section.media.mediaAsset?.renditions)"
         :duration="section.media.mediaAsset.duration"
         :poster-url="section.media.coverAsset?.url || ''"
         :title="section.media.info?.title || ''"
-        class="my-10 max-w-3xl"
+        class="my-10 max-w-3xl mx-auto"
       >
         <template #author-details v-if="section.media">
           <AuthorDetails
@@ -31,7 +31,24 @@ import AudioPlayer from './components/audio/AudioPlayer/AudioPlayer.vue'
 import AudioResource from './components/audio/AudioResource/AudioResource.vue'
 import AuthorDetails from './components/common/AuthorDetails/AuthorDetails.vue'
 import { page } from './examples/page'
+import type { Source } from './types/audio'
 
 const { sections } = page
 const filteredSections = sections.filter((section: any) => section.type === 'media')
+
+const formatSources = (localSources: Array<any> = []) => {
+  const audioSources = localSources?.filter(
+    (source) => source.id === 'mp3' || source.id === 'ogg' || source.id === 'hls'
+  )
+  const updatedSources: Source[] = []
+
+  for (const i in audioSources) {
+    updatedSources.push({
+      type: localSources[i]?.contentType,
+      src: localSources[i]?.url
+    })
+  }
+
+  return updatedSources
+}
 </script>

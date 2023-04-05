@@ -94,7 +94,6 @@ import AudioPlayButton from '../AudioPlayButton/AudioPlayButton.vue'
 import AudioRewindButton from '../AudioRewindButton/AudioRewindButton.vue'
 import AudioFastForwardButton from '../AudioFastForwardButton/AudioFastForwardButton.vue'
 import AudioProgressBar from '../AudioProgressBar/AudioProgressBar.vue'
-import type { Rendition } from '../../../types/rendition'
 import type { Source } from './../../../types/audio'
 import { useDetectBrowser } from './../../../composables/use-detect-browser'
 import BaseImage from '../../global/BaseImage.vue'
@@ -114,7 +113,7 @@ const props = defineProps({
   },
   sources: {
     required: true,
-    type: Array<Rendition>
+    type: Array<Source>
   },
   title: {
     required: true,
@@ -145,21 +144,4 @@ const props = defineProps({
 
 const { isiPhoneOriPadSafari } = useDetectBrowser()
 console.log(props)
-const audioSources = props.sources?.filter(
-  (source) => source.id === 'mp3' || source.id === 'ogg' || source.id === 'hls'
-)
-
-const formatSources = (localSources: Array<Rendition> = []) => {
-  const updatedSources: Source[] = []
-
-  for (const i in localSources) {
-    updatedSources.push({
-      type: localSources[i]?.contentType,
-      src: localSources[i]?.url
-    })
-  }
-
-  return updatedSources
-}
-const sources = formatSources(audioSources)
 </script>
