@@ -17,7 +17,7 @@
         class="my-10 max-w-3xl mx-auto"
       >
         <template #author-details v-if="section.media">
-          <AuthorDetails
+          <AudioDescription
             :image-src="section.media.author.portraitAsset?.url"
             :name="section.media.author.name"
             :headline="section.media.author.headline"
@@ -31,9 +31,9 @@
 </template>
 
 <script setup lang="ts">
+import AudioDescription from './components/audio/AudioDescription/AudioDescription.vue'
 import AudioPlayer from './components/audio/AudioPlayer/AudioPlayer.vue'
 import AudioResource from './components/audio/AudioResource/AudioResource.vue'
-import AuthorDetails from './components/common/AuthorDetails/AuthorDetails.vue'
 import { page } from './examples/page'
 import type { Source } from './types/audio'
 

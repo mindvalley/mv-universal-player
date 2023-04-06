@@ -5,6 +5,7 @@ import { MVAudioPlayButton } from './AudioPlayButton'
 import { MVAudioRewindButton } from './AudioRewindButton'
 import { MVAudioProgressBar } from './AudioProgressBar'
 import { MVAudioResource } from './AudioResource'
+import { MVAudioDescription } from './AudioDescription'
 
 export {
   MVAudioPlayer,
@@ -13,5 +14,6 @@ export {
   MVAudioPlayButton,
   MVAudioRewindButton,
   MVAudioProgressBar,
-  MVAudioResource
+  MVAudioResource,
+  MVAudioDescription
 }
