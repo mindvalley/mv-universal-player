@@ -105,6 +105,9 @@ const props = defineProps({
     default() {
       return [0.25, 0.5, 1, 2]
     }
+  },
+  loop: {
+    type: Boolean
   }
 })
 
@@ -154,7 +157,7 @@ watch(
 )
 
 onMounted(() => {
-  initialize()
+  initialize(props.id, props.loop)
 })
 
 onUnmounted(() => {
@@ -165,10 +168,11 @@ onUnmounted(() => {
   }
 })
 
-const initialize = () => {
-  audioInstance = createInstance(props.id, {
+const initialize = (id: string, loop = false) => {
+  audioInstance = createInstance(id, {
     controls: false,
-    playbackRates: props.playbackRates
+    playbackRates: props.playbackRates,
+    loop: loop
   })
   createState()
   updateState('ready', true)

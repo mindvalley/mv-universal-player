@@ -94,8 +94,10 @@ const isActive = computed(() => {
 
 const selectSound = () => {
   audioItem.value.setAudio()
-  if (mainState.value.playing) {
+  if (props.sources.length && mainState.value.playing) {
     play()
+  } else {
+    pause()
   }
 }
 
