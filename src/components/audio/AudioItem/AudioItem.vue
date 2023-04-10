@@ -48,11 +48,11 @@ watch(
 
 const play = () => {
   if (state.value.audioItemId !== props.id) {
-    console.log('props =')
-    console.log(props.sources)
+    console.log('3')
 
     player.setSources(props.sources)
   }
+
   player.play(props.id)
 }
 
@@ -76,9 +76,15 @@ const seek = (time: number) => {
   player.setCurrentTime(time)
 }
 
+const setAudio = () => {
+  player.setAudio(props.id)
+  player.setSources(props.sources)
+}
+
 defineExpose({
   play: play,
-  pause: pause
+  pause: pause,
+  setAudio: setAudio
 })
 </script>
 <template>

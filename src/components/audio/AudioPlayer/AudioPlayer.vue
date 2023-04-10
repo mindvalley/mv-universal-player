@@ -77,6 +77,9 @@ const StateConfig = {
     events: ['progress', 'seeked'],
     getter: (player: any) => player.seekable()
   },
+  ready: {
+    getter: () => false
+  },
   audioItemId: {
     getter: (player: any) => ''
   }
@@ -110,7 +113,7 @@ let state = ref({} as PlayerState)
 const emit = defineEmits(['play', 'pause', 'timeupdate', 'seeking', 'ended', 'ready'])
 
 watch(
-  () => state.value.playing == true,
+  () => state.value.playing,
   (playing) => {
     if (playing) {
       emit('play')
@@ -168,7 +171,7 @@ const initialize = () => {
     playbackRates: props.playbackRates
   })
   createState()
-
+  updateState('ready', true)
   emit('ready')
 }
 
@@ -219,15 +222,8 @@ const setSources = (sources: Source[]) => {
 }
 
 const play = (audioItemId: string) => {
-  console.log('player ----')
-  console.log(audioInstance)
-  console.log(audioItemId)
-
-  console.log(audioInstance && audioItemId)
   if (audioInstance && audioItemId) {
-    console.log('inside ----')
-    console.log(audioItemId)
-    updateState('audioItemId', audioItemId)
+    setAudio(audioItemId)
     audioInstance.play()
     emit('play', 'hello play')
   }
@@ -247,10 +243,12 @@ const setVolume = (volume: number) => {
 
 const setCurrentTime = (time: number) => {
   if (audioInstance && time) {
-    console.log('audio player ====')
-    console.log(time)
     audioInstance.currentTime(time)
   }
+}
+
+const setAudio = (audioItemId: string) => {
+  updateState('audioItemId', audioItemId)
 }
 
 const player: Player = {
@@ -258,7 +256,8 @@ const player: Player = {
   pause,
   setVolume,
   setCurrentTime,
-  setSources
+  setSources,
+  setAudio
 }
 
 provide('player', player)

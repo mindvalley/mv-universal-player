@@ -1,5 +1,5 @@
 <template>
-  <AudioItem ref="audioItem" :id="id" :sources="sources">
+  <AudioItem ref="audioItem" :id="id" :sources="sources" @ready="initialize">
     <div
       data-testid="meditation-track-item"
       class="carousel-item h-[60px] w-[60px] overflow-hidden rounded-full border-2"
@@ -9,7 +9,7 @@
           : 'border-transparent hover:brightness-50',
         !backgroundSrc && isActive ? 'hover:cursor-default' : 'hover:cursor-pointer'
       ]"
-      @click="play"
+      @click="selectSound"
     >
       <div
         data-testid="no-background-sound"
@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, computed, ref, onMounted, useSlots } from 'vue-demi'
+import { inject, computed, ref, watch } from 'vue-demi'
 import AudioItem from '../../AudioItem/AudioItem.vue'
 import type { Source } from './../../../../types/audio'
 
@@ -56,36 +56,54 @@ const props = defineProps({
   }
 })
 
-const state: any = inject('state')
+const mixerState: any = inject('state')
+const mainState: any = inject('mainState')
 const audioItem = ref()
 
-onMounted(() => {
-  console.log('tract item =======')
-  // console.log(state)
-  // console.log(state.value.audioItemId)
-  // console.log(audioItem.value?.id)
-  // console.log('on mounted -----')
-  // console.log(props.id)
-
+const initialize = () => {
   if (!props.sources.length) {
-    console.log('default -----------------------------')
-    play()
+    audioItem.value.setAudio()
   }
-})
+}
+
+watch(
+  () => mixerState.value.ready,
+  (ready) => {
+    if (ready) {
+      initialize()
+    }
+  }
+)
+
+watch(
+  () => mainState.value.playing,
+  (playing) => {
+    if (mixerState.value.audioItemId === props.id) {
+      if (playing) {
+        play()
+      } else {
+        pause()
+      }
+    }
+  }
+)
 
 const isActive = computed(() => {
-  console.log('is active ---')
-  console.log(state.value.audioItemId)
-  console.log(props.id)
-  console.log(state.value.audioItemId === props.id)
-  return state.value.audioItemId === props.id
+  return mixerState.value.audioItemId === props.id
 })
 
+const selectSound = () => {
+  audioItem.value.setAudio()
+  if (mainState.value.playing) {
+    play()
+  }
+}
+
 const play = () => {
-  console.log('play********************')
-  console.log(state.value.audioItemId)
-  console.log(props.id)
-  // if (state.value.playing) {}
   audioItem.value.play()
+}
+
+const pause = () => {
+  audioItem.value.pause()
 }
 </script>
