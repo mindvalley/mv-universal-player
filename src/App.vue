@@ -16,7 +16,7 @@
         :total-ratings="section.media.ratingsCount"
         class="my-10 max-w-3xl mx-auto"
       >
-        <template #author-details v-if="section.media">
+        <template #audio-description v-if="section.media">
           <AudioDescription
             :image-src="section.media.author.portraitAsset?.url"
             :name="section.media.author.name"
@@ -24,6 +24,22 @@
             :description="section.media.description"
             show-more-text="Show More"
           />
+        </template>
+
+        <template #meditation-mixer>
+          <div class="relative">
+            <MeditationMixer>
+              <div class="flex gap-x-2">
+                <MeditationTrackItem></MeditationTrackItem>
+                <MeditationTrackItem
+                  v-for="(sound, index) in backgroundSounds"
+                  :key="index"
+                  :sources="formatSources(sound?.item?.mediaAsset.renditions)"
+                  :background-src="sound?.item?.coverAsset?.thumbnailUrl"
+                />
+              </div>
+            </MeditationMixer>
+          </div>
         </template>
       </AudioResource>
     </div>
@@ -34,11 +50,14 @@
 import AudioDescription from './components/audio/AudioDescription/AudioDescription.vue'
 import AudioPlayer from './components/audio/AudioPlayer/AudioPlayer.vue'
 import AudioResource from './components/audio/AudioResource/AudioResource.vue'
+import MeditationMixer from './components/audio/Meditation/MeditationMixer/MeditationMixer.vue'
 import { page } from './examples/page'
+import { backgroundSounds } from './examples/background-sounds'
 import type { Source } from './types/audio'
+import MeditationTrackItem from './components/audio/Meditation/MeditationTrackItem/MeditationTrackItem.vue'
 
 const { sections } = page
-const filteredSections = sections.filter((section: any) => section.type === 'media')
+const filteredSections = sections.filter((section: any) => section.id === '219')
 
 const formatSources = (localSources: Array<any> = []) => {
   const audioSources = localSources?.filter(

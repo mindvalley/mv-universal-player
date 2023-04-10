@@ -84,7 +84,8 @@
       </div>
     </AudioItem>
 
-    <slot name="author-details"></slot>
+    <slot name="meditation-mixer"></slot>
+    <slot name="audio-description"></slot>
   </section>
 </template>
 

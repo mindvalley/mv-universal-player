@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import VideoJsPlayer from 'video.js'
-import { onMounted, onUnmounted, ref, defineEmits, watch, provide } from 'vue-demi'
+import { onMounted, onUnmounted, ref, defineEmits, watch, provide, readonly } from 'vue-demi'
 import type { Player, Source } from '../../../types/audio'
 
 const StateConfig = {
@@ -95,7 +95,7 @@ interface PlayerState extends PlayerBaseState {
 const props = defineProps({
   id: {
     type: String,
-    default: 'mv-audio-player-' + Math.random().toString().replace('.', '')
+    default: () => 'mv-audio-player-' + Math.random().toString().replace('.', '')
   },
   playbackRates: {
     type: Array<Number>,
@@ -219,7 +219,14 @@ const setSources = (sources: Source[]) => {
 }
 
 const play = (audioItemId: string) => {
+  console.log('player ----')
+  console.log(audioInstance)
+  console.log(audioItemId)
+
+  console.log(audioInstance && audioItemId)
   if (audioInstance && audioItemId) {
+    console.log('inside ----')
+    console.log(audioItemId)
     updateState('audioItemId', audioItemId)
     audioInstance.play()
     emit('play', 'hello play')
@@ -255,7 +262,9 @@ const player: Player = {
 }
 
 provide('player', player)
-provide('state', state)
+provide('state', readonly(state))
+provide(`${props.id}_player`, player)
+provide(`${props.id}_state`, readonly(state))
 </script>
 <template>
   <div class="mv-universal-player-container">

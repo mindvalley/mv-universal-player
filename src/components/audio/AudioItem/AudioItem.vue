@@ -75,15 +75,23 @@ const fastForward = (seconds: number) => {
 const seek = (time: number) => {
   player.setCurrentTime(time)
 }
+
+defineExpose({
+  play: play,
+  pause: pause
+})
 </script>
 <template>
-  <slot
-    :play="play"
-    :pause="pause"
-    :playing="playing"
-    :rewind="rewind"
-    :fastForward="fastForward"
-    :seek="seek"
-    :currentTime="currentTime"
-  ></slot>
+  <div>
+    <slot
+      :play="play"
+      :pause="pause"
+      :playing="playing"
+      :rewind="rewind"
+      :fastForward="fastForward"
+      :seek="seek"
+      :currentTime="currentTime"
+      :id="id"
+    ></slot>
+  </div>
 </template>
