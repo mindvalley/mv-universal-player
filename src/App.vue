@@ -4,7 +4,7 @@
       <AudioResource
         v-for="section in filteredSections"
         :key="section.media.id"
-        asset-type="audio"
+        asset-type="resource-meditation"
         :asset-id="section.media.id"
         :sources="formatSources(section.media.mediaAsset?.renditions)"
         :duration="section.media.mediaAsset.duration"
@@ -14,7 +14,7 @@
         :artist-name="section.media.author.name"
         :ratings="section.media.averageRating"
         :total-ratings="section.media.ratingsCount"
-        class="my-10 max-w-3xl mx-auto"
+        class="my-10 mx-auto"
       >
         <template #audio-description v-if="section.media">
           <AudioDescription
@@ -29,6 +29,7 @@
         <template #meditation-mixer>
           <div class="relative">
             <MeditationMixer>
+              <div class="text-cool-grey-350 mb-2 text-xs">Mix Track</div>
               <div class="flex gap-x-2">
                 <MeditationTrackItem></MeditationTrackItem>
                 <MeditationTrackItem
