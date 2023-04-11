@@ -6,6 +6,9 @@ import { MVAudioRewindButton } from './AudioRewindButton'
 import { MVAudioProgressBar } from './AudioProgressBar'
 import { MVAudioResource } from './AudioResource'
 import { MVAudioDescription } from './AudioDescription'
+import { MVMeditationMixer } from './Meditation'
+import { MVMeditationTrackItem } from './Meditation'
+import { MVMeditationVolumeSlider } from './Meditation'
 
 export {
   MVAudioPlayer,
@@ -15,5 +18,8 @@ export {
   MVAudioRewindButton,
   MVAudioProgressBar,
   MVAudioResource,
-  MVAudioDescription
+  MVAudioDescription,
+  MVMeditationMixer,
+  MVMeditationTrackItem,
+  MVMeditationVolumeSlider
 }

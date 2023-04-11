@@ -6,7 +6,10 @@ import {
   MVAudioRewindButton,
   MVAudioProgressBar,
   MVAudioResource,
-  MVAudioDescription
+  MVAudioDescription,
+  MVMeditationMixer,
+  MVMeditationTrackItem,
+  MVMeditationVolumeSlider
 } from './audio'
 
 export {
@@ -17,5 +20,8 @@ export {
   MVAudioRewindButton,
   MVAudioProgressBar,
   MVAudioResource,
-  MVAudioDescription
+  MVAudioDescription,
+  MVMeditationMixer,
+  MVMeditationTrackItem,
+  MVMeditationVolumeSlider
 }

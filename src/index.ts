@@ -21,5 +21,8 @@ export {
   MVAudioProgressBar,
   MVAudioRewindButton,
   MVAudioResource,
-  MVAudioDescription
+  MVAudioDescription,
+  MVMeditationMixer,
+  MVMeditationTrackItem,
+  MVMeditationVolumeSlider
 } from './components'
