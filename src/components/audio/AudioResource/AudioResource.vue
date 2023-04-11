@@ -145,5 +145,4 @@ const props = defineProps({
 })
 
 const { isiPhoneOriPadSafari } = useDetectBrowser()
-console.log(props)
 </script>

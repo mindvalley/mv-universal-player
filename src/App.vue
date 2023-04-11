@@ -32,8 +32,13 @@
               <div class="text-cool-grey-350 mb-2 text-xs">Mix Track</div>
 
               <div class="flex gap-x-2">
-                <MeditationTrackItem></MeditationTrackItem>
                 <MeditationTrackItem
+                  :volume="0"
+                  @click="isVolumeSliderDisabled = true"
+                ></MeditationTrackItem>
+                <MeditationTrackItem
+                  :volume="volume"
+                  @click="isVolumeSliderDisabled = false"
                   v-for="(sound, index) in backgroundSounds"
                   :key="index"
                   :sources="formatSources(sound?.item?.mediaAsset.renditions)"
@@ -43,9 +48,21 @@
               <div
                 class="flex w-full mt-4 items-center justify-center transition duration-300 ease-in"
               >
-                <span class="text-cool-grey-250 mr-4 text-xs">sound</span>
-                <MeditationVolumeSlider />
-                <span class="text-cool-grey-250 ml-4 text-xs">vocal</span>
+                <span
+                  class="text-cool-grey-250 mr-4 text-xs"
+                  :class="{ 'brightness-50': isVolumeSliderDisabled }"
+                  >sound</span
+                >
+                <MeditationVolumeSlider
+                  :volume="volume"
+                  :disabled="isVolumeSliderDisabled"
+                  @change="(e) => (volume = e)"
+                />
+                <span
+                  class="text-cool-grey-250 ml-4 text-xs"
+                  :class="{ 'brightness-50': isVolumeSliderDisabled }"
+                  >vocal</span
+                >
               </div>
             </MeditationMixer>
           </div>
@@ -65,6 +82,10 @@ import { backgroundSounds } from './examples/background-sounds'
 import type { Source } from './types/audio'
 import MeditationTrackItem from './components/audio/Meditation/MeditationTrackItem/MeditationTrackItem.vue'
 import MeditationVolumeSlider from './components/audio/Meditation/MeditationVolumeSlider/MeditationVolumeSlider.vue'
+import { ref } from 'vue-demi'
+
+const isVolumeSliderDisabled = ref(true)
+const volume = ref(0.5)
 
 const { sections } = page
 const filteredSections = sections.filter((section: any) => section.id === '219')

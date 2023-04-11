@@ -48,8 +48,6 @@ watch(
 
 const play = () => {
   if (state.value.audioItemId !== props.id) {
-    console.log('3')
-
     player.setSources(props.sources)
   }
 
@@ -81,10 +79,15 @@ const setAudio = () => {
   player.setSources(props.sources)
 }
 
+const setVolume = (volume: number) => {
+  player.setVolume(volume)
+}
+
 defineExpose({
   play: play,
   pause: pause,
-  setAudio: setAudio
+  setAudio: setAudio,
+  setVolume: setVolume
 })
 </script>
 <template>

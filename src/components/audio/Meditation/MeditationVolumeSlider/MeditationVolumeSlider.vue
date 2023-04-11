@@ -19,11 +19,6 @@
 </template>
 
 <script lang="ts" setup>
-export interface Props {
-  volume: number
-  isDisabled?: boolean
-}
-
 const props = defineProps({
   volume: {
     type: Number,

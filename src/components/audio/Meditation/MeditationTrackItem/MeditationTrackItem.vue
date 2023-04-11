@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, computed, ref, watch } from 'vue-demi'
+import { inject, computed, ref, watch, toRef } from 'vue-demi'
 import AudioItem from '../../AudioItem/AudioItem.vue'
 import type { Source } from './../../../../types/audio'
 
@@ -58,6 +58,7 @@ const props = defineProps({
 
 const mixerState: any = inject('state')
 const mainState: any = inject('mainState')
+const mainPlayer: any = inject('mainPlayer')
 const audioItem = ref()
 
 const initialize = () => {
@@ -88,6 +89,13 @@ watch(
   }
 )
 
+watch(
+  () => props.volume,
+  (newVolume) => {
+    updateVolume(1 - newVolume, newVolume)
+  }
+)
+
 const isActive = computed(() => {
   return mixerState.value.audioItemId === props.id
 })
@@ -96,8 +104,10 @@ const selectSound = () => {
   audioItem.value.setAudio()
   if (props.sources.length && mainState.value.playing) {
     play()
+    updateVolume(1 - props.volume, props.volume)
   } else {
     pause()
+    updateVolume(0, 1)
   }
 }
 
@@ -107,5 +117,10 @@ const play = () => {
 
 const pause = () => {
   audioItem.value.pause()
+}
+
+const updateVolume = (backgroundSound: number, mainAudio: number) => {
+  audioItem.value.setVolume(backgroundSound)
+  mainPlayer.setVolume(mainAudio)
 }
 </script>
