@@ -52,7 +52,7 @@
         <div class="col-span-3 md:col-span-2 flex">
           <!-- Controls -->
           <div
-            class="w-full shrink grow text-cool-grey-250 md:flex md:max-w-[620px] md:flex-col md:items-center md:justify-center"
+            class="w-full shrink grow text-cool-grey-250 md:flex md:flex-col md:items-center md:justify-center"
           >
             <!-- Medium-screen above meta -->
             <section class="w-full py-4 hidden md:block">

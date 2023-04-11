@@ -53,7 +53,8 @@
     "sass": "^1.61.0",
     "video.js": "^8.0.4",
     "vue-demi": "^0.13.11",
-    "vue-svg-sprite": "^2.2.1"
+    "vue-svg-sprite": "^2.2.1",
+    "vue3-carousel": "^0.3.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.31.1",
