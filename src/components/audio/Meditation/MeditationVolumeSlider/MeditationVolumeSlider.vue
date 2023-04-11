@@ -1,26 +1,21 @@
 <template>
-  <div
-    data-testid="meditation-volume-slider"
-    class="flex w-full items-center justify-center transition duration-300 ease-in"
+  <span
+    class="flex h-full w-full items-center justify-center"
     :class="{ 'brightness-50': disabled }"
   >
-    <!-- <span data-testid="sound-text" class="text-cool-gray-250 mr-4 text-xs">{{ t('sound') }}</span> -->
-    <span class="flex h-full w-full items-center justify-center">
-      <input
-        data-testid="volume-slider"
-        :min="min"
-        :max="max"
-        :step="step"
-        type="range"
-        :value="volume"
-        class="w-full"
-        :class="[disabled ? 'cursor-not-allowed' : 'cursor-pointer']"
-        @input="handleVolumeChange"
-        :disabled="disabled"
-      />
-    </span>
-    <!-- <span data-testid="vocal-text" class="text-cool-gray-250 ml-4 text-xs">{{ t('vocal') }}</span> -->
-  </div>
+    <input
+      data-testid="volume-slider"
+      :min="min"
+      :max="max"
+      :step="step"
+      type="range"
+      :value="volume"
+      class="w-full"
+      :class="[disabled ? 'cursor-not-allowed' : 'cursor-pointer']"
+      @input="handleVolumeChange"
+      :disabled="disabled"
+    />
+  </span>
 </template>
 
 <script lang="ts" setup>

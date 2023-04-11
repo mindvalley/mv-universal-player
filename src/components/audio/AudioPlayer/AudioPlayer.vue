@@ -270,7 +270,7 @@ provide(`${props.id}_player`, player)
 provide(`${props.id}_state`, readonly(state))
 </script>
 <template>
-  <div class="mv-universal-player-container">
+  <div class="mv-universal-player-container w-full">
     <video
       :data-testid="props.id"
       :id="props.id"

@@ -27,9 +27,10 @@
         </template>
 
         <template #meditation-mixer>
-          <div class="relative">
+          <div class="relative w-full col-span-3 md:col-span-2">
             <MeditationMixer>
               <div class="text-cool-grey-350 mb-2 text-xs">Mix Track</div>
+
               <div class="flex gap-x-2">
                 <MeditationTrackItem></MeditationTrackItem>
                 <MeditationTrackItem
@@ -38,6 +39,13 @@
                   :sources="formatSources(sound?.item?.mediaAsset.renditions)"
                   :background-src="sound?.item?.coverAsset?.thumbnailUrl"
                 />
+              </div>
+              <div
+                class="flex w-full mt-4 items-center justify-center transition duration-300 ease-in"
+              >
+                <span class="text-cool-grey-250 mr-4 text-xs">sound</span>
+                <MeditationVolumeSlider />
+                <span class="text-cool-grey-250 ml-4 text-xs">vocal</span>
               </div>
             </MeditationMixer>
           </div>
@@ -56,6 +64,7 @@ import { page } from './examples/page'
 import { backgroundSounds } from './examples/background-sounds'
 import type { Source } from './types/audio'
 import MeditationTrackItem from './components/audio/Meditation/MeditationTrackItem/MeditationTrackItem.vue'
+import MeditationVolumeSlider from './components/audio/Meditation/MeditationVolumeSlider/MeditationVolumeSlider.vue'
 
 const { sections } = page
 const filteredSections = sections.filter((section: any) => section.id === '219')
