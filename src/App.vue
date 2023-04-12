@@ -1,7 +1,7 @@
 <template>
-  <AudioPlayer>
+  <MVAudioPlayer>
     <div class="">
-      <AudioResource
+      <MVAudioResource
         v-for="section in filteredSections"
         :key="section.media.id"
         asset-type="resource-meditation"
@@ -17,7 +17,7 @@
         class="my-10 mx-auto"
       >
         <template #audio-description v-if="section.media">
-          <AudioDescription
+          <MVAudioDescription
             :image-src="section.media.author.portraitAsset?.url"
             :name="section.media.author.name"
             :headline="section.media.author.headline"
@@ -29,7 +29,7 @@
 
         <template #meditation-mixer>
           <div class="relative w-full col-span-3 md:col-span-2">
-            <MeditationMixer>
+            <MVMeditationMixer>
               <div class="text-cool-grey-350 mb-2 text-xs">Mix Track</div>
 
               <div class="flex gap-x-2">
@@ -41,17 +41,17 @@
                   :breakpoints="breakpoints"
                 >
                   <Slide key="no-bg-sound">
-                    <MeditationTrackItem
+                    <MVMeditationTrackItem
                       :volume="0"
                       @click="isVolumeSliderDisabled = true"
-                    ></MeditationTrackItem>
+                    ></MVMeditationTrackItem>
                   </Slide>
                   <Slide
                     data-testid="slide"
                     v-for="(sound, index) in backgroundSounds"
                     :key="index"
                   >
-                    <MeditationTrackItem
+                    <MVMeditationTrackItem
                       :volume="volume"
                       @click="isVolumeSliderDisabled = false"
                       :key="index"
@@ -72,10 +72,10 @@
                   :class="{ 'brightness-50': isVolumeSliderDisabled }"
                   >sound</span
                 >
-                <MeditationVolumeSlider
+                <MVMeditationVolumeSlider
                   :volume="volume"
                   :disabled="isVolumeSliderDisabled"
-                  @change="(e) => (volume = e)"
+                  @change="(newVolume: number) => (volume = newVolume)"
                 />
                 <span
                   class="text-cool-grey-250 ml-4 text-xs"
@@ -83,24 +83,27 @@
                   >vocal</span
                 >
               </div>
-            </MeditationMixer>
+            </MVMeditationMixer>
           </div>
         </template>
-      </AudioResource>
+      </MVAudioResource>
     </div>
-  </AudioPlayer>
+  </MVAudioPlayer>
 </template>
 
 <script setup lang="ts">
-import AudioDescription from './components/audio/AudioDescription/AudioDescription.vue'
-import AudioPlayer from './components/audio/AudioPlayer/AudioPlayer.vue'
-import AudioResource from './components/audio/AudioResource/AudioResource.vue'
-import MeditationMixer from './components/audio/Meditation/MeditationMixer/MeditationMixer.vue'
 import { page } from './examples/page'
 import { backgroundSounds } from './examples/background-sounds'
 import type { Source } from './types/audio'
-import MeditationTrackItem from './components/audio/Meditation/MeditationTrackItem/MeditationTrackItem.vue'
-import MeditationVolumeSlider from './components/audio/Meditation/MeditationVolumeSlider/MeditationVolumeSlider.vue'
+import {
+  MVMeditationMixer,
+  MVAudioPlayer,
+  MVMeditationTrackItem,
+  MVAudioDescription,
+  MVMeditationVolumeSlider,
+  MVAudioResource
+} from '.'
+
 import { ref } from 'vue-demi'
 import { Carousel, Navigation, Slide } from 'vue3-carousel'
 import 'vue3-carousel/dist/carousel.css'

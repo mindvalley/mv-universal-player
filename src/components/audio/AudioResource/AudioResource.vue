@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import AudioItem from '../AudioItem/AudioItem.vue'
-import AudioPlayButton from '../AudioPlayButton/AudioPlayButton.vue'
-import AudioRewindButton from '../AudioRewindButton/AudioRewindButton.vue'
-import AudioFastForwardButton from '../AudioFastForwardButton/AudioFastForwardButton.vue'
-import AudioProgressBar from '../AudioProgressBar/AudioProgressBar.vue'
+import {
+  MVAudioItem,
+  MVAudioPlayButton,
+  MVAudioRewindButton,
+  MVAudioFastForwardButton,
+  MVAudioProgressBar
+} from '../..'
+
 import type { Source } from './../../../types/audio'
 import { useDetectBrowser } from './../../../composables/use-detect-browser'
 import BaseImage from '../../global/BaseImage.vue'
@@ -69,7 +72,7 @@ const { isiPhoneOriPadSafari } = useDetectBrowser()
       :class="{ 'mix-blend-lighten': isiPhoneOriPadSafari }"
     ></section>
 
-    <AudioItem
+    <MVAudioItem
       v-slot="{ play, pause, playing, rewind, fastForward, currentTime, seek }"
       :sources="sources"
     >
@@ -123,7 +126,7 @@ const { isiPhoneOriPadSafari } = useDetectBrowser()
                 <span> {{ ratings.toFixed(2) }} ({{ totalRatings }}) </span>
               </div>
             </section>
-            <AudioProgressBar
+            <MVAudioProgressBar
               :duration="props.duration"
               class="text-white"
               :current-time="currentTime"
@@ -132,16 +135,16 @@ const { isiPhoneOriPadSafari } = useDetectBrowser()
 
             <!-- Buttons -->
             <section class="flex items-center justify-center">
-              <AudioRewindButton @rewind="(e) => rewind(e)" />
-              <AudioPlayButton @play="play" @pause="pause" :playing="playing" />
-              <AudioFastForwardButton @fast-forward="(e) => fastForward(e)" />
+              <MVAudioRewindButton @rewind="(e: number) => rewind(e)" />
+              <MVAudioPlayButton @play="play" @pause="pause" :playing="playing" />
+              <MVAudioFastForwardButton @fast-forward="(e: number) => fastForward(e)" />
             </section>
           </div>
         </div>
 
         <slot name="meditation-mixer"></slot>
       </div>
-    </AudioItem>
+    </MVAudioItem>
 
     <slot name="audio-description"></slot>
   </section>
