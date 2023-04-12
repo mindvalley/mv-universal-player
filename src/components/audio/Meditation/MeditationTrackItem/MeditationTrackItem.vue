@@ -77,7 +77,6 @@ const selectSound = () => {
     updateVolume(1 - props.volume, props.volume)
   } else {
     pause()
-    updateVolume(0, 1)
   }
 }
 

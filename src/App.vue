@@ -112,7 +112,9 @@ const isVolumeSliderDisabled = ref(true)
 const volume = ref(0.5)
 
 const { sections } = page
-const filteredSections = sections.filter((section: any) => section.id === '219')
+const filteredSections = sections.filter(
+  (section: any) => section.id === '219' || section.id === '285'
+)
 
 const formatSources = (localSources: Array<any> = []) => {
   const audioSources = localSources?.filter(

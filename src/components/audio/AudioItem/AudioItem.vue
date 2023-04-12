@@ -28,6 +28,7 @@ watch(
       if (newAudioItemId === props.id) {
         playing.value = true
       } else {
+        // At a time any one player plays the audio and rest will be paused
         playing.value = false
       }
     } else {
@@ -42,6 +43,9 @@ watch(
     if (newAudioItemId === props.id) {
       currentTime.value = newCurrentTime
       emit('currentTime', currentTime.value)
+    } else {
+      // To reset other players to zero.
+      currentTime.value = 0
     }
   }
 )
@@ -71,23 +75,31 @@ const fastForward = (seconds: number) => {
 }
 
 const seek = (time: number) => {
-  player.setCurrentTime(time)
+  if (state.value.audioItemId === props.id) {
+    player.setCurrentTime(time)
+  }
 }
 
 const setAudio = () => {
+  // We are not checking for specific audioItemId because in background mixer the audio sources can be set before it is being played.
   player.setAudio(props.id)
   player.setSources(props.sources)
 }
 
 const setVolume = (volume: number) => {
-  player.setVolume(volume)
+  if (state.value.audioItemId === props.id) {
+    player.setVolume(volume)
+  }
 }
 
 const setPlaybackRate = (rate: number) => {
-  player.playbackRate(rate)
+  if (state.value.audioItemId === props.id) {
+    player.playbackRate(rate)
+  }
 }
 
 const setSources = (sources: Source[]) => {
+  // We are not checking for specific audioItemId because in background mixer the audio sources can be set before it is being played.
   player.setSources(sources)
 }
 
@@ -100,7 +112,10 @@ defineExpose({
   fastForward: fastForward,
   rewind: rewind,
   setPlaybackRate: setPlaybackRate,
-  setSources: setSources
+  setSources: setSources,
+  currentTime: currentTime,
+  playing: playing,
+  id: props.id
 })
 </script>
 
