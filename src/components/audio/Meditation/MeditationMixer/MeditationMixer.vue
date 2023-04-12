@@ -7,6 +7,7 @@ const player: any = inject('player')
 provide('mainState', state)
 provide('mainPlayer', player)
 </script>
+
 <template>
   <AudioPlayer loop>
     <slot></slot>

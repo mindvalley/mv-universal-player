@@ -10,9 +10,11 @@ const props = defineProps({
     required: true
   }
 })
+
 const emit = defineEmits<{
   (e: 'seek', currentTime: number): void
 }>()
+
 const seekerUi: any = ref(null)
 
 const seek = (event: any) => {
@@ -41,6 +43,7 @@ const humanizeTime = (duration: number) => {
   return secMin
 }
 </script>
+
 <template>
   <section class="audio-progess-bar">
     <span class="audio-progress-bar__current_time">

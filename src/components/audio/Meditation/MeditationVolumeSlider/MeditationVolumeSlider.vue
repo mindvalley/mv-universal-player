@@ -1,23 +1,3 @@
-<template>
-  <span
-    class="flex h-full w-full items-center justify-center"
-    :class="{ 'brightness-50': disabled }"
-  >
-    <input
-      data-testid="volume-slider"
-      :min="min"
-      :max="max"
-      :step="step"
-      type="range"
-      :value="volume"
-      class="w-full"
-      :class="[disabled ? 'cursor-not-allowed' : 'cursor-pointer']"
-      @input="handleVolumeChange"
-      :disabled="disabled"
-    />
-  </span>
-</template>
-
 <script lang="ts" setup>
 const props = defineProps({
   volume: {
@@ -103,3 +83,23 @@ input[type='range']::-moz-range-thumb {
   background: $thumb-background-url;
 }
 </style>
+
+<template>
+  <span
+    class="flex h-full w-full items-center justify-center"
+    :class="{ 'brightness-50': disabled }"
+  >
+    <input
+      data-testid="volume-slider"
+      :min="min"
+      :max="max"
+      :step="step"
+      type="range"
+      :value="volume"
+      class="w-full"
+      :class="[disabled ? 'cursor-not-allowed' : 'cursor-pointer']"
+      @input="handleVolumeChange"
+      :disabled="disabled"
+    />
+  </span>
+</template>

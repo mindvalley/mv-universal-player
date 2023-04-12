@@ -1,33 +1,3 @@
-<template>
-  <AudioItem ref="audioItem" :id="id" :sources="sources" @ready="initialize">
-    <div
-      data-testid="meditation-track-item"
-      class="carousel-item h-[60px] w-[60px] overflow-hidden rounded-full border-2"
-      :class="[
-        isActive
-          ? 'border-purple-500 transition duration-300 ease-in'
-          : 'border-transparent hover:brightness-50',
-        !backgroundSrc && isActive ? 'hover:cursor-default' : 'hover:cursor-pointer'
-      ]"
-      @click="selectSound"
-    >
-      <div
-        data-testid="no-background-sound"
-        v-if="sources.length === 0"
-        class="flex h-full w-full text-white items-center justify-center bg-black text-center text-[10px]"
-      >
-        <slot>NO BG SOUND</slot>
-      </div>
-      <img
-        data-testid="background-sound-cover-asset"
-        v-else
-        :src="backgroundSrc"
-        class="h-full w-full"
-      />
-    </div>
-  </AudioItem>
-</template>
-
 <script lang="ts" setup>
 import { inject, computed, ref, watch, toRef } from 'vue-demi'
 import AudioItem from '../../AudioItem/AudioItem.vue'
@@ -124,3 +94,33 @@ const updateVolume = (backgroundSound: number, mainAudio: number) => {
   mainPlayer.setVolume(mainAudio)
 }
 </script>
+
+<template>
+  <AudioItem ref="audioItem" :id="id" :sources="sources" @ready="initialize">
+    <div
+      data-testid="meditation-track-item"
+      class="carousel-item h-[60px] w-[60px] overflow-hidden rounded-full border-2"
+      :class="[
+        isActive
+          ? 'border-purple-500 transition duration-300 ease-in'
+          : 'border-transparent hover:brightness-50',
+        !backgroundSrc && isActive ? 'hover:cursor-default' : 'hover:cursor-pointer'
+      ]"
+      @click="selectSound"
+    >
+      <div
+        data-testid="no-background-sound"
+        v-if="sources.length === 0"
+        class="flex h-full w-full text-white items-center justify-center bg-black text-center text-[10px]"
+      >
+        <slot>NO BG SOUND</slot>
+      </div>
+      <img
+        data-testid="background-sound-cover-asset"
+        v-else
+        :src="backgroundSrc"
+        class="h-full w-full"
+      />
+    </div>
+  </AudioItem>
+</template>

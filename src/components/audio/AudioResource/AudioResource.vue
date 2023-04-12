@@ -1,3 +1,60 @@
+<script setup lang="ts">
+import AudioItem from '../AudioItem/AudioItem.vue'
+import AudioPlayButton from '../AudioPlayButton/AudioPlayButton.vue'
+import AudioRewindButton from '../AudioRewindButton/AudioRewindButton.vue'
+import AudioFastForwardButton from '../AudioFastForwardButton/AudioFastForwardButton.vue'
+import AudioProgressBar from '../AudioProgressBar/AudioProgressBar.vue'
+import type { Source } from './../../../types/audio'
+import { useDetectBrowser } from './../../../composables/use-detect-browser'
+import BaseImage from '../../global/BaseImage.vue'
+
+const props = defineProps({
+  assetType: {
+    type: String,
+    default: ''
+  },
+  assetId: {
+    required: true,
+    type: String
+  },
+  assetName: {
+    type: String,
+    default: ''
+  },
+  sources: {
+    required: true,
+    type: Array<Source>
+  },
+  title: {
+    required: true,
+    type: String
+  },
+  artistId: {
+    type: String,
+    default: ''
+  },
+  artistName: {
+    type: String,
+    default: ''
+  },
+  duration: {
+    required: true,
+    type: Number
+  },
+  posterUrl: {
+    type: String
+  },
+  ratings: {
+    type: Number
+  },
+  totalRatings: {
+    type: Number
+  }
+})
+
+const { isiPhoneOriPadSafari } = useDetectBrowser()
+</script>
+
 <template>
   <section
     class="inset-0 z-15 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"
@@ -89,60 +146,3 @@
     <slot name="audio-description"></slot>
   </section>
 </template>
-
-<script setup lang="ts">
-import AudioItem from '../AudioItem/AudioItem.vue'
-import AudioPlayButton from '../AudioPlayButton/AudioPlayButton.vue'
-import AudioRewindButton from '../AudioRewindButton/AudioRewindButton.vue'
-import AudioFastForwardButton from '../AudioFastForwardButton/AudioFastForwardButton.vue'
-import AudioProgressBar from '../AudioProgressBar/AudioProgressBar.vue'
-import type { Source } from './../../../types/audio'
-import { useDetectBrowser } from './../../../composables/use-detect-browser'
-import BaseImage from '../../global/BaseImage.vue'
-
-const props = defineProps({
-  assetType: {
-    type: String,
-    default: ''
-  },
-  assetId: {
-    required: true,
-    type: String
-  },
-  assetName: {
-    type: String,
-    default: ''
-  },
-  sources: {
-    required: true,
-    type: Array<Source>
-  },
-  title: {
-    required: true,
-    type: String
-  },
-  artistId: {
-    type: String,
-    default: ''
-  },
-  artistName: {
-    type: String,
-    default: ''
-  },
-  duration: {
-    required: true,
-    type: Number
-  },
-  posterUrl: {
-    type: String
-  },
-  ratings: {
-    type: Number
-  },
-  totalRatings: {
-    type: Number
-  }
-})
-
-const { isiPhoneOriPadSafari } = useDetectBrowser()
-</script>

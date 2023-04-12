@@ -229,7 +229,7 @@ const play = (audioItemId: string) => {
   if (audioInstance && audioItemId) {
     setAudio(audioItemId)
     audioInstance.play()
-    emit('play', 'hello play')
+    emit('play')
   }
 }
 
@@ -269,6 +269,7 @@ provide('state', readonly(state))
 provide(`${props.id}_player`, player)
 provide(`${props.id}_state`, readonly(state))
 </script>
+
 <template>
   <div class="mv-universal-player-container w-full">
     <video
@@ -290,10 +291,5 @@ provide(`${props.id}_state`, readonly(state))
 <style scoped>
 .mv-universal-player--audio {
   display: none;
-}
-
-.hello {
-  color: green;
-  background-color: blue;
 }
 </style>

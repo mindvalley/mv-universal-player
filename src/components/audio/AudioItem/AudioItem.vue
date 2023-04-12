@@ -90,6 +90,7 @@ defineExpose({
   setVolume: setVolume
 })
 </script>
+
 <template>
   <div>
     <slot
