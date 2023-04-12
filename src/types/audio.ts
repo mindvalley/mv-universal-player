@@ -4,6 +4,7 @@ interface Player {
   setVolume: (volume: number) => void
   setCurrentTime: (time: number) => void
   setSources: (sources: Source[]) => void
+  setAudio: (audioItemId: string) => void
 }
 
 interface Source {

@@ -23,6 +23,7 @@
             :headline="section.media.author.headline"
             :description="section.media.description"
             show-more-text="Show More"
+            show-less-text="Show Less"
           />
         </template>
 

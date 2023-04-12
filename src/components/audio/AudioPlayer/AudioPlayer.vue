@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import VideoJsPlayer from 'video.js'
-import { onMounted, onUnmounted, ref, defineEmits, watch, provide, readonly } from 'vue-demi'
+import {
+  onMounted,
+  onUnmounted,
+  ref,
+  defineEmits,
+  watch,
+  provide,
+  readonly,
+  defineExpose
+} from 'vue-demi'
 import type { Player, Source } from '../../../types/audio'
 
 const StateConfig = {
@@ -102,8 +111,8 @@ const props = defineProps({
   },
   playbackRates: {
     type: Array<Number>,
-    default() {
-      return [0.25, 0.5, 1, 2]
+    default: () => {
+      return [0.5, 1, 2]
     }
   },
   loop: {
@@ -255,14 +264,24 @@ const setAudio = (audioItemId: string) => {
   updateState('audioItemId', audioItemId)
 }
 
+const setPlaybackRate = (rate: number) => {
+  audioInstance.playbackRate(rate)
+}
+
 const player: Player = {
   play,
   pause,
   setVolume,
   setCurrentTime,
   setSources,
-  setAudio
+  setAudio,
+  setPlaybackRate
 }
+
+defineExpose({
+  player: player,
+  state: readonly(state)
+})
 
 provide('player', player)
 provide('state', readonly(state))
@@ -284,7 +303,7 @@ provide(`${props.id}_state`, readonly(state))
         <a href="https://videojs.com/html5-video-support/" target="_blank"> supports HTML5 video</a>
       </p>
     </video>
-    <slot :state="state"></slot>
+    <slot :state="state" :player="player"></slot>
   </div>
 </template>
 

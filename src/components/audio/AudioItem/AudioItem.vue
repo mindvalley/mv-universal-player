@@ -83,11 +83,24 @@ const setVolume = (volume: number) => {
   player.setVolume(volume)
 }
 
+const setPlaybackRate = (rate: number) => {
+  player.playbackRate(rate)
+}
+
+const setSources = (sources: Source[]) => {
+  player.setSources(sources)
+}
+
 defineExpose({
   play: play,
   pause: pause,
   setAudio: setAudio,
-  setVolume: setVolume
+  setVolume: setVolume,
+  seek: seek,
+  fastForward: fastForward,
+  rewind: rewind,
+  setPlaybackRate: setPlaybackRate,
+  setSources: setSources
 })
 </script>
 
@@ -99,6 +112,9 @@ defineExpose({
       :playing="playing"
       :rewind="rewind"
       :fastForward="fastForward"
+      :setPlaybackRate="setPlaybackRate"
+      :setAudio="setAudio"
+      :setSources="setSources"
       :seek="seek"
       :currentTime="currentTime"
       :id="id"

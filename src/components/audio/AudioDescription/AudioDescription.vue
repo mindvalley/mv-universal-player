@@ -21,6 +21,10 @@ const props = defineProps({
   showMoreText: {
     type: String,
     required: true
+  },
+  showLessText: {
+    type: String,
+    required: true
   }
 })
 
@@ -59,7 +63,7 @@ const showFullDescription = ref(false)
           @click="showFullDescription = false"
           v-if="props.description.length > 250"
         >
-          {{ props.showMoreText }}
+          {{ props.showLessText }}
         </button>
       </div>
       <div v-else>

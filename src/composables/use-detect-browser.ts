@@ -1,48 +1,44 @@
-import { computed } from "vue";
+import { computed } from 'vue-demi'
 
 export function useDetectBrowser() {
   const isiPhoneOriPadSafari = computed(() => {
-    return isAppleDevice() && isTouchDevice() && isSafari();
-  });
+    return isAppleDevice.value && isTouchDevice.value && isSafari.value
+  })
 
   const isiPhone = computed(() => {
-    const ua = getUserAgent();
-    return ua.indexOf("iphone") > -1;
-  });
+    const ua = getUserAgent()
+    return ua.indexOf('iphone') > -1
+  })
 
   const isiPad = computed(() => {
-    const ua = getUserAgent();
-    return ua.indexOf("ipad") > -1;
-  });
+    const ua = getUserAgent()
+    return ua.indexOf('ipad') > -1
+  })
 
   const isMac = computed(() => {
-    const ua = getUserAgent();
-    return ua.indexOf("macintosh") > -1;
-  });
+    const ua = getUserAgent()
+    return ua.indexOf('macintosh') > -1
+  })
 
-  function isAppleDevice(): boolean {
-    return isiPhone.value || isiPad.value || isMac.value;
-  }
+  const isAppleDevice = computed(() => {
+    return isiPhone.value || isiPad.value || isMac.value
+  })
 
-  function isTouchDevice(): boolean {
-    return navigator.maxTouchPoints > 0;
-  }
+  const isTouchDevice = computed(() => {
+    return navigator.maxTouchPoints > 0
+  })
 
-  function isSafari(): boolean {
-    const ua = getUserAgent();
-    if (
-      ua.indexOf("chrome") > -1 ||
-      ua.indexOf("firefox") > -1 ||
-      ua.indexOf("edg") > -1
-    ) {
-      return false;
+  const isSafari = computed(() => {
+    const ua = getUserAgent()
+    if (ua.indexOf('chrome') > -1 || ua.indexOf('firefox') > -1 || ua.indexOf('edg') > -1) {
+      return false
     }
-    if (ua.indexOf("safari") > -1) {
-      return true;
+    if (ua.indexOf('safari') > -1) {
+      return true
     }
 
-    return false;
-  }
+    return false
+  })
 
   function getUserAgent(): string {
     // Mac Safari
@@ -66,8 +62,8 @@ export function useDetectBrowser() {
     // Firefox - Windows
     // "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0"
 
-    return window.navigator.userAgent.toLowerCase();
+    return window.navigator.userAgent.toLowerCase()
   }
 
-  return { isiPhoneOriPadSafari, isiPhone, isiPad, isTouchDevice };
+  return { isiPhoneOriPadSafari, isiPhone, isiPad, isTouchDevice }
 }
