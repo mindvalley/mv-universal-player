@@ -91,6 +91,9 @@ const StateConfig = {
   },
   audioItemId: {
     getter: (player: any) => ''
+  },
+  mixing: {
+    getter: (player: any) => false
   }
 }
 
@@ -255,7 +258,7 @@ const setVolume = (volume: number) => {
 }
 
 const setCurrentTime = (time: number) => {
-  if (audioInstance && time) {
+  if (audioInstance && time >= 0) {
     audioInstance.currentTime(time)
   }
 }
@@ -268,6 +271,10 @@ const setPlaybackRate = (rate: number) => {
   audioInstance.playbackRate(rate)
 }
 
+const setMixing = (enabled: boolean) => {
+  updateState('mixing', enabled)
+}
+
 const player: Player = {
   play,
   pause,
@@ -275,7 +282,8 @@ const player: Player = {
   setCurrentTime,
   setSources,
   setAudio,
-  setPlaybackRate
+  setPlaybackRate,
+  setMixing
 }
 
 defineExpose({
@@ -283,10 +291,8 @@ defineExpose({
   state: readonly(state)
 })
 
-provide('player', player)
-provide('state', readonly(state))
-provide(`${props.id}_player`, player)
-provide(`${props.id}_state`, readonly(state))
+provide('audioPlayer', player)
+provide('audioState', readonly(state))
 </script>
 
 <template>

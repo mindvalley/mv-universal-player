@@ -5,6 +5,7 @@ interface Player {
   setCurrentTime: (time: number) => void
   setSources: (sources: Source[]) => void
   setAudio: (audioItemId: string) => void
+  setMixing: (enabled: boolean) => void
 }
 
 interface Source {

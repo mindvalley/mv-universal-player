@@ -26,19 +26,24 @@ const props = defineProps({
   }
 })
 
-const mixerState: any = inject('state')
-const mainState: any = inject('mainState')
-const mainPlayer: any = inject('mainPlayer')
+// Mixer Player
+const mixerPlayerState: any = inject('audioState')
+
+// Parent component (Main Audio)
+const mainState: any = inject('audioItemState')
+
 const audioItem = ref()
 
-const initialize = () => {
-  if (!props.sources.length) {
-    audioItem.value.setAudio()
-  }
-}
+const isNoBackgroundSound = computed(() => {
+  return props.sources.length === 0
+})
+
+const isActive = computed(() => {
+  return mixerPlayerState.value.audioItemId === props.id
+})
 
 watch(
-  () => mixerState.value.ready,
+  () => mixerPlayerState.value.ready,
   (ready) => {
     if (ready) {
       initialize()
@@ -47,55 +52,69 @@ watch(
 )
 
 watch(
-  () => mainState.value.playing,
-  (playing) => {
-    if (mixerState.value.audioItemId === props.id) {
-      if (playing) {
-        play()
-      } else {
-        pause()
-      }
+  [() => mainState.value.playing, () => mixerPlayerState.value.audioItemId],
+  ([playing, audioItemId]) => {
+    // console.log('watch ---')
+    // console.log(playing)
+    if (audioItemId === props.id) {
+      toggle()
     }
   }
 )
 
 watch(
-  () => props.volume,
-  (newVolume) => {
-    updateVolume(1 - newVolume, newVolume)
+  () => mainState.value.currentPlayingAudioItemId,
+  (newAudioItemId, oldAudioItemId) => {
+    if (newAudioItemId !== oldAudioItemId) {
+      audioItem.value.player.reset()
+    }
   }
 )
 
-const isActive = computed(() => {
-  return mixerState.value.audioItemId === props.id
-})
+watch(
+  () => mixerPlayerState.value.audioItemId,
+  (audioItemId) => {
+    if (audioItemId === props.id) {
+      if (isNoBackgroundSound.value) {
+        audioItem.value.player.setMixing(false)
+      } else {
+        audioItem.value.player.setMixing(true)
+      }
+    }
+  }
+)
 
-const selectSound = () => {
-  audioItem.value.setAudio()
-  if (props.sources.length && mainState.value.playing) {
+const toggle = () => {
+  console.log('toggle ---')
+  console.log(mainState.value.playing)
+  if (mainState.value.playing && !isNoBackgroundSound.value) {
     play()
-    updateVolume(1 - props.volume, props.volume)
   } else {
     pause()
   }
 }
 
+const initialize = () => {
+  if (isNoBackgroundSound.value) {
+    selectSound()
+  }
+}
+
+const selectSound = () => {
+  audioItem.value.player.setAudio()
+}
+
 const play = () => {
-  audioItem.value.play()
+  audioItem.value.player.play()
 }
 
 const pause = () => {
-  audioItem.value.pause()
-}
-
-const updateVolume = (backgroundSound: number, mainAudio: number) => {
-  audioItem.value.setVolume(backgroundSound)
-  mainPlayer.setVolume(mainAudio)
+  audioItem.value.player.pause()
 }
 </script>
 
 <template>
-  <AudioItem ref="audioItem" :id="id" :sources="sources" @ready="initialize">
+  <AudioItem ref="audioItem" :id="id" :sources="sources">
     <div
       data-testid="meditation-track-item"
       class="carousel-item h-[60px] w-[60px] overflow-hidden rounded-full border-2"

@@ -40,12 +40,6 @@
                   :settings="settings"
                   :breakpoints="breakpoints"
                 >
-                  <Slide key="no-bg-sound">
-                    <MVMeditationTrackItem
-                      :volume="0"
-                      @click="isVolumeSliderDisabled = true"
-                    ></MVMeditationTrackItem>
-                  </Slide>
                   <Slide
                     data-testid="slide"
                     v-for="(sound, index) in backgroundSounds"
@@ -59,6 +53,12 @@
                       :background-src="sound?.item?.coverAsset?.thumbnailUrl"
                     />
                   </Slide>
+                  <Slide key="no-bg-sound">
+                    <MVMeditationTrackItem
+                      :volume="0"
+                      @click="isVolumeSliderDisabled = true"
+                    ></MVMeditationTrackItem>
+                  </Slide>
                   <template #addons>
                     <Navigation data-testid="navigation" />
                   </template>
@@ -67,21 +67,11 @@
               <div
                 class="flex w-full mt-4 items-center justify-center transition duration-300 ease-in"
               >
-                <span
-                  class="text-cool-grey-250 mr-4 text-xs"
-                  :class="{ 'brightness-50': isVolumeSliderDisabled }"
-                  >sound</span
-                >
                 <MVMeditationVolumeSlider
-                  :volume="volume"
-                  :disabled="isVolumeSliderDisabled"
                   @change="(newVolume: number) => (volume = newVolume)"
+                  leftText="sound"
+                  rightText="vocal"
                 />
-                <span
-                  class="text-cool-grey-250 ml-4 text-xs"
-                  :class="{ 'brightness-50': isVolumeSliderDisabled }"
-                  >vocal</span
-                >
               </div>
             </MVMeditationMixer>
           </div>

@@ -72,10 +72,7 @@ const { isiPhoneOriPadSafari } = useDetectBrowser()
       :class="{ 'mix-blend-lighten': isiPhoneOriPadSafari }"
     ></section>
 
-    <MVAudioItem
-      v-slot="{ play, pause, playing, rewind, fastForward, currentTime, seek }"
-      :sources="sources"
-    >
+    <MVAudioItem v-slot="{ player, state }" :sources="sources">
       <div class="grid grid-cols-3 gap-4 lg:gap-x-6 text-white relative lg:gap-y-0">
         <div
           class="max-md:col-span-3"
@@ -129,15 +126,19 @@ const { isiPhoneOriPadSafari } = useDetectBrowser()
             <MVAudioProgressBar
               :duration="props.duration"
               class="text-white"
-              :current-time="currentTime"
-              @seek="seek"
+              :current-time="state.currentTime"
+              @seek="player.seek"
             />
 
             <!-- Buttons -->
             <section class="flex items-center justify-center">
-              <MVAudioRewindButton @rewind="(e: number) => rewind(e)" />
-              <MVAudioPlayButton @play="play" @pause="pause" :playing="playing" />
-              <MVAudioFastForwardButton @fast-forward="(e: number) => fastForward(e)" />
+              <MVAudioRewindButton @rewind="(e: number) => player.rewind(e)" />
+              <MVAudioPlayButton
+                @play="player.play"
+                @pause="player.pause"
+                :playing="state.playing"
+              />
+              <MVAudioFastForwardButton @fast-forward="(e: number) => player.fastForward(e)" />
             </section>
           </div>
         </div>

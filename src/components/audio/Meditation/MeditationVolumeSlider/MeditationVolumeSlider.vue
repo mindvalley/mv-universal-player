@@ -1,11 +1,10 @@
 <script lang="ts" setup>
+import { inject, computed } from 'vue-demi'
+
 const props = defineProps({
   volume: {
     type: Number,
     default: 0.5
-  },
-  disabled: {
-    type: Boolean
   },
   min: {
     type: Number,
@@ -18,6 +17,14 @@ const props = defineProps({
   step: {
     type: Number,
     default: 0.01
+  },
+  leftText: {
+    type: String,
+    default: 'sound'
+  },
+  rightText: {
+    type: String,
+    default: 'vocal'
   }
 })
 
@@ -26,11 +33,55 @@ const emit = defineEmits<{
 }>()
 
 const handleVolumeChange = (event: any) => {
-  emit('change', Number(event.target.value))
+  const volume = Number(event.target.value)
+  updateVolume(1 - volume, volume)
+  emit('change', volume)
 }
+
+const updateVolume = (backgroundSoundVolume: number, mainSoundVolume: number) => {
+  mixerPlayer.setVolume(backgroundSoundVolume)
+  mainPlayer.setVolume(mainSoundVolume)
+}
+
+// Mixer Player
+const mixerPlayerState: any = inject('audioState')
+const mixerPlayer: any = inject('audioPlayer')
+
+// Parent component (Main Audio)
+const mainPlayer: any = inject('audioItemPlayer')
+
+const isDisabled = computed(() => {
+  return !mixerPlayerState.value.mixing
+})
 </script>
 
+<template>
+  <span class="meditation-volume-slider" :class="{ 'brightness-50': isDisabled }">
+    <span class="meditation-volume-slider__label">{{ leftText }}</span>
+    <input
+      data-testid="volume-slider"
+      :min="min"
+      :max="max"
+      :step="step"
+      type="range"
+      :value="volume"
+      class="w-full mx-4"
+      :class="[isDisabled ? 'cursor-not-allowed' : 'cursor-pointer']"
+      @input="handleVolumeChange"
+      :disabled="isDisabled"
+    />
+    <span class="meditation-volume-slider__label">{{ rightText }}</span>
+  </span>
+</template>
+
 <style scoped lang="scss">
+.meditation-volume-slider {
+  @apply flex h-full w-full items-center justify-center;
+}
+.meditation-volume-slider__label {
+  @apply text-cool-grey-250 text-xs;
+}
+
 $track-background-color: #ba62fd;
 $track-border-radius: 5rem;
 $track-height: 0.25rem;
@@ -83,23 +134,3 @@ input[type='range']::-moz-range-thumb {
   background: $thumb-background-url;
 }
 </style>
-
-<template>
-  <span
-    class="flex h-full w-full items-center justify-center"
-    :class="{ 'brightness-50': disabled }"
-  >
-    <input
-      data-testid="volume-slider"
-      :min="min"
-      :max="max"
-      :step="step"
-      type="range"
-      :value="volume"
-      class="w-full"
-      :class="[disabled ? 'cursor-not-allowed' : 'cursor-pointer']"
-      @input="handleVolumeChange"
-      :disabled="disabled"
-    />
-  </span>
-</template>
