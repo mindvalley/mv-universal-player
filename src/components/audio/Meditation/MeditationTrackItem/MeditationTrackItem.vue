@@ -54,8 +54,6 @@ watch(
 watch(
   [() => mainState.value.playing, () => mixerPlayerState.value.audioItemId],
   ([playing, audioItemId]) => {
-    // console.log('watch ---')
-    // console.log(playing)
     if (audioItemId === props.id) {
       toggle()
     }
@@ -85,8 +83,6 @@ watch(
 )
 
 const toggle = () => {
-  console.log('toggle ---')
-  console.log(mainState.value.playing)
   if (mainState.value.playing && !isNoBackgroundSound.value) {
     play()
   } else {
@@ -102,6 +98,7 @@ const initialize = () => {
 
 const selectSound = () => {
   audioItem.value.player.setAudio()
+  toggle()
 }
 
 const play = () => {
