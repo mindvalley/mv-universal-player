@@ -52,7 +52,7 @@ watch(
 )
 
 watch(
-  [() => mainState.value.playing, () => mixerPlayerState.value.audioItemId],
+  [() => mainState.value?.playing, () => mixerPlayerState.value.audioItemId],
   ([playing, audioItemId]) => {
     if (audioItemId === props.id) {
       toggle()
@@ -83,7 +83,7 @@ watch(
 )
 
 const toggle = () => {
-  if (mainState.value.playing && !isNoBackgroundSound.value) {
+  if (mainState.value?.playing && !isNoBackgroundSound.value) {
     play()
   } else {
     pause()

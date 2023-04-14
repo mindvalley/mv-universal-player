@@ -126,7 +126,7 @@ const { isiPhoneOriPadSafari } = useDetectBrowser()
             <MVAudioProgressBar
               :duration="props.duration"
               class="text-white"
-              :current-time="state.currentTime"
+              :current-time="state?.currentTime"
               @seek="player.seek"
             />
 
@@ -136,7 +136,7 @@ const { isiPhoneOriPadSafari } = useDetectBrowser()
               <MVAudioPlayButton
                 @play="player.play"
                 @pause="player.pause"
-                :playing="state.playing"
+                :playing="state?.playing"
               />
               <MVAudioFastForwardButton @fast-forward="(e: number) => player.fastForward(e)" />
             </section>

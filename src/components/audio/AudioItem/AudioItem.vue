@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, provide, ref, watch, readonly, computed } from 'vue-demi'
+import { inject, provide, ref, toRefs, reactive, watch, readonly, computed } from 'vue-demi'
 import type { Player, Source } from '../../../types/audio'
 
 const props = defineProps({
@@ -126,6 +126,10 @@ const mixing = computed(() => {
   return audioState.value.mixing
 })
 
+const volume = computed(() => {
+  return audioState.value.volume
+})
+
 const audioItemPlayer = {
   play: play,
   pause: pause,
@@ -145,7 +149,8 @@ const audioItemState = ref({
   currentTime: currentTime,
   playing: playing,
   currentPlayingAudioItemId: currentPlayingAudioItemId,
-  mixing: mixing
+  mixing: mixing,
+  volume: volume
 })
 
 provide('audioItemPlayer', audioItemPlayer)

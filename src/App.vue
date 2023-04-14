@@ -47,17 +47,13 @@
                   >
                     <MVMeditationTrackItem
                       :volume="volume"
-                      @click="isVolumeSliderDisabled = false"
                       :key="index"
                       :sources="formatSources(sound?.item?.mediaAsset.renditions)"
                       :background-src="sound?.item?.coverAsset?.thumbnailUrl"
                     />
                   </Slide>
                   <Slide key="no-bg-sound">
-                    <MVMeditationTrackItem
-                      :volume="0"
-                      @click="isVolumeSliderDisabled = true"
-                    ></MVMeditationTrackItem>
+                    <MVMeditationTrackItem :volume="0"></MVMeditationTrackItem>
                   </Slide>
                   <template #addons>
                     <Navigation data-testid="navigation" />

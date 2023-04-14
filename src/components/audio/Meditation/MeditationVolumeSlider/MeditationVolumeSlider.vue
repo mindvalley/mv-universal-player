@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { inject, computed } from 'vue-demi'
+import { inject, computed, ref, watch, watchEffect } from 'vue-demi'
 
 const props = defineProps({
   volume: {
@@ -32,10 +32,11 @@ const emit = defineEmits<{
   (e: 'change', value: number): void
 }>()
 
+const localVolume = ref(props.volume)
+
 const handleVolumeChange = (event: any) => {
   const volume = Number(event.target.value)
-  updateVolume(1 - volume, volume)
-  emit('change', volume)
+  localVolume.value = volume
 }
 
 const updateVolume = (backgroundSoundVolume: number, mainSoundVolume: number) => {
@@ -53,6 +54,18 @@ const mainPlayer: any = inject('audioItemPlayer')
 const isDisabled = computed(() => {
   return !mixerPlayerState.value.mixing
 })
+watch(localVolume, (newVolume) => {
+  updateVolume(1 - newVolume, newVolume)
+  emit('change', newVolume)
+})
+
+watchEffect(async () => {
+  if (isDisabled.value) {
+    updateVolume(0, 1)
+  } else {
+    updateVolume(1 - localVolume.value, localVolume.value)
+  }
+})
 </script>
 
 <template>
@@ -64,7 +77,7 @@ const isDisabled = computed(() => {
       :max="max"
       :step="step"
       type="range"
-      :value="volume"
+      :value="localVolume"
       class="w-full mx-4"
       :class="[isDisabled ? 'cursor-not-allowed' : 'cursor-pointer']"
       @input="handleVolumeChange"
