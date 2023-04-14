@@ -8,7 +8,8 @@ const props = defineProps({
   },
   currentTime: {
     type: Number,
-    required: true
+    required: true,
+    default: 0
   }
 })
 

@@ -72,7 +72,7 @@ const { isiPhoneOriPadSafari } = useDetectBrowser()
       :class="{ 'mix-blend-lighten': isiPhoneOriPadSafari }"
     ></section>
 
-    <MVAudioItem v-slot="{ player, state }" :sources="sources">
+    <MVAudioItem v-slot="{ player, state }" :sources="sources" :id="assetId">
       <div class="grid grid-cols-3 gap-4 lg:gap-x-6 text-white relative lg:gap-y-0">
         <div
           class="max-md:col-span-3"

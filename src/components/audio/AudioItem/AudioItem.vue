@@ -38,13 +38,12 @@ watch(
 )
 
 watch(
-  [() => audioState.value.currentTime, () => audioState.value.audioItemId],
-  ([newCurrentTime, newAudioItemId]) => {
-    if (newAudioItemId === props.id) {
+  () => audioState.value.currentTime,
+  (newCurrentTime) => {
+    if (audioState.value.audioItemId === props.id) {
       currentTime.value = newCurrentTime
       emit('currentTime', currentTime.value)
     } else {
-      // To reset other players to zero.
       currentTime.value = 0
     }
   }
@@ -54,7 +53,6 @@ const play = () => {
   if (audioState.value.audioItemId !== props.id) {
     audioPlayer.setSources(props.sources)
   }
-
   audioPlayer.play(props.id)
 }
 
