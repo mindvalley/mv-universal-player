@@ -15,6 +15,13 @@
         :ratings="section.media.averageRating"
         :total-ratings="section.media.ratingsCount"
         class="my-10 mx-auto"
+        @play="logEvent('play', $event)"
+        @pause="logEvent('pause', $event)"
+        @seeking="logEvent('seeking', $event)"
+        @ended="logEvent('ended', $event)"
+        @rewind="logEvent('rewind', $event)"
+        @fastforward="logEvent('fastforward', $event)"
+        @playbackSpeed="logEvent('playbackSpeed', $event)"
       >
         <template #audio-description v-if="section.media">
           <MVAudioDescription
@@ -46,7 +53,6 @@
                     :key="index"
                   >
                     <MVMeditationTrackItem
-                      :volume="volume"
                       :key="index"
                       :sources="formatSources(sound?.item?.mediaAsset.renditions)"
                       :background-src="sound?.item?.coverAsset?.thumbnailUrl"
@@ -63,11 +69,7 @@
               <div
                 class="flex w-full mt-4 items-center justify-center transition duration-300 ease-in"
               >
-                <MVMeditationVolumeSlider
-                  @change="(newVolume: number) => (volume = newVolume)"
-                  leftText="sound"
-                  rightText="vocal"
-                />
+                <MVMeditationVolumeSlider leftText="sound" rightText="vocal" />
               </div>
             </MVMeditationMixer>
           </div>
@@ -94,8 +96,9 @@ import { ref } from 'vue-demi'
 import { Carousel, Navigation, Slide } from 'vue3-carousel'
 import 'vue3-carousel/dist/carousel.css'
 
-const isVolumeSliderDisabled = ref(true)
-const volume = ref(0.5)
+const logEvent = (event: string, data: any) => {
+  console.log(event, data)
+}
 
 const { sections } = page
 const filteredSections = sections.filter(

@@ -26,7 +26,7 @@ const emit = defineEmits<{
   (e: 'ended'): void
   (e: 'rewind', { previousTime, currentTime }: any): void
   (e: 'fastforward', { previousTime, currentTime }: any): void
-  (e: 'playbackSpeed', { playbackSpeed }: any): void
+  (e: any, payload: any): void
 }>()
 
 watch(
@@ -142,11 +142,12 @@ const fastForward = (seconds: number) => {
     seconds >= 0 &&
     audioState.value.playing
   ) {
+    const currentTime = audioState.value.currentTime + seconds
     emit('fastforward', {
       previousTime: audioState.value.currentTime,
-      currentTime: audioState.value.currentTime - seconds
+      currentTime: currentTime
     })
-    audioPlayer.setCurrentTime(audioState.value.currentTime + seconds)
+    audioPlayer.setCurrentTime(currentTime)
   }
 }
 

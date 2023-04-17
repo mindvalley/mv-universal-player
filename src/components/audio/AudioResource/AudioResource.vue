@@ -56,11 +56,19 @@ const props = defineProps({
 })
 
 const { isiPhoneOriPadSafari } = useDetectBrowser()
-const emit = defineEmits({})
+const emit = defineEmits<{
+  (e: 'timeupdate', { currentTime }: any): void
+  (e: 'play'): void
+  (e: 'pause'): void
+  (e: 'seeking', { seeking }: any): void
+  (e: 'ended'): void
+  (e: 'rewind', { previousTime, currentTime }: any): void
+  (e: 'fastforward', { previousTime, currentTime }: any): void
+  (e: any, payload: any): void
+}>()
 
 const emitEvent = (eventName: string, payload?: any) => {
   const data = { assetId: props.assetId, ...payload }
-  console.log(eventName, data)
   emit(eventName, data)
 }
 </script>

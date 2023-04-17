@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue-demi'
+import { useGlobal } from './../../../composables/use-global'
 
 const props = defineProps({
   duration: {
@@ -13,11 +14,15 @@ const props = defineProps({
   }
 })
 
+console.log('duration ---')
+console.log(props.duration)
+
 const emit = defineEmits<{
   (e: 'seek', currentTime: number): void
 }>()
 
 const seekerUi: any = ref(null)
+const { humanizeTime } = useGlobal()
 
 const seek = (event: any) => {
   const completionPercentage = (event.offsetX / seekerUi.value.offsetWidth) * 100
@@ -28,22 +33,6 @@ const seek = (event: any) => {
 const progressPercentage = computed(() => {
   return (props.currentTime / props.duration) * 100
 })
-
-const humanizeTime = (duration: number) => {
-  const hour = Math.floor(duration / 3600) || 0
-  const minute = Math.floor((duration % 3600) / 60) || 0
-  const second = Math.floor(duration % 60) || 0
-
-  let secMin = ''
-
-  if (hour > 0) {
-    secMin += `${hour}:${minute < 10 ? '0' : ''}`
-  }
-
-  secMin += `${minute}:${second < 10 ? '0' : ''}`
-  secMin += `${second}`
-  return secMin
-}
 </script>
 
 <template>
