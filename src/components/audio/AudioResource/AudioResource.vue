@@ -56,6 +56,13 @@ const props = defineProps({
 })
 
 const { isiPhoneOriPadSafari } = useDetectBrowser()
+const emit = defineEmits({})
+
+const emitEvent = (eventName: string, payload?: any) => {
+  const data = { assetId: props.assetId, ...payload }
+  console.log(eventName, data)
+  emit(eventName, data)
+}
 </script>
 
 <template>
@@ -72,12 +79,24 @@ const { isiPhoneOriPadSafari } = useDetectBrowser()
       :class="{ 'mix-blend-lighten': isiPhoneOriPadSafari }"
     ></section>
 
-    <MVAudioItem v-slot="{ player, state }" :sources="sources" :id="assetId">
+    <MVAudioItem
+      v-slot="{ player, state }"
+      :sources="sources"
+      :id="assetId"
+      @play="emitEvent('play')"
+      @pause="emitEvent('pause')"
+      @seeking="emitEvent('seeking', $event)"
+      @ended="emitEvent('ended', $event)"
+      @rewind="emitEvent('rewind', $event)"
+      @fastforward="emitEvent('fastforward', $event)"
+      @playbackSpeed="emitEvent('playbackSpeed', $event)"
+    >
       <div class="grid grid-cols-3 gap-4 lg:gap-x-6 text-white relative lg:gap-y-0">
         <div
           class="max-md:col-span-3"
           :class="assetType == 'resource-meditation' ? 'lg:row-span-2' : 'row-span-1'"
         >
+          <div @click="player.setPlaybackRate(0.5)">change speed</div>
           <div class="flex items-center w-full">
             <section class="w-full min-w-[80px] max-md:max-w-[150px] md:max-w-[380px]">
               <BaseImage

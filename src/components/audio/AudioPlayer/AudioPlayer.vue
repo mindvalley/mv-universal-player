@@ -8,7 +8,8 @@ import {
   watch,
   provide,
   readonly,
-  defineExpose
+  defineExpose,
+  watchEffect
 } from 'vue-demi'
 import type { Player, Source } from '../../../types/audio'
 
@@ -125,48 +126,6 @@ const props = defineProps({
 
 let audioInstance: any
 let state = ref({} as PlayerState)
-const emit = defineEmits(['play', 'pause', 'timeupdate', 'seeking', 'ended', 'ready'])
-
-watch(
-  () => state.value.playing,
-  (playing) => {
-    if (playing) {
-      emit('play')
-    }
-  }
-)
-
-watch(
-  () => state.value.paused,
-  (paused) => {
-    if (paused) {
-      emit('pause')
-    }
-  }
-)
-
-watch(
-  () => state.value.currentTime,
-  (currentTime) => {
-    emit('timeupdate', { currentTime: currentTime })
-  }
-)
-
-watch(
-  () => state.value.seeking,
-  (seeking) => {
-    emit('seeking', { seeking: seeking })
-  }
-)
-
-watch(
-  () => state.value.ended,
-  (ended) => {
-    if (ended) {
-      emit('ended')
-    }
-  }
-)
 
 onMounted(() => {
   initialize(props.id, props.loop)
@@ -186,9 +145,9 @@ const initialize = (id: string, loop = false) => {
     playbackRates: props.playbackRates,
     loop: loop
   })
+
   createState()
   updateState('ready', true)
-  emit('ready')
 }
 
 const createState = () => {
@@ -241,7 +200,6 @@ const play = (audioItemId: string) => {
   if (audioInstance && audioItemId) {
     setAudio(audioItemId)
     audioInstance.play()
-    emit('play')
   }
 }
 
@@ -258,7 +216,7 @@ const setVolume = (volume: number) => {
 }
 
 const setCurrentTime = (time: number) => {
-  if (audioInstance && time >= 0) {
+  if (audioInstance) {
     audioInstance.currentTime(time)
   }
 }

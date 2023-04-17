@@ -24,22 +24,22 @@ export const backgroundSounds = [
             __typename: 'Rendition',
             filesize: 10881089,
             id: 'mp3',
-            url: 'https://assets.mvstg.com/api/v1/assets/a699d055-1e73-4dfb-8005-0ad6d00f1ad1.mp3?token=5e92a9936e381d11eb8a4c3ac2b552e5.IH1YxiWayY-InrqzRP_eZMxFHxY9.a114c16659e2f6c287665bfd3788caeb16f354161b00f4f3ac20a6fa4c4155e5'
+            url: 'https://assets.mvstg.com/api/v1/assets/a699d055-1e73-4dfb-8005-0ad6d00f1ad1.mp3?token=c8df59879ecf78f75897d9a7659b4034.VS8RaJTceAN-Hk6QrWFxYVCGys9C.383fc3b7fd38ced801730d3d8a1b1f1e4e60c015cc000e310035edc57c0bd5d8'
           },
           {
             __typename: 'Rendition',
             filesize: 5302779,
             id: 'ogg',
-            url: 'https://assets.mvstg.com/api/v1/assets/4d65853f-8f33-4e2c-81e4-1b2fffa85775.ogg?token=3c625fc4470fd3fb46d0f2ac78a65c6f.5xrn_lEfH9Vwa4H3oP01OVFelBPi.70d7bc5416454cd9cc13fe7504d5835ccc39657ab68fec25c13f6a8bd924dea2'
+            url: 'https://assets.mvstg.com/api/v1/assets/4d65853f-8f33-4e2c-81e4-1b2fffa85775.ogg?token=53abc3ec2ec5be62e98b9e9fb2f651f8.G5oGSYgfkNGRwMlqCfBwBRrDMeEn.99fb71a9ae87c8c67198a0f08f1e3e04a82536def4dba5b46fca83dadce6795d'
           },
           {
             __typename: 'Rendition',
             filesize: 8799751,
             id: 'mp4a',
-            url: 'https://assets.mvstg.com/api/v1/assets/b3cf7a2f-57c8-47df-97e3-fece62dccc28.mp4?token=e463db93caeafc92b33a97de0b836ae9.f8YuWisnhprlsatiBhX7_VAVyX53.8c693663fe2419f38f3e4d6f4f7c4b92dbfa18b0b6418712f7407bd1d270c80a'
+            url: 'https://assets.mvstg.com/api/v1/assets/b3cf7a2f-57c8-47df-97e3-fece62dccc28.mp4?token=73341806f5f4818222924bb28d5de59b.KIgjsCcBU_Pdqh1ahKAVcq3lv6db.f19a5acbdb014dbeb243c6e361fa72ba884dbfc75ffc773fdc073a1dd4e86557'
           }
         ],
-        url: 'https://assets.mvstg.com/api/v1/assets/5fffe0af-eef2-493b-a706-3698b1eb891a.wav?token=004c095fddecbf1dd04273265a9db78c.LOsoGtVF3EowXnAUSABV4GWV_bmC.d74cb0c787827f45986441ce372d1388158ac159029e7879a294548f3ba9b7d1'
+        url: 'https://assets.mvstg.com/api/v1/assets/5fffe0af-eef2-493b-a706-3698b1eb891a.wav?token=4e487dc265d0a045faef5744ccc0ec2f.QZQGNy03k7Du8n5veoZsk5R2A3gV.3247636329ce68627a0b40c11ae415151e2ab537a93f24a4d92579f0d5ac0d9a'
       }
     },
     volume: 0.5
@@ -69,22 +69,22 @@ export const backgroundSounds = [
             __typename: 'Rendition',
             filesize: 3931128,
             id: 'mp3',
-            url: 'https://assets.mvstg.com/api/v1/assets/fa63d274-6d0c-493d-a5ef-d037279153e7.mp3?token=0874fad0c0a6b135ef737c2733a07b11.jwa3EU-mgEYH4Gv_jLlI6cm_SCwA.289eb388fbe5ede2bc0a382a22d5c0174c9450ee80da917d54d06ca5d620ce79'
+            url: 'https://assets.mvstg.com/api/v1/assets/fa63d274-6d0c-493d-a5ef-d037279153e7.mp3?token=b2a26a9dee0191aefe738355b5c8b25c.XsXngj3YVFyX7ddAWXZdtvZuu-LX.fd8e571e285ea834164fe06b4352e219d7c3f503ff2ef6c57a60ec1f430d5340'
           },
           {
             __typename: 'Rendition',
             filesize: 1706650,
             id: 'ogg',
-            url: 'https://assets.mvstg.com/api/v1/assets/0efc8d2e-4a05-4674-810e-ef6dc143a220.ogg?token=b2f077d29e3072c8a1052c080586c6b7.Joc4z5iNzA1F4bgGWlbM_sXnZkCD.983ff438433afa2d72c5bf86953d8e7765772f3691fb1801e127ebe476b92ab7'
+            url: 'https://assets.mvstg.com/api/v1/assets/0efc8d2e-4a05-4674-810e-ef6dc143a220.ogg?token=679180abac41566fa9c72067f7093997.O-6ZAVD7RbzHMonzxKk5qXOWmHdI.2de25fef05680fc89328e3df439e493738c442f1654ac81315b41ea5e2a52883'
           },
           {
             __typename: 'Rendition',
             filesize: 3179725,
             id: 'mp4a',
-            url: 'https://assets.mvstg.com/api/v1/assets/fee96981-3d00-4ab2-864e-92604a02c0e8.mp4?token=914d85c83dd00e231e4d771f1b1a7e1b.vTVG89hC78Q4IsMvbU66mzT1e0gU.0bce8f1241ea934d1ecc47d1f664f4af9b7d3277b423b1027734abb59edbb1f9'
+            url: 'https://assets.mvstg.com/api/v1/assets/fee96981-3d00-4ab2-864e-92604a02c0e8.mp4?token=2a29affe1769f88cb165707fb188bd29.GCRXLKDmQ-2Bb68b04Pss5LRwKnk.a3ac46633450b53c7a83dee272b78f68fe8e5a7e583d75c60769ba00087d8655'
           }
         ],
-        url: 'https://assets.mvstg.com/api/v1/assets/8ba28963-9bfd-4a4f-9a2e-993501f89741.mp3?token=a430a6bbb9e8d54617d4d3f3bf046759.YsdDptf4KRFmMniBM7bF5r-8xrEb.61c88e77c97de34d515f21de78c2b7b2738d5bbf541ac818611f45ff18f757e6'
+        url: 'https://assets.mvstg.com/api/v1/assets/8ba28963-9bfd-4a4f-9a2e-993501f89741.mp3?token=59af9ac0a57ffb30672f4c6e57b10b22.bRHFCxkGA4PtIYLAmw1gg3kk5CgB.cdd0c70605c8427f424460e726dd1114767a467a0e453695d5e6b5448405c6c0'
       }
     },
     volume: 0.5
@@ -114,22 +114,22 @@ export const backgroundSounds = [
             __typename: 'Rendition',
             filesize: 10881089,
             id: 'mp3',
-            url: 'https://assets.mvstg.com/api/v1/assets/a699d055-1e73-4dfb-8005-0ad6d00f1ad1.mp3?token=498b39fb57523a3e496884b7a98aac10.awQyWQqfPred2j6XN62z-INTL5pu.c36cda6b1dccc905903d6812238e7f0262f16c47413d27f082ec197f46f7ae20'
+            url: 'https://assets.mvstg.com/api/v1/assets/a699d055-1e73-4dfb-8005-0ad6d00f1ad1.mp3?token=8a7a196ee9da2417eaf4775cc2ac68bf.cGPHwxHNkmK1TNEzu_8rOmVoPv8y.d3a96d0e97e5e53bbd4548c18fc7a84311d852be888d9fdcc01695ff1db3506c'
           },
           {
             __typename: 'Rendition',
             filesize: 5302779,
             id: 'ogg',
-            url: 'https://assets.mvstg.com/api/v1/assets/4d65853f-8f33-4e2c-81e4-1b2fffa85775.ogg?token=eb97b99d243555c16a42b20fc9cae7fc.NNQt8tJcdaZ62XinSOs0lpJd3dcY.935a175ed3c33b27b8b1084901dea32e785688bd865ad0ae9844d62342d7d2e9'
+            url: 'https://assets.mvstg.com/api/v1/assets/4d65853f-8f33-4e2c-81e4-1b2fffa85775.ogg?token=9a1653dd7c100908eca67173e286bb89.8BhVsd7XQMRKuzCLNsXeEqnDzDnY.fabea338f122598a8d6990a20d1c3d74cd9a8b257771f2eb19e05ad6331af2c4'
           },
           {
             __typename: 'Rendition',
             filesize: 8799751,
             id: 'mp4a',
-            url: 'https://assets.mvstg.com/api/v1/assets/b3cf7a2f-57c8-47df-97e3-fece62dccc28.mp4?token=c0ffa5b73c89cefeca8a56025ba326c3.lCsg42HeAJAXBpnIz3CpaivfNXSa.59b434b2e82d65a31483924517fc87b2941c76e0072786e8c36f6b4bf202df9c'
+            url: 'https://assets.mvstg.com/api/v1/assets/b3cf7a2f-57c8-47df-97e3-fece62dccc28.mp4?token=05785ed28b509d2c66d58f0025ca15b8.EkfWxhh3OLg0w0oNl3e5-dA91qVb.8a229c9ef2d8d72d0a87590ebd84961b85f764d205b3ec4883d081fc75f6d383'
           }
         ],
-        url: 'https://assets.mvstg.com/api/v1/assets/5fffe0af-eef2-493b-a706-3698b1eb891a.wav?token=be88cb2c7067a452a93752d64963d11d.WSMaNMmFB8rRrQqpRcs8qJCHzORi.4ea70bfd9e9add0d3873684755e173475c61516657d52fcf3754932e51104948'
+        url: 'https://assets.mvstg.com/api/v1/assets/5fffe0af-eef2-493b-a706-3698b1eb891a.wav?token=d77e56c999d61755a7fa0b77444fbe8a.IXKkFIy8I6ImGesBDR4QtL4dAu9-.5c7afcdf4c6d15bec7279217466ea318532fdef4ee7bac54c27ff997a442c3b2'
       }
     },
     volume: 0.5
@@ -159,22 +159,22 @@ export const backgroundSounds = [
             __typename: 'Rendition',
             filesize: 9793901,
             id: 'mp3',
-            url: 'https://assets.mvstg.com/api/v1/assets/d20edc52-ca83-4a07-b89f-28fcf8dce74f.mp3?token=114b7e713f0e43bb0a27c4a62450f630.u7Zkb0g_JtTUjFkCvmd1ExeH9mSo.1ecf64079a7baf11bf4144840b8ba619de6260100da6f95182f23d9c4348664a'
+            url: 'https://assets.mvstg.com/api/v1/assets/d20edc52-ca83-4a07-b89f-28fcf8dce74f.mp3?token=ded2b22c86697a6783cf3751ebfddd5d.75A0-Ly3R7mpZgEfyI-RwOMSPKvo.ee6fb13292e0ad5d7881edb0b9fc3440d74e75892f2fdb0fa96a1a0f38e4ca6e'
           },
           {
             __typename: 'Rendition',
             filesize: 4885098,
             id: 'ogg',
-            url: 'https://assets.mvstg.com/api/v1/assets/ddcb6ef6-0823-4c43-b958-179cb7300ba9.ogg?token=6b3b491694a5f9e9f3b34754c46524b6.-B1l2qBGDQPTlar-n4lcLzhzfFOv.2f9325d3a8dba6f4022f16d3e1da74d165a58b26bb4269a4478ff9811600b9e2'
+            url: 'https://assets.mvstg.com/api/v1/assets/ddcb6ef6-0823-4c43-b958-179cb7300ba9.ogg?token=c7a636b202392f298645f414c9c4fdf5.w-7LbAPwtEHKC9COuQHTJa7P92D2.a0387d4a8337aabfddef1280186fa8bfa9e292367cc6ebfd7f253bdba3c40987'
           },
           {
             __typename: 'Rendition',
             filesize: 7920202,
             id: 'mp4a',
-            url: 'https://assets.mvstg.com/api/v1/assets/f61244ed-4f22-4243-be58-2094f680cf55.mp4?token=3fbee1121695d75c610fecbeb87ec765.kVvk9mIFzQROV_rB4JrIwt1DFG-H.6cf7b560e27c29b542d856340cac6519600321202aa7e39b127add214745d3f2'
+            url: 'https://assets.mvstg.com/api/v1/assets/f61244ed-4f22-4243-be58-2094f680cf55.mp4?token=858a0f33553e387126f2be15f57bf597.3uyAEVUqRnn49AMV72V-agwyCUYL.d3a323101b3bfffef6af21ddb381346a6619a52b40524f9202a0f0a2354ba2fc'
           }
         ],
-        url: 'https://assets.mvstg.com/api/v1/assets/ffc328ca-b112-4d79-91dc-c80c0185f844.mp3?token=93d5ee60e3e2c908d5a71396e922609a.fP9akTUC5Jkp9paQCAyi6lFZnPWC.6db504b055fee2d8f6db42ce933a4eaf0ea89fea41c55ae39ea1b947c7232d6c'
+        url: 'https://assets.mvstg.com/api/v1/assets/ffc328ca-b112-4d79-91dc-c80c0185f844.mp3?token=634f2fcc5ed0eea86a716bf3058b9724.H9-kMadlwo7PczJPQ4Of03bER6_G.94dfe9c240ff45265b74392b92f42e11f38e4c729dd6d46c167c5068ccfa2ea1'
       }
     },
     volume: 0.5
@@ -204,22 +204,22 @@ export const backgroundSounds = [
             __typename: 'Rendition',
             filesize: 3931128,
             id: 'mp3',
-            url: 'https://assets.mvstg.com/api/v1/assets/fa63d274-6d0c-493d-a5ef-d037279153e7.mp3?token=3b39869df8ac8bc624bc69908823532a.-h9wISHh96E9tuIQY9GgUp-Tgo-H.bb83d38470598939d467fdff8dbcc7bcca378e2780a15f798123245ca11a1eb7'
+            url: 'https://assets.mvstg.com/api/v1/assets/fa63d274-6d0c-493d-a5ef-d037279153e7.mp3?token=522eda9b34cef076d5a31785835520f5.dGGI40QHlm-iknNcH4MMHheOXGv5.3b363b56b0ff9f72dcaf54c3403574d4121b4c7571a714436d225032bc07751b'
           },
           {
             __typename: 'Rendition',
             filesize: 1706650,
             id: 'ogg',
-            url: 'https://assets.mvstg.com/api/v1/assets/0efc8d2e-4a05-4674-810e-ef6dc143a220.ogg?token=425b0a2d22f56dfb6fa9c759a11220a5.5l6L9K44eZESZkv_Mgkb4Mf2j4pO.1df1b09311e1b359283c440737e3a15e07322b00ffa9abd4ac88ec0acb45c0b1'
+            url: 'https://assets.mvstg.com/api/v1/assets/0efc8d2e-4a05-4674-810e-ef6dc143a220.ogg?token=f67c01ff9c4c52e448cb5eef8e47c020.wE8r1qez6q7pkveI64o8e15Oy-zX.c854e60aa7fabccc27f3ed49067ecb16f472593e1d66949a03aa6e28041b5925'
           },
           {
             __typename: 'Rendition',
             filesize: 3179725,
             id: 'mp4a',
-            url: 'https://assets.mvstg.com/api/v1/assets/fee96981-3d00-4ab2-864e-92604a02c0e8.mp4?token=69c9f85905133a0b3d260125b4692786.jjnCoAHhOM4LmjnDzvAsOBl_X6EZ.d4937ae0a60b614f5cfe18b986791df5db66ed1b45a470ba1faf6cbcff10076e'
+            url: 'https://assets.mvstg.com/api/v1/assets/fee96981-3d00-4ab2-864e-92604a02c0e8.mp4?token=5ecee0ef734e1f1e1fac370e30e4a236.CAkcAuplmIdgRzfatOqvwtzP2lUC.dd6967012d7654ab46501fdd3c3bc6689695d03aab5e18ebee321f87dc0b922c'
           }
         ],
-        url: 'https://assets.mvstg.com/api/v1/assets/8ba28963-9bfd-4a4f-9a2e-993501f89741.mp3?token=9003552203937a809a01f7eaed337ae9.Ux-_ii0mZGcjDhjp3KsLZHsvkrMW.bc3380ced97907871e65f917a00291fe52902e66574709d7347ba882ad228ecd'
+        url: 'https://assets.mvstg.com/api/v1/assets/8ba28963-9bfd-4a4f-9a2e-993501f89741.mp3?token=9a986878a3732b56b288dd0d30d75dca.1-3hmoVTuEk_Zv5r1AaI9yMukuL0.710a2854021d28b6aa8c2a389f8794e30cb224c818249370523a4c2d44e739f0'
       }
     },
     volume: 0.5
@@ -249,22 +249,22 @@ export const backgroundSounds = [
             __typename: 'Rendition',
             filesize: 3931128,
             id: 'mp3',
-            url: 'https://assets.mvstg.com/api/v1/assets/fa63d274-6d0c-493d-a5ef-d037279153e7.mp3?token=456950df606863c1e071b043c1c7d77f.DPiFWEgh8dw2DoR10ljeFRfAC31-.f1643f4a586e3908266ccb108095835780fdd05e5d9dede68a7ec9c6e7b8b9fd'
+            url: 'https://assets.mvstg.com/api/v1/assets/fa63d274-6d0c-493d-a5ef-d037279153e7.mp3?token=11061398e90db4daa98d58690d32948b.oCLwPfcOjtjGtJITHq8BEZ1RHOri.676180a7de6a960966924a69d5297d05a99a472a98d178b0327b67fd5adac557'
           },
           {
             __typename: 'Rendition',
             filesize: 1706650,
             id: 'ogg',
-            url: 'https://assets.mvstg.com/api/v1/assets/0efc8d2e-4a05-4674-810e-ef6dc143a220.ogg?token=4e78ca8c40c56b6f2bc355e41f5ffbd1.ol7FqDCqzAsta5Dq_UWxAxlVESpb.72ee393ee56bf77b67b5b2daf49b222263314e4ec216b6c25d7b7b8b971f88ee'
+            url: 'https://assets.mvstg.com/api/v1/assets/0efc8d2e-4a05-4674-810e-ef6dc143a220.ogg?token=9d857911c31471cf0702a522a07671c8.KXBwfp19KWk3rJNKT_MH76sZXBdX.035ed026998798c2b13ac58c467dd5542e9a2b79e2d539131681278ea98a0576'
           },
           {
             __typename: 'Rendition',
             filesize: 3179725,
             id: 'mp4a',
-            url: 'https://assets.mvstg.com/api/v1/assets/fee96981-3d00-4ab2-864e-92604a02c0e8.mp4?token=cfd6952e1860114860a5034d9b976ad6.5dXaFI9T_p4iXDSOaItge0oS7XA0.4df24ffe5ac7b89fae5fb525f506c0ef5bdfc096be9b4a1a42cf45caeba6bad4'
+            url: 'https://assets.mvstg.com/api/v1/assets/fee96981-3d00-4ab2-864e-92604a02c0e8.mp4?token=6d15f2832dbdb021555c5165151e8351.-PfajiJ6asnOKGCcsK2cvJuvjHO1.6b930d849b0ae78d50a1f996e378edde9deea33cccb380a7cbd41394c2228092'
           }
         ],
-        url: 'https://assets.mvstg.com/api/v1/assets/8ba28963-9bfd-4a4f-9a2e-993501f89741.mp3?token=7a293a1fcc634079fbfe5ab674200151.B9KISLf-GTLyeDOKX1rNaS33C70r.cb048fbafac05645dc804f728c4ff2df05474d1f8493f3b46a51794d668291d8'
+        url: 'https://assets.mvstg.com/api/v1/assets/8ba28963-9bfd-4a4f-9a2e-993501f89741.mp3?token=f6c81c3c94a4dd2db91d640ee39e43e6.rhNaHOdHndhN5K7fZnjrxxbyXpu0.5f45b2198858474e9b4689c04436d98b42ee731fa6924431f45dc3e136f33b1d'
       }
     },
     volume: 0.5
@@ -294,22 +294,22 @@ export const backgroundSounds = [
             __typename: 'Rendition',
             filesize: 3931128,
             id: 'mp3',
-            url: 'https://assets.mvstg.com/api/v1/assets/fa63d274-6d0c-493d-a5ef-d037279153e7.mp3?token=d19e3fc9578ab5348244f314c248eff7.a7skiSo_kDXhyUrwdGgmeTImGvnf.624b689b7c72219a6c8a7ce76ee88cfb27261c8cc36f027347dbb4d43010a9cc'
+            url: 'https://assets.mvstg.com/api/v1/assets/fa63d274-6d0c-493d-a5ef-d037279153e7.mp3?token=885fd50f79540142f8d115ad582ded54.BuAD6r-iQuo5xYeQmwLyMiAez6Ik.e7332f74d185cd82481838ef49f2649d507f52b3431c52592c55a7a5d7b96c48'
           },
           {
             __typename: 'Rendition',
             filesize: 1706650,
             id: 'ogg',
-            url: 'https://assets.mvstg.com/api/v1/assets/0efc8d2e-4a05-4674-810e-ef6dc143a220.ogg?token=509c9a2aeb73dcdecae35bf213d27688.xNjO5wG7Gmpp_P_r3MayzuWtm5b_.1aa98796d9f09408cb7b222525c078c4a531c01545ffa9442477031cfdadd423'
+            url: 'https://assets.mvstg.com/api/v1/assets/0efc8d2e-4a05-4674-810e-ef6dc143a220.ogg?token=ecd1f96144f95c1bccad9740adb9e4bd.bpCAf93Q53ct6m5eHGFgt8HxZyx_.d18dcc140f8e94ebbab0fde9b0dbc57ac6fb55578885854cfd1ac3e2f88d7f43'
           },
           {
             __typename: 'Rendition',
             filesize: 3179725,
             id: 'mp4a',
-            url: 'https://assets.mvstg.com/api/v1/assets/fee96981-3d00-4ab2-864e-92604a02c0e8.mp4?token=95f83e22246da1abc08d3aac425c1ea3.yhP2xso5YzvX_KInb2dZjR6kzB-3.2df0e6a535b3fcd24961c42ceb0e4a4e7ff3595fa5674749f5aaa4100954aaf6'
+            url: 'https://assets.mvstg.com/api/v1/assets/fee96981-3d00-4ab2-864e-92604a02c0e8.mp4?token=65dd89889349a687a424becdbf9f00e6.lCrn7ZsCOI3KgCLPc06bOiT-hpgB.3d59580286b152f9655e23fff03d4f546bafae28f4dcf879d18d6bab0e087693'
           }
         ],
-        url: 'https://assets.mvstg.com/api/v1/assets/8ba28963-9bfd-4a4f-9a2e-993501f89741.mp3?token=63c603f43b5a46534ed97aad3d6f9e24.Xw1WR8d8tPzDIc4QBoBRfL8aKBy-.ad83a45b753458abcd32e4c68ce2bb167c9421056860bda3cf58dd79ce843bf0'
+        url: 'https://assets.mvstg.com/api/v1/assets/8ba28963-9bfd-4a4f-9a2e-993501f89741.mp3?token=e240169b39d9e13bb3b64f914268cf25.RswY8pHFkjXuCam6rr4I1H6uwFwz.0cc740047ca74572ccbcdb38a0e2f0ecf959a921d0a5b54979115f4f8f8ac176'
       }
     },
     volume: 0.5
@@ -339,22 +339,22 @@ export const backgroundSounds = [
             __typename: 'Rendition',
             filesize: 3931128,
             id: 'mp3',
-            url: 'https://assets.mvstg.com/api/v1/assets/fa63d274-6d0c-493d-a5ef-d037279153e7.mp3?token=c742e8a4e6a0d3bf3bdf8a5416c82ea4.YaMSzQRl3K2UcdTs69TTLNePMtIl.4966006d30065044c2d7d676e88ae4aeee8bb15c447b001dbcb0ae177f6a3c27'
+            url: 'https://assets.mvstg.com/api/v1/assets/fa63d274-6d0c-493d-a5ef-d037279153e7.mp3?token=fb0f154fafb3d5868fa7b2c9201060dc.qtUoIe6fqDIJe8v-YnEPAVGYrriL.e7ba5df25605f66da1905ef34816088ab19e8e7bc9da2036ea9f1cc516d097db'
           },
           {
             __typename: 'Rendition',
             filesize: 1706650,
             id: 'ogg',
-            url: 'https://assets.mvstg.com/api/v1/assets/0efc8d2e-4a05-4674-810e-ef6dc143a220.ogg?token=3753fd00a74852d08a4772430027bda9.U6eMf7L90fa1x4JzA_bRck9QdFfl.f56f2ef25bcf74b45b453348cf7ff28f6258a3c5235c59d03a14fa8303da9778'
+            url: 'https://assets.mvstg.com/api/v1/assets/0efc8d2e-4a05-4674-810e-ef6dc143a220.ogg?token=9c1bd2f36dc8f3467ec56fc54b559a82.Y-fPMS6Rh4h8of-wEeparFBxEmwL.d51c972ff58db090fe25284e00b0f56d5f86a41f5a8b9567e7a94f55c29b94c3'
           },
           {
             __typename: 'Rendition',
             filesize: 3179725,
             id: 'mp4a',
-            url: 'https://assets.mvstg.com/api/v1/assets/fee96981-3d00-4ab2-864e-92604a02c0e8.mp4?token=9488d67a5f558a7b8176d1c1783f8b76.lwfJ2TlV8H1E5CKqZngqtxpjTNyA.ec84158774bfceed0e73d13c68dd164c1ca6e633f340e2986beaeefc02dd9d33'
+            url: 'https://assets.mvstg.com/api/v1/assets/fee96981-3d00-4ab2-864e-92604a02c0e8.mp4?token=b8f318f25dc8e2c50a35e57851d66f6f.U6Uvneryfeo7tNUtblgv1sXE0r9i.9b257e0f530a889feb5c0c70408545ff22fd59e8b2e36971ccdbe751fd9097e2'
           }
         ],
-        url: 'https://assets.mvstg.com/api/v1/assets/8ba28963-9bfd-4a4f-9a2e-993501f89741.mp3?token=92eb673a1cd645f2fd56f44778c6e52d.0uqEVDY4Jw6SQwzneJ_au8sNhw-A.b94cc4af0b82900e70c7311a611d28af7ebc485fef52af0c708d58b2ee1ba0ff'
+        url: 'https://assets.mvstg.com/api/v1/assets/8ba28963-9bfd-4a4f-9a2e-993501f89741.mp3?token=efb5fb6228f2e8cdebd9c31089a72a67.m_mgM6v2SkjkFaxWuvv9tnroWGO5.369edd84d8c5457385706b6b1964514e9e79f5abe43fe0be5db672bf29fd6abd'
       }
     },
     volume: 0.5
@@ -384,22 +384,22 @@ export const backgroundSounds = [
             __typename: 'Rendition',
             filesize: 10881089,
             id: 'mp3',
-            url: 'https://assets.mvstg.com/api/v1/assets/a699d055-1e73-4dfb-8005-0ad6d00f1ad1.mp3?token=8d0d4f0eeaee7dbee3428441cc3c2cad.qrGpC8izO3Fh6KsTFqA-0hMrdATE.204a45ba6ce38fa0ff429917e0125139f2351bd35d06c895c1bc686f053cb303'
+            url: 'https://assets.mvstg.com/api/v1/assets/a699d055-1e73-4dfb-8005-0ad6d00f1ad1.mp3?token=57fb2bfd3ee2289c7e508b61e91a3b54.l9KvKHyUhjoj3mQnm92BWYol2Ns2.1a1b5c816dc359ddc69e8d8c30ae83688a57782f9f95805f9b9fa8c1f2ac3cad'
           },
           {
             __typename: 'Rendition',
             filesize: 5302779,
             id: 'ogg',
-            url: 'https://assets.mvstg.com/api/v1/assets/4d65853f-8f33-4e2c-81e4-1b2fffa85775.ogg?token=bab09bb176553c62e087dcfb95e5d0cf._BrLiFMrmy9ECoM74P1JNwubBp0z.508c108c885a2640d48dc00cd4f72299b38558a69b95aa1e43d360df6a0f914d'
+            url: 'https://assets.mvstg.com/api/v1/assets/4d65853f-8f33-4e2c-81e4-1b2fffa85775.ogg?token=52e95de53074eddd70dcf4d2586c1a47.T3R3YkrA2U79WSmU8_2o6fQtfe81.82db4e8a9eec7f82000b1f70ea8d7f48d05e408ee0fe27766c262becb3e18ed7'
           },
           {
             __typename: 'Rendition',
             filesize: 8799751,
             id: 'mp4a',
-            url: 'https://assets.mvstg.com/api/v1/assets/b3cf7a2f-57c8-47df-97e3-fece62dccc28.mp4?token=f44b78a80812ff6b24d07109734bb415.9wD4r5i6a5hCrGmF560L-VlzkfMa.24d18cbc0a46aecffc81666f70ea66f710e18847180e115f73135454e5c97fe0'
+            url: 'https://assets.mvstg.com/api/v1/assets/b3cf7a2f-57c8-47df-97e3-fece62dccc28.mp4?token=d21d72077c1da39eeab5a401438e918a.3f0vZcx_MCFiLQUMWs1ZWJnt16_l.d41c184b3ac9268dbe9a6287e6f3646bf8c07a0507dc2004b9c552073712c181'
           }
         ],
-        url: 'https://assets.mvstg.com/api/v1/assets/5fffe0af-eef2-493b-a706-3698b1eb891a.wav?token=f55f4b28bf577a4f54dc3514b09c7c83.pJae3pJbrnq8MCTFUD7Qn5MIIImM.be44c2906a3e8cd0be45fed9e09a01cf3af35dd3d08e7138ad061e48f36fdacb'
+        url: 'https://assets.mvstg.com/api/v1/assets/5fffe0af-eef2-493b-a706-3698b1eb891a.wav?token=e30279f49950deea26bcd094cf9720c4.jXTZMPVFDhasir9H4Rk5BOT5sY-f.e55d3de9e7aa4e021558547068b4d4ed6c44f6588d7edb202584f3a9b286eff3'
       }
     },
     volume: 0.5
@@ -429,22 +429,22 @@ export const backgroundSounds = [
             __typename: 'Rendition',
             filesize: 3931128,
             id: 'mp3',
-            url: 'https://assets.mvstg.com/api/v1/assets/fa63d274-6d0c-493d-a5ef-d037279153e7.mp3?token=6b3a004398414b328fcb54a45c8c7c0a.gf40CQeSoMEApaTHMPsXeBrjYaXp.bf44cc59744ce369ddc0cab665f1c843dfd2d71549304c9a2846eab8fca8d5db'
+            url: 'https://assets.mvstg.com/api/v1/assets/fa63d274-6d0c-493d-a5ef-d037279153e7.mp3?token=e13e26d87202283c1ce4d0120796c52c.4W33qVAvtxI6bilUNz_dCsztbeAW.88c416085c45d48287b95fb3f7b44f87447648bacb5ff7c672e16ba80d603196'
           },
           {
             __typename: 'Rendition',
             filesize: 1706650,
             id: 'ogg',
-            url: 'https://assets.mvstg.com/api/v1/assets/0efc8d2e-4a05-4674-810e-ef6dc143a220.ogg?token=4fda990a45d5e1f44c7a89a8552a57cf.MaWWuRmcZmCljKJBnQOOR8bLxR_d.6313a8778609b8b21ed7fa6270bf64b279f20f3ccb75e20e171a238e02b26ff6'
+            url: 'https://assets.mvstg.com/api/v1/assets/0efc8d2e-4a05-4674-810e-ef6dc143a220.ogg?token=0f25b615336edf760b6685edc39acefc.b1EYLlcJg--jNuuT4oDtzY-7E8qI.6de9d078173bb61250217d409e50b45ca5525355e65b46869aa503af8b2a925f'
           },
           {
             __typename: 'Rendition',
             filesize: 3179725,
             id: 'mp4a',
-            url: 'https://assets.mvstg.com/api/v1/assets/fee96981-3d00-4ab2-864e-92604a02c0e8.mp4?token=f7de48167dab15d0420fcaf7ebb6cfda.x52npZGMlv64SkWf_h9Qhe3XF-OR.49ae8c7ee0609e6eb2a43f7c5bd7e60238d38d34fc027ac17f487e06fbd39676'
+            url: 'https://assets.mvstg.com/api/v1/assets/fee96981-3d00-4ab2-864e-92604a02c0e8.mp4?token=67deec4f83e91644c66c54b374c20af5.L9CXcwcdaGVIerNmnpR7v1oZbuIA.f1305ccf7eca55447698f0941616b85a88a644bf7a52e93a7798c777b30dd226'
           }
         ],
-        url: 'https://assets.mvstg.com/api/v1/assets/8ba28963-9bfd-4a4f-9a2e-993501f89741.mp3?token=4a0b2afe8d52db1224da39cb8f566781.feS-8Wd20nxrBEjnH1Ou9SXdW4HC.ca2b414a40ba413c48bbbfa81a1bd95aa7d95083980bc6ac5d3b226e1990ea9c'
+        url: 'https://assets.mvstg.com/api/v1/assets/8ba28963-9bfd-4a4f-9a2e-993501f89741.mp3?token=15c91b675779d8d63c5b3783896ef8bd.cPFeeaX20talurifG9ozThySt9vh.20e6e4ed01697c2deb1809025a70b9fdd97db7c7b5251409403a2b14b540890f'
       }
     },
     volume: 0.5
@@ -504,118 +504,118 @@ export const backgroundSounds = [
             __typename: 'Rendition',
             filesize: 10646680,
             id: 'mp4',
-            url: 'https://overmind2.mvstg.com/api/v1/assets/f1c7bbc1-8c5b-43b1-a600-5cbd6566d3b2.mp4?token=6a8c8ec7a7c933bbd903f72ddc53b064.sGLNmswIFdxDwi8-8k2DViplf19I.eb41f3f5c478b7e5e871b70fde8ad2d89ba526a9c74b1256121d0acceb2719bf'
+            url: 'https://overmind2.mvstg.com/api/v1/assets/f1c7bbc1-8c5b-43b1-a600-5cbd6566d3b2.mp4?token=4b89dc34fb47cb6e0ef4b670011ef1f1.UqWq9Q_JuX2pnqWIF-49s7Uqk3Dx.c067b4e1af7cab174ba2b6682a9ae7105c72850f91d2a8b98a57191feca6b5a5'
           },
           {
             __typename: 'Rendition',
             filesize: 3196074,
             id: 'h264_288p_450',
-            url: 'https://overmind2.mvstg.com/api/v1/assets/c6e1ee50-5ee2-4a7c-a808-ffda1b4b5acf.mp4?token=8bd3b7a6ac111415a4b2399ae9a9e3a0.FrGnZMXZcs8rUbdJUGoumEQSSSo2.af6eb82428c6e4c0742b7d4b941458b471aa71e30e4ede05f8965e5b7515e6be'
+            url: 'https://overmind2.mvstg.com/api/v1/assets/c6e1ee50-5ee2-4a7c-a808-ffda1b4b5acf.mp4?token=523120f4b7699fcd7a398f7ecf26aef6.mtdPz303003t0-U8SYFKrqEVcjtM.fcafa444a6e63653a16491e5238bcd9937fb11dc0581a9efc9064dfc96b23e00'
           },
           {
             __typename: 'Rendition',
             filesize: 4008269,
             id: 'h264_360p_600',
-            url: 'https://overmind2.mvstg.com/api/v1/assets/06d1c64e-4fa7-4bb3-98a5-5a2c1708ceca.mp4?token=d7d79681f608681f808f5a2aff3200c0.2HHnyvbk-JXKsWeFy_b6sEkUKWUV.9303547d5990e414afbc88421c220f8bbb97bff9a39388b11699441756d72c36'
+            url: 'https://overmind2.mvstg.com/api/v1/assets/06d1c64e-4fa7-4bb3-98a5-5a2c1708ceca.mp4?token=2c5a773cadfd78f229d8ff532f84a8e1.oZjN4dqLAFh5DtvXttJ77eEVlwGo.73c58ec0a7835d52c67fb6fe70ccddab7974f61e23622fdc4674525cb3181f2b'
           },
           {
             __typename: 'Rendition',
             filesize: 4831809,
             id: 'h264_432p_750',
-            url: 'https://overmind2.mvstg.com/api/v1/assets/a2cfd7ec-a42d-491d-b546-e216ddc5a1ed.mp4?token=5bdbd80c9ef9accfd48200a77f463aaa.yYRppdFSyAUSzPjjTzKWLIcw-Kvt.eb07f7524a756ab7e87a5635e0d6ca5e59c32afb455a14955c39c5fb6750f4e9'
+            url: 'https://overmind2.mvstg.com/api/v1/assets/a2cfd7ec-a42d-491d-b546-e216ddc5a1ed.mp4?token=5fbb57c9edffcbc85b0586bebac5fb85.5Z6HKbpZKcmbNl224plu6WhhywYQ.48fc363fbe6654a9a85af693a09b860dd2618602c876f1b43f06bd79827e352d'
           },
           {
             __typename: 'Rendition',
             filesize: 6416037,
             id: 'h264_576p_1050',
-            url: 'https://overmind2.mvstg.com/api/v1/assets/3c3ac05e-851c-4327-9207-d9d3700ba964.mp4?token=3d80fd07ebe4fc3930bba25ab34cf5eb.2uumyS08-qZxJoV9k3Mu5RXXXoSx.8eee00437910adbf1564712531964ea20dc9a49f6eb6af0100974464202e1d14'
+            url: 'https://overmind2.mvstg.com/api/v1/assets/3c3ac05e-851c-4327-9207-d9d3700ba964.mp4?token=f0a9d22b3952e1e4c1c0c5708ab5270b.wKUa8HD4NzjpISe-cPjUixzuVCj7.e2f8bc0d13ee6b548e9c44e8cff7393609af32cb0c6ae7b0fbc682f647d14ed3'
           },
           {
             __typename: 'Rendition',
             filesize: 8118526,
             id: 'h264_720p_1380',
-            url: 'https://overmind2.mvstg.com/api/v1/assets/35f4275a-d969-4b1b-a52f-d511e0918b14.mp4?token=42750377673ec72fe328e515c51a76bc.MjjGSNxTEZ6L54b07xbvUCjr8do_.a1bdf641078ed6c17237ba8d96405a6dce45d22c21a3b537855b53b0222dbd2f'
+            url: 'https://overmind2.mvstg.com/api/v1/assets/35f4275a-d969-4b1b-a52f-d511e0918b14.mp4?token=95a4732d95b93b4a48b90f54a764c739.-OJsL9Ybv8ZPUIQmOZSw_pQtUdPl.3dc63f214ffd48dff58e1faddb963385e73060513b112dab84d10b2c2b299030'
           },
           {
             __typename: 'Rendition',
             filesize: 10646680,
             id: 'h264_720p_1800',
-            url: 'https://overmind2.mvstg.com/api/v1/assets/2c279baf-4694-495e-8c65-1032cdfae191.mp4?token=e2f7fb55e5efbd13198d9a1b14aef7b1.r1560GXeCrNL_p1bt4w0mADFWXi9.0780f3378c3b8a9445922b63cd31bbff7df28d38714ef3cf1f0cbb1bb0b1f8d5'
+            url: 'https://overmind2.mvstg.com/api/v1/assets/2c279baf-4694-495e-8c65-1032cdfae191.mp4?token=f7a75dafe99363af31dd58aabefb41b5.nYoJWTieMIsDGKofUElxUOATDBrl.28305a99635ac0c0b17bf853888ecfedc9dc7be53489554bdcbce7226bbd2eee'
           },
           {
             __typename: 'Rendition',
             filesize: 11827892,
             id: 'h264_1080p_2150',
-            url: 'https://overmind2.mvstg.com/api/v1/assets/60b66cd5-bf56-462b-9b63-cd4fd72af288.mp4?token=ae20e4c8c48de9b638d5df6751fdd961.vOQSGX1he0H8EVquV_uJ9_FCSKu6.37107d85dc95c2bdb0340aec37559ab01836a282dd9a183b7766453c9b5cfb86'
+            url: 'https://overmind2.mvstg.com/api/v1/assets/60b66cd5-bf56-462b-9b63-cd4fd72af288.mp4?token=9bcff0c8417b4379c92cb6e3f0633373.JKzMdFj0GX7OsH5kdQ6L8OSDMjKn.44dce5e29688073553447fbc8101057b09526aa552d4908e07117167cc17086a'
           },
           {
             __typename: 'Rendition',
             filesize: 16302696,
             id: 'h264_1080p_2900',
-            url: 'https://overmind2.mvstg.com/api/v1/assets/b3d98059-0c08-45cb-b222-1697900bb0a8.mp4?token=9f4a7d8d2a761adaac191dc0a2567ac2.1QNXgJR6Mn2iVLzJTFJeGa88DVDu.119466dfbf495c1ec4da3ef799139bd24aed41e322c0cf2949752fb9c53c60cc'
+            url: 'https://overmind2.mvstg.com/api/v1/assets/b3d98059-0c08-45cb-b222-1697900bb0a8.mp4?token=109d8fc6daa2dbce7e5c92c3a6efd731.6hIrgGwWc2IGAjxpOzsWGpewWyis.478f5e032578949ebb86b3ac72857fe9a2372e9ce6c061f185fab55dff8fca94'
           },
           {
             __typename: 'Rendition',
             filesize: 2308365,
             id: 'h265_288p_315',
-            url: 'https://overmind2.mvstg.com/api/v1/assets/012a5221-87d8-48b0-9422-a25037d4bd92.mp4?token=f6c891a3703053da945ed10a53cce535.pxjtvmstr_yfLbUZ-LOvjGyO9mYl.18700d21845b649ef90562abc966287e69e7c7678117ecdfd1fa535e622b2104'
+            url: 'https://overmind2.mvstg.com/api/v1/assets/012a5221-87d8-48b0-9422-a25037d4bd92.mp4?token=37403514e16cfc1eda78c013173b1df4.neJdAHMefX9I9Bnfv-_r6Vm-0aim.d40b4c29e9ffff5169cdb1110e9fd3e309fd28af46fccffeed339e2746b14150'
           },
           {
             __typename: 'Rendition',
             filesize: 2872963,
             id: 'h265_360p_420',
-            url: 'https://overmind2.mvstg.com/api/v1/assets/dbbf7e60-d80b-4f12-9073-2b3f5a11da36.mp4?token=33c27e169e1f2a2a7bbf8f5c19f26672.Ybn8X1u8gsl0aSv8FeOjWxuQy9l7.48997a96e736e3d43876a8346054f123a2a8cdcdcc058fe2aac7c0683815c766'
+            url: 'https://overmind2.mvstg.com/api/v1/assets/dbbf7e60-d80b-4f12-9073-2b3f5a11da36.mp4?token=3dc47c17ea50517bf1611f827d828210.CJj5UFQJDzZaJQp7_lSG0CT7-o8v.f4f9ef844d861c2d6e4e0cfc54207fdc7d1d1b17768eb852706a8665900d2297'
           },
           {
             __typename: 'Rendition',
             filesize: 3425214,
             id: 'h265_432p_525',
-            url: 'https://overmind2.mvstg.com/api/v1/assets/eb7c9836-3762-4818-87d7-0e31ec6352b9.mp4?token=db104ea4204df36cfb1eb6eda56e9c29.xigSw80X_mEUyyHNyqwgkPQ3okD9.2bd2aaf5a23a420f8b161fc3a7b1a4d0bdf6dad15a89f0a80be3d567ebd1b2e5'
+            url: 'https://overmind2.mvstg.com/api/v1/assets/eb7c9836-3762-4818-87d7-0e31ec6352b9.mp4?token=be77d218718c3d7ff1618496d0610ebd.aDOxhsb8blNjuWP4s6xF91Ln8X_l.b738aa72bfe66502f7ff4f13fedbbd812e3643d8a20fb545dd4694ac4a086eb8'
           },
           {
             __typename: 'Rendition',
             filesize: 4607602,
             id: 'h265_576p_735',
-            url: 'https://overmind2.mvstg.com/api/v1/assets/c441ea2a-ea6f-4eb5-a4a6-9a8ce0662935.mp4?token=f9e1df141efd4fc4bc744509e268132e.8ZYyZRcMW97NTd9WhgGOOsbBhdqV.75c2539505bf9a5bc21063f1937ecc5e6ed2ddca86f9ba32b060f854cb28683e'
+            url: 'https://overmind2.mvstg.com/api/v1/assets/c441ea2a-ea6f-4eb5-a4a6-9a8ce0662935.mp4?token=cdc34bded2f1599e2f152b1fa6b7a6bf.QN-NQlUWxsi-NLyz1x_irQWvN03j.f8bdeb4c0a9dc2724bf41f0107a852d1234f7cec740a2121c04ffe974c93ab84'
           },
           {
             __typename: 'Rendition',
             filesize: 4839154,
             id: 'h265_720p_828',
-            url: 'https://overmind2.mvstg.com/api/v1/assets/e377e2fd-8daf-42fc-ac76-feec18b197a5.mp4?token=98805afa9adf49333837de45693f5e9d.Kb_VUi726MLqnWNHK8CvwtR6dXlJ.876f7df1c94a772f430d97a4501d10a18f25b75fc2a3ff10606ca60e09cd0568'
+            url: 'https://overmind2.mvstg.com/api/v1/assets/e377e2fd-8daf-42fc-ac76-feec18b197a5.mp4?token=bedf7646620e6a9cfb1e722ab83ae727.1qhrUOa2hVy9zpjNISf_aarmNFmZ.872b792c1f563e8e86a02783130a754b60d6b1ec4a5c2cde94dac5a72e283cc1'
           },
           {
             __typename: 'Rendition',
             filesize: 6083438,
             id: 'h265_720p_1080',
-            url: 'https://overmind2.mvstg.com/api/v1/assets/ad154a22-9e00-45e8-9d59-cda3e63d24d3.mp4?token=335acd44c2ceab212f9eafd8e47cba99.lWT5hLfl_z7NSbGebQcWI_Jlb_jx.809b661bca4881aa93a0d95fc3a11ff5168abaade2e3dc998f159a85e28e1683'
+            url: 'https://overmind2.mvstg.com/api/v1/assets/ad154a22-9e00-45e8-9d59-cda3e63d24d3.mp4?token=f3ba03ce31ba0c7621bd8cf47e342f09.D45273wOogKJkRneosR6nic8F35Y.53fc2a4d665d78dc25d9136dc662c3382962e523b1fa6477bfb08658082bc475'
           },
           {
             __typename: 'Rendition',
             filesize: 7381437,
             id: 'h265_1080p_1290',
-            url: 'https://overmind2.mvstg.com/api/v1/assets/47482f78-f87a-4a32-98d6-902099ef840e.mp4?token=f5a0cac6d93be6cc9f28eee703dba95a.OtzryjcIgGzXeVIZZGlmb6maeUn4.2f142a0e979464f87719b20014af608d93aa6fdc12d01e649b13c3eb8d0e8f42'
+            url: 'https://overmind2.mvstg.com/api/v1/assets/47482f78-f87a-4a32-98d6-902099ef840e.mp4?token=8ff8ae13c72926480b7cb40b33f8592e.qZkj9oStKJHU9M4GSFTLNfAUzI4h.d2911eec7ce289b3afabcb06515853d2183f5f08c90d8f75e31169edc0bb9f39'
           },
           {
             __typename: 'Rendition',
             filesize: 9679142,
             id: 'h265_1080p_1740',
-            url: 'https://overmind2.mvstg.com/api/v1/assets/15b86ef5-d5d9-4786-ac0f-f0be8439e74d.mp4?token=11a3d4189e6700bbebaf385aa5058a37.Y_0N7q3DCtNB0C_cpdfrgDqZQSwE.8ceb518886a48791d5005ce58a1083882c7f94eb8bf6f745e60514802ed44e0d'
+            url: 'https://overmind2.mvstg.com/api/v1/assets/15b86ef5-d5d9-4786-ac0f-f0be8439e74d.mp4?token=cf0edbae8072fd4d3681ff012a72c619.P34BkP1hMRtprfegXejdDiv3LRsE.0c0ff5ee0bdb651a7f9aa963e24f71000d521ce9a864c29eaeede9d98ed6ad90'
           },
           {
             __typename: 'Rendition',
             filesize: 21205677,
             id: 'h264_2160p_4000',
-            url: 'https://overmind2.mvstg.com/api/v1/assets/37e31ad1-ac4e-42b9-95a0-9ccd2234e8c3.mp4?token=dd9f044de99f34b14dc7d5ed38030ec8.8Bo5ko6BHG4ld7V5ik65Qmw0eXgS.ca9d89ca874e788b2069f947a347a48a47374af8677b08e197dce88698aec21c'
+            url: 'https://overmind2.mvstg.com/api/v1/assets/37e31ad1-ac4e-42b9-95a0-9ccd2234e8c3.mp4?token=8e61d281c34a5860b23eb443db528977.wZZ7h3pD1BQW6uNexrkOHjYjxWqP.1aeaa70d37ea9762cb178d18daec44d4a79daa07ea19264fa8a439a340bc3c12'
           },
           {
             __typename: 'Rendition',
             filesize: 11592274,
             id: 'h265_2160p_2000',
-            url: 'https://overmind2.mvstg.com/api/v1/assets/8acba73e-8348-4e55-a8d1-d4f126c220ba.mp4?token=9fc6a6263814246f1a7eb181a3eb3d37.niEtSp3Egp0pPBTeJ4UYqRMLVoG9.8c2fc6a050dc3fd594cb02647b8335b9361cf509639e57e434349a578ee6bda8'
+            url: 'https://overmind2.mvstg.com/api/v1/assets/8acba73e-8348-4e55-a8d1-d4f126c220ba.mp4?token=a9d1845b8354fa078214a38499d109ac.M4X2EBb-fxgdR6eUv9mcssAArCoB.c927bf1b4fa2832362e69df1a53cb32dc85ba5ef8be2d55707e59842050b414f'
           }
         ],
-        url: 'https://overmind2.mvstg.com/api/v1/assets/86c6cf50-39c6-4b4f-b4d0-f9806a5a1453.mp4?token=5f395f1c40764f8cc4cc60a52b57242a.TtjdKD-oTGetn4GJkrtRv7d60fZb.c96a7d061f8aefef3762dbca150623c63170d10209d62d1de2e82bbe7f8bee74'
+        url: 'https://overmind2.mvstg.com/api/v1/assets/86c6cf50-39c6-4b4f-b4d0-f9806a5a1453.mp4?token=e2896682cde168f349d4338e234c205b.HEtKPjzMLCrAicaFIfGsugceFCuw.b03fd126a5879e279538d357a4924c89c7757e1f43662d709e912c281b239e95'
       }
     },
     volume: 0.5
