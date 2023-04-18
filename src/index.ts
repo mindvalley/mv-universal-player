@@ -1,5 +1,5 @@
 import * as components from './components'
-import '@/assets/main.css'
+import './assets/main.css'
 
 import type { App } from 'vue-demi'
 const defaultComponents: any = components

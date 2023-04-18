@@ -9,7 +9,8 @@ const props = defineProps({
   },
   sources: {
     type: Array<Source>,
-    required: true
+    required: true,
+    default: () => []
   }
 })
 

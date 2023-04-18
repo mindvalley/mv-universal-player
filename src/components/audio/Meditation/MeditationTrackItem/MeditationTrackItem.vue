@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { inject, computed, ref, watch, toRef } from 'vue-demi'
-import AudioItem from '../../AudioItem/AudioItem.vue'
+import { MVAudioItem } from '../..'
 import type { Source } from './../../../../types/audio'
 
 const props = defineProps({
@@ -111,7 +111,7 @@ const pause = () => {
 </script>
 
 <template>
-  <AudioItem ref="audioItem" :id="id" :sources="sources">
+  <MVAudioItem ref="audioItem" :id="props.id" :sources="props.sources">
     <div
       data-testid="meditation-track-item"
       class="carousel-item h-[60px] w-[60px] overflow-hidden rounded-full border-2"
@@ -137,5 +137,5 @@ const pause = () => {
         class="h-full w-full"
       />
     </div>
-  </AudioItem>
+  </MVAudioItem>
 </template>

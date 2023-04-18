@@ -14,9 +14,6 @@ const props = defineProps({
   }
 })
 
-console.log('duration ---')
-console.log(props.duration)
-
 const emit = defineEmits<{
   (e: 'seek', currentTime: number): void
 }>()

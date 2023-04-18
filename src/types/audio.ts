@@ -6,6 +6,7 @@ interface Player {
   setSources: (sources: Source[]) => void
   setAudio: (audioItemId: string) => void
   setMixing: (enabled: boolean) => void
+  setPlaybackRate: (rate: number) => void
 }
 
 interface Source {

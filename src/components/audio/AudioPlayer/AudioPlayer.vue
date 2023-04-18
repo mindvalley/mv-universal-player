@@ -174,9 +174,12 @@ const createState = () => {
     const target = StateConfig[key]
     // const baseEvents = ['loadstart', 'loadedmetadata']
     const baseEvents = ['']
-    audioInstance.on(baseEvents.concat((target as any).events ?? []), () => {
-      updateState(key, target.getter(audioInstance))
-    })
+    audioInstance.on(
+      baseEvents.concat((target as any).events ? (target as any).events : []),
+      () => {
+        updateState(key, target.getter(audioInstance))
+      }
+    )
   })
 }
 

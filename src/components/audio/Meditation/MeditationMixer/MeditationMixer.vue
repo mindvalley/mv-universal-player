@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import AudioPlayer from '../../AudioPlayer/AudioPlayer.vue'
+import { MVAudioPlayer } from './../../AudioPlayer'
 </script>
 
 <template>
   {{}}
-  <AudioPlayer loop>
+  <MVAudioPlayer loop>
     <slot></slot>
-  </AudioPlayer>
+  </MVAudioPlayer>
 </template>
