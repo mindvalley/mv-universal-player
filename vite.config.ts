@@ -28,9 +28,9 @@ export default defineConfig(({ command }: ConfigEnv) => {
           fileName: (format) => `mv-universal-player.${format}.js`
         },
         rollupOptions: {
-          external: ['vue'],
+          external: ['vue', 'vue-demi'],
           output: {
-            preserveModules: true,
+            preserveModules: false,
             exports: 'named',
             globals: {
               vue: 'Vue'
