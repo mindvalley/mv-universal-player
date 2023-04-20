@@ -1,16 +1,6 @@
 <script setup lang="ts">
 import VideoJsPlayer from 'video.js'
-import {
-  onMounted,
-  onUnmounted,
-  ref,
-  defineEmits,
-  watch,
-  provide,
-  readonly,
-  defineExpose,
-  watchEffect
-} from 'vue-demi'
+import { onMounted, onUnmounted, ref, provide, readonly, defineExpose } from 'vue-demi'
 import type { Player, Source } from '../../../types/audio'
 
 const StateConfig = {
@@ -188,18 +178,21 @@ const updateState = (key: keyof PlayerState, value: any) => {
 }
 
 const createInstance = (id: string, options: any) => {
+  console.log('createInstance')
   if (id && id.trim()) {
     return VideoJsPlayer(id, options)
   }
 }
 
 const setSources = (sources: Source[]) => {
+  console.log('setSources')
   if (audioInstance && sources?.length > 0) {
     audioInstance.src(sources)
   }
 }
 
 const play = (audioItemId: string) => {
+  console.log('play')
   if (audioInstance && audioItemId) {
     setAudio(audioItemId)
     audioInstance.play()
@@ -207,32 +200,38 @@ const play = (audioItemId: string) => {
 }
 
 const pause = () => {
+  console.log('pause')
   if (audioInstance) {
     audioInstance.pause()
   }
 }
 
 const setVolume = (volume: number) => {
+  console.log('setVolume')
   if (audioInstance) {
     audioInstance.volume(volume)
   }
 }
 
 const setCurrentTime = (time: number) => {
+  console.log('setCurrentTime')
   if (audioInstance) {
     audioInstance.currentTime(time)
   }
 }
 
 const setAudio = (audioItemId: string) => {
+  console.log('setAudio')
   updateState('audioItemId', audioItemId)
 }
 
 const setPlaybackRate = (rate: number) => {
+  console.log('setPlaybackRate')
   audioInstance.playbackRate(rate)
 }
 
 const setMixing = (enabled: boolean) => {
+  console.log('setMixing')
   updateState('mixing', enabled)
 }
 
@@ -270,7 +269,18 @@ provide('audioState', readonly(state))
         <a href="https://videojs.com/html5-video-support/" target="_blank"> supports HTML5 video</a>
       </p>
     </video>
-    <slot :state="state" :player="player"></slot>
+    <slot
+      :state="state"
+      :player="player"
+      :play="play"
+      :pause="pause"
+      :setVolume="setVolume"
+      :setCurrentTime="setCurrentTime"
+      :setSources="setSources"
+      :setAudio="setAudio"
+      :setPlaybackRate="setPlaybackRate"
+      :setMixing="setMixing"
+    ></slot>
   </div>
 </template>
 

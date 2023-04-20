@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import {
-  MVAudioItem,
-  MVAudioPlayButton,
-  MVAudioRewindButton,
-  MVAudioFastForwardButton,
-  MVAudioProgressBar
-} from '../..'
-
 import type { Source } from './../../../types/audio'
 import { useDetectBrowser } from './../../../composables/use-detect-browser'
 import BaseImage from '../../global/BaseImage.vue'
+import MVAudioItem from '../AudioItem'
+import MVAudioPlayButton from '../AudioPlayButton'
+import MVAudioFastForwardButton from '../AudioFastForwardButton'
+import MVAudioRewindButton from '../AudioRewindButton'
+import MVAudioProgressBar from '../AudioProgressBar'
 
 const props = defineProps({
   assetType: {
@@ -74,10 +71,7 @@ const emitEvent = (eventName: string, payload?: any) => {
 </script>
 
 <template>
-  <section
-    class="inset-0 z-15 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"
-    :style="`background-image: url(${posterUrl});`"
-  >
+  <section class="" :style="`background-image: url(${posterUrl});`">
     <!-- Overlay -->
     <section class="absolute inset-0 rounded-xl bg-black/60"></section>
 
@@ -88,7 +82,7 @@ const emitEvent = (eventName: string, payload?: any) => {
     ></section>
 
     <MVAudioItem
-      v-slot="{ player, state }"
+      v-slot="{ state, seek, play, pause, rewind, fastForward }"
       :sources="sources"
       :id="assetId"
       @play="emitEvent('play')"
@@ -104,7 +98,6 @@ const emitEvent = (eventName: string, payload?: any) => {
           class="max-md:col-span-3"
           :class="assetType == 'resource-meditation' ? 'lg:row-span-2' : 'row-span-1'"
         >
-          <div @click="player.setPlaybackRate(0.5)">change speed</div>
           <div class="flex items-center w-full">
             <section class="w-full min-w-[80px] max-md:max-w-[150px] md:max-w-[380px]">
               <BaseImage
@@ -154,18 +147,14 @@ const emitEvent = (eventName: string, payload?: any) => {
               :duration="props.duration"
               class="text-white"
               :current-time="state?.currentTime"
-              @seek="player.seek"
+              @seek="seek"
             />
 
             <!-- Buttons -->
             <section class="flex items-center justify-center">
-              <MVAudioRewindButton @rewind="(e: number) => player.rewind(e)" />
-              <MVAudioPlayButton
-                @play="player.play"
-                @pause="player.pause"
-                :playing="state?.playing"
-              />
-              <MVAudioFastForwardButton @fast-forward="(e: number) => player.fastForward(e)" />
+              <MVAudioRewindButton @rewind="rewind($event)" />
+              <MVAudioPlayButton @play="play" @pause="pause" :playing="state?.playing" />
+              <MVAudioFastForwardButton @fastForward="fastForward($event)" />
             </section>
           </div>
         </div>

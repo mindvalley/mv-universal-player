@@ -243,6 +243,21 @@ defineExpose({
 
 <template>
   <div>
-    <slot :player="audioItemPlayer" :state="audioItemState"></slot>
+    <slot
+      :play="play"
+      :pause="pause"
+      :setAudio="setAudio"
+      :setVolume="setVolume"
+      :seek="seek"
+      :fastForward="fastForward"
+      :rewind="rewind"
+      :setPlaybackRate="setPlaybackRate"
+      :setSources="setSources"
+      :setMixing="setMixing"
+      :setCurrentTime="setCurrentTime"
+      :reset="reset"
+      :player="audioItemPlayer"
+      :state="audioItemState"
+    ></slot>
   </div>
 </template>

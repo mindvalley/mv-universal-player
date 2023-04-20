@@ -1,20 +1,20 @@
 <template>
   <MVAudioPlayer>
-    <div class="">
+    <!-- <div class="">
       <MVAudioResource
         v-for="section in filteredSections"
         :key="section?.media?.id"
         asset-type="resource-meditation"
         :asset-id="section?.media?.id"
-        :sources="formatSources(section.media.mediaAsset?.renditions)"
+        :sources="formatSources(section?.media?.mediaAsset?.renditions)"
         :duration="section?.media?.mediaAsset.duration"
-        :poster-url="section?.media?.coverAsset?.url || ''"
-        :title="section?.media?.title || ''"
+        :poster-url="section?.media?.coverAsset?.url"
+        :title="section?.media?.title"
         :artist-id="section?.media?.author.id"
         :artist-name="section?.media?.author.name"
         :ratings="section?.media?.averageRating"
         :total-ratings="section?.media?.ratingsCount"
-        class="my-10 mx-auto"
+        class="my-10 mx-auto inset-0 z-15 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"
         @play="logEvent('play', $event)"
         @pause="logEvent('pause', $event)"
         @seeking="logEvent('seeking', $event)"
@@ -25,10 +25,10 @@
       >
         <template #audio-description v-if="section.media">
           <MVAudioDescription
-            :image-src="section.media.author.portraitAsset?.url"
-            :name="section.media.author.name"
-            :headline="section.media.author.headline"
-            :description="section.media.description"
+            :image-src="section?.media?.author?.portraitAsset?.url"
+            :name="section?.media?.author?.name"
+            :headline="section?.media?.author?.headline"
+            :description="section?.media?.description"
             show-more-text="Show More"
             show-less-text="Show Less"
           />
@@ -40,31 +40,14 @@
               <div class="text-cool-grey-350 mb-2 text-xs">Mix Track</div>
 
               <div class="flex gap-x-2">
-                <Carousel
-                  data-testid="carousel"
-                  :items-to-show="7"
-                  :items-to-scroll="1"
-                  :settings="settings"
-                  :breakpoints="breakpoints"
-                >
-                  <Slide
-                    data-testid="slide"
-                    v-for="(sound, index) in backgroundSounds"
-                    :key="index"
-                  >
-                    <MVMeditationTrackItem
-                      :key="index"
-                      :sources="formatSources(sound?.item?.mediaAsset.renditions)"
-                      :background-src="sound?.item?.coverAsset?.thumbnailUrl"
-                    />
-                  </Slide>
-                  <Slide key="no-bg-sound">
-                    <MVMeditationTrackItem :volume="0"></MVMeditationTrackItem>
-                  </Slide>
-                  <template #addons>
-                    <Navigation data-testid="navigation" />
-                  </template>
-                </Carousel>
+                <MVMeditationTrackItem
+                  v-for="(sound, index) in backgroundSounds"
+                  :key="index"
+                  :sources="formatSources(sound?.item?.mediaAsset.renditions)"
+                  :background-src="sound?.item?.coverAsset?.thumbnailUrl"
+                />
+
+                <MVMeditationTrackItem :volume="0"></MVMeditationTrackItem>
               </div>
               <div
                 class="flex w-full mt-4 items-center justify-center transition duration-300 ease-in"
@@ -75,7 +58,7 @@
           </div>
         </template>
       </MVAudioResource>
-    </div>
+    </div> -->
   </MVAudioPlayer>
 </template>
 
@@ -83,18 +66,12 @@
 import { page } from './examples/page'
 import { backgroundSounds } from './examples/background-sounds'
 import type { Source } from './types/audio'
-import {
-  MVMeditationMixer,
-  MVAudioPlayer,
-  MVMeditationTrackItem,
-  MVAudioDescription,
-  MVMeditationVolumeSlider,
-  MVAudioResource
-} from '.'
+import { MVAudioPlayer } from '.'
+import MVAudioResource from './components/audio/AudioResource/'
+import MVAudioDescription from './components/audio/AudioDescription'
+import { MVMeditationTrackItem, MVMeditationVolumeSlider, MVMeditationMixer } from '.'
 
-import { ref } from 'vue-demi'
-import { Carousel, Navigation, Slide } from 'vue3-carousel'
-import 'vue3-carousel/dist/carousel.css'
+// import 'vue3-carousel/dist/carousel.css'
 
 const logEvent = (event: string, data: any) => {
   console.log(event, data)

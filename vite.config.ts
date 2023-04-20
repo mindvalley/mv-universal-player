@@ -1,5 +1,5 @@
 import { defineConfig, type ConfigEnv } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import createVuePlugin from '@vitejs/plugin-vue2'
 import { resolve } from 'node:path'
 import dts from 'vite-plugin-dts'
 import { fileURLToPath, URL } from 'node:url'
@@ -7,7 +7,7 @@ import { fileURLToPath, URL } from 'node:url'
 export default defineConfig(({ command }: ConfigEnv) => {
   if (command === 'serve') {
     return {
-      plugins: [vue()],
+      plugins: [createVuePlugin()],
       resolve: {
         alias: {
           '@': fileURLToPath(new URL('./src', import.meta.url))
@@ -16,7 +16,7 @@ export default defineConfig(({ command }: ConfigEnv) => {
     }
   } else {
     return {
-      plugins: [vue(), dts()],
+      plugins: [createVuePlugin(), dts()],
       optimizeDeps: {
         exclude: ['vue-demi']
       },

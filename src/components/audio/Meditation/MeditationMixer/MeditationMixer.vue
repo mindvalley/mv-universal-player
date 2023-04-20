@@ -3,7 +3,6 @@ import { MVAudioPlayer } from './../../AudioPlayer'
 </script>
 
 <template>
-  {{}}
   <MVAudioPlayer loop>
     <slot></slot>
   </MVAudioPlayer>
