@@ -1,10 +1,9 @@
 <template>
   <MVAudioPlayer>
-    <!-- <div class="">
+    <div class="">
       <MVAudioResource
         v-for="section in filteredSections"
         :key="section?.media?.id"
-        asset-type="resource-meditation"
         :asset-id="section?.media?.id"
         :sources="formatSources(section?.media?.mediaAsset?.renditions)"
         :duration="section?.media?.mediaAsset.duration"
@@ -15,6 +14,9 @@
         :ratings="section?.media?.averageRating"
         :total-ratings="section?.media?.ratingsCount"
         class="my-10 mx-auto inset-0 z-15 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"
+        :style="`background-image: url(${section?.media?.coverAsset?.url});`"
+        blurEffect
+        overlay
         @play="logEvent('play', $event)"
         @pause="logEvent('pause', $event)"
         @seeking="logEvent('seeking', $event)"
@@ -58,7 +60,7 @@
           </div>
         </template>
       </MVAudioResource>
-    </div> -->
+    </div>
   </MVAudioPlayer>
 </template>
 

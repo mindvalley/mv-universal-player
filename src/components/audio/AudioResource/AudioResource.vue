@@ -7,12 +7,9 @@ import MVAudioPlayButton from '../AudioPlayButton'
 import MVAudioFastForwardButton from '../AudioFastForwardButton'
 import MVAudioRewindButton from '../AudioRewindButton'
 import MVAudioProgressBar from '../AudioProgressBar'
+import { useSlots, computed } from 'vue-demi'
 
 const props = defineProps({
-  assetType: {
-    type: String,
-    default: ''
-  },
   assetId: {
     required: true,
     type: String
@@ -49,8 +46,24 @@ const props = defineProps({
   },
   totalRatings: {
     type: Number
+  },
+  overlay: {
+    type: Boolean
+  },
+  blurEffect: {
+    type: Boolean
   }
 })
+
+const slots = useSlots()
+console.log(slots)
+
+const isMeditationMixerAvailable = computed(() => {
+  return slots && !!slots['meditation-mixer']
+})
+
+console.log('slot availa')
+console.log(isMeditationMixerAvailable.value)
 
 const { isiPhoneOriPadSafari } = useDetectBrowser()
 const emit = defineEmits<{
@@ -71,12 +84,13 @@ const emitEvent = (eventName: string, payload?: any) => {
 </script>
 
 <template>
-  <section class="" :style="`background-image: url(${posterUrl});`">
+  <section>
     <!-- Overlay -->
-    <section class="absolute inset-0 rounded-xl bg-black/60"></section>
+    <section v-if="overlay" class="absolute inset-0 rounded-xl bg-black/60"></section>
 
     <!-- Blur effect -->
     <section
+      v-if="blurEffect"
       class="absolute inset-0 rounded-xl backdrop-blur-3xl"
       :class="{ 'mix-blend-lighten': isiPhoneOriPadSafari }"
     ></section>
@@ -96,7 +110,7 @@ const emitEvent = (eventName: string, payload?: any) => {
       <div class="grid grid-cols-3 gap-4 lg:gap-x-6 text-white relative lg:gap-y-0">
         <div
           class="max-md:col-span-3"
-          :class="assetType == 'resource-meditation' ? 'lg:row-span-2' : 'row-span-1'"
+          :class="isMeditationMixerAvailable ? 'lg:row-span-2' : 'row-span-1'"
         >
           <div class="flex items-center w-full">
             <section class="w-full min-w-[80px] max-md:max-w-[150px] md:max-w-[380px]">

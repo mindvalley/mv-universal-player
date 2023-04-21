@@ -31,7 +31,7 @@ const rewind = () => {
   </button>
 </template>
 
-<style>
+<style scoped>
 .rewind-button {
   @apply relative h-12 w-12 rounded-full text-cool-grey-300 hover:text-white;
 }

@@ -32,7 +32,7 @@ const fastForward = () => {
   </button>
 </template>
 
-<style>
+<style scoped>
 .fast-forward-button {
   @apply relative h-12 w-12 rounded-full text-cool-grey-300 hover:text-white;
 }
