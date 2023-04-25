@@ -12,6 +12,8 @@ import {
   MVMeditationVolumeSlider
 } from './audio'
 
+import { MVCarousel, MVCarouselSlide } from './carousel'
+
 export {
   MVAudioPlayer,
   MVAudioItem,
@@ -23,5 +25,7 @@ export {
   MVAudioDescription,
   MVMeditationMixer,
   MVMeditationTrackItem,
-  MVMeditationVolumeSlider
+  MVMeditationVolumeSlider,
+  MVCarousel,
+  MVCarouselSlide
 }

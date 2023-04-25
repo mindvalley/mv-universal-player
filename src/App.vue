@@ -40,19 +40,17 @@
           <div class="relative w-full col-span-3 lg:col-span-2">
             <MVMeditationMixer>
               <div class="text-cool-grey-350 mb-2 text-xs">Mix Track</div>
-              <div class="px-6">
+              <div class="gap-x-2 px-6">
                 <MVCarousel>
-                  <div class="flex gap-x-2">
-                    <MVCarouselSlide :key="0">
-                      <MVMeditationTrackItem :volume="0"></MVMeditationTrackItem>
-                    </MVCarouselSlide>
-                    <MVCarouselSlide v-for="(sound, index) in backgroundSounds" :key="index + 1">
-                      <MVMeditationTrackItem
-                        :sources="formatSources(sound?.item?.mediaAsset.renditions)"
-                        :background-src="sound?.item?.coverAsset?.thumbnailUrl"
-                      />
-                    </MVCarouselSlide>
-                  </div>
+                  <MVCarouselSlide :key="0">
+                    <MVMeditationTrackItem :volume="0"></MVMeditationTrackItem>
+                  </MVCarouselSlide>
+                  <MVCarouselSlide v-for="(sound, index) in backgroundSounds" :key="index + 1">
+                    <MVMeditationTrackItem
+                      :sources="formatSources(sound?.item?.mediaAsset.renditions)"
+                      :background-src="sound?.item?.coverAsset?.thumbnailUrl"
+                    />
+                  </MVCarouselSlide>
                 </MVCarousel>
               </div>
               <div
@@ -103,55 +101,6 @@ const formatSources = (localSources: Array<any> = []) => {
 
   return updatedSources
 }
-
-const settings = {
-  // Mobile (Default)
-  itemsToShow: 4,
-  snapAlign: 'start'
-}
-// breakpoints are mobile first
-// any settings not specified will fallback to the carousel settings
-const breakpoints = {
-  //   540 and up
-  540: {
-    itemsToShow: 6,
-    snapAlign: 'start'
-  },
-  //   640px (sm) and up
-  640: {
-    itemsToShow: 8,
-    snapAlign: 'start'
-  },
-  // 1024 (lg) and up
-  1024: {
-    itemsToShow: 7,
-    snapAlign: 'start'
-  }
-}
 </script>
 
-<style>
-/* .carousel__prev,
-.carousel__next {
-  color: white !important;
-}
-
-.carousel__prev {
-  left: -30px;
-}
-
-.carousel__next {
-  right: -30px;
-}
-
-.carousel__prev--disabled,
-.carousel__next--disabled {
-  cursor: not-allowed;
-  opacity: 0.2;
-} */
-
-/* .VueCarousel-navigation-button {
-  color: white !important;
-  outline: none !important;
-} */
-</style>
+<style></style>

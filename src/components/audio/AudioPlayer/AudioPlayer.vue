@@ -178,21 +178,18 @@ const updateState = (key: keyof PlayerState, value: any) => {
 }
 
 const createInstance = (id: string, options: any) => {
-  console.log('createInstance')
   if (id && id.trim()) {
     return VideoJsPlayer(id, options)
   }
 }
 
 const setSources = (sources: Source[]) => {
-  console.log('setSources')
   if (audioInstance && sources?.length > 0) {
     audioInstance.src(sources)
   }
 }
 
 const play = (audioItemId: string) => {
-  console.log('play')
   if (audioInstance && audioItemId) {
     setAudio(audioItemId)
     audioInstance.play()
@@ -200,38 +197,32 @@ const play = (audioItemId: string) => {
 }
 
 const pause = () => {
-  console.log('pause')
   if (audioInstance) {
     audioInstance.pause()
   }
 }
 
 const setVolume = (volume: number) => {
-  console.log('setVolume')
   if (audioInstance) {
     audioInstance.volume(volume)
   }
 }
 
 const setCurrentTime = (time: number) => {
-  console.log('setCurrentTime')
   if (audioInstance) {
     audioInstance.currentTime(time)
   }
 }
 
 const setAudio = (audioItemId: string) => {
-  console.log('setAudio')
   updateState('audioItemId', audioItemId)
 }
 
 const setPlaybackRate = (rate: number) => {
-  console.log('setPlaybackRate')
   audioInstance.playbackRate(rate)
 }
 
 const setMixing = (enabled: boolean) => {
-  console.log('setMixing')
   updateState('mixing', enabled)
 }
 

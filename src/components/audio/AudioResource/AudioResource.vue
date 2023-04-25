@@ -56,14 +56,10 @@ const props = defineProps({
 })
 
 const slots = useSlots()
-console.log(slots)
 
 const isMeditationMixerAvailable = computed(() => {
   return slots && !!slots['meditation-mixer']
 })
-
-console.log('slot availa')
-console.log(isMeditationMixerAvailable.value)
 
 const { isiPhoneOriPadSafari } = useDetectBrowser()
 const emit = defineEmits<{

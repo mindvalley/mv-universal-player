@@ -56,7 +56,7 @@ watch(
   () => audioState.value.currentTime,
   (currentTime) => {
     if (props.id === audioState.value.audioItemId) {
-      emit('timeupdate', { currentTime: currentTime })
+      emit('timeupdate', { currentTime: currentTime.toFixed(2) })
     }
   }
 )
@@ -129,8 +129,8 @@ const rewind = (seconds: number) => {
     const currentTime =
       audioState.value.currentTime - seconds >= 0 ? audioState.value.currentTime - seconds : 0
     emit('rewind', {
-      previousTime: audioState.value.currentTime,
-      currentTime: currentTime
+      previousTime: audioState.value.currentTime.toFixed(2),
+      currentTime: currentTime.toFixed(2)
     })
     audioPlayer.setCurrentTime(currentTime)
   }
@@ -145,8 +145,8 @@ const fastForward = (seconds: number) => {
   ) {
     const currentTime = audioState.value.currentTime + seconds
     emit('fastforward', {
-      previousTime: audioState.value.currentTime,
-      currentTime: currentTime
+      previousTime: audioState.value.currentTime.toFixed(2),
+      currentTime: currentTime.toFixed(2)
     })
     audioPlayer.setCurrentTime(currentTime)
   }
@@ -154,7 +154,7 @@ const fastForward = (seconds: number) => {
 
 const seek = (time: number) => {
   if (audioState.value.audioItemId === props.id) {
-    emit('seeking', { seeking: time })
+    emit('seeking', { seeking: time.toFixed(2) })
     audioPlayer.setCurrentTime(time)
   }
 }
