@@ -131,6 +131,7 @@ const pause = () => {
         <slot>NO BG SOUND</slot>
       </div>
       <img
+        draggable="false"
         data-testid="background-sound-cover-asset"
         v-else
         :src="backgroundSrc"

@@ -42,6 +42,7 @@
   "peerDependencies": {
     "@vue/composition-api": "^1.0.0-rc.1",
     "vue": "^2.0.0 || >=3.0.0",
+    "vue-carousel": "^0.18.0",
     "vue-svg-sprite": "1.4.3"
   },
   "peerDependenciesMeta": {
@@ -53,7 +54,9 @@
     "@vitejs/plugin-vue2": "^2.2.0",
     "sass": "^1.61.0",
     "video.js": "^8.0.4",
-    "vue-demi": "^0.13.11"
+    "vue-carousel": "^0.18.0",
+    "vue-demi": "^0.13.11",
+    "vue-svg-sprite": "^1.4.3"
   },
   "devDependencies": {
     "@mindvalley/design-system": "^2.3.0",

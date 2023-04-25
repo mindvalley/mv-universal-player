@@ -242,7 +242,7 @@ defineExpose({
 </script>
 
 <template>
-  <div>
+  <div class="w-full">
     <slot
       :play="play"
       :pause="pause"

@@ -37,19 +37,23 @@
         </template>
 
         <template #meditation-mixer>
-          <div class="relative w-full col-span-3 md:col-span-2">
+          <div class="relative w-full col-span-3 lg:col-span-2">
             <MVMeditationMixer>
               <div class="text-cool-grey-350 mb-2 text-xs">Mix Track</div>
-
-              <div class="flex gap-x-2">
-                <MVMeditationTrackItem
-                  v-for="(sound, index) in backgroundSounds"
-                  :key="index"
-                  :sources="formatSources(sound?.item?.mediaAsset.renditions)"
-                  :background-src="sound?.item?.coverAsset?.thumbnailUrl"
-                />
-
-                <MVMeditationTrackItem :volume="0"></MVMeditationTrackItem>
+              <div class="px-6">
+                <MVCarousel>
+                  <div class="flex gap-x-2">
+                    <MVCarouselSlide :key="0">
+                      <MVMeditationTrackItem :volume="0"></MVMeditationTrackItem>
+                    </MVCarouselSlide>
+                    <MVCarouselSlide v-for="(sound, index) in backgroundSounds" :key="index + 1">
+                      <MVMeditationTrackItem
+                        :sources="formatSources(sound?.item?.mediaAsset.renditions)"
+                        :background-src="sound?.item?.coverAsset?.thumbnailUrl"
+                      />
+                    </MVCarouselSlide>
+                  </div>
+                </MVCarousel>
               </div>
               <div
                 class="flex w-full mt-4 items-center justify-center transition duration-300 ease-in"
@@ -71,9 +75,9 @@ import type { Source } from './types/audio'
 import { MVAudioPlayer } from '.'
 import MVAudioResource from './components/audio/AudioResource/'
 import MVAudioDescription from './components/audio/AudioDescription'
-import { MVMeditationTrackItem, MVMeditationVolumeSlider, MVMeditationMixer } from '.'
 
-// import 'vue3-carousel/dist/carousel.css'
+import { MVCarousel, MVCarouselSlide } from './components/carousel'
+import { MVMeditationTrackItem, MVMeditationVolumeSlider, MVMeditationMixer } from '.'
 
 const logEvent = (event: string, data: any) => {
   console.log(event, data)
@@ -127,7 +131,7 @@ const breakpoints = {
 </script>
 
 <style>
-.carousel__prev,
+/* .carousel__prev,
 .carousel__next {
   color: white !important;
 }
@@ -144,5 +148,10 @@ const breakpoints = {
 .carousel__next--disabled {
   cursor: not-allowed;
   opacity: 0.2;
-}
+} */
+
+/* .VueCarousel-navigation-button {
+  color: white !important;
+  outline: none !important;
+} */
 </style>

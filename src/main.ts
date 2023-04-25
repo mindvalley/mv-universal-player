@@ -7,6 +7,7 @@ import '@/assets/main.css'
 Vue.use(SvgSprite, {
   url: svgSprite
 })
+
 new Vue({
   render: (h) => h(App)
 }).$mount('#app')

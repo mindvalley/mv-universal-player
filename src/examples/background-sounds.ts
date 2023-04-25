@@ -1,10 +1,5 @@
 export const backgroundSounds = [
   {
-    id: '',
-    item: null,
-    volume: 0.5
-  },
-  {
     id: '77',
     item: {
       __typename: 'Resource',
