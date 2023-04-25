@@ -1,6 +1,13 @@
-import { defineCustomElement } from 'vue'
-import AudioPlayer from '@/components/AudioPlayer.ce.vue'
+import Vue from 'vue'
+import App from './App.vue'
+import svgSprite from '@mindvalley/design-system/dist/svg-sprite/svg-defs.svg'
+import SvgSprite from 'vue-svg-sprite'
+import '@/assets/main.css'
 
-const AudioPlayerComponent = defineCustomElement(AudioPlayer)
+Vue.use(SvgSprite, {
+  url: svgSprite
+})
 
-customElements.define('mv-audio-player', AudioPlayerComponent)
+new Vue({
+  render: (h) => h(App)
+}).$mount('#app')

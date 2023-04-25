@@ -1,31 +1,43 @@
+import { defineConfig, type ConfigEnv } from 'vite'
+import createVuePlugin from '@vitejs/plugin-vue2'
+import { resolve } from 'node:path'
+import dts from 'vite-plugin-dts'
 import { fileURLToPath, URL } from 'node:url'
 
-import { build, defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [
-    vue({
-      template: {
-        compilerOptions: {
-          // treat all tags with a dash as custom elements
-          isCustomElement: (tag) => tag.includes('-')
+export default defineConfig(({ command }: ConfigEnv) => {
+  if (command === 'serve') {
+    return {
+      plugins: [createVuePlugin()],
+      resolve: {
+        alias: {
+          '@': fileURLToPath(new URL('./src', import.meta.url))
         }
       }
-    })
-  ],
-  build: {
-    lib: {
-      entry: './src/main.ts',
-      name: 'mv-universal-player',
-      // the proper extensions will be added
-      fileName: 'mv-universal-player'
     }
-  },
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+  } else {
+    return {
+      plugins: [createVuePlugin(), dts()],
+      optimizeDeps: {
+        exclude: ['vue-demi']
+      },
+      build: {
+        lib: {
+          entry: resolve(__dirname, 'src/index.ts'),
+          formats: ['es', 'cjs'],
+          name: 'MV Universal Player',
+          fileName: (format) => `mv-universal-player.${format}.js`
+        },
+        rollupOptions: {
+          external: ['vue', 'vue-demi'],
+          output: {
+            preserveModules: false,
+            exports: 'named',
+            globals: {
+              vue: 'Vue'
+            }
+          }
+        }
+      }
     }
   }
 })
