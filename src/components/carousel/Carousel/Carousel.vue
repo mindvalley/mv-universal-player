@@ -6,16 +6,18 @@ console.log(slots)
 </script>
 <template>
   <Carousel
-    :navigationEnabled="true"
-    :paginationEnabled="true"
+    navigationEnabled
+    :spacePadding="0"
+    :scrollPerPage="false"
     :perPageCustom="[
-      [540, 4],
+      [375, 9],
+      [540, 6],
       [640, 8],
-      [1024, 6]
+      [1024, 9]
     ]"
+    :paginationEnabled="true"
+    :spacePaddingMaxOffsetFactor="5"
     tagName="Slide"
-    navigationPrevLabel="prev"
-    navigationNextLabel="next"
   >
     <slot></slot>
   </Carousel>
