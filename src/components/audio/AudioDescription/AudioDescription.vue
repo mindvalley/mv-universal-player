@@ -32,7 +32,7 @@ const showFullDescription = ref(false)
 </script>
 
 <template>
-  <div class="flex pt-8 relative">
+  <div class="flex relative">
     <section class="hidden shrink-0 md:flex md:w-[232px]">
       <div>
         <div class="w-12">

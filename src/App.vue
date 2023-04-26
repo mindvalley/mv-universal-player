@@ -1,7 +1,7 @@
 <template>
   <MVAudioPlayer>
     <div class="">
-      <!-- <MVAudioResource
+      <MVAudioResource
         v-for="section in filteredSections"
         :key="section?.media?.id"
         :asset-id="section?.media?.id"
@@ -33,6 +33,7 @@
             :description="section?.media?.description"
             show-more-text="Show More"
             show-less-text="Show Less"
+            class="pt-8"
           />
         </template>
 
@@ -61,7 +62,7 @@
             </MVMeditationMixer>
           </div>
         </template>
-      </MVAudioResource> -->
+      </MVAudioResource>
     </div>
   </MVAudioPlayer>
 </template>
