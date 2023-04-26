@@ -1,6 +1,6 @@
 {
   "name": "@mindvalley/mv-universal-player",
-  "version": "0.0.48",
+  "version": "0.0.60",
   "author": "Mindvalley",
   "private": false,
   "type": "module",
@@ -37,7 +37,10 @@
     "build:styles": "postcss src/assets/tailwind.css -o dist/style.css",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "library:pack": "npm pack",
+    "library:publish": "npm publish",
+    "build:library": "run-s build library:pack library:publish"
   },
   "peerDependencies": {
     "@vue/composition-api": "^1.0.0-rc.1",

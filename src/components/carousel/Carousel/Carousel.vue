@@ -1,10 +1,17 @@
 <script setup lang="ts">
 import { Carousel } from 'vue-carousel'
+
+const props = defineProps({
+  tagName: {
+    type: String,
+    default: 'MVCarouselSlide'
+  }
+})
 </script>
 <template>
   <Carousel
     navigationEnabled
-    :scrollPerPage="false"
+    :scrollPerPage="true"
     :perPageCustom="[
       [320, 4],
       [768, 8],
@@ -12,7 +19,7 @@ import { Carousel } from 'vue-carousel'
       [1280, 10]
     ]"
     :paginationEnabled="false"
-    tagName="Slide"
+    :tagName="tagName"
   >
     <slot></slot>
   </Carousel>

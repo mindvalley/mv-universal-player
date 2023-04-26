@@ -41,7 +41,7 @@
             <MVMeditationMixer>
               <div class="text-cool-grey-350 mb-2 text-xs">Mix Track</div>
               <div class="gap-x-2 px-6">
-                <MVCarousel>
+                <MVCarousel tagName="Slide">
                   <MVCarouselSlide :key="0">
                     <MVMeditationTrackItem :volume="0"></MVMeditationTrackItem>
                   </MVCarouselSlide>
