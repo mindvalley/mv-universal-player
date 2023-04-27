@@ -3,6 +3,7 @@
 import { colors } from '@mindvalley/design-system'
 
 module.exports = {
+  important: true,
   content: ['./src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     fontFamily: {
