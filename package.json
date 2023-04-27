@@ -1,6 +1,6 @@
 {
   "name": "@mindvalley/mv-universal-player",
-  "version": "0.0.61",
+  "version": "0.0.62",
   "author": "Mindvalley",
   "private": false,
   "type": "module",
@@ -41,7 +41,7 @@
     "library:pack": "npm pack",
     "library:publish": "npm publish",
     "build:library": "run-s build library:pack library:publish",
-    "prepare": "run build"
+    "prepare": "run-s build"
   },
   "peerDependencies": {
     "@vue/composition-api": "^1.0.0-rc.1",
