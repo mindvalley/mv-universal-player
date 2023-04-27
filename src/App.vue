@@ -1,6 +1,6 @@
 <template>
   <MVAudioPlayer>
-    <div class="">
+    <!-- <div class="">
       <MVAudioResource
         v-for="section in filteredSections"
         :key="section?.media?.id"
@@ -63,7 +63,7 @@
           </div>
         </template>
       </MVAudioResource>
-    </div>
+    </div> -->
   </MVAudioPlayer>
 </template>
 

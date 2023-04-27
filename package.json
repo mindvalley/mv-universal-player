@@ -40,7 +40,8 @@
     "format": "prettier --write src/",
     "library:pack": "npm pack",
     "library:publish": "npm publish",
-    "build:library": "run-s build library:pack library:publish"
+    "build:library": "run-s build library:pack library:publish",
+    "prepare": "run build"
   },
   "peerDependencies": {
     "@vue/composition-api": "^1.0.0-rc.1",
