@@ -70,6 +70,12 @@ module.exports = {
       35: '600'
     }
   },
-  safelist: ['aspect-square', 'aspect-video', 'aspect-portait'],
+  safelist: [
+    'aspect-square',
+    'aspect-video',
+    'aspect-portait',
+    'hover:brightness-50',
+    'brightness-50'
+  ],
   plugins: [require('./typography.js')()]
 }
