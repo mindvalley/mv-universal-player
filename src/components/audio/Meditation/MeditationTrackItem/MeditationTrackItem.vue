@@ -118,7 +118,7 @@ const pause = () => {
       :class="[
         isActive
           ? 'border-purple-500 transition duration-300 ease-in'
-          : 'border-transparent hover:brightness-50',
+          : 'border-transparent filter hover:brightness-50',
         !backgroundSrc && isActive ? 'hover:cursor-default' : 'hover:cursor-pointer'
       ]"
       @click="selectSound"
