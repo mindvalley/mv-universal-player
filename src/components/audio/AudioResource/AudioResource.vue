@@ -56,8 +56,7 @@ const props = defineProps({
 })
 
 const slots = useSlots()
-console.log('slots --')
-console.log(slots)
+
 const isMeditationMixerAvailable = computed(() => {
   return slots && !!slots['meditation-mixer']
 })
@@ -104,9 +103,9 @@ const emitEvent = (eventName: string, payload?: any) => {
       @fastforward="emitEvent('fastforward', $event)"
       @playbackSpeed="emitEvent('playbackSpeed', $event)"
     >
-      <div class="grid grid-cols-6 gap-4 lg:gap-x-6 text-white relative lg:gap-y-0">
+      <div class="grid grid-cols-3 gap-4 lg:gap-x-6 text-white relative lg:gap-y-0">
         <div
-          class="col-span-2 max-md:col-span-6"
+          class="max-md:col-span-3"
           :class="isMeditationMixerAvailable ? 'lg:row-span-2' : 'row-span-1'"
         >
           <div class="flex items-center w-full">
@@ -137,7 +136,7 @@ const emitEvent = (eventName: string, payload?: any) => {
             </section>
           </div>
         </div>
-        <div class="col-span-6 md:col-span-4 flex">
+        <div class="col-span-3 md:col-span-2 flex">
           <!-- Controls -->
           <div
             class="w-full shrink grow text-cool-grey-250 md:flex md:flex-col md:items-center md:justify-center"
