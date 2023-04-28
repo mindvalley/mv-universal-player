@@ -1,7 +1,8 @@
 <template>
-  <MVAudioPlayer>
+  <div></div>
+  <!-- <MVAudioPlayer>
     <div class="">
-      <!-- <MVAudioResource
+      <MVAudioResource
         v-for="section in filteredSections"
         :key="section?.media?.id"
         :asset-id="section?.media?.id"
@@ -38,7 +39,7 @@
         </template>
 
         <template #meditation-mixer>
-          <div class="relative w-full col-span-3 lg:col-span-2">
+          <div class="relative w-full col-span-6 lg:col-span-4">
             <MVMeditationMixer>
               <div class="text-cool-grey-350 mb-2 text-xs">Mix Track</div>
               <div class="gap-x-2 px-6">
@@ -62,9 +63,9 @@
             </MVMeditationMixer>
           </div>
         </template>
-      </MVAudioResource> -->
+      </MVAudioResource>
     </div>
-  </MVAudioPlayer>
+  </MVAudioPlayer> -->
 </template>
 
 <script setup lang="ts">
