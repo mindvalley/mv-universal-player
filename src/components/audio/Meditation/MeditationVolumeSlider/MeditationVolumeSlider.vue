@@ -69,7 +69,7 @@ watchEffect(async () => {
 </script>
 
 <template>
-  <span class="meditation-volume-slider" :class="{ 'filter brightness-50': isDisabled }">
+  <span class="meditation-volume-slider" :class="{ disabled: isDisabled }">
     <span class="meditation-volume-slider__label">{{ leftText }}</span>
     <input
       data-testid="volume-slider"
@@ -88,6 +88,9 @@ watchEffect(async () => {
 </template>
 
 <style scoped lang="scss">
+.disabled {
+  filter: brightness(0.5);
+}
 .meditation-volume-slider {
   @apply flex h-full w-full items-center justify-center;
 }
