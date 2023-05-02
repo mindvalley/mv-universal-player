@@ -4,6 +4,7 @@ import svgSprite from '@mindvalley/design-system/dist/svg-sprite/svg-defs.svg'
 import SvgSprite from 'vue-svg-sprite'
 
 import type { App } from 'vue-demi'
+
 const defaultComponents: any = components
 const MVUniversalPlayer = {
   install(app: App) {
@@ -18,6 +19,7 @@ const MVUniversalPlayer = {
 }
 
 export default MVUniversalPlayer
+export { useDetectBrowser } from './composables/use-detect-browser'
 
 export {
   MVAudioPlayer,
