@@ -132,10 +132,23 @@ const handleFavourite = () => {
               ></BaseImage>
             </section>
 
-            <section class="hidden px-6 max-md:block">
-              <h2 class="title-bold-9 text-white">
-                {{ title }}
-              </h2>
+            <section class="w-full pl-6 md:hidden">
+              <div class="w-full flex justify-between">
+                <h2 class="title-bold-9 text-white">
+                  {{ title }}
+                </h2>
+                <span v-if="showFavourite" class="hover:cursor-pointer" @click="handleFavourite"
+                  ><svg v-show="!isFavourite" v-svg symbol="heart-outline" size="26"></svg>
+                  <svg
+                    v-show="isFavourite"
+                    v-svg
+                    symbol="heart-filled"
+                    size="26"
+                    color="#A3313E"
+                  ></svg>
+                </span>
+              </div>
+
               <p v-if="artistName" class="text-sm text-cool-grey-250">
                 {{ artistName }}
               </p>
@@ -160,7 +173,13 @@ const handleFavourite = () => {
                 <h2 class="title-bold-8 text-white">{{ title }}</h2>
                 <span v-if="showFavourite" class="hover:cursor-pointer" @click="handleFavourite"
                   ><svg v-show="!isFavourite" v-svg symbol="heart-outline" size="26"></svg>
-                  <svg v-show="isFavourite" v-svg symbol="heart-filled" size="26" color="red"></svg>
+                  <svg
+                    v-show="isFavourite"
+                    v-svg
+                    symbol="heart-filled"
+                    size="26"
+                    color="#A3313E"
+                  ></svg>
                 </span>
               </div>
 
