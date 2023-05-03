@@ -7,7 +7,7 @@ import MVAudioPlayButton from '../AudioPlayButton'
 import MVAudioFastForwardButton from '../AudioFastForwardButton'
 import MVAudioRewindButton from '../AudioRewindButton'
 import MVAudioProgressBar from '../AudioProgressBar'
-import { useSlots, computed } from 'vue-demi'
+import { useSlots, computed, ref } from 'vue-demi'
 
 const props = defineProps({
   assetId: {
@@ -52,6 +52,12 @@ const props = defineProps({
   },
   blurEffect: {
     type: Boolean
+  },
+  showFavourite: {
+    type: Boolean
+  },
+  isFavourite: {
+    type: Boolean
   }
 })
 
@@ -76,6 +82,13 @@ const emit = defineEmits<{
 const emitEvent = (eventName: string, payload?: any) => {
   const data = { assetId: props.assetId, ...payload }
   emit(eventName, data)
+}
+
+const isFavourite = ref(props.isFavourite)
+
+const handleFavourite = () => {
+  isFavourite.value = !isFavourite.value
+  emitEvent('favourite', { isFavourite: isFavourite.value })
 }
 </script>
 
@@ -143,7 +156,14 @@ const emitEvent = (eventName: string, payload?: any) => {
           >
             <!-- Medium-screen above meta -->
             <section class="w-full py-4 hidden md:block">
-              <h2 class="title-bold-8 text-white">{{ title }}</h2>
+              <div class="flex justify-between">
+                <h2 class="title-bold-8 text-white">{{ title }}</h2>
+                <span v-if="showFavourite" class="hover:cursor-pointer" @click="handleFavourite"
+                  ><svg v-show="!isFavourite" v-svg symbol="heart-outline" size="26"></svg>
+                  <svg v-show="isFavourite" v-svg symbol="heart-filled" size="26" color="red"></svg>
+                </span>
+              </div>
+
               <span class="text-cool-grey-200">{{ artistName }}</span>
               <div
                 v-if="ratings && totalRatings"

@@ -17,6 +17,7 @@
         :style="`background-image: url(${section?.media?.coverAsset?.url});`"
         blurEffect
         overlay
+        showFavourite
         @play="logEvent('play', $event)"
         @pause="logEvent('pause', $event)"
         @seeking="logEvent('seeking', $event)"
@@ -24,6 +25,7 @@
         @rewind="logEvent('rewind', $event)"
         @fastforward="logEvent('fastforward', $event)"
         @playbackSpeed="logEvent('playbackSpeed', $event)"
+        @favourite="logEvent('favourite', $event)"
       >
         <template #audio-description v-if="section.media">
           <MVAudioDescription
