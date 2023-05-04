@@ -116,7 +116,7 @@ const handleFavourite = () => {
       @fastforward="emitEvent('fastforward', $event)"
       @playbackSpeed="emitEvent('playbackSpeed', $event)"
     >
-      <div class="grid grid-cols-3 text-white relative gap-6">
+      <div class="grid grid-cols-3 text-white relative gap-8">
         <!-- Image -->
         <section class="w-full col-span-1 row-span-3">
           <BaseImage
