@@ -14,6 +14,7 @@ const props = defineProps({
     :scrollPerPage="true"
     :perPageCustom="[
       [320, 4],
+      [540, 6],
       [768, 8],
       [1024, 8],
       [1280, 10]

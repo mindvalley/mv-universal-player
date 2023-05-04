@@ -116,99 +116,66 @@ const handleFavourite = () => {
       @fastforward="emitEvent('fastforward', $event)"
       @playbackSpeed="emitEvent('playbackSpeed', $event)"
     >
-      <div class="grid grid-cols-3 gap-4 lg:gap-x-6 text-white relative lg:gap-y-0">
-        <div
-          class="max-md:col-span-3"
-          :class="isMeditationMixerAvailable ? 'lg:row-span-2' : 'row-span-1'"
-        >
-          <div class="flex items-center w-full">
-            <section class="w-full min-w-[80px] max-md:max-w-[150px] md:max-w-[380px]">
-              <BaseImage
-                aspect-ratio="square"
-                :src="posterUrl || ''"
-                class="rounded-xl md:rounded-3xl"
-                img-class="rounded-xl md:rounded-3xl"
-                :width="350"
-              ></BaseImage>
-            </section>
+      <div class="grid grid-cols-3 text-white relative gap-6">
+        <!-- Image -->
+        <section class="w-full col-span-1 row-span-3">
+          <BaseImage
+            aspect-ratio="square"
+            :src="posterUrl || ''"
+            class="rounded-xl md:rounded-3xl"
+            img-class="rounded-xl md:rounded-3xl"
+            :width="350"
+          ></BaseImage>
+        </section>
 
-            <section class="w-full pl-6 md:hidden">
-              <div class="w-full flex justify-between">
-                <h2 class="title-bold-9 text-white">
-                  {{ title }}
-                </h2>
-                <span v-if="showFavourite" class="hover:cursor-pointer" @click="handleFavourite"
-                  ><svg v-show="!isFavourite" v-svg symbol="heart-outline" size="26"></svg>
-                  <svg
-                    v-show="isFavourite"
-                    v-svg
-                    symbol="heart-filled"
-                    size="26"
-                    color="#A3313E"
-                  ></svg>
-                </span>
-              </div>
-
-              <p v-if="artistName" class="text-sm text-cool-grey-250">
-                {{ artistName }}
-              </p>
-              <div
-                v-if="ratings && totalRatings"
-                class="justify-content mt-1 flex items-center text-left text-xs text-cool-grey-300"
-              >
-                <svg v-svg symbol="star-filled" size="16" class="mr-1" color="#E8AD11"></svg>
-                <span> {{ ratings.toFixed(2) }} ({{ totalRatings }}) </span>
-              </div>
-            </section>
+        <!-- Title -->
+        <section class="w-full col-span-2">
+          <div class="w-full flex justify-between">
+            <h2 class="title-bold-9 md:title-bold-8 text-white">
+              {{ title }}
+            </h2>
+            <span v-if="showFavourite" class="hover:cursor-pointer" @click="handleFavourite"
+              ><svg v-show="!isFavourite" v-svg symbol="heart-outline" size="26"></svg>
+              <svg v-show="isFavourite" v-svg symbol="heart-filled" size="26" color="#A3313E"></svg>
+            </span>
           </div>
-        </div>
-        <div class="col-span-3 md:col-span-2 flex">
-          <!-- Controls -->
+
+          <p v-if="artistName" class="text-sm text-cool-grey-250">
+            {{ artistName }}
+          </p>
           <div
-            class="w-full shrink grow text-cool-grey-250 md:flex md:flex-col md:items-center md:justify-center"
+            v-if="ratings && totalRatings"
+            class="justify-content mt-1 flex items-center text-left text-xs text-cool-grey-300"
           >
-            <!-- Medium-screen above meta -->
-            <section class="w-full py-4 hidden md:block">
-              <div class="flex justify-between">
-                <h2 class="title-bold-8 text-white">{{ title }}</h2>
-                <span v-if="showFavourite" class="hover:cursor-pointer" @click="handleFavourite"
-                  ><svg v-show="!isFavourite" v-svg symbol="heart-outline" size="26"></svg>
-                  <svg
-                    v-show="isFavourite"
-                    v-svg
-                    symbol="heart-filled"
-                    size="26"
-                    color="#A3313E"
-                  ></svg>
-                </span>
-              </div>
-
-              <span class="text-cool-grey-200">{{ artistName }}</span>
-              <div
-                v-if="ratings && totalRatings"
-                class="justify-content mt-1 flex items-center text-left text-xs text-cool-grey-300"
-              >
-                <svg v-svg symbol="star-filled" size="16" class="mr-1" color="#E8AD11"></svg>
-                <span> {{ ratings.toFixed(2) }} ({{ totalRatings }}) </span>
-              </div>
-            </section>
-            <MVAudioProgressBar
-              :duration="props.duration"
-              class="text-white"
-              :current-time="state?.currentTime"
-              @seek="seek"
-            />
-
-            <!-- Buttons -->
-            <section class="flex items-center justify-center">
-              <MVAudioRewindButton @rewind="rewind($event)" />
-              <MVAudioPlayButton @play="play" @pause="pause" :playing="state?.playing" />
-              <MVAudioFastForwardButton @fastForward="fastForward($event)" />
-            </section>
+            <svg v-svg symbol="star-filled" size="16" class="mr-1" color="#E8AD11"></svg>
+            <span> {{ ratings.toFixed(2) }} ({{ totalRatings }}) </span>
           </div>
-        </div>
+        </section>
+        <!-- </section> -->
 
-        <slot name="meditation-mixer"></slot>
+        <!-- Controls -->
+        <section
+          class="col-span-3 sm:col-span-2 sm:row-span-2 lg:row-span-1"
+          :class="{ 'row-span-2': !isMeditationMixerAvailable }"
+        >
+          <MVAudioProgressBar
+            :duration="props.duration"
+            class="text-white"
+            :current-time="state?.currentTime"
+            @seek="seek"
+          />
+
+          <section class="flex items-center justify-center">
+            <MVAudioRewindButton @rewind="rewind($event)" />
+            <MVAudioPlayButton @play="play" @pause="pause" :playing="state?.playing" />
+            <MVAudioFastForwardButton @fastForward="fastForward($event)" />
+          </section>
+        </section>
+
+        <!-- Meditation -->
+        <div class="relative w-full col-span-3 lg:col-span-2">
+          <slot name="meditation-mixer"></slot>
+        </div>
       </div>
     </MVAudioItem>
 
