@@ -17,6 +17,7 @@
         :style="`background-image: url(${section?.media?.coverAsset?.url});`"
         blurEffect
         overlay
+        showFavourite
         @play="logEvent('play', $event)"
         @pause="logEvent('pause', $event)"
         @seeking="logEvent('seeking', $event)"
@@ -24,6 +25,7 @@
         @rewind="logEvent('rewind', $event)"
         @fastforward="logEvent('fastforward', $event)"
         @playbackSpeed="logEvent('playbackSpeed', $event)"
+        @favourite="logEvent('favourite', $event)"
       >
         <template #audio-description v-if="section.media">
           <MVAudioDescription
@@ -38,29 +40,27 @@
         </template>
 
         <template #meditation-mixer>
-          <div class="relative w-full col-span-3 lg:col-span-2">
-            <MVMeditationMixer>
-              <div class="text-cool-grey-350 mb-2 text-xs">Mix Track</div>
-              <div class="gap-x-2 px-6">
-                <MVCarousel tagName="Slide">
-                  <MVCarouselSlide :key="0">
-                    <MVMeditationTrackItem :volume="0"></MVMeditationTrackItem>
-                  </MVCarouselSlide>
-                  <MVCarouselSlide v-for="(sound, index) in backgroundSounds" :key="index + 1">
-                    <MVMeditationTrackItem
-                      :sources="formatSources(sound?.item?.mediaAsset.renditions)"
-                      :background-src="sound?.item?.coverAsset?.thumbnailUrl"
-                    />
-                  </MVCarouselSlide>
-                </MVCarousel>
-              </div>
-              <div
-                class="flex w-full mt-4 items-center justify-center transition duration-300 ease-in"
-              >
-                <MVMeditationVolumeSlider leftText="sound" rightText="vocal" />
-              </div>
-            </MVMeditationMixer>
-          </div>
+          <MVMeditationMixer>
+            <div class="text-cool-grey-350 mb-2 text-xs">Mix Track</div>
+            <div class="gap-x-2 px-6">
+              <MVCarousel tagName="Slide">
+                <MVCarouselSlide :key="0">
+                  <MVMeditationTrackItem :volume="0"></MVMeditationTrackItem>
+                </MVCarouselSlide>
+                <MVCarouselSlide v-for="(sound, index) in backgroundSounds" :key="index + 1">
+                  <MVMeditationTrackItem
+                    :sources="formatSources(sound?.item?.mediaAsset.renditions)"
+                    :background-src="sound?.item?.coverAsset?.thumbnailUrl"
+                  />
+                </MVCarouselSlide>
+              </MVCarousel>
+            </div>
+            <div
+              class="flex w-full mt-4 items-center justify-center transition duration-300 ease-in"
+            >
+              <MVMeditationVolumeSlider leftText="sound" rightText="vocal" />
+            </div>
+          </MVMeditationMixer>
         </template>
       </MVAudioResource> -->
     </div>
