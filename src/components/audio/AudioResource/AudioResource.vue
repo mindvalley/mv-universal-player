@@ -14,10 +14,6 @@ const props = defineProps({
     required: true,
     type: String
   },
-  assetName: {
-    type: String,
-    default: ''
-  },
   sources: {
     required: true,
     type: Array<Source>
@@ -25,10 +21,6 @@ const props = defineProps({
   title: {
     required: true,
     type: String
-  },
-  artistId: {
-    type: String,
-    default: ''
   },
   artistName: {
     type: String,

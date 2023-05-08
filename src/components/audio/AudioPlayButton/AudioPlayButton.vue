@@ -19,7 +19,7 @@ const togglePlay = () => {
 }
 </script>
 <template>
-  <button @click="togglePlay" class="audio-item">
+  <button @click="togglePlay" class="audio-play-button">
     <svg v-show="!playing" v-svg symbol="play-filled" size="30" class="ml-1"></svg>
     <svg v-show="playing" v-svg symbol="pause-filled" size="30" class="mt-1"></svg>
     <div
@@ -32,7 +32,7 @@ const togglePlay = () => {
   </button>
 </template>
 <style scoped>
-.audio-item {
+.audio-play-button {
   @apply relative mx-8 flex h-16 w-16 items-center justify-center rounded-full bg-cool-grey-300 text-black duration-200 ease-in hover:scale-105 hover:bg-white;
 }
 </style>
