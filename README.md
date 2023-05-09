@@ -7,8 +7,8 @@ This library is an upgraded version of [Universal Player](https://github.com/min
 - Using Tailwind 3
 - Can be integrated in Vue 2 (requires 2.7 version) and Vue 3 seamlessly
 - Plug and play components that can be styled independently
-- Treeshakable (get only the components needed and reduce the package size when consuming)
-- [Mindvalley Design System](https://www.npmjs.com/package/@mindvalley/design-system) integrated (icons, styles, fonts, etc)
+- Treeshakable (get only the components needed and reduce the package size)
+- [Mindvalley Design System](https://www.npmjs.com/package/@mindvalley/design-system) integration (icons, styles, fonts, etc)
 - Browser Detection utility
 
 (Note: Currenlty only Audio Player is supported. Video Player will be added later.)
@@ -41,23 +41,23 @@ yarn dev
 
 The components are grouped in below categories. Each category has its own reason to exist. The components are built keeping in mind that they are **loosely coupled** and **higly cohesive** at the same time. This pattern allows us to extend the independent components based on requirements.
 
-- Headless
+- **Headless**
   - AudioPlayer
   - AudioItem
-- Raw
+- **Raw**
   - AudioPlayButton
   - AudioFastForwardButton
   - AudioRewindButton
   - AudioProgressBar
   - AudioDescription
-- Abstraction
+- **Abstraction**
   - AudioResource
   - MeditationMixer
   - Carousel
-- Utils
+- **Utils**
   - Browser Detection
 
-Important: When above components are consumed, they are used with **MV** prefix. It means, **AudioPlayer** becomes **MVAudioPlayer**. Let's discuss all the components one-by-one.
+_Important_: When above components are consumed, they are used with **MV** prefix. It means, **AudioPlayer** becomes **MVAudioPlayer**.
 
 ### Headless
 
@@ -71,7 +71,7 @@ It is an instance of the [VideoJs](https://www.npmjs.com/package/video.js?active
 
 | Name          | Type            | Default                         | Description                                                                                                                                                     |
 | ------------- | --------------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| id            | `String`        | 'mv-audio-player-3423423534543' | The unique identifier of a player. The random number at the end is generated dynamically. If the `id` is passed, then there won't be 'mv-audio-player-' prefix. |
+| id            | `String`        | `mv-audio-player-3423423534543` | The unique identifier of a player. The random number at the end is generated dynamically. If the `id` is passed, then there won't be 'mv-audio-player-' prefix. |
 | playbackRates | `Array<Number>` | `[0.5, 1, 2]`                   | Playback speed.                                                                                                                                                 |
 | loop          | `Boolean`       | `false`                         | Whether the player should continue playing the audio once it has reached the end.                                                                               |
 
@@ -105,7 +105,7 @@ This component represents the _virtual_ instance of a player. It means, that all
 
 | Name    | Type            | Default                       | Description                                                                                                                                                  |
 | ------- | --------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| id      | `String`        | 'mv-audio-item-3423423534543' | The unique identifier of an item. The random number at the end is generated dynamically. If the `id` is passed, then there won't be 'mv-audio-item-' prefix. |
+| id      | `String`        | `mv-audio-item-3423423534543` | The unique identifier of an item. The random number at the end is generated dynamically. If the `id` is passed, then there won't be 'mv-audio-item-' prefix. |
 | sources | `Array<Source>` | `[]`                          | The audio sources that need to be played. `Source` represents `{ type?: string, src: string}` interface.                                                     |
 
 **_Usage_**
@@ -168,9 +168,9 @@ As said before, treat **AudioItem** as a virtual instance, and not the instance 
 </MVAudioPlayer>
 ```
 
-In the above example, you can see that we have multiple `AudioItem` instances. A good analogy to represent above structure is a Spotify player. There can be multiple song items in the list, but when you select any song, at a time only one song is being played. This means if any song is being played currently and user selects any other song, the previously playing song would reset and the new song would start from the beginning.
+In the above example, you can see that we have multiple `AudioItem` instances. A good analogy to represent above structure is a Spotify player. There can be multiple song items in the list, but when you select any song, at a time only one song is being played. This means current playing song will reset and new song will start from the begining.
 
-This means there will be only one VideoJS instance (through AudioPlayer) and AudioItem is there just to the read the state and call methods of AudioPlayer. If you want multiple VideoJS instances then you can do as shown below:
+This also means there will be only one VideoJS instance (through AudioPlayer) and AudioItem is there just to read the state and call methods of AudioPlayer. If you want multiple VideoJS instances then you can do as shown below:
 
 ```
 <MVAudioPlayer>
@@ -259,7 +259,7 @@ The above structure is useful in Meditation Mixer context where one audio can be
 <MVAudioPlayer>
 ```
 
-Above structure is useful when you want only player across the app.
+Above structure is useful when you want only one player across the app.
 
 ### Raw
 
@@ -267,7 +267,7 @@ The components under this category can be used independently without the depende
 
 **AudioPlayButton**
 
-A play button for a player. Though it is named as play button, it will also show _pause_ icon when the audio is in paused state.
+A play button for the player. Though it is named as 'play' button, it will also show _pause_ icon when the audio is in paused state.
 
 **_Props_**
 
@@ -298,14 +298,14 @@ A play button for a player. Though it is named as play button, it will also show
 
 **AudioFastForwardButton**
 
-A fast-forward button for a player.
+A fast-forward button for the player.
 
 **_Props_**
 
-| Name        | Type     | Default        | Description                                                                                                                                                                               |
-| ----------- | -------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| seconds     | `Number` | `15`           | The seconds by which the audio should be moved forward.                                                                                                                                   |
-| tooltipText | `String` | `-Sec Forward` | The tooltip to be shown when user hovers the cursor. So the end result combining _seconds_ and _tooltipText_ will be `15-Sec Forward. Note: The tooltip won't be shown on mobile devices. |
+| Name        | Type     | Default        | Description                                                                                                                                                                                |
+| ----------- | -------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| seconds     | `Number` | `15`           | The seconds by which the audio should be moved forward.                                                                                                                                    |
+| tooltipText | `String` | `-Sec Forward` | The tooltip to be shown when user hovers the cursor. So the end result combining _seconds_ and _tooltipText_ will be `15-Sec Forward`. Note: The tooltip won't be shown on mobile devices. |
 
 **_Events_**
 
@@ -329,14 +329,14 @@ A fast-forward button for a player.
 
 **AudioRewindButton**
 
-A rewind button for a player.
+A rewind button for the player.
 
 **_Props_**
 
-| Name        | Type     | Default       | Description                                                                                                                                                                              |
-| ----------- | -------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| seconds     | `Number` | `15`          | The seconds by which the audio should be rewinded.                                                                                                                                       |
-| tooltipText | `String` | `-Sec Rewind` | The tooltip to be shown when user hovers the cursor. So the end result combining _seconds_ and _tooltipText_ will be `15-Sec Rewind. Note: The tooltip won't be shown on mobile devices. |
+| Name        | Type     | Default       | Description                                                                                                                                                                               |
+| ----------- | -------- | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| seconds     | `Number` | `15`          | The seconds by which the audio should be rewinded.                                                                                                                                        |
+| tooltipText | `String` | `-Sec Rewind` | The tooltip to be shown when user hovers the cursor. So the end result combining _seconds_ and _tooltipText_ will be `15-Sec Rewind`. Note: The tooltip won't be shown on mobile devices. |
 
 **_Events_**
 
@@ -425,11 +425,6 @@ The progress bar showing the current status of an audio. User can also _seek_ th
 </MVAudioPlayer>
 ```
 
-- Abstraction
-  - AudioResource
-  - MeditationMixer
-  - Carousel
-
 ### Abstraction
 
 _Headless_ and _Raw_ components are enough to serve the needs of an audio player. But if you want to use readymade component which clubs all _Headless_ and _Raw_ components so that it is easy to integrate in the consuming application, you can use components under this category. It is most likely that you will use these components.
@@ -513,13 +508,13 @@ It accepts `MeditationTrackItem` (which is nothing but again a wrapper of an Aud
 
 _**MeditationTrackItem Props**_
 
-| Name          | Type            | Default                                  | Description                                                                                                                                                                                                                  |
-| ------------- | --------------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| id            | `String`        | `mv-meditation-track-item-3423423534543` | The unique identifier of the item. The random number at the end is generated dynamically. If the `id` is passed, then there won't be 'mv-meditation-track-item-' prefix.                                                     |
-| sources       | `Array<Source>` | `[]`                                     | The audio sources that need to be played. `Source` represents `{ type?: string, src: string}` interface.                                                                                                                     |
-| isActive      | `Boolean`       | `false`                                  | Whether current sound is active or not. It is mainly used to show selection of a background sound with blue border. It doesn't mean the audio is being played. The audio is play/pause state based on main audio's state. It |
-| backgroundSrc | `String`        | ``                                       | Background image for the sound.                                                                                                                                                                                              |
-| volume        | `Number`        | `0.5`                                    | Default volume of the sound. Rest of the volume would be of main audio.                                                                                                                                                      |
+| Name          | Type            | Default                                  | Description                                                                                                                                                                                                                                     |
+| ------------- | --------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| id            | `String`        | `mv-meditation-track-item-3423423534543` | The unique identifier of the item. The random number at the end is generated dynamically. If the `id` is passed, then there won't be 'mv-meditation-track-item-' prefix.                                                                        |
+| sources       | `Array<Source>` | `[]`                                     | The audio sources that need to be played. `Source` represents `{ type?: string, src: string}` interface. If you don't pass the sources, it will return 'NO BG SOUND' item by default.                                                           |
+| isActive      | `Boolean`       | `false`                                  | Whether current sound is active or not. It is mainly used to show selection of a background sound with blue border. It doesn't mean the audio (background sound) is being played. The audio is in play/pause state based on main audio's state. |
+| backgroundSrc | `String`        | ``                                       | Background image for the sound.                                                                                                                                                                                                                 |
+| volume        | `Number`        | `0.5`                                    | Default volume of the sound. Rest of the volume would be of main audio.                                                                                                                                                                         |
 
 _**MeditationVolumeSlider Props**_
 
@@ -575,12 +570,161 @@ _**Usage**_
       </MVAudioResource>
 ```
 
-## Publish Package
+**MVCarousel**
 
-## Consume Package
+This component uses [Vue Carousel](https://www.npmjs.com/package/vue-carousel) under the hood. Currently it is configured (e.g number of slides per breakpoint) keeping MeditationMixer in mind, but you can also use it elsewhere.
 
-- Full Bundle
+**_Props_**
 
-- Individual Components (tree shaking)
+| Name    | Type     | Default           | Description                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ------- | -------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| tagName | `String` | `MVCarouselSlide` | This is to indicate what tag would act as a child component. This is nothing but to identify the slide component which Vue Carousel uses to count the no. of slides and react to responsiveness. If you are using whole `mv-universal-plaer` package (not individual components), then you don't need to pass the prop, but if you are using individual components (for tree-shaking) then you need to pass `Slide` as a prop. |
 
-## Migrate to Vue 3
+The component for the slide is `Slide`. E.g, you can wrap the MeditationTrackItem in the `Slide` component.
+
+_**Usage**_
+
+```
+  <MVMeditationMixer>
+    <div class="text-cool-grey-350 mb-2 text-xs">Mix Track</div>
+      <div class="gap-x-2 px-6">
+          <MVCarousel tagName="Slide">
+              <MVCarouselSlide :key="0">
+                <MVMeditationTrackItem :volume="0"></MVMeditationTrackItem>
+              </MVCarouselSlide>
+              <MVCarouselSlide v-for="(sound, index) in backgroundSounds" :key="index + 1">
+                <MVMeditationTrackItem
+                  :sources="formatSources(sound?.item?.mediaAsset.renditions)"
+                  :background-src="sound?.item?.coverAsset?.thumbnailUrl"
+                />
+              </MVCarouselSlide>
+          </MVCarousel>
+        </div>
+  </MVMeditationMixer>
+```
+
+## Utils
+
+The components under this category are helpers.
+
+**useDetectBrowser**
+
+This composable is meant to identify what browser and device the user is using to access the application. For e.g, we can use it to hide MeditationVolumeSlider when the user is using iOS and Safari browser because iOS doesn't allow the user to control the volume programmatically other than physical buttons.
+
+It exposes below properties:
+
+- isiPhoneOriPadSafari
+- isiPhone
+- isiPad
+- isTouchDevice
+
+## Package Configuration
+
+**Vue Version Support**
+
+The package uses [Vue Demi](https://www.npmjs.com/package/vue-demi) library to support Vue 2.7 and Vue 3 versions. So, all the Vue components are imported from `vue-demi` and not `vue`.
+
+**Types**
+
+The types for each components are generated using `vite-plugin-dts` library to enable TypeScript support.
+
+**Vite**
+
+For compatibility of Vue 2 with Vite, `@vitejs/plugin-vue2` library is used.
+
+**Treeshaking**
+
+This option can be enabled/disabled using `preserveModules` option in `vite.config.ts` file. Setting `true` enables treeshaking.
+
+## Build/Publish Package
+
+**Build Package**
+
+```
+yarn build
+```
+
+**Publish Package**
+
+Right now the package is published on GitHub Package Registry. In future, if the package needs to be uploaded on NPM registry then update below url in `package.json` file.
+
+```
+"publishConfig": {
+  "registry": "https://npm.pkg.github.com"
+}
+```
+
+Publish the package using below command. Ensure that the `version` number in package.json is incremented every time.
+
+```
+yarn library:publish
+```
+
+**Tar Ball**
+
+If you just want to build the tar ball, you can use below command.
+
+```
+yarn library:pack
+```
+
+**Build/Package/Publish**
+
+If you want to build the package, create tar ball and also publish the package, you can use below command.
+
+```
+yarn build:library
+```
+
+## Download Package
+
+This package can be downloaded using usual package installation approach or through git url.
+
+```
+yarn add @mindvalley/mv-universal-player
+```
+
+OR
+
+```
+yarn add https://github.com/mindvalley/mv-universal-player.git
+```
+
+Using git url approach will download the source code and create the package at runtime. The `prepare` script in `package.json` file will execute to build the package once the source code is downloaded. On server (container or GitHub workflow), you might need to update your `yarn install` command to `yarn install --network-concurrency 1` to allow multiple instances of yarn. This is required because one instance will download packages and another build the package.
+
+Note: As the package is available on GitHub Package Registry, users will need appropriate access to download the package.
+
+## Using Package
+
+**Whole Package**
+
+This will register all the components of the library globally and then you can use them in any of the internal components without importing them explicitly.
+
+```
+import MVUniversalPlayer from "@mindvalley/mv-universal-player";
+import "@mindvalley/mv-universal-player/dist/style.css";
+
+Vue.use(MVUniversalPlayer);
+```
+
+**Individual Components (tree-shaking)**
+
+If you want to use only specific components to minimize the bundle size, it is suggested you use this approach.
+
+```
+import "@mindvalley/mv-universal-player/dist/style.css";
+
+import {
+  useDetectBrowser,
+  MVAudioPlayer,
+  MVAudioResource,
+  MVMeditationMixer,
+  MVMeditationVolumeSlider,
+  MVMeditationTrackItem,
+  MVCarousel,
+  MVCarouselSlide,
+  MVAudioDescription
+} from "@mindvalley/mv-universal-player";
+```
+
+Note: If you are already using `vue-sprite` package for Mindvalley Design System icons, it is recommened you go with inidvidual components approach to reduce the package size.
