@@ -30,7 +30,7 @@ export default defineConfig(({ command }: ConfigEnv) => {
         rollupOptions: {
           external: ['vue', 'vue-demi'],
           output: {
-            preserveModules: false,
+            preserveModules: true,
             exports: 'named',
             globals: {
               vue: 'Vue'
