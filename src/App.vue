@@ -11,7 +11,7 @@
         :artist-name="audio.artistName"
         :ratings="audio.ratings"
         :total-ratings="audio.totalRatings"
-        class="my-10 mx-auto inset-0 z-15 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"
+        class="my-10 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"
         :style="`background-image: url(${audio.posterUrl});`"
         blurEffect
         overlay
