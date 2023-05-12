@@ -111,13 +111,15 @@ const handleFavourite = () => {
       <div class="grid grid-cols-3 text-white relative gap-8">
         <!-- Image -->
         <section class="w-full col-span-1 row-span-3">
-          <BaseImage
+          <!-- <BaseImage
             aspect-ratio="square"
             :src="posterUrl || ''"
             class="rounded-xl md:rounded-3xl"
             img-class="rounded-xl md:rounded-3xl"
             :width="350"
-          ></BaseImage>
+          ></BaseImage> -->
+
+          <img :src="posterUrl || ''" class="rounded-xl md:rounded-3xl" :width="350" />
         </section>
 
         <!-- Title -->

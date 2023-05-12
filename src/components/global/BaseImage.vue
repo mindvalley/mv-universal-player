@@ -107,12 +107,7 @@ const customAspectRatioStyle = computed(() => {
 </script>
 
 <template>
-  <div
-    data-testid="base-image"
-    class="w-full bg-cool-grey-200"
-    :style="customAspectRatioStyle"
-    :class="frameClass"
-  >
+  <div data-testid="base-image" class="w-full" :style="customAspectRatioStyle" :class="frameClass">
     <img
       data-testid="image"
       :style="customAspectRatioStyle"

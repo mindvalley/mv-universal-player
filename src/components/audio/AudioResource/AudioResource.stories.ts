@@ -123,7 +123,7 @@ export default meta
 type Story = StoryObj<typeof MVAudioResource>
 
 export const Default: Story = {
-  render: (args, { argTypes }) => ({
+  render: (args: any, { argTypes }) => ({
     components: { MVAudioPlayer, MVAudioResource },
     methods: { logEvent: action('') },
     props: Object.keys(argTypes),
@@ -156,7 +156,7 @@ export const Default: Story = {
 }
 
 export const WithDescription: Story = {
-  render: (args, { argTypes }) => ({
+  render: (args: any, { argTypes }) => ({
     title: 'dddd',
     components: { MVAudioPlayer, MVAudioResource, MVAudioDescription },
     methods: { logEvent: action('') },
@@ -203,7 +203,7 @@ export const WithDescription: Story = {
 }
 
 export const WithMeditationMixer: Story = {
-  render: (args, { argTypes }) => ({
+  render: (args: any, { argTypes }) => ({
     components: {
       MVAudioPlayer,
       MVAudioResource,
