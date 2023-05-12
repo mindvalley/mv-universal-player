@@ -1440,7 +1440,7 @@
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.25.24.tgz#8c7688559979f7079aacaf31aa881c3aa410b718"
   integrity sha512-XJfwUVUKDHF5ugKwIcxEgc9k8b7HbznCp6eUfWgu710hMPNIO4aw4/zB5RogDQz8nd6gyCDpU9O/m6qYEWY6yQ==
 
-"@storybook/addon-actions@7.0.10":
+"@storybook/addon-actions@7.0.10", "@storybook/addon-actions@^7.0.10":
   version "7.0.10"
   resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-7.0.10.tgz#cd5973a4d99d573ef23c70f0a719b4caf0d434b1"
   integrity sha512-U8c7n918/mOjXnc1Iu/sglbK+ryC4xoyjWE5SG/68h0+sHb1rioNq7leAi24mCP6jNwNI5Q7TWtuvflOGxQDKQ==

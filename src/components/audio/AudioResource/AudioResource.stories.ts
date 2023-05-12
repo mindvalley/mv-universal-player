@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue'
+import { action } from '@storybook/addon-actions'
 
 import { MVAudioResource } from '.'
 import { MVAudioPlayer } from './../AudioPlayer'
@@ -124,8 +125,20 @@ type Story = StoryObj<typeof MVAudioResource>
 export const Default: Story = {
   render: (args, { argTypes }) => ({
     components: { MVAudioPlayer, MVAudioResource },
+    methods: { logEvent: action('') },
     props: Object.keys(argTypes),
-    template: `<MVAudioPlayer><MVAudioResource  v-bind="$props" class="my-10 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center" style="background-image: url(${args.posterUrl});"></MVAudioResource></MVAudioPlayer>`
+    template: `<MVAudioPlayer><MVAudioResource  v-bind="$props" class="my-10 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"   :style="{
+      'background-image': 'url(' + posterUrl + ')'
+    }"
+    @play="logEvent('play', $event)"
+    @pause="logEvent('pause', $event)"
+    @seeking="logEvent('seeking', $event)"
+    @ended="logEvent('ended', $event)"
+    @rewind="logEvent('rewind', $event)"
+    @fastforward="logEvent('fastforward', $event)"
+    @playbackSpeed="logEvent('playbackSpeed', $event)"
+    @favourite="logEvent('favourite', $event)"
+    ></MVAudioResource></MVAudioPlayer>`
   }),
   args: {
     assetId: audio1.assetId,
@@ -146,6 +159,7 @@ export const WithDescription: Story = {
   render: (args, { argTypes }) => ({
     title: 'dddd',
     components: { MVAudioPlayer, MVAudioResource, MVAudioDescription },
+    methods: { logEvent: action('') },
     props: Object.keys(argTypes),
     template: `
     <MVAudioPlayer>
@@ -154,6 +168,14 @@ export const WithDescription: Story = {
         :style="{
           'background-image': 'url(' + posterUrl + ')'
         }"
+        @play="logEvent('play', $event)"
+        @pause="logEvent('pause', $event)"
+        @seeking="logEvent('seeking', $event)"
+        @ended="logEvent('ended', $event)"
+        @rewind="logEvent('rewind', $event)"
+        @fastforward="logEvent('fastforward', $event)"
+        @playbackSpeed="logEvent('playbackSpeed', $event)"
+        @favourite="logEvent('favourite', $event)"
         >
 
         <template #audio-description>
@@ -192,6 +214,7 @@ export const WithMeditationMixer: Story = {
       MVCarousel,
       MVCarouselSlide
     },
+    methods: { logEvent: action('') },
     props: Object.keys(argTypes),
     template: `
       <MVAudioPlayer>
@@ -199,7 +222,15 @@ export const WithMeditationMixer: Story = {
           class="my-10 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"
           :style="{
             'background-image': 'url(' + posterUrl + ')'
-          }" 
+          }"
+          @play="logEvent('play', $event)"
+          @pause="logEvent('pause', $event)"
+          @seeking="logEvent('seeking', $event)"
+          @ended="logEvent('ended', $event)"
+          @rewind="logEvent('rewind', $event)"
+          @fastforward="logEvent('fastforward', $event)"
+          @playbackSpeed="logEvent('playbackSpeed', $event)"
+          @favourite="logEvent('favourite', $event)"
           >
   
           <template #audio-description>
@@ -258,6 +289,7 @@ export const MultipleAudios: Story = {
       MVCarouselSlide
     },
     props: Object.keys(argTypes),
+    methods: { logEvent: action('') },
     template: `
       <MVAudioPlayer>
           <MVAudioResource v-for="(audio, index) in audios"  v-bind="audio"
@@ -268,7 +300,16 @@ export const MultipleAudios: Story = {
           :key="index"   
           blurEffect
           overlay
-          showFavourite>
+          showFavourite
+          @play="logEvent('play', $event)"
+          @pause="logEvent('pause', $event)"
+          @seeking="logEvent('seeking', $event)"
+          @ended="logEvent('ended', $event)"
+          @rewind="logEvent('rewind', $event)"
+          @fastforward="logEvent('fastforward', $event)"
+          @playbackSpeed="logEvent('playbackSpeed', $event)"
+          @favourite="logEvent('favourite', $event)"
+          >
   
           <template #audio-description>
           <MVAudioDescription
