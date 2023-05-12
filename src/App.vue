@@ -12,7 +12,9 @@
         :ratings="audio.ratings"
         :total-ratings="audio.totalRatings"
         class="my-10 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"
-        :style="`background-image: url(${audio.posterUrl});`"
+        :style="{
+          'background-image': 'url(' + audio.posterUrl + ')'
+        }"
         blurEffect
         overlay
         showFavourite
