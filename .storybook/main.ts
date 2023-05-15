@@ -18,6 +18,7 @@ const config: StorybookConfig = {
       }
     }
   ],
+  staticDirs: ['../public'],
   framework: {
     name: '@storybook/vue-vite',
     options: {}

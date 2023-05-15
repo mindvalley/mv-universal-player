@@ -1,0 +1,20 @@
+@font-face {
+  font-family: "Sharp Grotesk Semibold 21";
+  font-weight: 600;
+  font-display: swap;
+  src: url("https://assets.mindvalley.com/api/v1/assets/270944f2-bb71-4559-b461-aabb0b351d6b.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Sharp Grotesk Medium 20";
+  font-weight: 500;
+  font-display: swap;
+  src: url("https://assets.mindvalley.com/api/v1/assets/faf3d1e3-d18c-461e-aafa-9e56f9f16ce0.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Sharp Grotesk Book 19";
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://assets.mindvalley.com/api/v1/assets/0982041e-3874-48dc-bba5-a15c6fb960d1.woff2") format("woff2");
+}

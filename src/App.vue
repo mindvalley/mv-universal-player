@@ -156,11 +156,11 @@ const audio = {
 }
 
 function getImageUrl(name: string) {
-  return new URL(`./assets/images/${name}`, import.meta.url).href
+  return `/assets/images/${name}`
 }
 
 function getSoundUrl(name: string) {
-  return new URL(`./assets/sounds/${name}`, import.meta.url).href
+  return `/assets/sounds/${name}`
 }
 </script>
 

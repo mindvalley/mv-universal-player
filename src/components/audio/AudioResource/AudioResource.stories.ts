@@ -71,6 +71,7 @@ const audio1 = {
   sources: [
     { type: 'audio/mpeg', src: getSoundUrl('removing_inner_blocks_success_audio.mp3.mp3') }
   ],
+  isFavourite: false,
   duration: 1932.669,
   posterUrl: getImageUrl('removing_inner_blocks_success.jpeg'),
   title: 'Removing Inner Block to Success',
@@ -87,6 +88,7 @@ const audio1 = {
 const audio2 = {
   assetId: '2',
   sources: [{ type: 'audio/mpeg', src: getSoundUrl('free_yourself_from_depression.m4a.mp3.mp3') }],
+  isFavourite: false,
   duration: 1831.24,
   posterUrl: getImageUrl('free_youself_from_depression.jpeg'),
   title: 'Free Yourself from Depression and Anxiety',
@@ -103,11 +105,11 @@ const audio2 = {
 const audios = [audio1, audio2]
 
 function getImageUrl(name: string) {
-  return `src/assets/images/${name}`
+  return `/assets/images/${name}`
 }
 
 function getSoundUrl(name: string) {
-  return `src/assets/sounds/${name}`
+  return `/assets/sounds/${name}`
 }
 
 const meta: Meta<typeof MVAudioResource> = {
@@ -149,6 +151,7 @@ export const Default: Story = {
     artistName: audio1.artistName,
     ratings: audio1.ratings,
     totalRatings: audio1.totalRatings,
+    isFavourite: audio1.isFavourite,
     blurEffect: true,
     overlay: true,
     showFavourite: true
@@ -157,7 +160,6 @@ export const Default: Story = {
 
 export const WithDescription: Story = {
   render: (args: any, { argTypes }) => ({
-    title: 'dddd',
     components: { MVAudioPlayer, MVAudioResource, MVAudioDescription },
     methods: { logEvent: action('') },
     props: Object.keys(argTypes),

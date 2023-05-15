@@ -1,5 +1,5 @@
 import type { Preview } from '@storybook/vue'
-import './../src/assets/main.css'
+import './../public/assets/main.css'
 import Vue from 'vue'
 import svgSprite from '@mindvalley/design-system/dist/svg-sprite/svg-defs.svg'
 import SvgSprite from 'vue-svg-sprite'
