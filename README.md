@@ -728,3 +728,27 @@ import {
 ```
 
 Note: If you are already using `vue-sprite` package for Mindvalley Design System icons, it is recommened you go with inidvidual components approach to reduce the package size.
+
+## Storybook
+
+To develop components in isolation, we have integrated Storybook. Running below command will open up Storybook in your browser.
+
+```
+yarn storybook
+```
+
+### Publish Storybook
+
+To let other people review our components, we need to build and then deploy it on Chromatic.
+
+```
+yarn build-storybook
+```
+
+Replace TOKEN with Chromatic token.
+
+```
+npx chromatic --project-token=<TOKEN>
+```
+
+To access Chromatic, ask your colleague to add you.
