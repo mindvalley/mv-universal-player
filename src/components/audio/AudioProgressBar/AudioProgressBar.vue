@@ -41,7 +41,7 @@ const progressPercentage = computed(() => {
       <div @click="seek" class="audio-progess-bar__state">
         <div ref="seekerUi" class="audio-progess-bar__state--incomplete">
           <div
-            :style="`width: ${progressPercentage}%`"
+            :style="{ width: progressPercentage + '%' }"
             class="audio-progess-bar__state--complete"
           ></div>
         </div>

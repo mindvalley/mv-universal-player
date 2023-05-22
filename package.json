@@ -45,8 +45,7 @@
     "build:library": "run-s build library:pack library:publish",
     "prepare": "run-s build",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "chromatic": "npx chromatic --project-token=chpt_de956f6c55bc930"
+    "build-storybook": "storybook build"
   },
   "peerDependencies": {
     "@vue/composition-api": "^1.0.0-rc.1",
