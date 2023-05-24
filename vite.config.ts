@@ -21,6 +21,7 @@ export default defineConfig(({ command }: ConfigEnv) => {
         exclude: ['vue-demi']
       },
       build: {
+        copyPublicDir: false,
         lib: {
           entry: resolve(__dirname, 'src/index.ts'),
           formats: ['es', 'cjs'],
@@ -30,7 +31,7 @@ export default defineConfig(({ command }: ConfigEnv) => {
         rollupOptions: {
           external: ['vue', 'vue-demi'],
           output: {
-            preserveModules: false,
+            preserveModules: true,
             exports: 'named',
             globals: {
               vue: 'Vue'

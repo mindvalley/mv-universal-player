@@ -1,6 +1,6 @@
 {
   "name": "@mindvalley/mv-universal-player",
-  "version": "0.0.72",
+  "version": "1.0.1",
   "author": {
     "name": "Mindvalley"
   },
@@ -19,12 +19,13 @@
       "require": "./dist/style.css"
     }
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "files": [
     "dist"
   ],
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mindvalley/mv-universal-player.git"
@@ -43,7 +44,6 @@
     "library:pack": "npm pack",
     "library:publish": "npm publish",
     "build:library": "run-s build library:pack library:publish",
-    "prepare": "run-s build",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
