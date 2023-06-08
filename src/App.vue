@@ -1,6 +1,6 @@
 <template>
-  <MVAudioPlayer>
-    <div class="">
+  <div class="mv-universal-player">
+    <MVAudioPlayer>
       <MVAudioResource
         :key="audio.id"
         asset-id="audio.id"
@@ -60,8 +60,8 @@
           </MVMeditationMixer>
         </template>
       </MVAudioResource>
-    </div>
-  </MVAudioPlayer>
+    </MVAudioPlayer>
+  </div>
 </template>
 
 <script setup lang="ts">

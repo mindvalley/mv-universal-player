@@ -129,7 +129,7 @@ export const Default: Story = {
     components: { MVAudioPlayer, MVAudioResource },
     methods: { logEvent: action('') },
     props: Object.keys(argTypes),
-    template: `<MVAudioPlayer><MVAudioResource  v-bind="$props" class="my-10 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"   :style="{
+    template: `<div class="mv-universal-player"><MVAudioPlayer><MVAudioResource  v-bind="$props" class="my-10 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"   :style="{
       'background-image': 'url(' + posterUrl + ')'
     }"
     @play="logEvent('play', $event)"
@@ -140,7 +140,7 @@ export const Default: Story = {
     @fastforward="logEvent('fastforward', $event)"
     @playbackSpeed="logEvent('playbackSpeed', $event)"
     @favourite="logEvent('favourite', $event)"
-    ></MVAudioResource></MVAudioPlayer>`
+    ></MVAudioResource></MVAudioPlayer></div>`
   }),
   args: {
     assetId: audio1.assetId,
@@ -164,6 +164,7 @@ export const WithDescription: Story = {
     methods: { logEvent: action('') },
     props: Object.keys(argTypes),
     template: `
+    <div class="mv-universal-player">
     <MVAudioPlayer>
         <MVAudioResource  v-bind="$props" 
         class="my-10 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"
@@ -193,7 +194,9 @@ export const WithDescription: Story = {
       </template>
 
         </MVAudioResource>
-    </MVAudioPlayer>`
+    </MVAudioPlayer>
+    </div>
+    `
   }),
   args: {
     ...Default.args,
@@ -219,6 +222,7 @@ export const WithMeditationMixer: Story = {
     methods: { logEvent: action('') },
     props: Object.keys(argTypes),
     template: `
+    <div class="mv-universal-player">
       <MVAudioPlayer>
           <MVAudioResource  v-bind="$props" 
           class="my-10 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"
@@ -269,7 +273,9 @@ export const WithMeditationMixer: Story = {
       </template>
   
           </MVAudioResource>
-      </MVAudioPlayer>`
+      </MVAudioPlayer>
+      </div>
+      `
   }),
   args: {
     ...Default.args,
@@ -293,6 +299,7 @@ export const MultipleAudios: Story = {
     props: Object.keys(argTypes),
     methods: { logEvent: action('') },
     template: `
+    <div class="mv-universal-player">
       <MVAudioPlayer>
           <MVAudioResource v-for="(audio, index) in audios"  v-bind="audio"
           class="my-10 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"
@@ -347,7 +354,9 @@ export const MultipleAudios: Story = {
       </template>
   
           </MVAudioResource>
-      </MVAudioPlayer>`
+      </MVAudioPlayer>
+      </div>
+      `
   }),
   args: {
     audios: audios

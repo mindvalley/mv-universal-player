@@ -4,6 +4,7 @@ import { colors } from '@mindvalley/design-system'
 
 module.exports = {
   content: ['./src/**/*.{vue,js,ts,jsx,tsx}'],
+  important: '.mv-universal-player',
   theme: {
     fontFamily: {
       sans: ['"Sharp Grotesk Book 19"', 'sans-serif']

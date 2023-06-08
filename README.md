@@ -496,7 +496,6 @@ You can think of this component as an extension to _AudioItem_ component because
         <!-- Other code-->
 
       </MVAudioResource>
-    </div>
   </MVAudioPlayer>
 ```
 
@@ -684,15 +683,12 @@ This package can be downloaded using usual package installation approach or thro
 yarn add @mindvalley/mv-universal-player
 ```
 
-OR
+**Note**: To download the package for Vue 2, download the package without '@next' appended. For example:
 
-```
-yarn add https://github.com/mindvalley/mv-universal-player.git
-```
+- 1.0.1 (for Vue 2)
+- 1.0.3@next (for Vue 3)
 
-Using git url approach will download the source code and create the package at runtime. The `prepare` script in `package.json` file will execute to build the package once the source code is downloaded. On server (container or GitHub workflow), you might need to update your `yarn install` command to `yarn install --network-concurrency 1` to allow multiple instances of yarn. This is required because one instance will download packages and another build the package.
-
-Note: As the package is available on GitHub Package Registry, users will need appropriate access to download the package.
+**IMPORTANT**: In package.json, do NOT set the caret symbol in front of the version. Have exact version else it will download the latest version which might be of any version.
 
 ## Using Package
 
