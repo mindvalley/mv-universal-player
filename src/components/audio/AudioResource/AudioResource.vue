@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { Source } from './../../../types/audio'
 import { useDetectBrowser } from './../../../composables/use-detect-browser'
-import BaseImage from '../../global/BaseImage.vue'
 import MVAudioItem from '../AudioItem'
 import MVAudioPlayButton from '../AudioPlayButton'
 import MVAudioFastForwardButton from '../AudioFastForwardButton'
@@ -107,18 +106,11 @@ const handleFavourite = () => {
       @rewind="emitEvent('rewind', $event)"
       @fastforward="emitEvent('fastforward', $event)"
       @playbackSpeed="emitEvent('playbackSpeed', $event)"
+      @timeupdate="emitEvent('timeupdate', $event)"
     >
       <div class="grid grid-cols-3 text-white relative gap-8">
         <!-- Image -->
         <section class="w-full col-span-1 row-span-3">
-          <!-- <BaseImage
-            aspect-ratio="square"
-            :src="posterUrl || ''"
-            class="rounded-xl md:rounded-3xl"
-            img-class="rounded-xl md:rounded-3xl"
-            :width="350"
-          ></BaseImage> -->
-
           <img :src="posterUrl || ''" class="rounded-xl md:rounded-3xl" :width="350" />
         </section>
 

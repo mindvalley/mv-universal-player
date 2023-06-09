@@ -34,6 +34,14 @@ const mainState: any = inject('audioItemState')
 
 const audioItem = ref()
 
+const emit = defineEmits<{
+  (e: 'timeupdate', { currentTime }: any): void
+  (e: 'play'): void
+  (e: 'pause'): void
+  (e: 'ended'): void
+  (e: any, payload: any): void
+}>()
+
 const isNoBackgroundSound = computed(() => {
   return props.sources.length === 0
 })
@@ -108,10 +116,23 @@ const play = () => {
 const pause = () => {
   audioItem.value.player.pause()
 }
+
+const emitEvent = (eventName: string, payload?: any) => {
+  const data = { assetId: props.id, ...payload }
+  emit(eventName, data)
+}
 </script>
 
 <template>
-  <MVAudioItem ref="audioItem" :id="props.id" :sources="props.sources">
+  <MVAudioItem
+    ref="audioItem"
+    :id="props.id"
+    :sources="props.sources"
+    @play="emitEvent('play')"
+    @pause="emitEvent('pause')"
+    @timeupdate="emitEvent('timeupdate', $event)"
+    @ended="emitEvent('ended', $event)"
+  >
     <div
       data-testid="meditation-track-item"
       class="carousel-item h-[60px] w-[60px] overflow-hidden rounded-full border-2"
