@@ -141,8 +141,8 @@ const handleFavourite = () => {
 
         <!-- Controls -->
         <section
-          class="col-span-3 sm:col-span-2 sm:row-span-2 lg:row-span-1"
-          :class="{ 'row-span-2': !isMeditationMixerAvailable }"
+          class="flex-col h-full col-span-3 sm:col-span-2"
+          :class="[isMeditationMixerAvailable ? 'sm:row-span-2 lg:row-span-1' : 'row-span-2']"
         >
           <MVAudioProgressBar
             :duration="props.duration"
@@ -159,7 +159,7 @@ const handleFavourite = () => {
         </section>
 
         <!-- Meditation -->
-        <div class="relative w-full col-span-3 lg:col-span-2">
+        <div v-if="isMeditationMixerAvailable" class="relative w-full col-span-3 lg:col-span-2">
           <slot name="meditation-mixer"></slot>
         </div>
       </div>
