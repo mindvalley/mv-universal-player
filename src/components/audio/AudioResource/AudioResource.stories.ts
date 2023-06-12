@@ -9,58 +9,72 @@ import { MVCarousel, MVCarouselSlide } from './../../carousel'
 
 const backgroundSounds = [
   {
+    id: '1',
     image: getImageUrl('bg_sound_image_1.png'),
     sources: [{ type: '', src: getSoundUrl('bg_sound_1.wav.mp3') }]
   },
   {
+    id: '2',
     image: getImageUrl('bg_sound_image_2.png'),
     sources: [{ type: '', src: getSoundUrl('bg_sound_2.wav.mp3') }]
   },
   {
+    id: '3',
     image: getImageUrl('bg_sound_image_3.png'),
     sources: [{ type: '', src: getSoundUrl('bg_sound_3.wav.mp3') }]
   },
   {
+    id: '4',
     image: getImageUrl('bg_sound_image_4.png'),
     sources: [{ type: '', src: getSoundUrl('bg_sound_4.wav.mp3') }]
   },
   {
+    id: '5',
     image: getImageUrl('bg_sound_image_5.png'),
     sources: [{ type: '', src: getSoundUrl('bg_sound_5.wav.mp3') }]
   },
   {
+    id: '6',
     image: getImageUrl('bg_sound_image_6.png'),
     sources: [{ type: '', src: getSoundUrl('bg_sound_6.wav.mp3') }]
   },
   {
+    id: '7',
     image: getImageUrl('bg_sound_image_7.png'),
     sources: [{ type: '', src: getSoundUrl('bg_sound_7.wav.mp3') }]
   },
   {
+    id: '8',
     image: getImageUrl('bg_sound_image_8.png'),
     sources: [{ type: '', src: getSoundUrl('bg_sound_8.wav.mp3') }]
   },
   {
+    id: '9',
     image: getImageUrl('bg_sound_image_9.png'),
     sources: [{ type: '', src: getSoundUrl('bg_sound_9.wav.mp3') }]
   },
   {
+    id: '10',
     image: getImageUrl('bg_sound_image_10.png'),
     sources: [{ type: '', src: getSoundUrl('bg_sound_10.wav.mp3') }]
   },
   {
+    id: '11',
     image: getImageUrl('bg_sound_image_11.png'),
     sources: [{ type: '', src: getSoundUrl('bg_sound_11.wav.mp3') }]
   },
   {
+    id: '12',
     image: getImageUrl('bg_sound_image_12.png'),
     sources: [{ type: '', src: getSoundUrl('bg_sound_12.mp3.mp3') }]
   },
   {
+    id: '13',
     image: getImageUrl('bg_sound_image_13.png'),
     sources: [{ type: '', src: getSoundUrl('bg_sound_13.mp3.mp3') }]
   },
   {
+    id: '14',
     image: getImageUrl('bg_sound_image_14.png'),
     sources: [{ type: '', src: getSoundUrl('bg_sound_14.wav.mp3') }]
   }
@@ -129,7 +143,7 @@ export const Default: Story = {
     components: { MVAudioPlayer, MVAudioResource },
     methods: { logEvent: action('') },
     props: Object.keys(argTypes),
-    template: `<MVAudioPlayer><MVAudioResource  v-bind="$props" class="my-10 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"   :style="{
+    template: `<div class="mv-universal-player"><MVAudioPlayer><MVAudioResource  v-bind="$props" class="my-10 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"   :style="{
       'background-image': 'url(' + posterUrl + ')'
     }"
     @play="logEvent('play', $event)"
@@ -140,7 +154,8 @@ export const Default: Story = {
     @fastforward="logEvent('fastforward', $event)"
     @playbackSpeed="logEvent('playbackSpeed', $event)"
     @favourite="logEvent('favourite', $event)"
-    ></MVAudioResource></MVAudioPlayer>`
+    @timeupdate="logEvent('timeupdate', $event)"
+    ></MVAudioResource></MVAudioPlayer></div>`
   }),
   args: {
     assetId: audio1.assetId,
@@ -164,6 +179,7 @@ export const WithDescription: Story = {
     methods: { logEvent: action('') },
     props: Object.keys(argTypes),
     template: `
+    <div class="mv-universal-player">
     <MVAudioPlayer>
         <MVAudioResource  v-bind="$props" 
         class="my-10 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"
@@ -178,6 +194,7 @@ export const WithDescription: Story = {
         @fastforward="logEvent('fastforward', $event)"
         @playbackSpeed="logEvent('playbackSpeed', $event)"
         @favourite="logEvent('favourite', $event)"
+        @timeupdate="logEvent('timeupdate', $event)"
         >
 
         <template #audio-description>
@@ -193,7 +210,9 @@ export const WithDescription: Story = {
       </template>
 
         </MVAudioResource>
-    </MVAudioPlayer>`
+    </MVAudioPlayer>
+    </div>
+    `
   }),
   args: {
     ...Default.args,
@@ -219,6 +238,7 @@ export const WithMeditationMixer: Story = {
     methods: { logEvent: action('') },
     props: Object.keys(argTypes),
     template: `
+    <div class="mv-universal-player">
       <MVAudioPlayer>
           <MVAudioResource  v-bind="$props" 
           class="my-10 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"
@@ -233,6 +253,7 @@ export const WithMeditationMixer: Story = {
           @fastforward="logEvent('fastforward', $event)"
           @playbackSpeed="logEvent('playbackSpeed', $event)"
           @favourite="logEvent('favourite', $event)"
+          @timeupdate="logEvent('timeupdate', $event)"
           >
   
           <template #audio-description>
@@ -256,7 +277,12 @@ export const WithMeditationMixer: Story = {
                 <MVMeditationTrackItem :volume="0"></MVMeditationTrackItem>
               </MVCarouselSlide>
               <MVCarouselSlide v-for="(sound, index) in backgroundSounds" :key="index + 1">
-                <MVMeditationTrackItem :sources="sound.sources" :background-src="sound.image" />
+                <MVMeditationTrackItem :sources="sound.sources" :background-src="sound.image"
+                :id="sound.id"
+                @play="logEvent('play', $event)"
+                @pause="logEvent('pause', $event)"
+                @timeupdate="logEvent('timeupdate', $event)"
+                />
               </MVCarouselSlide>
             </MVCarousel>
           </div>
@@ -269,7 +295,9 @@ export const WithMeditationMixer: Story = {
       </template>
   
           </MVAudioResource>
-      </MVAudioPlayer>`
+      </MVAudioPlayer>
+      </div>
+      `
   }),
   args: {
     ...Default.args,
@@ -293,6 +321,7 @@ export const MultipleAudios: Story = {
     props: Object.keys(argTypes),
     methods: { logEvent: action('') },
     template: `
+    <div class="mv-universal-player">
       <MVAudioPlayer>
           <MVAudioResource v-for="(audio, index) in audios"  v-bind="audio"
           class="my-10 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"
@@ -311,6 +340,7 @@ export const MultipleAudios: Story = {
           @fastforward="logEvent('fastforward', $event)"
           @playbackSpeed="logEvent('playbackSpeed', $event)"
           @favourite="logEvent('favourite', $event)"
+          @timeupdate="logEvent('timeupdate', $event)"
           >
   
           <template #audio-description>
@@ -334,7 +364,12 @@ export const MultipleAudios: Story = {
                 <MVMeditationTrackItem :volume="0"></MVMeditationTrackItem>
               </MVCarouselSlide>
               <MVCarouselSlide v-for="(sound, index) in audio.backgroundSounds" :key="index + 1">
-                <MVMeditationTrackItem :sources="sound.sources" :background-src="sound.image" />
+                <MVMeditationTrackItem :sources="sound.sources" :background-src="sound.image" 
+                :id="sound.id"
+                @play="logEvent('play', $event)"
+                @pause="logEvent('pause', $event)"
+                @timeupdate="logEvent('timeupdate', $event)"
+                />
               </MVCarouselSlide>
             </MVCarousel>
           </div>
@@ -347,7 +382,9 @@ export const MultipleAudios: Story = {
       </template>
   
           </MVAudioResource>
-      </MVAudioPlayer>`
+      </MVAudioPlayer>
+      </div>
+      `
   }),
   args: {
     audios: audios

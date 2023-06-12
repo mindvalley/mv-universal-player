@@ -1,6 +1,6 @@
 {
   "name": "@mindvalley/mv-universal-player",
-  "version": "1.0.3-next",
+  "version": "1.0.5-next",
   "author": {
     "name": "Mindvalley"
   },
@@ -59,7 +59,6 @@
   },
   "dependencies": {
     "@mindvalley/design-system": "^2.3.0",
-    "@vitejs/plugin-vue2": "^2.2.0",
     "sass": "^1.61.0",
     "video.js": "^8.0.4",
     "vue-carousel": "^0.18.0",
