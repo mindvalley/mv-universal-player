@@ -683,10 +683,10 @@ This package can be downloaded using usual package installation approach or thro
 yarn add @mindvalley/mv-universal-player
 ```
 
-**Note**: To download the package for Vue 2, download the package without '@next' appended. For example:
+**Note**: To download the package for Vue 2, download the package without '-next' appended. For example:
 
-- 1.0.1 (for Vue 2)
-- 1.0.3@next (for Vue 3)
+- 1.0.5 (for Vue 2)
+- 1.0.5-next (for Vue 3)
 
 **IMPORTANT**: In package.json, do NOT set the caret symbol in front of the version. Have exact version else it will download the latest version which might be of any version.
 
@@ -724,6 +724,157 @@ import {
 ```
 
 Note: If you are already using `vue-sprite` package for Mindvalley Design System icons, it is recommened you go with inidvidual components approach to reduce the package size.
+
+## Phoenix LiveView Integration
+
+Though most of the times you might use the player in VueJS environment (Vue 2 or Vue 3), you can also integrate the library in Phoenix LiveView. Let's go step by step.
+
+**1. Install Vue**
+
+Because the library is built in Vue, it needs to have Vue runtime. It can be Vue 2 (2.7) or Vue 3+.
+
+**2. Add Universal Player**
+
+Use either of the commands based on the Vue environment.
+
+For Vue 2.7
+
+```
+yarn add @mindvalley/mv-universal-player@1.0.5
+```
+
+For Vue 3+
+
+```
+yarn add @mindvalley/mv-universal-player@1.0.5-next
+```
+
+**3. Add Host Element**
+
+We need an HTML element to bin our universal player.
+
+```
+ <div id="mv-universal-player" phx-hook="MVUniversalPlayer" phx-update="ignore">
+ </div>
+```
+
+The above element is where our universal player will be hosted dynamically. You can refer [JS Hooks](https://hexdocs.pm/phoenix_live_view/js-interop.html) guide to know more about this.
+
+We have added `phx-update='ignore'` to prevent LiveView from managing this element whenever the liveview state changes. This is because the player manages its own state.
+
+**4. Create JS Hook**
+
+To bind our player we need to create JS Hook and pass it to LiveSocket constructor. So, let's create a new file and place below code in it. We are naming it `sample.js` and then you can import it in another `.js` file if required.
+
+```
+import { Socket } from "phoenix";
+import { LiveSocket } from "phoenix_live_view";
+import Vue from "vue";
+import "@mindvalley/mv-universal-player/dist/style.css";
+
+import { MVAudioPlayer, MVAudioResource } from "@mindvalley/mv-universal-player";
+import MVUniversalPlayer from "@mindvalley/mv-universal-player";
+
+let Hooks = {};
+
+Hooks.MVUniversalPlayer = {
+  mounted() {
+    this.pushEvent("load_data", {}, (reply, ref) => {
+      this.mvUniversalPlayer = mount(this.el.id, {
+        resource: reply.data.resource,
+      });
+    });
+  },
+};
+
+export function mount(id, opts) {
+  const player = document.getElementById(id);
+  const { resource } = opts;
+  const data = { resource: resource };
+
+  // If your code already has @mindvalley/design-system integrated, you can remove below line.
+  Vue.use(MVUniversalPlayer);
+
+  new Vue({
+    el: player,
+    components: { MVAudioPlayer, MVAudioResource },
+    data: data,
+    methods: {
+      formatSources(localSources = []) {
+        const audioSources = localSources?.filter(
+          (source) =>
+            source.id === "mp3" || source.id === "ogg" || source.id === "hls"
+        );
+        const updatedSources = [];
+
+        for (const i in audioSources) {
+          updatedSources.push({
+            type: localSources[i]?.contentType,
+            src: localSources[i]?.url,
+          });
+        }
+
+        return updatedSources;
+      },
+    },
+    template: `
+    <div class="mv-universal-player">
+    <MVAudioPlayer>
+      <MVAudioResource
+        :key="resource.assetId"
+        :asset-id="resource.assetId"
+        :sources="formatSources(resource.mediaAsset.renditions)"
+        :duration="resource.mediaAsset.duration"
+        :poster-url="resource.coverAsset.url"
+        :title="resource.title"
+        :artist-id="resource.author.id"
+        :artist-name="resource.author.name"
+        :ratings="resource.averageRating"
+        :total-ratings="resource.ratingsCount"
+        class="my-10 mx-auto inset-0 z-15 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"
+        :style="{
+          'background-image': 'url(' + resource.coverAsset.url + ')'
+        }"
+        blurEffect
+        overlay
+        showFavourite
+      >
+        <!-- Other code-->
+      </MVAudioResource>
+    </MVAudioPlayer>
+  </div>`,
+  });
+}
+
+let csrfToken = document
+  .querySelector("meta[name='csrf-token']")
+  .getAttribute("content");
+
+let liveSocket = new LiveSocket("/live", Socket, {
+  hooks: Hooks,
+  params: {
+    _csrf_token: csrfToken,
+  },
+});
+
+liveSocket.connect();
+```
+
+You can split above code as per the needs. The above code will:
+
+- mount the hook to the host element
+- call `mounted` callback
+- send an event to LiveView to fetch the initial data
+- pass the data to mount() which will further mount the Vue instance with the player attached to it to the host element
+
+You should create matching event in LiveView.
+
+```
+  def handle_event("load_data", _, socket) do
+    data = %{resource: socket.assigns.resource}
+    {:reply, %{data: data}, socket}
+  end
+```
 
 ## Storybook
 
