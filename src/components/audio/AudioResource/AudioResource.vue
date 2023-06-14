@@ -61,10 +61,10 @@ const isMeditationMixerAvailable = computed(() => {
 const { isiPhoneOriPadSafari } = useDetectBrowser()
 const emit = defineEmits<{
   (e: 'timeupdate', { currentTime }: any): void
-  (e: 'play'): void
-  (e: 'pause'): void
+  (e: 'play', { currentTime }: any): void
+  (e: 'pause', { currentTime }: any): void
   (e: 'seeking', { seeking }: any): void
-  (e: 'ended'): void
+  (e: 'ended', { currentTime }: any): void
   (e: 'rewind', { previousTime, currentTime }: any): void
   (e: 'fastforward', { previousTime, currentTime }: any): void
   (e: any, payload: any): void
@@ -99,8 +99,8 @@ const handleFavourite = () => {
       v-slot="{ state, seek, play, pause, rewind, fastForward }"
       :sources="sources"
       :id="assetId"
-      @play="emitEvent('play')"
-      @pause="emitEvent('pause')"
+      @play="emitEvent('play', $event)"
+      @pause="emitEvent('pause', $event)"
       @seeking="emitEvent('seeking', $event)"
       @ended="emitEvent('ended', $event)"
       @rewind="emitEvent('rewind', $event)"

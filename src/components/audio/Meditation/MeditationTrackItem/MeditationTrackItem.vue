@@ -36,9 +36,9 @@ const audioItem = ref()
 
 const emit = defineEmits<{
   (e: 'timeupdate', { currentTime }: any): void
-  (e: 'play'): void
-  (e: 'pause'): void
-  (e: 'ended'): void
+  (e: 'play', { currentTime }: any): void
+  (e: 'pause', { currentTime }: any): void
+  (e: 'ended', { currentTime }: any): void
   (e: any, payload: any): void
 }>()
 
@@ -128,8 +128,8 @@ const emitEvent = (eventName: string, payload?: any) => {
     ref="audioItem"
     :id="props.id"
     :sources="props.sources"
-    @play="emitEvent('play')"
-    @pause="emitEvent('pause')"
+    @play="emitEvent('play', $event)"
+    @pause="emitEvent('pause', $event)"
     @timeupdate="emitEvent('timeupdate', $event)"
     @ended="emitEvent('ended', $event)"
   >
