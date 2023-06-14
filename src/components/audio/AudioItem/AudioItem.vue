@@ -21,10 +21,10 @@ const currentTime = ref(0)
 
 const emit = defineEmits<{
   (e: 'timeupdate', { currentTime }: any): void
-  (e: 'play'): void
-  (e: 'pause'): void
+  (e: 'play', { currentTime }: any): void
+  (e: 'pause', { currentTime }: any): void
   (e: 'seeking', { seeking }: any): void
-  (e: 'ended'): void
+  (e: 'ended', { currentTime }: any): void
   (e: 'rewind', { previousTime, currentTime }: any): void
   (e: 'fastforward', { previousTime, currentTime }: any): void
   (e: any, payload: any): void
@@ -35,7 +35,7 @@ watch(
   (playing) => {
     if (props.id === audioState.value.audioItemId) {
       if (playing) {
-        emit('play')
+        emit('play', { currentTime: audioState.value.currentTime })
       }
     }
   }
@@ -46,7 +46,7 @@ watch(
   (paused) => {
     if (props.id === audioState.value.audioItemId) {
       if (paused) {
-        emit('pause')
+        emit('pause', { currentTime: audioState.value.currentTime })
       }
     }
   }
@@ -66,7 +66,7 @@ watch(
   (ended) => {
     if (props.id === audioState.value.audioItemId) {
       if (ended) {
-        emit('ended')
+        emit('ended', { currentTime: audioState.value.currentTime })
       }
     }
   }
