@@ -31,11 +31,11 @@ const emit = defineEmits<{
 }>()
 
 watch(
-  () => audioState.value.playing,
-  (playing) => {
-    if (props.id === audioState.value.audioItemId) {
-      if (playing) {
-        emit('play', { currentTime: audioState.value.currentTime })
+  [() => audioState.value.playing, () => audioState.value.audioItemId],
+  ([newPlaying, newAudioItemId]) => {
+    if (props.id === newAudioItemId) {
+      if (newPlaying) {
+        emit('play', { currentTime: currentTime.value.toFixed(2) })
       }
     }
   }
@@ -46,7 +46,7 @@ watch(
   (paused) => {
     if (props.id === audioState.value.audioItemId) {
       if (paused) {
-        emit('pause', { currentTime: audioState.value.currentTime })
+        emit('pause', { currentTime: currentTime.value.toFixed(2) })
       }
     }
   }
@@ -66,7 +66,8 @@ watch(
   (ended) => {
     if (props.id === audioState.value.audioItemId) {
       if (ended) {
-        emit('ended', { currentTime: audioState.value.currentTime })
+        emit('ended', { currentTime: currentTime.value.toFixed(2) })
+        currentTime.value = 0
       }
     }
   }
