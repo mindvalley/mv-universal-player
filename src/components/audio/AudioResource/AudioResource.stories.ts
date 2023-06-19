@@ -341,6 +341,7 @@ export const MultipleAudios: Story = {
           @playbackSpeed="logEvent('playbackSpeed', $event)"
           @favourite="logEvent('favourite', $event)"
           @timeupdate="logEvent('timeupdate', $event)"
+          @reset="logEvent('reset', $event)"
           >
   
           <template #audio-description>
