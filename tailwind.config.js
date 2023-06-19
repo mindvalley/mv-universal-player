@@ -72,5 +72,5 @@ module.exports = {
     }
   },
   safelist: ['aspect-square', 'aspect-video', 'aspect-portait'],
-  plugins: [require('./typography.js')()]
+  plugins: [require('@mindvalley/design-system/dist/tailwind/plugins/typography.js')()]
 }

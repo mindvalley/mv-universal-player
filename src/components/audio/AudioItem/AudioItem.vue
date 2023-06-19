@@ -27,6 +27,7 @@ const emit = defineEmits<{
   (e: 'ended', { currentTime }: any): void
   (e: 'rewind', { previousTime, currentTime }: any): void
   (e: 'fastforward', { previousTime, currentTime }: any): void
+  (e: 'reset', { currentTime }: any): void
   (e: any, payload: any): void
 }>()
 
@@ -105,6 +106,15 @@ watch(
       currentTime.value = newCurrentTime
     } else {
       currentTime.value = 0
+    }
+  }
+)
+
+watch(
+  [() => currentTime.value, () => playing.value],
+  ([newCurrentTime, newPlaying], [oldCurrentTime, oldPlaying]) => {
+    if (oldCurrentTime !== 0 && newCurrentTime === 0) {
+      emit('reset', { currentTime: currentTime.value })
     }
   }
 )
