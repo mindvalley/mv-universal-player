@@ -20,6 +20,7 @@ const MVUniversalPlayer = {
 
 export default MVUniversalPlayer
 export { useDetectBrowser } from './composables/use-detect-browser'
+export { useGlobal } from './composables/use-global'
 
 export {
   MVAudioPlayer,
