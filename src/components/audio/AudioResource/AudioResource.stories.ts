@@ -155,6 +155,7 @@ export const Default: Story = {
     @playbackSpeed="logEvent('playbackSpeed', $event)"
     @favourite="logEvent('favourite', $event)"
     @timeupdate="logEvent('timeupdate', $event)"
+    @error="logEvent('error', $event)"
     ></MVAudioResource></MVAudioPlayer></div>`
   }),
   args: {
@@ -195,6 +196,7 @@ export const WithDescription: Story = {
         @playbackSpeed="logEvent('playbackSpeed', $event)"
         @favourite="logEvent('favourite', $event)"
         @timeupdate="logEvent('timeupdate', $event)"
+        @error="logEvent('error', $event)"
         >
 
         <template #audio-description>
@@ -254,6 +256,7 @@ export const WithMeditationMixer: Story = {
           @playbackSpeed="logEvent('playbackSpeed', $event)"
           @favourite="logEvent('favourite', $event)"
           @timeupdate="logEvent('timeupdate', $event)"
+          @error="logEvent('error', $event)"
           >
   
           <template #audio-description>
@@ -282,6 +285,7 @@ export const WithMeditationMixer: Story = {
                 @play="logEvent('play', $event)"
                 @pause="logEvent('pause', $event)"
                 @timeupdate="logEvent('timeupdate', $event)"
+                @error="logEvent('error', $event)"
                 />
               </MVCarouselSlide>
             </MVCarousel>
@@ -342,6 +346,7 @@ export const MultipleAudios: Story = {
           @favourite="logEvent('favourite', $event)"
           @timeupdate="logEvent('timeupdate', $event)"
           @reset="logEvent('reset', $event)"
+          @error="logEvent('error', $event)"
           >
   
           <template #audio-description>
@@ -370,6 +375,7 @@ export const MultipleAudios: Story = {
                 @play="logEvent('play', $event)"
                 @pause="logEvent('pause', $event)"
                 @timeupdate="logEvent('timeupdate', $event)"
+                @error="logEvent('error', $event)"
                 />
               </MVCarouselSlide>
             </MVCarousel>
