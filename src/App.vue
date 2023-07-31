@@ -27,6 +27,7 @@
         @playbackSpeed="logEvent('playbackSpeed', $event)"
         @favourite="logEvent('favourite', $event)"
         @timeupdate="logEvent('timeupdate', $event)"
+        @error="logEvent('error', $event)"
       >
         <template #audio-description>
           <MVAudioDescription
@@ -56,6 +57,7 @@
                     @play="logEvent('play', $event)"
                     @pause="logEvent('pause', $event)"
                     @timeupdate="logEvent('timeupdate', $event)"
+                    @error="logEvent('error', $event)"
                   />
                 </MVCarouselSlide>
               </MVCarousel>

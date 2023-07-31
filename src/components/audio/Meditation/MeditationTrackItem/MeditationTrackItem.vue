@@ -39,6 +39,7 @@ const emit = defineEmits<{
   (e: 'play', { currentTime }: any): void
   (e: 'pause', { currentTime }: any): void
   (e: 'ended', { currentTime }: any): void
+  (e: 'error', payload: any): void
   (e: any, payload: any): void
 }>()
 
@@ -132,6 +133,7 @@ const emitEvent = (eventName: string, payload?: any) => {
     @pause="emitEvent('pause', $event)"
     @timeupdate="emitEvent('timeupdate', $event)"
     @ended="emitEvent('ended', $event)"
+    @error="emitEvent('error', $event)"
   >
     <div
       data-testid="meditation-track-item"

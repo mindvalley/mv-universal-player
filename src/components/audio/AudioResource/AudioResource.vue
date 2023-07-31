@@ -68,6 +68,7 @@ const emit = defineEmits<{
   (e: 'rewind', { previousTime, currentTime }: any): void
   (e: 'fastforward', { previousTime, currentTime }: any): void
   (e: 'reset', { currentTime }: any): void
+  (e: 'error', payload: any): void
   (e: any, payload: any): void
 }>()
 
@@ -109,6 +110,7 @@ const handleFavourite = () => {
       @playbackSpeed="emitEvent('playbackSpeed', $event)"
       @timeupdate="emitEvent('timeupdate', $event)"
       @reset="emitEvent('reset', $event)"
+      @error="emitEvent('error', $event)"
     >
       <div class="grid grid-cols-3 text-white relative gap-8">
         <!-- Image -->
