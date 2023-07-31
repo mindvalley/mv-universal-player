@@ -56,6 +56,7 @@ The components are grouped in below categories. Each category has its own reason
   - Carousel
 - **Utils**
   - Browser Detection
+  - Format Sources
 
 _Important_: When above components are consumed, they are used with **MV** prefix. It means, **AudioPlayer** becomes **MVAudioPlayer**.
 
@@ -123,6 +124,7 @@ This component represents the _virtual_ instance of a player. It means, that all
         @rewind="emitEvent('rewind', $event)"
         @fastforward="emitEvent('fastforward', $event)"
         @playbackSpeed="emitEvent('playbackSpeed', $event)"
+        @error="emitEvent('error', $event)"
         >
 
         <!-- Other code -->
@@ -491,6 +493,7 @@ You can think of this component as an extension to _AudioItem_ component because
         @fastforward="logEvent('fastforward', $event)"
         @playbackSpeed="logEvent('playbackSpeed', $event)"
         @favourite="logEvent('favourite', $event)"
+        @error="logEvent('error', $event)"
       >
 
         <!-- Other code-->
@@ -555,6 +558,10 @@ _**Usage**_
                   <MVMeditationTrackItem
                     :sources="formatSources(sound?.item?.mediaAsset.renditions)"
                     :background-src="sound?.item?.coverAsset?.thumbnailUrl"
+                    @play="logEvent('play', $event)"
+                    @pause="logEvent('pause', $event)"
+                    @timeupdate="logEvent('timeupdate', $event)"
+                    @error="logEvent('error', $event)"
                   />
                 </MVCarouselSlide>
               </MVCarousel>
@@ -616,6 +623,33 @@ It exposes below properties:
 - isiPhone
 - isiPad
 - isTouchDevice
+
+Usage:
+
+```
+import { useDetectBrowser } from "@mindvalley/mv-universal-player";
+
+const { isiPhone, isiPad, isiPhoneOriPadSafari } = useDetectBrowser();
+```
+
+**useGlobal**
+
+This composable clubs generic utitlity features. For example, it includes **formatSources** method to help format and priotize _.hls_ (for video) and _.mp4a_ (for audio) sources. So, let's say you pass a list of renditions which has _.mp4a_ as source, then this will be the _only_ source that would be considered. If not, then rest of the sources will be considered as fallback.
+
+Usage:
+
+```
+import { useGlobal } from "@mindvalley/mv-universal-player";
+
+const { formatSources } = useGlobal();
+```
+
+_formatSources_ accepts two parameters:
+
+| Name    | Type                                             | Default | Description                                                                                                                   |
+| ------- | ------------------------------------------------ | ------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| sources | [{id: string, contentType: string, url: string}] | []      | The list of sources which contains renditions.                                                                                |
+| isAudio | boolean                                          | true    | It is to identify whether the sources are of audio or video. For audio '.mp4a' is considered as priority and for video, .hls. |
 
 ## Package Configuration
 
