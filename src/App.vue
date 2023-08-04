@@ -71,13 +71,40 @@
         </template>
       </MVAudioResource>
     </MVAudioPlayer>
+
+    <MVVideoPlayer :poster-url="video.posterUrl">
+      <MVVideoResource
+        :key="video.id"
+        :asset-id="video.id"
+        :sources="video.sources"
+        :duration="video.duration"
+        :poster-url="video.posterUrl"
+        :title="video.title"
+        :artist-name="video.artistName"
+        :ratings="video.ratings"
+        :total-ratings="video.totalRatings"
+        showFavourite
+        @play="logEvent('play', $event)"
+        @pause="logEvent('pause', $event)"
+        @seeking="logEvent('seeking', $event)"
+        @ended="logEvent('ended', $event)"
+        @rewind="logEvent('rewind', $event)"
+        @fastforward="logEvent('fastforward', $event)"
+        @playbackSpeed="logEvent('playbackSpeed', $event)"
+        @favourite="logEvent('favourite', $event)"
+        @timeupdate="logEvent('timeupdate', $event)"
+        @error="logEvent('error', $event)"
+      >
+      </MVVideoResource>
+    </MVVideoPlayer>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { Source } from './types/audio'
-import { MVAudioPlayer } from '.'
+import { MVAudioPlayer, MVVideoPlayer } from '.'
 import MVAudioResource from './components/audio/AudioResource/'
+import MVVideoResource from './components/video/VideoResource/'
 import MVAudioDescription from './components/audio/AudioDescription'
 
 import { MVCarousel, MVCarouselSlide } from './components/carousel'
@@ -86,10 +113,6 @@ import { MVMeditationTrackItem, MVMeditationVolumeSlider, MVMeditationMixer } fr
 const logEvent = (event: string, data: any) => {
   console.log(event, data)
 }
-
-const sources = [
-  { type: 'audio/mpeg', src: getSoundUrl('removing_inner_blocks_success_audio.mp3.mp3') }
-]
 
 const backgroundSounds = [
   {
@@ -166,7 +189,24 @@ const backgroundSounds = [
 
 const audio = {
   id: '1',
-  sources: sources,
+  sources: [
+    { type: 'audio/mpeg', src: getSoundUrl('removing_inner_blocks_success_audio.mp3.mp3') }
+  ],
+  duration: 1932.669,
+  posterUrl: getImageUrl('removing_inner_blocks_success.jpeg'),
+  title: 'Removing Inner Block to Success',
+  artistName: 'Marisa Peer',
+  ratings: 5,
+  totalRatings: 4,
+  authorImage: getImageUrl('rtt_marisa_author.jpeg'),
+  headline: 'Creator Of Rapid Transformational Therapy®',
+  description:
+    'An internationally award-winning qualified hypnotherapist with advanced certificates in hypnotherapy from the Hypnotism Training Institute of Los Angeles. Marisa has completed additional studies in hypno-healing, advanced hypnotherapy, medical hypnotherapy and Gestalt Analysis.\r\n\r\nHaving undertaken further studies at the Proudfoot School of Hypnotherapy and Psychotherapy and the Atkinson Ball College of Hypnotherapy, Marisa has dedicated the last three decades to researching, testing and applying the most beneficial principles of Hypnotherapy, Psychotherapy, NLP, CBT and Neuroscience. \r\n\r\nThe result of over 30 years of careful and rigorous study, Marisa’s unique, Rapid Transformational Therapy®️ (RTT®️), has helped tens of thousands of people worldwide to overcome their own, personal challenges and lead happier, more fulfilling lives. '
+}
+
+const video = {
+  id: '1',
+  sources: [{ type: 'video/mp4', src: '//vjs.zencdn.net/v/oceans.mp4' }],
   duration: 1932.669,
   posterUrl: getImageUrl('removing_inner_blocks_success.jpeg'),
   title: 'Removing Inner Block to Success',
@@ -185,6 +225,10 @@ function getImageUrl(name: string) {
 
 function getSoundUrl(name: string) {
   return `/assets/sounds/${name}`
+}
+
+function getVideoUrl(name: string) {
+  return `/assets/videos/${name}`
 }
 </script>
 
