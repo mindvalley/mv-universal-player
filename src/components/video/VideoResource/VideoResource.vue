@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import type { Source } from './../../../types/video'
-import { useDetectBrowser } from './../../../composables/use-detect-browser'
+import type { Source, Marker } from './../../../types/video'
 import MVVideoItem from '../VideoItem'
-import { useSlots, computed, ref } from 'vue-demi'
 
 const props = defineProps({
   assetId: {
@@ -45,6 +43,10 @@ const props = defineProps({
   },
   isFavourite: {
     type: Boolean
+  },
+  markers: {
+    type: Array<Marker>,
+    default: []
   }
 })
 
@@ -65,22 +67,16 @@ const emitEvent = (eventName: string, payload?: any) => {
   const data = { assetId: props.assetId, ...payload }
   emit(eventName, data)
 }
-
-const isFavourite = ref(props.isFavourite)
-
-const handleFavourite = () => {
-  isFavourite.value = !isFavourite.value
-  emitEvent('favourite', { isFavourite: isFavourite.value })
-}
 </script>
 
 <template>
   <section>
     <MVVideoItem
-      v-slot="{ state, seek, play, pause, rewind, fastForward }"
       :sources="sources"
       :id="assetId"
       :posterUrl="posterUrl"
+      :markers="markers"
+      :duration="duration"
       @play="emitEvent('play', $event)"
       @pause="emitEvent('pause', $event)"
       @seeking="emitEvent('seeking', $event)"
@@ -92,7 +88,6 @@ const handleFavourite = () => {
       @reset="emitEvent('reset', $event)"
       @error="emitEvent('error', $event)"
     >
-      <button @click="play">Play</button>
     </MVVideoItem>
 
     <slot name="video-description"></slot>

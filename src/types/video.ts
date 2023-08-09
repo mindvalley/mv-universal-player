@@ -4,7 +4,6 @@ interface Player {
   setVolume: (volume: number) => void
   setCurrentTime: (time: number) => void
   setSources: (sources: Source[]) => void
-  setVideo: (videoItemId: string) => void
   setPlaybackRate: (rate: number) => void
 }
 
@@ -13,4 +12,11 @@ interface Source {
   src: string
 }
 
-export type { Player, Source }
+interface Marker {
+  id: string
+  name: string
+  status: string
+  time: number
+}
+
+export type { Player, Source, Marker }

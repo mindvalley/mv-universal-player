@@ -72,7 +72,7 @@
       </MVAudioResource>
     </MVAudioPlayer>
 
-    <MVVideoPlayer :poster-url="video.posterUrl">
+    <MVVideoPlayer>
       <MVVideoResource
         :key="video.id"
         :asset-id="video.id"
@@ -83,6 +83,7 @@
         :artist-name="video.artistName"
         :ratings="video.ratings"
         :total-ratings="video.totalRatings"
+        :markers="video.markers"
         showFavourite
         @play="logEvent('play', $event)"
         @pause="logEvent('pause', $event)"
@@ -111,7 +112,7 @@ import { MVCarousel, MVCarouselSlide } from './components/carousel'
 import { MVMeditationTrackItem, MVMeditationVolumeSlider, MVMeditationMixer } from '.'
 
 const logEvent = (event: string, data: any) => {
-  console.log(event, data)
+  // console.log(event, data)
 }
 
 const backgroundSounds = [
@@ -206,6 +207,26 @@ const audio = {
 
 const video = {
   id: '1',
+  markers: [
+    {
+      __typename: 'Marker',
+      id: '3e13b3af-9d39-4147-b724-2d8125f7d1f1',
+      name: 'Marker 1',
+      time: 35
+    },
+    {
+      __typename: 'Marker',
+      id: 'c329b19f-fb46-4bc1-983e-099ce011dc13',
+      name: 'Marker 2 minutes',
+      time: 120
+    },
+    {
+      __typename: 'Marker',
+      id: '4966c85c-401e-4590-8bcb-2ed3ad74072b',
+      name: 'Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus nibh.',
+      time: 125
+    }
+  ],
   sources: [{ type: 'video/mp4', src: '//vjs.zencdn.net/v/oceans.mp4' }],
   duration: 1932.669,
   posterUrl: getImageUrl('removing_inner_blocks_success.jpeg'),
