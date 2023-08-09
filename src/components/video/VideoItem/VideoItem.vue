@@ -167,6 +167,7 @@ watch(
   () => state.value.playing,
   (newPlaying) => {
     if (newPlaying) {
+      playedOnce.value = true
       emit('play', { currentTime: currentTime.value.toFixed(2) })
     }
   }
@@ -230,7 +231,9 @@ const initialize = (id: string, loop = false) => {
     poster: props.posterUrl,
     fluid: true,
     controls: true,
+    autoplay: props.autoplay,
     aspectRatio: '16:9',
+    loop,
     html5: {
       vhs: {
         overrideNative: true
@@ -318,7 +321,6 @@ const setSources = (sources: Source[]) => {
 const play = () => {
   if (videoInstance) {
     videoInstance.play()
-    playedOnce.value = true
   }
 }
 
@@ -419,14 +421,14 @@ provide('videoState', readonly(state))
       />
     </video>
 
-    <div
+    <!-- <div
       v-if="!playedOnce"
       class="absolute top-0 h-full w-full cursor-pointer rounded-3xl bg-black opacity-0 duration-200 ease-in group-hover:opacity-20"
       @click="play"
-    ></div>
+    ></div> -->
 
     <button
-      v-if="!playedOnce"
+      v-if="!playedOnce && !state.playing"
       @click="play"
       data-testid="play-button"
       class="z-50 absolute bottom-0 m-8 hidden h-20 w-20 items-center justify-center rounded-full bg-white text-black duration-200 ease-in group-hover:scale-105 group-hover:bg-white md:flex"

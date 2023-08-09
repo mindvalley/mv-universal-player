@@ -7,42 +7,33 @@ const props = defineProps({
     required: true,
     type: String
   },
-  sources: {
-    required: true,
-    type: Array<Source>
-  },
-  title: {
-    required: true,
-    type: String
-  },
-  artistName: {
-    type: String,
-    default: ''
-  },
   duration: {
     required: true,
     type: Number
   },
+  playbackRates: {
+    type: Array<Number>,
+    default: () => [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2]
+  },
+  loop: {
+    type: Boolean
+  },
   posterUrl: {
-    type: String
+    type: String,
+    default: ''
   },
-  ratings: {
-    type: Number
+  sources: {
+    type: Array<Source>,
+    required: true,
+    default: () => []
   },
-  totalRatings: {
-    type: Number
+  muted: {
+    type: Boolean,
+    default: false
   },
-  overlay: {
-    type: Boolean
-  },
-  blurEffect: {
-    type: Boolean
-  },
-  showFavourite: {
-    type: Boolean
-  },
-  isFavourite: {
-    type: Boolean
+  autoplay: {
+    type: Boolean,
+    default: false
   },
   markers: {
     type: Array<Marker>,
@@ -77,6 +68,7 @@ const emitEvent = (eventName: string, payload?: any) => {
       :posterUrl="posterUrl"
       :markers="markers"
       :duration="duration"
+      :autoplay="autoplay"
       @play="emitEvent('play', $event)"
       @pause="emitEvent('pause', $event)"
       @seeking="emitEvent('seeking', $event)"

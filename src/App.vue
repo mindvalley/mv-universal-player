@@ -79,10 +79,7 @@
         :sources="video.sources"
         :duration="video.duration"
         :poster-url="video.posterUrl"
-        :title="video.title"
-        :artist-name="video.artistName"
-        :ratings="video.ratings"
-        :total-ratings="video.totalRatings"
+        :autoplay="true"
         :markers="video.markers"
         showFavourite
         @play="logEvent('play', $event)"
