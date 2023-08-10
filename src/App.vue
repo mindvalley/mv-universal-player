@@ -54,6 +54,7 @@
                     :sources="sound.sources"
                     :background-src="sound.image"
                     :id="sound.id"
+                    :is-active="index === 2"
                     @play="logEvent('play', $event)"
                     @pause="logEvent('pause', $event)"
                     @timeupdate="logEvent('timeupdate', $event)"
@@ -79,7 +80,7 @@
         :sources="video.sources"
         :duration="video.duration"
         :poster-url="video.posterUrl"
-        :autoplay="true"
+        :autoplay="false"
         :markers="video.markers"
         showFavourite
         @play="logEvent('play', $event)"

@@ -100,7 +100,7 @@ const toggle = () => {
 }
 
 const initialize = () => {
-  if (isNoBackgroundSound.value) {
+  if (props.isActive || isNoBackgroundSound.value) {
     selectSound()
   }
 }
