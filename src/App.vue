@@ -110,7 +110,7 @@ import { MVCarousel, MVCarouselSlide } from './components/carousel'
 import { MVMeditationTrackItem, MVMeditationVolumeSlider, MVMeditationMixer } from '.'
 
 const logEvent = (event: string, data: any) => {
-  // console.log(event, data)
+  console.log(event, data)
 }
 
 const backgroundSounds = [

@@ -38,6 +38,10 @@ const props = defineProps({
   markers: {
     type: Array<Marker>,
     default: []
+  },
+  progressControl: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -69,6 +73,7 @@ const emitEvent = (eventName: string, payload?: any) => {
       :markers="markers"
       :duration="duration"
       :autoplay="autoplay"
+      :progressControl="progressControl"
       @play="emitEvent('play', $event)"
       @pause="emitEvent('pause', $event)"
       @seeking="emitEvent('seeking', $event)"

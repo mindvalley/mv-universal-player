@@ -129,6 +129,10 @@ const props = defineProps({
   markers: {
     type: Array<Marker>,
     default: []
+  },
+  progressControl: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -241,10 +245,12 @@ const initialize = (id: string, loop = false) => {
       nativeAudioTracks: false,
       nativeVideoTracks: false
     },
-    playbackRates: props.playbackRates
-    // controlBar: {
-    //   pictureInPictureToggle: false
-    // }
+    playbackRates: props.playbackRates,
+    controlBar: {
+      progressControl: props.progressControl,
+      preferFullWindow: true,
+      responsive: true
+    }
   })
 
   createState()
@@ -481,14 +487,8 @@ provide('videoState', readonly(state))
 </template>
 
 <style lang="scss">
-@import 'video.js/dist/video-js.css';
-
 $video-player-border-radius--small: 0.75rem;
 $video-player-border-radius--medium: 1.5rem;
-
-.mv-universal-player--video {
-  /* display: none; */
-}
 
 .vjs-theme-mindvalley {
   width: 100%;
