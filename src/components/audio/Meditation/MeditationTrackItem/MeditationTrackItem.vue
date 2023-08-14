@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { inject, computed, ref, watch, toRef } from 'vue-demi'
+import { inject, computed, ref, watch, toRef, onMounted } from 'vue-demi'
 import { MVAudioItem } from '../..'
 import type { Source } from './../../../../types/audio'
 
@@ -10,7 +10,7 @@ const props = defineProps({
       return []
     }
   },
-  isActive: {
+  isSelected: {
     type: Boolean
   },
   backgroundSrc: {
@@ -51,6 +51,12 @@ const isActive = computed(() => {
   return mixerPlayerState.value.audioItemId === props.id
 })
 
+// This works in Vue 3 but not in Vue 2
+onMounted(() => {
+  initialize()
+})
+
+// This works in Vue 2 but not in Vue 3
 watch(
   () => mixerPlayerState.value.ready,
   (ready) => {
@@ -100,7 +106,7 @@ const toggle = () => {
 }
 
 const initialize = () => {
-  if (props.isActive || isNoBackgroundSound.value) {
+  if (props.isSelected || isNoBackgroundSound.value) {
     selectSound()
   }
 }

@@ -54,7 +54,7 @@
                     :sources="sound.sources"
                     :background-src="sound.image"
                     :id="sound.id"
-                    :is-active="index === 2"
+                    :is-selected="index === 0"
                     @play="logEvent('play', $event)"
                     @pause="logEvent('pause', $event)"
                     @timeupdate="logEvent('timeupdate', $event)"
