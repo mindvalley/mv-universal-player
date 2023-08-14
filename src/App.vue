@@ -27,6 +27,7 @@
         @playbackSpeed="logEvent('playbackSpeed', $event)"
         @favourite="logEvent('favourite', $event)"
         @timeupdate="logEvent('timeupdate', $event)"
+        @error="logEvent('error', $event)"
       >
         <template #audio-description>
           <MVAudioDescription
@@ -53,9 +54,11 @@
                     :sources="sound.sources"
                     :background-src="sound.image"
                     :id="sound.id"
+                    :is-active="index === 2"
                     @play="logEvent('play', $event)"
                     @pause="logEvent('pause', $event)"
                     @timeupdate="logEvent('timeupdate', $event)"
+                    @error="logEvent('error', $event)"
                   />
                 </MVCarouselSlide>
               </MVCarousel>
@@ -69,13 +72,38 @@
         </template>
       </MVAudioResource>
     </MVAudioPlayer>
+
+    <MVVideoPlayer>
+      <MVVideoResource
+        :key="video.id"
+        :asset-id="video.id"
+        :sources="video.sources"
+        :duration="video.duration"
+        :poster-url="video.posterUrl"
+        :autoplay="false"
+        :markers="video.markers"
+        showFavourite
+        @play="logEvent('play', $event)"
+        @pause="logEvent('pause', $event)"
+        @seeking="logEvent('seeking', $event)"
+        @ended="logEvent('ended', $event)"
+        @rewind="logEvent('rewind', $event)"
+        @fastforward="logEvent('fastforward', $event)"
+        @playbackSpeed="logEvent('playbackSpeed', $event)"
+        @favourite="logEvent('favourite', $event)"
+        @timeupdate="logEvent('timeupdate', $event)"
+        @error="logEvent('error', $event)"
+      >
+      </MVVideoResource>
+    </MVVideoPlayer>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { Source } from './types/audio'
-import { MVAudioPlayer } from '.'
+import { MVAudioPlayer, MVVideoPlayer } from '.'
 import MVAudioResource from './components/audio/AudioResource/'
+import MVVideoResource from './components/video/VideoResource/'
 import MVAudioDescription from './components/audio/AudioDescription'
 
 import { MVCarousel, MVCarouselSlide } from './components/carousel'
@@ -84,10 +112,6 @@ import { MVMeditationTrackItem, MVMeditationVolumeSlider, MVMeditationMixer } fr
 const logEvent = (event: string, data: any) => {
   console.log(event, data)
 }
-
-const sources = [
-  { type: 'audio/mpeg', src: getSoundUrl('removing_inner_blocks_success_audio.mp3.mp3') }
-]
 
 const backgroundSounds = [
   {
@@ -164,7 +188,44 @@ const backgroundSounds = [
 
 const audio = {
   id: '1',
-  sources: sources,
+  sources: [
+    { type: 'audio/mpeg', src: getSoundUrl('removing_inner_blocks_success_audio.mp3.mp3') }
+  ],
+  duration: 1932.669,
+  posterUrl: getImageUrl('removing_inner_blocks_success.jpeg'),
+  title: 'Removing Inner Block to Success',
+  artistName: 'Marisa Peer',
+  ratings: 5,
+  totalRatings: 4,
+  authorImage: getImageUrl('rtt_marisa_author.jpeg'),
+  headline: 'Creator Of Rapid Transformational Therapy®',
+  description:
+    'An internationally award-winning qualified hypnotherapist with advanced certificates in hypnotherapy from the Hypnotism Training Institute of Los Angeles. Marisa has completed additional studies in hypno-healing, advanced hypnotherapy, medical hypnotherapy and Gestalt Analysis.\r\n\r\nHaving undertaken further studies at the Proudfoot School of Hypnotherapy and Psychotherapy and the Atkinson Ball College of Hypnotherapy, Marisa has dedicated the last three decades to researching, testing and applying the most beneficial principles of Hypnotherapy, Psychotherapy, NLP, CBT and Neuroscience. \r\n\r\nThe result of over 30 years of careful and rigorous study, Marisa’s unique, Rapid Transformational Therapy®️ (RTT®️), has helped tens of thousands of people worldwide to overcome their own, personal challenges and lead happier, more fulfilling lives. '
+}
+
+const video = {
+  id: '1',
+  markers: [
+    {
+      __typename: 'Marker',
+      id: '3e13b3af-9d39-4147-b724-2d8125f7d1f1',
+      name: 'Marker 1',
+      time: 35
+    },
+    {
+      __typename: 'Marker',
+      id: 'c329b19f-fb46-4bc1-983e-099ce011dc13',
+      name: 'Marker 2 minutes',
+      time: 120
+    },
+    {
+      __typename: 'Marker',
+      id: '4966c85c-401e-4590-8bcb-2ed3ad74072b',
+      name: 'Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus nibh.',
+      time: 125
+    }
+  ],
+  sources: [{ type: 'video/mp4', src: '//vjs.zencdn.net/v/oceans.mp4' }],
   duration: 1932.669,
   posterUrl: getImageUrl('removing_inner_blocks_success.jpeg'),
   title: 'Removing Inner Block to Success',
@@ -183,6 +244,10 @@ function getImageUrl(name: string) {
 
 function getSoundUrl(name: string) {
   return `/assets/sounds/${name}`
+}
+
+function getVideoUrl(name: string) {
+  return `/assets/videos/${name}`
 }
 </script>
 

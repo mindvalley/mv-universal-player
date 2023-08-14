@@ -28,8 +28,20 @@ const emit = defineEmits<{
   (e: 'rewind', { previousTime, currentTime }: any): void
   (e: 'fastforward', { previousTime, currentTime }: any): void
   (e: 'reset', { currentTime }: any): void
+  (e: 'error', payload: any): void
   (e: any, payload: any): void
 }>()
+
+watch(
+  () => audioState.value.error,
+  (error) => {
+    if (props.id === audioState.value.audioItemId) {
+      if (error) {
+        emit('error', error)
+      }
+    }
+  }
+)
 
 watch(
   [() => audioState.value.playing, () => audioState.value.audioItemId],

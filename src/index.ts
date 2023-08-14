@@ -35,5 +35,6 @@ export {
   MVMeditationTrackItem,
   MVMeditationVolumeSlider,
   MVCarousel,
-  MVCarouselSlide
+  MVCarouselSlide,
+  MVVideoPlayer
 } from './components'
