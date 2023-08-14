@@ -15,7 +15,6 @@ interface Source {
 interface Marker {
   id: string
   name: string
-  status: string
   time: number
 }
 
