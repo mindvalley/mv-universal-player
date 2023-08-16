@@ -1,6 +1,6 @@
 <template>
   <div class="mv-universal-player">
-    <MVAudioPlayer>
+    <!-- <MVAudioPlayer>
       <MVAudioResource
         :key="audio.id"
         :asset-id="audio.id"
@@ -71,8 +71,9 @@
           </MVMeditationMixer>
         </template>
       </MVAudioResource>
-    </MVAudioPlayer>
+    </MVAudioPlayer> -->
 
+    <!-- <div class="h-96 w-[900px]"> -->
     <MVVideoPlayer>
       <MVVideoResource
         :key="video.id"
@@ -82,6 +83,7 @@
         :poster-url="video.posterUrl"
         :autoplay="false"
         :markers="video.markers"
+        mode="SEAMLESS"
         showFavourite
         @play="logEvent('play', $event)"
         @pause="logEvent('pause', $event)"
@@ -96,6 +98,7 @@
       >
       </MVVideoResource>
     </MVVideoPlayer>
+    <!-- </div> -->
   </div>
 </template>
 
@@ -110,7 +113,7 @@ import { MVCarousel, MVCarouselSlide } from './components/carousel'
 import { MVMeditationTrackItem, MVMeditationVolumeSlider, MVMeditationMixer } from '.'
 
 const logEvent = (event: string, data: any) => {
-  console.log(event, data)
+  // console.log(event, data)
 }
 
 const backgroundSounds = [

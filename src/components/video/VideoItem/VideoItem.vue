@@ -1,9 +1,19 @@
 <script setup lang="ts">
 import VideoJsPlayer from 'video.js'
 import 'video.js/dist/video-js.css'
-import { onMounted, onUnmounted, ref, provide, readonly, defineExpose, watch } from 'vue-demi'
-import type { Player, Source, Marker } from '../../../types/video'
+import {
+  onMounted,
+  onUnmounted,
+  ref,
+  provide,
+  readonly,
+  defineExpose,
+  watch,
+  PropType
+} from 'vue-demi'
+import { Player, Source, Marker, VideoMode } from '../../../types/video'
 import MVVideoMarkerItem from './../VideoMarkerItem'
+import MVVideoControls from './../VideoControls'
 
 const StateConfig = {
   src: {
@@ -133,6 +143,10 @@ const props = defineProps({
   progressControl: {
     type: Boolean,
     default: true
+  },
+  mode: {
+    type: String as PropType<VideoMode>,
+    default: () => VideoMode.DEFAULT
   }
 })
 
@@ -219,7 +233,8 @@ watch(
 )
 
 onMounted(() => {
-  initialize(props.id, props.loop)
+  const controls = props.mode !== VideoMode.SEAMLESS
+  initialize(props.id, controls, props.loop)
 })
 
 onUnmounted(() => {
@@ -230,11 +245,11 @@ onUnmounted(() => {
   }
 })
 
-const initialize = (id: string, loop = false) => {
+const initialize = (id: string, controls = true, loop = false) => {
   videoInstance = createInstance(`mv-video-item-${id}`, {
     poster: props.posterUrl,
     fluid: true,
-    controls: true,
+    controls: controls,
     autoplay: props.autoplay,
     aspectRatio: '16:9',
     loop,
@@ -390,6 +405,24 @@ const selectCurrentMarker = () => {
   return props.markers.filter((marker) => state.value?.currentTime >= marker.time).slice(-1)[0]
 }
 
+const mute = () => {
+  if (videoInstance) {
+    videoInstance.muted(true)
+  }
+}
+
+const unmute = () => {
+  if (videoInstance) {
+    videoInstance.muted(false)
+  }
+}
+
+const goFullScreen = () => {
+  if (videoInstance) {
+    videoInstance.requestFullscreen()
+  }
+}
+
 const player: Player = {
   play,
   pause,
@@ -426,6 +459,26 @@ provide('videoState', readonly(state))
         :key="index"
       />
     </video>
+
+    <div
+      v-if="mode === VideoMode.SEAMLESS && playedOnce"
+      class="absolute bottom-2 right-2 lg:top-24 lg:right-32 sm:top-[60px] sm:right-9"
+    >
+      <MVVideoControls
+        :playing="state.playing"
+        :mute="state.muted"
+        :show-full-screen="!state.ended"
+        :show-replay="state.ended"
+        :show-play="!state.ended"
+        :show-mute="!state.ended"
+        @replay="play"
+        @play="play"
+        @pause="pause"
+        @mute="mute"
+        @unmute="unmute"
+        @fullscreen="goFullScreen"
+      />
+    </div>
 
     <!-- <div
       v-if="!playedOnce"

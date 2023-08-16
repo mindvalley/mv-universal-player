@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import type { Source, Marker } from './../../../types/video'
+import { Source, Marker, VideoMode } from './../../../types/video'
 import MVVideoItem from '../VideoItem'
+import { PropType } from 'vue-demi'
 
 const props = defineProps({
   assetId: {
@@ -42,6 +43,10 @@ const props = defineProps({
   progressControl: {
     type: Boolean,
     default: true
+  },
+  mode: {
+    type: String as PropType<VideoMode>,
+    default: () => VideoMode.DEFAULT
   }
 })
 
@@ -74,6 +79,7 @@ const emitEvent = (eventName: string, payload?: any) => {
       :duration="duration"
       :autoplay="autoplay"
       :progressControl="progressControl"
+      :mode="mode"
       @play="emitEvent('play', $event)"
       @pause="emitEvent('pause', $event)"
       @seeking="emitEvent('seeking', $event)"
