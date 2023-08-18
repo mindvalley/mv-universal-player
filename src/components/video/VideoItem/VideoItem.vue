@@ -480,19 +480,13 @@ provide('videoState', readonly(state))
       />
     </div>
 
-    <!-- <div
-      v-if="!playedOnce"
-      class="absolute top-0 h-full w-full cursor-pointer rounded-3xl bg-black opacity-0 duration-200 ease-in group-hover:opacity-20"
-      @click="play"
-    ></div> -->
-
     <button
       v-if="!playedOnce && !state.playing"
       @click="play"
       data-testid="play-button"
-      class="z-50 absolute bottom-0 m-8 hidden h-20 w-20 items-center justify-center rounded-full bg-white text-black duration-200 ease-in group-hover:scale-105 group-hover:bg-white md:flex"
+      class="z-50 flex absolute bottom-0 m-4 sm:m-7 lg:m-8 h-12 w-12 sm:h-20 sm:w-20 lg:h-24 lg:w-24 items-center justify-center rounded-full bg-white text-black duration-200 ease-in group-hover:scale-105 group-hover:bg-white"
     >
-      <svg v-svg symbol="play-filled" size="42" class="ml-1"></svg>
+      <svg v-svg symbol="play-filled" class="ml-1 p-2 sm:p-3 lg:p-4"></svg>
     </button>
 
     <button
@@ -731,35 +725,7 @@ provide('videoState', readonly(state))
 
   // Big play button (Appears only before video played)
   button.vjs-big-play-button {
-    top: inherit;
-    left: 1rem;
-    bottom: 1rem;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 100%;
-    color: black;
-    background-color: white;
-    border: none;
-    outline: none;
-    box-shadow: none;
-  }
-
-  // Hover state for Big play button (Appears only before video played)
-  &.video-js:hover button.vjs-big-play-button {
-    background-color: white;
-    border: none;
-    outline: none;
-    box-shadow: none;
-  }
-
-  // Big play button icon
-  button.vjs-big-play-button .vjs-icon-placeholder:before {
-    font-size: 2.25rem;
-    line-height: 3rem;
-  }
-
-  button.vjs-big-play-button:hover {
-    transform: scale(1.05);
+    display: none;
   }
 }
 
@@ -799,21 +765,6 @@ provide('videoState', readonly(state))
     // Fullscreen Control
     .vjs-fullscreen-control {
       margin-right: 0.5rem;
-    }
-
-    // Big play button (Appears only before video played)
-    button.vjs-big-play-button {
-      left: 28px;
-      bottom: 28px;
-      width: 80px;
-      height: 80px;
-      display: none;
-    }
-
-    // Big play button icon
-    button.vjs-big-play-button .vjs-icon-placeholder:before {
-      font-size: 3.5rem;
-      line-height: 80px;
     }
 
     .vjs-icon-placeholder {
