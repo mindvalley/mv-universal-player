@@ -540,18 +540,8 @@ provide('videoState', readonly(state))
 </template>
 
 <style lang="scss">
-$video-player-border-radius--small: 0.75rem;
-$video-player-border-radius--medium: 1.5rem;
-
 .vjs-theme-mindvalley {
   width: 100%;
-
-  &.video-js,
-  video,
-  .vjs-poster,
-  .vjs-control-bar {
-    border-radius: $video-player-border-radius--small;
-  }
 
   // Playback Speed Menu
   .vjs-menu {
@@ -775,13 +765,6 @@ $video-player-border-radius--medium: 1.5rem;
 
 @media (min-width: 768px) {
   .vjs-theme-mindvalley {
-    &.video-js,
-    video,
-    .vjs-poster,
-    .vjs-control-bar {
-      border-radius: $video-player-border-radius--medium;
-    }
-
     // For all control items icon
     .vjs-control svg {
       transform: scale(1);
@@ -921,33 +904,6 @@ $video-player-border-radius--medium: 1.5rem;
     // This removes the caption settings
     .vjs-texttrack-settings {
       display: none;
-    }
-  }
-}
-
-// Video Resource Player
-.videoResource {
-  .vjs-theme-mindvalley {
-    &.video-js,
-    video,
-    .vjs-poster,
-    .vjs-control-bar {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-  }
-}
-
-@media (min-width: 768px) {
-  .videoResource {
-    .vjs-theme-mindvalley {
-      &.video-js,
-      video,
-      .vjs-poster,
-      .vjs-control-bar {
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-      }
     }
   }
 }

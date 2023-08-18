@@ -73,32 +73,31 @@
       </MVAudioResource>
     </MVAudioPlayer> -->
 
-    <!-- <div class="h-96 w-[900px]"> -->
-    <MVVideoPlayer>
-      <MVVideoResource
-        :key="video.id"
-        :asset-id="video.id"
-        :sources="video.sources"
-        :duration="video.duration"
-        :poster-url="video.posterUrl"
-        :autoplay="false"
-        :markers="video.markers"
-        mode="SEAMLESS"
-        showFavourite
-        @play="logEvent('play', $event)"
-        @pause="logEvent('pause', $event)"
-        @seeking="logEvent('seeking', $event)"
-        @ended="logEvent('ended', $event)"
-        @rewind="logEvent('rewind', $event)"
-        @fastforward="logEvent('fastforward', $event)"
-        @playbackSpeed="logEvent('playbackSpeed', $event)"
-        @favourite="logEvent('favourite', $event)"
-        @timeupdate="logEvent('timeupdate', $event)"
-        @error="logEvent('error', $event)"
-      >
-      </MVVideoResource>
-    </MVVideoPlayer>
-    <!-- </div> -->
+    <div class="h-full w-[900px] rounded-[20px] overflow-hidden">
+      <MVVideoPlayer>
+        <MVVideoResource
+          :key="video.id"
+          :asset-id="video.id"
+          :sources="video.sources"
+          :duration="video.duration"
+          :poster-url="video.posterUrl"
+          :autoplay="false"
+          :markers="video.markers"
+          showFavourite
+          @play="logEvent('play', $event)"
+          @pause="logEvent('pause', $event)"
+          @seeking="logEvent('seeking', $event)"
+          @ended="logEvent('ended', $event)"
+          @rewind="logEvent('rewind', $event)"
+          @fastforward="logEvent('fastforward', $event)"
+          @playbackSpeed="logEvent('playbackSpeed', $event)"
+          @favourite="logEvent('favourite', $event)"
+          @timeupdate="logEvent('timeupdate', $event)"
+          @error="logEvent('error', $event)"
+        >
+        </MVVideoResource>
+      </MVVideoPlayer>
+    </div>
   </div>
 </template>
 
