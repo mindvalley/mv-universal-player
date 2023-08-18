@@ -5,6 +5,9 @@ interface Player {
   setCurrentTime: (time: number) => void
   setSources: (sources: Source[]) => void
   setPlaybackRate: (rate: number) => void
+  mute: () => void
+  unmute: () => void
+  goFullScreen: () => void
 }
 
 interface Source {

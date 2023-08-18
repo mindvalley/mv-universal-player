@@ -2,6 +2,7 @@
 import { Source, Marker, VideoMode } from './../../../types/video'
 import MVVideoItem from '../VideoItem'
 import { PropType } from 'vue-demi'
+import MVVideoControls from './../VideoControls'
 
 const props = defineProps({
   assetId: {
@@ -91,6 +92,22 @@ const emitEvent = (eventName: string, payload?: any) => {
       @reset="emitEvent('reset', $event)"
       @error="emitEvent('error', $event)"
     >
+      <template #video-controls="{ state, play, pause, mute, unmute, goFullScreen }">
+        <MVVideoControls
+          :playing="state.playing"
+          :mute="state.muted"
+          :show-full-screen="!state.ended"
+          :show-replay="state.ended"
+          :show-play="!state.ended"
+          :show-mute="!state.ended"
+          @replay="play"
+          @play="play"
+          @pause="pause"
+          @mute="mute"
+          @unmute="unmute"
+          @fullscreen="goFullScreen"
+        />
+      </template>
     </MVVideoItem>
 
     <slot name="video-description"></slot>

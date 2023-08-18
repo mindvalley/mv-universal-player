@@ -13,7 +13,6 @@ import {
 } from 'vue-demi'
 import { Player, Source, Marker, VideoMode } from '../../../types/video'
 import MVVideoMarkerItem from './../VideoMarkerItem'
-import MVVideoControls from './../VideoControls'
 
 const StateConfig = {
   src: {
@@ -429,7 +428,10 @@ const player: Player = {
   setVolume,
   setCurrentTime,
   setSources,
-  setPlaybackRate
+  setPlaybackRate,
+  mute,
+  unmute,
+  goFullScreen
 }
 
 defineExpose({
@@ -464,20 +466,16 @@ provide('videoState', readonly(state))
       v-if="mode === VideoMode.SEAMLESS && playedOnce"
       class="absolute bottom-2 right-2 lg:top-24 lg:right-32 sm:top-[60px] sm:right-9"
     >
-      <MVVideoControls
-        :playing="state.playing"
-        :mute="state.muted"
-        :show-full-screen="!state.ended"
-        :show-replay="state.ended"
-        :show-play="!state.ended"
-        :show-mute="!state.ended"
-        @replay="play"
-        @play="play"
-        @pause="pause"
-        @mute="mute"
-        @unmute="unmute"
-        @fullscreen="goFullScreen"
-      />
+      <slot
+        name="video-controls"
+        :state="state"
+        :player="player"
+        :play="play"
+        :pause="pause"
+        :mute="mute"
+        :unmute="unmute"
+        :goFullScreen="goFullScreen"
+      ></slot>
     </div>
 
     <button

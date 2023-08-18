@@ -84,6 +84,7 @@
         :autoplay="false"
         :markers="video.markers"
         showFavourite
+        mode="SEAMLESS"
         @play="logEvent('play', $event)"
         @pause="logEvent('pause', $event)"
         @seeking="logEvent('seeking', $event)"
