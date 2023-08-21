@@ -11,7 +11,7 @@ import {
   watch,
   PropType
 } from 'vue-demi'
-import { Player, Source, Marker, VideoMode } from '../../../types/video'
+import { Player, Source, Marker } from '../../../types/video'
 import MVVideoMarkerItem from './../VideoMarkerItem'
 
 const StateConfig = {
@@ -29,7 +29,7 @@ const StateConfig = {
     getter: (player: any) => player.volume()
   },
   muted: {
-    events: ['volumechange'],
+    events: ['volumechange', 'muted'],
     getter: (player: any) => player.muted()
   },
   seeking: {
@@ -90,6 +90,10 @@ const StateConfig = {
   },
   ready: {
     getter: () => false
+  },
+  fullscreen: {
+    events: ['fullscreenchange'],
+    getter: (player: any) => player.isFullscreen()
   }
 }
 
@@ -143,9 +147,13 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
-  mode: {
-    type: String as PropType<VideoMode>,
-    default: () => VideoMode.DEFAULT
+  overlayControls: {
+    type: Boolean,
+    default: false
+  },
+  pictureInPicture: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -166,7 +174,7 @@ const emit = defineEmits<{
   (e: 'ended', { currentTime }: any): void
   (e: 'rewind', { previousTime, currentTime }: any): void
   (e: 'fastforward', { previousTime, currentTime }: any): void
-  (e: 'reset', { currentTime }: any): void
+  (e: 'fullscreen', { isFullscreen }: any): void
   (e: 'error', payload: any): void
   (e: any, payload: any): void
 }>()
@@ -176,6 +184,21 @@ watch(
   (error) => {
     if (error) {
       emit('error', error)
+    }
+  }
+)
+
+watch(
+  () => state.value.fullscreen,
+  (fullscreen) => {
+    if (props.overlayControls) {
+      if (fullscreen) {
+        videoInstance.controls(true)
+        emit('fullscreen', { isFullscreen: true })
+      } else {
+        videoInstance.controls(false)
+        emit('fullscreen', { isFullscreen: false })
+      }
     }
   }
 )
@@ -232,7 +255,7 @@ watch(
 )
 
 onMounted(() => {
-  const controls = props.mode !== VideoMode.SEAMLESS
+  const controls = !props.overlayControls
   initialize(props.id, controls, props.loop)
 })
 
@@ -248,6 +271,7 @@ const initialize = (id: string, controls = true, loop = false) => {
   videoInstance = createInstance(`mv-video-item-${id}`, {
     poster: props.posterUrl,
     fluid: true,
+    muted: props.muted,
     controls: controls,
     autoplay: props.autoplay,
     aspectRatio: '16:9',
@@ -263,12 +287,16 @@ const initialize = (id: string, controls = true, loop = false) => {
     controlBar: {
       progressControl: props.progressControl,
       preferFullWindow: true,
-      responsive: true
+      responsive: true,
+      pictureInPictureToggle: props.pictureInPicture
     }
   })
 
   createState()
   updateState('ready', true)
+
+  // Setting it explicitly as the initial state is not reflecting correctly.
+  updateState('muted', props.muted)
 
   const rewindButton = videoInstance.controlBar.addChild('button', {})
   const rewindButtonDOM = rewindButton.el()
@@ -462,8 +490,9 @@ provide('videoState', readonly(state))
       />
     </video>
 
+    <!-- TODO: hide it based on useSlot -->
     <div
-      v-if="mode === VideoMode.SEAMLESS && playedOnce"
+      v-if="overlayControls && playedOnce"
       class="absolute bottom-2 right-2 lg:top-24 lg:right-32 sm:top-[60px] sm:right-9"
     >
       <slot
@@ -492,7 +521,7 @@ provide('videoState', readonly(state))
       class="vjs-markers-button absolute top-4 right-6 hidden h-8 w-24 rounded-full border-2 border-white bg-black/[.3] text-sm text-white"
       @click="toggleMarkersMenu"
     >
-      Jump to
+      Jump To
     </button>
 
     <aside
@@ -504,7 +533,7 @@ provide('videoState', readonly(state))
         <li
           class="flex h-16 items-center border-b border-b-cool-grey-600 pt-px pr-6 pl-14 text-base text-cool-grey-400"
         >
-          Jump to
+          Jump To
           <span @click="toggleMarkersMenu" class="ml-auto cursor-pointer">
             <svg class="mr-2 text-white" v-svg symbol="x-filled" size="24"></svg>
           </span>

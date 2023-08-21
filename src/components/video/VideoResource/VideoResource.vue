@@ -5,7 +5,7 @@ import { PropType } from 'vue-demi'
 import MVVideoControls from './../VideoControls'
 
 const props = defineProps({
-  assetId: {
+  id: {
     required: true,
     type: String
   },
@@ -45,10 +45,18 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
-  mode: {
-    type: String as PropType<VideoMode>,
-    default: () => VideoMode.DEFAULT
+  overlayControls: {
+    type: Boolean,
+    default: false
+  },
+  pictureInPicture: {
+    type: Boolean,
+    default: false
   }
+  // mode: {
+  //   type: String as PropType<VideoMode>,
+  //   default: () => VideoMode.DEFAULT
+  // }
 })
 
 const emit = defineEmits<{
@@ -59,13 +67,13 @@ const emit = defineEmits<{
   (e: 'ended', { currentTime }: any): void
   (e: 'rewind', { previousTime, currentTime }: any): void
   (e: 'fastforward', { previousTime, currentTime }: any): void
-  (e: 'reset', { currentTime }: any): void
+  (e: 'fullscreen', { isFullscreen }: any): void
   (e: 'error', payload: any): void
   (e: any, payload: any): void
 }>()
 
 const emitEvent = (eventName: string, payload?: any) => {
-  const data = { assetId: props.assetId, ...payload }
+  const data = { id: props.id, ...payload }
   emit(eventName, data)
 }
 </script>
@@ -74,13 +82,15 @@ const emitEvent = (eventName: string, payload?: any) => {
   <section>
     <MVVideoItem
       :sources="sources"
-      :id="assetId"
+      :id="id"
       :posterUrl="posterUrl"
       :markers="markers"
       :duration="duration"
       :autoplay="autoplay"
       :progressControl="progressControl"
-      :mode="mode"
+      :overlay-controls="overlayControls"
+      :picture-in-picture="pictureInPicture"
+      :muted="muted"
       @play="emitEvent('play', $event)"
       @pause="emitEvent('pause', $event)"
       @seeking="emitEvent('seeking', $event)"
@@ -89,7 +99,7 @@ const emitEvent = (eventName: string, payload?: any) => {
       @fastforward="emitEvent('fastforward', $event)"
       @playbackSpeed="emitEvent('playbackSpeed', $event)"
       @timeupdate="emitEvent('timeupdate', $event)"
-      @reset="emitEvent('reset', $event)"
+      @fullscreen="emitEvent('fullscreen', $event)"
       @error="emitEvent('error', $event)"
     >
       <template #video-controls="{ state, play, pause, mute, unmute, goFullScreen }">

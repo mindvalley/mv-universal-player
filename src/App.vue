@@ -77,14 +77,14 @@
     <MVVideoPlayer>
       <MVVideoResource
         :key="video.id"
-        :asset-id="video.id"
+        :id="video.id"
         :sources="video.sources"
         :duration="video.duration"
         :poster-url="video.posterUrl"
         :autoplay="false"
         :markers="video.markers"
-        showFavourite
-        mode="SEAMLESS"
+        :overlay-controls="true"
+        :muted="false"
         @play="logEvent('play', $event)"
         @pause="logEvent('pause', $event)"
         @seeking="logEvent('seeking', $event)"
@@ -92,7 +92,6 @@
         @rewind="logEvent('rewind', $event)"
         @fastforward="logEvent('fastforward', $event)"
         @playbackSpeed="logEvent('playbackSpeed', $event)"
-        @favourite="logEvent('favourite', $event)"
         @timeupdate="logEvent('timeupdate', $event)"
         @error="logEvent('error', $event)"
       >
