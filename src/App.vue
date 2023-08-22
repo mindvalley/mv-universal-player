@@ -84,7 +84,7 @@
         :autoplay="false"
         :loop="true"
         :markers="video.markers"
-        :overlay-controls="true"
+        :overlay-controls="false"
         :muted="true"
         @play="logEvent('play', $event)"
         @pause="logEvent('pause', $event)"
