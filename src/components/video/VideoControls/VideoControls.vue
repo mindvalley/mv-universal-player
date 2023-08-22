@@ -10,7 +10,7 @@
       </Transition>
     </button>
     <button v-if="showMute" class="video-control-button group" @click="toggleMute">
-      <svg v-show="mute" v-svg symbol="volume-filled" size="20"></svg>
+      <svg v-show="mute" v-svg symbol="volume-2-filled" size="20"></svg>
       <svg v-show="!mute" v-svg symbol="volume-x-filled" size="20"></svg>
       <Transition>
         <span class="tooltip-text group-hover:block" v-if="!isTouchDevice"
@@ -120,7 +120,7 @@ const handleReplay = () => {
 <style lang="scss" scoped>
 .video-controls {
   .video-control-button {
-    @apply relative rounded-full bg-black text-white h-9 w-9 flex items-center justify-center;
+    @apply relative rounded-full bg-black text-white bg-opacity-70 text-opacity-80 hover:text-opacity-100 h-9 w-9 flex items-center justify-center;
 
     .tooltip-text {
       @apply absolute -top-1 hidden -translate-y-full animate-fade rounded bg-black px-3 py-1 text-center text-sm text-cool-grey-400 after:absolute after:left-1/2 after:top-[90%] after:-translate-x-1/2 after:border-8 after:border-x-transparent after:border-b-transparent after:border-t-cool-grey-700 after:content-[''];

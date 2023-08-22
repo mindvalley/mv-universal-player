@@ -1,17 +1,8 @@
 <script setup lang="ts">
 import VideoJsPlayer from 'video.js'
 import 'video.js/dist/video-js.css'
-import {
-  onMounted,
-  onUnmounted,
-  ref,
-  provide,
-  readonly,
-  defineExpose,
-  watch,
-  PropType
-} from 'vue-demi'
-import { Player, Source, Marker } from '../../../types/video'
+import { onMounted, onUnmounted, ref, provide, readonly, defineExpose, watch } from 'vue-demi'
+import type { Player, Source, Marker } from '../../../types/video'
 import MVVideoMarkerItem from './../VideoMarkerItem'
 
 const StateConfig = {
@@ -141,7 +132,7 @@ const props = defineProps({
   },
   markers: {
     type: Array<Marker>,
-    default: []
+    default: () => []
   },
   progressControl: {
     type: Boolean,

@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { Source, Marker, VideoMode } from './../../../types/video'
+import type { Source, Marker, VideoMode } from './../../../types/video'
 import MVVideoItem from '../VideoItem'
-import { PropType } from 'vue-demi'
 import MVVideoControls from './../VideoControls'
 
 const props = defineProps({
@@ -39,7 +38,7 @@ const props = defineProps({
   },
   markers: {
     type: Array<Marker>,
-    default: []
+    default: () => []
   },
   progressControl: {
     type: Boolean,
@@ -91,6 +90,7 @@ const emitEvent = (eventName: string, payload?: any) => {
       :overlay-controls="overlayControls"
       :picture-in-picture="pictureInPicture"
       :muted="muted"
+      :loop="loop"
       @play="emitEvent('play', $event)"
       @pause="emitEvent('pause', $event)"
       @seeking="emitEvent('seeking', $event)"

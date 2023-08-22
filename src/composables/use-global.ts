@@ -17,19 +17,23 @@ export function useGlobal() {
 
   const formatSources = (sources: any = [], isAudio = true) => {
     const hlsId = isAudio ? 'mp4a' : 'hls'
-    let audioSources = []
+    let localSources = []
 
     if (sources && sources.length) {
-      audioSources = sources?.filter((source: any) => source.id === hlsId)
+      localSources = sources?.filter((source: any) => source.id === hlsId)
     }
 
-    if (!audioSources.length) {
-      audioSources = sources?.filter((source: any) => source.id === 'mp3' || source.id === 'ogg')
+    if (!localSources.length) {
+      if (isAudio) {
+        localSources = sources?.filter((source: any) => source.id === 'mp3' || source.id === 'ogg')
+      } else {
+        localSources = sources?.filter((source: any) => source.id === 'mp4' || source.id === 'webm')
+      }
     }
 
     const updatedSources = []
 
-    for (const i in audioSources) {
+    for (const i in localSources) {
       updatedSources.push({
         type: sources[i]?.contentType,
         src: sources[i]?.url
