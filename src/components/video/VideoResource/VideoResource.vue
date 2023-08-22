@@ -16,6 +16,10 @@ const props = defineProps({
     type: Array<Number>,
     default: () => [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2]
   },
+  showPlaybackRates: {
+    type: Boolean,
+    default: true
+  },
   loop: {
     type: Boolean
   },
@@ -87,6 +91,7 @@ const emitEvent = (eventName: string, payload?: any) => {
       :picture-in-picture="pictureInPicture"
       :muted="muted"
       :loop="loop"
+      :show-playback-rates="showPlaybackRates"
       @play="emitEvent('play', $event)"
       @pause="emitEvent('pause', $event)"
       @seeking="emitEvent('seeking', $event)"

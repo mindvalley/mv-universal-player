@@ -76,7 +76,6 @@
     <!-- <div class="h-full w-[900px] rounded-[20px] overflow-hidden"> -->
     <MVVideoPlayer>
       <MVVideoResource
-        :key="video.id"
         :id="video.id"
         :sources="video.sources"
         :duration="video.duration"
