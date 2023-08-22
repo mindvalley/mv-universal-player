@@ -81,7 +81,7 @@
         :sources="video.sources"
         :duration="video.duration"
         :poster-url="video.posterUrl"
-        :autoplay="true"
+        :autoplay="false"
         :loop="true"
         :markers="video.markers"
         :overlay-controls="true"

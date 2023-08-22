@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Source, Marker, VideoMode } from './../../../types/video'
+import type { Source, Marker } from './../../../types/video'
 import MVVideoItem from '../VideoItem'
 import MVVideoControls from './../VideoControls'
 
@@ -52,10 +52,6 @@ const props = defineProps({
     type: Boolean,
     default: false
   }
-  // mode: {
-  //   type: String as PropType<VideoMode>,
-  //   default: () => VideoMode.DEFAULT
-  // }
 })
 
 const emit = defineEmits<{

@@ -463,12 +463,8 @@ provide('videoState', readonly(state))
 </script>
 
 <template>
-  <div class="mv-universal-player-container w-full relative">
-    <video
-      :data-testid="props.id"
-      :id="`mv-video-item-${props.id}`"
-      class="video-js vjs-theme-mindvalley"
-    >
+  <div class="w-full relative">
+    <video :data-testid="props.id" :id="`mv-video-item-${props.id}`" class="video-js mv-video-item">
       <p class="vjs-no-js">
         To play the video please enable JavaScript, and consider upgrading to a web browser that
         <a href="https://videojs.com/html5-video-support/" target="_blank"> supports HTML5 video</a>
@@ -552,7 +548,7 @@ provide('videoState', readonly(state))
 </template>
 
 <style lang="scss">
-.vjs-theme-mindvalley {
+.mv-video-item {
   width: 100%;
 
   // Playback Speed Menu
@@ -748,7 +744,7 @@ provide('videoState', readonly(state))
 }
 
 @media (min-width: 768px) {
-  .vjs-theme-mindvalley {
+  .mv-video-item {
     // For all control items icon
     .vjs-control svg {
       transform: scale(1);

@@ -21,9 +21,4 @@ interface Marker {
   time: number
 }
 
-export enum VideoMode {
-  DEFAULT = 'DEFAULT',
-  SEAMLESS = 'SEAMLESS'
-}
-
 export type { Player, Source, Marker }
