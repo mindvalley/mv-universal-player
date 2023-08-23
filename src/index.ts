@@ -39,5 +39,6 @@ export {
   MVVideoPlayer,
   MVVideoItem,
   MVVideoMakerItem,
-  MVVideoResource
+  MVVideoResource,
+  MVVideoControls
 } from './components'

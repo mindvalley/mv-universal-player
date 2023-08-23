@@ -12,7 +12,13 @@ import {
   MVMeditationVolumeSlider
 } from './audio'
 
-import { MVVideoPlayer, MVVideoItem, MVVideoResource, MVVideoMakerItem } from './video'
+import {
+  MVVideoPlayer,
+  MVVideoItem,
+  MVVideoResource,
+  MVVideoMakerItem,
+  MVVideoControls
+} from './video'
 
 import { MVCarousel, MVCarouselSlide } from './carousel'
 
@@ -33,5 +39,6 @@ export {
   MVVideoPlayer,
   MVVideoItem,
   MVVideoResource,
-  MVVideoMakerItem
+  MVVideoMakerItem,
+  MVVideoControls
 }
