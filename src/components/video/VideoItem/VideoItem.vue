@@ -506,7 +506,7 @@ provide('videoState', readonly(state))
       class="vjs-markers-button absolute top-4 right-6 hidden h-8 w-24 rounded-full border-2 border-white bg-black/[.3] text-sm text-white"
       @click="toggleMarkersMenu"
     >
-      Jump To
+      Jump-To
     </button>
 
     <aside
@@ -518,7 +518,7 @@ provide('videoState', readonly(state))
         <li
           class="flex h-16 items-center border-b border-b-cool-grey-600 pt-px pr-6 pl-14 text-base text-cool-grey-400"
         >
-          Jump To
+          JUMP TO
           <span @click="toggleMarkersMenu" class="ml-auto cursor-pointer">
             <svg class="mr-2 text-white" v-svg symbol="x-filled" size="24"></svg>
           </span>
