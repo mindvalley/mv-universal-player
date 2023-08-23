@@ -20,7 +20,7 @@ const StateConfig = {
     getter: (player: any) => player.volume()
   },
   muted: {
-    events: ['volumechange'],
+    events: ['volumechange', 'muted'],
     getter: (player: any) => player.muted()
   },
   seeking: {
@@ -81,6 +81,10 @@ const StateConfig = {
   },
   ready: {
     getter: () => false
+  },
+  fullscreen: {
+    events: ['fullscreenchange'],
+    getter: (player: any) => player.isFullscreen()
   }
 }
 
@@ -106,6 +110,10 @@ const props = defineProps({
     type: Array<Number>,
     default: () => [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2]
   },
+  showPlaybackRates: {
+    type: Boolean,
+    default: true
+  },
   loop: {
     type: Boolean
   },
@@ -128,11 +136,19 @@ const props = defineProps({
   },
   markers: {
     type: Array<Marker>,
-    default: []
+    default: () => []
   },
   progressControl: {
     type: Boolean,
     default: true
+  },
+  overlayControls: {
+    type: Boolean,
+    default: false
+  },
+  pictureInPicture: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -153,7 +169,7 @@ const emit = defineEmits<{
   (e: 'ended', { currentTime }: any): void
   (e: 'rewind', { previousTime, currentTime }: any): void
   (e: 'fastforward', { previousTime, currentTime }: any): void
-  (e: 'reset', { currentTime }: any): void
+  (e: 'fullscreen', { isFullscreen }: any): void
   (e: 'error', payload: any): void
   (e: any, payload: any): void
 }>()
@@ -163,6 +179,21 @@ watch(
   (error) => {
     if (error) {
       emit('error', error)
+    }
+  }
+)
+
+watch(
+  () => state.value.fullscreen,
+  (fullscreen) => {
+    if (props.overlayControls) {
+      if (fullscreen) {
+        videoInstance.controls(true)
+        emit('fullscreen', { isFullscreen: true })
+      } else {
+        videoInstance.controls(false)
+        emit('fullscreen', { isFullscreen: false })
+      }
     }
   }
 )
@@ -219,7 +250,8 @@ watch(
 )
 
 onMounted(() => {
-  initialize(props.id, props.loop)
+  const controls = !props.overlayControls
+  initialize(props.id, controls, props.loop)
 })
 
 onUnmounted(() => {
@@ -230,31 +262,30 @@ onUnmounted(() => {
   }
 })
 
-const initialize = (id: string, loop = false) => {
+const initialize = (id: string, controls = true, loop = false) => {
   videoInstance = createInstance(`mv-video-item-${id}`, {
     poster: props.posterUrl,
     fluid: true,
-    controls: true,
+    muted: props.muted,
+    controls: controls,
     autoplay: props.autoplay,
     aspectRatio: '16:9',
     loop,
-    html5: {
-      vhs: {
-        overrideNative: true
-      },
-      nativeAudioTracks: false,
-      nativeVideoTracks: false
-    },
-    playbackRates: props.playbackRates,
+    playbackRates: props.showPlaybackRates ? props.playbackRates : [],
     controlBar: {
       progressControl: props.progressControl,
       preferFullWindow: true,
-      responsive: true
+      responsive: true,
+      seekToLive: false,
+      pictureInPictureToggle: props.pictureInPicture
     }
   })
 
   createState()
   updateState('ready', true)
+
+  // Setting it explicitly as the initial state is not reflecting correctly.
+  updateState('muted', props.muted)
 
   const rewindButton = videoInstance.controlBar.addChild('button', {})
   const rewindButtonDOM = rewindButton.el()
@@ -390,13 +421,34 @@ const selectCurrentMarker = () => {
   return props.markers.filter((marker) => state.value?.currentTime >= marker.time).slice(-1)[0]
 }
 
+const mute = () => {
+  if (videoInstance) {
+    videoInstance.muted(true)
+  }
+}
+
+const unmute = () => {
+  if (videoInstance) {
+    videoInstance.muted(false)
+  }
+}
+
+const goFullScreen = () => {
+  if (videoInstance) {
+    videoInstance.requestFullscreen()
+  }
+}
+
 const player: Player = {
   play,
   pause,
   setVolume,
   setCurrentTime,
   setSources,
-  setPlaybackRate
+  setPlaybackRate,
+  mute,
+  unmute,
+  goFullScreen
 }
 
 defineExpose({
@@ -409,12 +461,8 @@ provide('videoState', readonly(state))
 </script>
 
 <template>
-  <div class="mv-universal-player-container w-full relative">
-    <video
-      :data-testid="props.id"
-      :id="`mv-video-item-${props.id}`"
-      class="video-js vjs-theme-mindvalley"
-    >
+  <div class="w-full relative mv-video-item-container">
+    <video :data-testid="props.id" :id="`mv-video-item-${props.id}`" class="video-js mv-video-item">
       <p class="vjs-no-js">
         To play the video please enable JavaScript, and consider upgrading to a web browser that
         <a href="https://videojs.com/html5-video-support/" target="_blank"> supports HTML5 video</a>
@@ -427,19 +475,30 @@ provide('videoState', readonly(state))
       />
     </video>
 
-    <!-- <div
-      v-if="!playedOnce"
-      class="absolute top-0 h-full w-full cursor-pointer rounded-3xl bg-black opacity-0 duration-200 ease-in group-hover:opacity-20"
-      @click="play"
-    ></div> -->
+    <!-- TODO: hide it based on useSlot -->
+    <div
+      v-if="overlayControls && playedOnce"
+      class="absolute bottom-2 right-2 lg:top-24 lg:right-32 sm:top-[60px] sm:right-9"
+    >
+      <slot
+        name="video-controls"
+        :state="state"
+        :player="player"
+        :play="play"
+        :pause="pause"
+        :mute="mute"
+        :unmute="unmute"
+        :goFullScreen="goFullScreen"
+      ></slot>
+    </div>
 
     <button
       v-if="!playedOnce && !state.playing"
       @click="play"
       data-testid="play-button"
-      class="z-50 absolute bottom-0 m-8 hidden h-20 w-20 items-center justify-center rounded-full bg-white text-black duration-200 ease-in group-hover:scale-105 group-hover:bg-white md:flex"
+      class="z-50 flex absolute bottom-0 m-4 sm:m-7 lg:m-8 h-12 w-12 sm:h-20 sm:w-20 lg:h-24 lg:w-24 items-center justify-center rounded-full bg-white text-black duration-200 ease-in group-hover:scale-105 group-hover:bg-white"
     >
-      <svg v-svg symbol="play-filled" size="42" class="ml-1"></svg>
+      <svg v-svg symbol="play-filled" class="ml-1 p-2 sm:p-3 lg:p-4"></svg>
     </button>
 
     <button
@@ -447,7 +506,7 @@ provide('videoState', readonly(state))
       class="vjs-markers-button absolute top-4 right-6 hidden h-8 w-24 rounded-full border-2 border-white bg-black/[.3] text-sm text-white"
       @click="toggleMarkersMenu"
     >
-      Jump to
+      Jump-To
     </button>
 
     <aside
@@ -459,7 +518,7 @@ provide('videoState', readonly(state))
         <li
           class="flex h-16 items-center border-b border-b-cool-grey-600 pt-px pr-6 pl-14 text-base text-cool-grey-400"
         >
-          Jump to
+          JUMP TO
           <span @click="toggleMarkersMenu" class="ml-auto cursor-pointer">
             <svg class="mr-2 text-white" v-svg symbol="x-filled" size="24"></svg>
           </span>
@@ -487,413 +546,326 @@ provide('videoState', readonly(state))
 </template>
 
 <style lang="scss">
-$video-player-border-radius--small: 0.75rem;
-$video-player-border-radius--medium: 1.5rem;
-
-.vjs-theme-mindvalley {
-  width: 100%;
-
-  &.video-js,
-  video,
-  .vjs-poster,
-  .vjs-control-bar {
-    border-radius: $video-player-border-radius--small;
-  }
-
-  // Playback Speed Menu
-  .vjs-menu {
-    ul.vjs-menu-content {
-      width: 125%;
-      max-height: none;
-      margin-bottom: 1.25em;
-      right: -1.25em;
-    }
-  }
-
-  // Controls Bar
-  .vjs-control-bar {
-    display: none;
-    height: auto;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 100%);
-  }
-  &.vjs-has-started {
-    .vjs-control-bar {
-      display: flex;
-      flex-wrap: wrap;
-    }
-  }
-
-  // For all control items
-  .vjs-control {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.75rem;
-    height: 3.25rem;
-    line-height: 3.25rem;
-  }
-
-  // For all control items icon
-  .vjs-control svg {
-    transform: scale(0.75);
-  }
-
-  // Progress Bar Wrapper
-  .vjs-progress-control.vjs-control {
-    order: 0;
+.mv-video-item-container {
+  .mv-video-item {
     width: 100%;
-    flex-grow: 1;
-    flex-shrink: 0;
-  }
 
-  // Progress Bar
-  .vjs-progress-holder.vjs-slider.vjs-slider-horizontal {
-    margin: 0 auto;
-  }
+    // Playback Speed Menu
+    .vjs-menu {
+      ul.vjs-menu-content {
+        width: 125%;
+        max-height: none;
+        margin-bottom: 1.25em;
+        right: -1.25em;
+      }
+    }
 
-  .vjs-progress-control {
-    height: 4px;
-  }
-
-  // Current progress indicator
-  .vjs-play-progress.vjs-slider-bar {
-    background-color: #ba62fd;
-  }
-
-  // Current progress indicator "knob"
-  .vjs-play-progress:before {
-    display: none;
-  }
-
-  // Asset loaded indicator
-  .vjs-load-progress {
-    height: 0.25rem;
-    background-color: transparent;
-  }
-
-  // All buttons inside Controls Bar
-  .vjs-icon-placeholder:before {
-    line-height: 3.25rem;
-    font-size: 1.5rem;
-  }
-
-  // Play Button
-  .vjs-play-control {
-    order: 1;
-    margin-left: 0.25rem;
-  }
-
-  // Rewind Button
-  .vjs-rewind {
-    order: 2;
-    display: none;
-  }
-
-  // Fast Forward Button
-  .vjs-fast-forward {
-    order: 3;
-    display: none;
-  }
-
-  .vjs-time-control {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.25rem;
-    height: 3.25rem;
-    padding: 0;
-    font-size: 0.8rem;
-  }
-
-  // Current Time Control
-  .vjs-current-time {
-    order: 4;
-    justify-content: flex-end;
-  }
-
-  // Remaining Time (Hidden, not part of design)
-  .vjs-remaining-time {
-    display: none;
-  }
-
-  .vjs-time-divider {
-    order: 5;
-    width: 4px;
-    margin: 0;
-    padding: 0;
-  }
-
-  // Duration Control
-  .vjs-duration {
-    order: 5;
-    justify-content: flex-start;
-    margin-right: auto;
-  }
-
-  .vjs-time-tooltip,
-  .vjs-volume-tooltip {
-    height: 1.5rem;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    padding: 0.5rem;
-  }
-
-  // Volume Control
-  .vjs-volume-panel {
-    order: 6;
-  }
-
-  // Playback Rates Control
-  .vjs-playback-rate {
-    order: 7;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .vjs-playback-rate-value {
-    line-height: 3.25rem;
-  }
-
-  .vjs-volume-bar .vjs-volume-level:before {
-    top: -2.6em;
-  }
-
-  // Closed Captions Control
-  .vjs-subs-caps-button {
-    order: 8;
-    display: none;
-  }
-
-  // PIP Control
-  .vjs-picture-in-picture-control {
-    order: 9;
-  }
-
-  // Fullscreen Control
-  .vjs-fullscreen-control {
-    order: 10;
-    margin-right: 0.25rem;
-  }
-
-  // Markers Button (Disabled on small screens)
-  .vjs-markers-button {
-    display: none;
-  }
-
-  &.vjs-user-active.vjs-has-started + .vjs-markers-button {
-    display: block;
-  }
-
-  // Big play button (Appears only before video played)
-  button.vjs-big-play-button {
-    top: inherit;
-    left: 1rem;
-    bottom: 1rem;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 100%;
-    color: black;
-    background-color: white;
-    border: none;
-    outline: none;
-    box-shadow: none;
-  }
-
-  // Hover state for Big play button (Appears only before video played)
-  &.video-js:hover button.vjs-big-play-button {
-    background-color: white;
-    border: none;
-    outline: none;
-    box-shadow: none;
-  }
-
-  // Big play button icon
-  button.vjs-big-play-button .vjs-icon-placeholder:before {
-    font-size: 2.25rem;
-    line-height: 3rem;
-  }
-
-  button.vjs-big-play-button:hover {
-    transform: scale(1.05);
-  }
-}
-
-@media (min-width: 768px) {
-  .vjs-theme-mindvalley {
-    &.video-js,
-    video,
-    .vjs-poster,
+    // Controls Bar
     .vjs-control-bar {
-      border-radius: $video-player-border-radius--medium;
+      display: none;
+      height: auto;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 100%);
+    }
+    &.vjs-has-started {
+      .vjs-control-bar {
+        display: flex;
+        flex-wrap: wrap;
+      }
+    }
+
+    // For all control items
+    .vjs-control {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.75rem;
+      height: 3.25rem;
+      line-height: 3.25rem;
     }
 
     // For all control items icon
     .vjs-control svg {
-      transform: scale(1);
+      transform: scale(0.75);
     }
 
-    .vjs-control {
-      color: #b3b8c1;
+    // Progress Bar Wrapper
+    .vjs-progress-control.vjs-control {
+      order: 0;
+      width: 100%;
+      flex-grow: 1;
+      flex-shrink: 0;
     }
 
-    .vjs-control:hover {
-      color: #fff;
+    // Progress Bar
+    .vjs-progress-holder.vjs-slider.vjs-slider-horizontal {
+      margin: 0 auto;
+    }
+
+    .vjs-progress-control {
+      height: 4px;
+    }
+
+    // Current progress indicator
+    .vjs-play-progress.vjs-slider-bar {
+      background-color: #ba62fd;
+    }
+
+    // Current progress indicator "knob"
+    .vjs-play-progress:before {
+      display: none;
+    }
+
+    // Asset loaded indicator
+    .vjs-load-progress {
+      height: 0.25rem;
+      background-color: transparent;
+    }
+
+    // All buttons inside Controls Bar
+    .vjs-icon-placeholder:before {
+      line-height: 3.25rem;
+      font-size: 1.5rem;
+    }
+
+    // Play Button
+    .vjs-play-control {
+      order: 1;
+      margin-left: 0.25rem;
     }
 
     // Rewind Button
     .vjs-rewind {
       order: 2;
-      display: flex;
+      display: none;
     }
 
     // Fast Forward Button
     .vjs-fast-forward {
       order: 3;
+      display: none;
+    }
+
+    .vjs-time-control {
       display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.25rem;
+      height: 3.25rem;
+      padding: 0;
+      font-size: 0.8rem;
+    }
+
+    // Current Time Control
+    .vjs-current-time {
+      order: 4;
+      justify-content: flex-end;
+    }
+
+    // Remaining Time (Hidden, not part of design)
+    .vjs-remaining-time {
+      display: none;
+    }
+
+    .vjs-time-divider {
+      order: 5;
+      width: 4px;
+      margin: 0;
+      padding: 0;
+    }
+
+    // Duration Control
+    .vjs-duration {
+      order: 5;
+      justify-content: flex-start;
+      margin-right: auto;
+    }
+
+    .vjs-time-tooltip,
+    .vjs-volume-tooltip {
+      height: 1.5rem;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+    }
+
+    // Volume Control
+    .vjs-volume-panel {
+      order: 6;
+    }
+
+    // Playback Rates Control
+    .vjs-playback-rate {
+      order: 7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .vjs-playback-rate-value {
+      line-height: 3.25rem;
     }
 
     // Closed Captions Control
     .vjs-subs-caps-button {
       order: 8;
-      display: block;
+      display: none;
+    }
+
+    // PIP Control
+    .vjs-picture-in-picture-control {
+      order: 9;
     }
 
     // Fullscreen Control
     .vjs-fullscreen-control {
-      margin-right: 0.5rem;
+      order: 10;
+      margin-right: 0.25rem;
+    }
+
+    // Markers Button (Disabled on small screens)
+    .vjs-markers-button {
+      display: none;
+    }
+
+    &.vjs-user-active.vjs-has-started + .vjs-markers-button {
+      display: block;
     }
 
     // Big play button (Appears only before video played)
     button.vjs-big-play-button {
-      left: 28px;
-      bottom: 28px;
-      width: 80px;
-      height: 80px;
       display: none;
-    }
-
-    // Big play button icon
-    button.vjs-big-play-button .vjs-icon-placeholder:before {
-      font-size: 3.5rem;
-      line-height: 80px;
-    }
-
-    .vjs-icon-placeholder {
-      height: 24px;
-    }
-
-    // Overwrite icons to match the design system's icons.
-    .vjs-icon-placeholder:before {
-      width: 24px;
-      height: 24px;
-      display: inline-block;
-      color: #b3b8c1;
-      background-color: #b3b8c1;
-      position: relative;
-    }
-
-    // This replaces the Play button.
-    .vjs-paused .vjs-icon-placeholder:before {
-      mask: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M5.52 2.122a1 1 0 0 1 1.02.037l14 9a1 1 0 0 1 0 1.682l-14 9A1 1 0 0 1 5 21V3a1 1 0 0 1 .52-.878Z' fill='%23FFF'/%3E%3C/svg%3E")
-        no-repeat 100% 100% !important;
-      left: 3px;
-    }
-
-    // This replaces the Pause button.
-    .vjs-playing .vjs-icon-placeholder:before {
-      mask: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M5 4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4ZM13 4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1V4Z' fill='currentColor'/%3E%3C/svg%3E")
-        no-repeat 100% 100% !important;
-      left: 3px;
-    }
-
-    // This replaces the  Mute button.
-    .vjs-mute-control .vjs-icon-placeholder:before {
-      mask: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M19.777 4.223a1 1 0 1 0-1.414 1.414 9 9 0 0 1 0 12.726 1 1 0 1 0 1.414 1.414 11 11 0 0 0 0-15.554Z' fill='%23000'/%3E%3Cpath d='M16.247 7.753a1 1 0 1 0-1.414 1.414 4 4 0 0 1 0 5.656 1 1 0 1 0 1.414 1.414 6 6 0 0 0 0-8.484ZM12 5a1 1 0 0 0-1.625-.78L5.65 8H2a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h3.65l4.725 3.78A1 1 0 0 0 12 19V5Z' fill='currentColor'/%3E%3C/svg%3E%0A")
-        no-repeat 100% 100% !important;
-    }
-
-    // This replaces the Picture-to-picture button.
-    .vjs-picture-in-picture-control .vjs-icon-placeholder:before {
-      mask: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M2.4 3h19.2C22.92 3 24 4.013 24 5.25v13.5c0 1.238-1.08 2.25-2.4 2.25H2.4C1.08 21 0 19.988 0 18.75V5.25C0 4.013 1.08 3 2.4 3ZM13 11a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-6Z' fill='currentColor'/%3E%3C/svg%3E%0A")
-        no-repeat 100% 100% !important;
-    }
-
-    // // This replaces the Full-screen button.
-    .vjs-fullscreen-control .vjs-icon-placeholder:before {
-      mask: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 1.75A3.25 3.25 0 0 0 1.75 5v3a1.25 1.25 0 1 0 2.5 0V5A.75.75 0 0 1 5 4.25h3a1.25 1.25 0 1 0 0-2.5H5ZM16 1.75a1.25 1.25 0 1 0 0 2.5h3a.75.75 0 0 1 .75.75v3a1.25 1.25 0 1 0 2.5 0V5A3.25 3.25 0 0 0 19 1.75h-3ZM3 14.75c-.69 0-1.25.56-1.25 1.25v3A3.25 3.25 0 0 0 5 22.25h3a1.25 1.25 0 1 0 0-2.5H5a.75.75 0 0 1-.75-.75v-3c0-.69-.56-1.25-1.25-1.25ZM21 14.75c-.69 0-1.25.56-1.25 1.25v3a.75.75 0 0 1-.75.75h-3a1.25 1.25 0 1 0 0 2.5h3A3.25 3.25 0 0 0 22.25 19v-3c0-.69-.56-1.25-1.25-1.25Z' fill='currentColor'/%3E%3C/svg%3E%0A")
-        no-repeat 100% 100% !important;
-    }
-
-    // This replaces and adjust the Caption icon.
-    .vjs-subs-caps-button .vjs-icon-placeholder:before {
-      mask: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M21.6 3H2.4C1.08 3 0 4.013 0 5.25v13.5C0 19.988 1.08 21 2.4 21h19.2c1.32 0 2.4-1.012 2.4-2.25V5.25C24 4.013 22.92 3 21.6 3ZM10.8 9.75H7.2c-.661 0-1.2.505-1.2 1.125v2.25c0 .621.539 1.125 1.2 1.125h3.6v2.25H7.2c-1.985 0-3.6-1.514-3.6-3.375v-2.25C3.6 9.015 5.215 7.5 7.2 7.5h3.6v2.25Zm9.6 0h-3.6c-.661 0-1.2.505-1.2 1.125v2.25c0 .621.539 1.125 1.2 1.125h3.6v2.25h-3.6c-1.985 0-3.6-1.514-3.6-3.375v-2.25c0-1.86 1.615-3.375 3.6-3.375h3.6v2.25Z' fill='%23000'/%3E%3C/svg%3E%0A")
-        no-repeat 100% 100% !important;
-      left: -2px;
-    }
-
-    // This adjust the position of the mute button
-    .vjs-mute-control .vjs-icon-placeholder:before {
-      left: 5px;
-    }
-
-    .vjs-icon-placeholder:hover:before {
-      color: white;
-      background-color: white;
-    }
-
-    // This removes the circle icon on the volume bar.
-    .vjs-volume-level:before {
-      content: '';
-    }
-
-    // This makes the volume bar thicker and have rounded borders.
-    .vjs-volume-bar.vjs-slider-horizontal {
-      width: 15em;
-      height: 0.5em;
-      border-radius: 1em;
-    }
-
-    .vjs-slider-horizontal .vjs-volume-level {
-      height: 0.5em;
-      border-radius: 1em;
-    }
-
-    // This removes the black line indicator when use hovers to the volume bar.
-    .vjs-mouse-display {
-      width: 0 !important;
-    }
-
-    // This removes the caption settings
-    .vjs-texttrack-settings {
-      display: none;
-    }
-  }
-}
-
-// Video Resource Player
-.videoResource {
-  .vjs-theme-mindvalley {
-    &.video-js,
-    video,
-    .vjs-poster,
-    .vjs-control-bar {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
     }
   }
 }
 
 @media (min-width: 768px) {
-  .videoResource {
-    .vjs-theme-mindvalley {
-      &.video-js,
-      video,
-      .vjs-poster,
-      .vjs-control-bar {
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
+  .mv-video-item-container {
+    .mv-video-item {
+      // For all control items icon
+      .vjs-control svg {
+        transform: scale(1);
+      }
+
+      .vjs-control {
+        color: #b3b8c1;
+      }
+
+      .vjs-control:hover {
+        color: #fff;
+      }
+
+      // Rewind Button
+      .vjs-rewind {
+        order: 2;
+        display: flex;
+      }
+
+      // Fast Forward Button
+      .vjs-fast-forward {
+        order: 3;
+        display: flex;
+      }
+
+      // Closed Captions Control
+      .vjs-subs-caps-button {
+        order: 8;
+        display: block;
+      }
+
+      // Fullscreen Control
+      .vjs-fullscreen-control {
+        margin-right: 0.5rem;
+      }
+
+      .vjs-icon-placeholder {
+        height: 24px;
+      }
+
+      // Overwrite icons to match the design system's icons.
+      .vjs-icon-placeholder:before {
+        width: 24px;
+        height: 24px;
+        display: inline-block;
+        color: #b3b8c1;
+        background-color: #b3b8c1;
+        position: relative;
+      }
+
+      // This replaces the Play button.
+      .vjs-paused .vjs-icon-placeholder:before {
+        mask: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M5.52 2.122a1 1 0 0 1 1.02.037l14 9a1 1 0 0 1 0 1.682l-14 9A1 1 0 0 1 5 21V3a1 1 0 0 1 .52-.878Z' fill='%23FFF'/%3E%3C/svg%3E")
+          no-repeat 100% 100% !important;
+        left: 3px;
+      }
+
+      // This replaces the Pause button.
+      .vjs-playing .vjs-icon-placeholder:before {
+        mask: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M5 4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4ZM13 4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1V4Z' fill='currentColor'/%3E%3C/svg%3E")
+          no-repeat 100% 100% !important;
+        left: 3px;
+      }
+
+      // This replaces the  Mute button.
+      .vjs-mute-control .vjs-icon-placeholder:before {
+        mask: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M19.777 4.223a1 1 0 1 0-1.414 1.414 9 9 0 0 1 0 12.726 1 1 0 1 0 1.414 1.414 11 11 0 0 0 0-15.554Z' fill='%23000'/%3E%3Cpath d='M16.247 7.753a1 1 0 1 0-1.414 1.414 4 4 0 0 1 0 5.656 1 1 0 1 0 1.414 1.414 6 6 0 0 0 0-8.484ZM12 5a1 1 0 0 0-1.625-.78L5.65 8H2a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h3.65l4.725 3.78A1 1 0 0 0 12 19V5Z' fill='currentColor'/%3E%3C/svg%3E%0A")
+          no-repeat 100% 100% !important;
+      }
+
+      // This replaces the Picture-to-picture button.
+      .vjs-picture-in-picture-control .vjs-icon-placeholder:before {
+        mask: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M2.4 3h19.2C22.92 3 24 4.013 24 5.25v13.5c0 1.238-1.08 2.25-2.4 2.25H2.4C1.08 21 0 19.988 0 18.75V5.25C0 4.013 1.08 3 2.4 3ZM13 11a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-6Z' fill='currentColor'/%3E%3C/svg%3E%0A")
+          no-repeat 100% 100% !important;
+      }
+
+      // // This replaces the Full-screen button.
+      .vjs-fullscreen-control .vjs-icon-placeholder:before {
+        mask: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 1.75A3.25 3.25 0 0 0 1.75 5v3a1.25 1.25 0 1 0 2.5 0V5A.75.75 0 0 1 5 4.25h3a1.25 1.25 0 1 0 0-2.5H5ZM16 1.75a1.25 1.25 0 1 0 0 2.5h3a.75.75 0 0 1 .75.75v3a1.25 1.25 0 1 0 2.5 0V5A3.25 3.25 0 0 0 19 1.75h-3ZM3 14.75c-.69 0-1.25.56-1.25 1.25v3A3.25 3.25 0 0 0 5 22.25h3a1.25 1.25 0 1 0 0-2.5H5a.75.75 0 0 1-.75-.75v-3c0-.69-.56-1.25-1.25-1.25ZM21 14.75c-.69 0-1.25.56-1.25 1.25v3a.75.75 0 0 1-.75.75h-3a1.25 1.25 0 1 0 0 2.5h3A3.25 3.25 0 0 0 22.25 19v-3c0-.69-.56-1.25-1.25-1.25Z' fill='currentColor'/%3E%3C/svg%3E%0A")
+          no-repeat 100% 100% !important;
+      }
+
+      // This replaces and adjust the Caption icon.
+      .vjs-subs-caps-button .vjs-icon-placeholder:before {
+        mask: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M21.6 3H2.4C1.08 3 0 4.013 0 5.25v13.5C0 19.988 1.08 21 2.4 21h19.2c1.32 0 2.4-1.012 2.4-2.25V5.25C24 4.013 22.92 3 21.6 3ZM10.8 9.75H7.2c-.661 0-1.2.505-1.2 1.125v2.25c0 .621.539 1.125 1.2 1.125h3.6v2.25H7.2c-1.985 0-3.6-1.514-3.6-3.375v-2.25C3.6 9.015 5.215 7.5 7.2 7.5h3.6v2.25Zm9.6 0h-3.6c-.661 0-1.2.505-1.2 1.125v2.25c0 .621.539 1.125 1.2 1.125h3.6v2.25h-3.6c-1.985 0-3.6-1.514-3.6-3.375v-2.25c0-1.86 1.615-3.375 3.6-3.375h3.6v2.25Z' fill='%23000'/%3E%3C/svg%3E%0A")
+          no-repeat 100% 100% !important;
+        left: -2px;
+      }
+
+      // This adjust the position of the mute button
+      .vjs-mute-control .vjs-icon-placeholder:before {
+        left: 5px;
+      }
+
+      .vjs-icon-placeholder:hover:before {
+        color: white;
+        background-color: white;
+      }
+
+      // This removes the circle icon on the volume bar.
+      .vjs-volume-level:before {
+        content: '';
+      }
+
+      // This makes the volume bar thicker and have rounded borders.
+      .vjs-volume-bar.vjs-slider-horizontal {
+        width: 15em;
+        height: 0.5em;
+        border-radius: 1em;
+      }
+
+      .vjs-slider-horizontal .vjs-volume-level {
+        height: 0.5em;
+        border-radius: 1em;
+      }
+
+      // This removes the black line indicator when use hovers to the volume bar.
+      .vjs-mouse-display {
+        width: 0 !important;
+      }
+
+      // This removes the caption settings
+      .vjs-texttrack-settings {
+        display: none;
       }
     }
   }

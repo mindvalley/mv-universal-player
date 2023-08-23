@@ -1,6 +1,6 @@
 <template>
   <div class="mv-universal-player">
-    <MVAudioPlayer>
+    <!-- <MVAudioPlayer>
       <MVAudioResource
         :key="audio.id"
         :asset-id="audio.id"
@@ -71,18 +71,20 @@
           </MVMeditationMixer>
         </template>
       </MVAudioResource>
-    </MVAudioPlayer>
+    </MVAudioPlayer> -->
 
+    <!-- <div class="h-full w-[900px] rounded-[20px] overflow-hidden"> -->
     <MVVideoPlayer>
       <MVVideoResource
-        :key="video.id"
-        :asset-id="video.id"
+        :id="video.id"
         :sources="video.sources"
         :duration="video.duration"
         :poster-url="video.posterUrl"
         :autoplay="false"
+        :loop="true"
         :markers="video.markers"
-        showFavourite
+        :overlay-controls="false"
+        :muted="true"
         @play="logEvent('play', $event)"
         @pause="logEvent('pause', $event)"
         @seeking="logEvent('seeking', $event)"
@@ -90,12 +92,12 @@
         @rewind="logEvent('rewind', $event)"
         @fastforward="logEvent('fastforward', $event)"
         @playbackSpeed="logEvent('playbackSpeed', $event)"
-        @favourite="logEvent('favourite', $event)"
         @timeupdate="logEvent('timeupdate', $event)"
         @error="logEvent('error', $event)"
       >
       </MVVideoResource>
     </MVVideoPlayer>
+    <!-- </div> -->
   </div>
 </template>
 
@@ -110,7 +112,7 @@ import { MVCarousel, MVCarouselSlide } from './components/carousel'
 import { MVMeditationTrackItem, MVMeditationVolumeSlider, MVMeditationMixer } from '.'
 
 const logEvent = (event: string, data: any) => {
-  console.log(event, data)
+  // console.log(event, data)
 }
 
 const backgroundSounds = [
