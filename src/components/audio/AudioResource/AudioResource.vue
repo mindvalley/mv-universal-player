@@ -112,9 +112,9 @@ const handleFavourite = () => {
       @reset="emitEvent('reset', $event)"
       @error="emitEvent('error', $event)"
     >
-      <div class="grid grid-cols-3 text-white relative gap-8">
+      <div class="grid grid-cols-3 text-white relative gap-4">
         <!-- Image -->
-        <section class="w-full col-span-1 row-span-3">
+        <section class="w-full col-span-1 row-span-1 sm:row-span-3">
           <img :src="posterUrl || ''" class="rounded-xl md:rounded-3xl" :width="350" />
         </section>
 
