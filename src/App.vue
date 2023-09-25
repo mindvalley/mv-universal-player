@@ -1,6 +1,6 @@
 <template>
   <div class="mv-universal-player">
-    <!-- <MVAudioPlayer>
+    <MVAudioPlayer>
       <MVAudioResource
         :key="audio.id"
         :asset-id="audio.id"
@@ -71,19 +71,19 @@
           </MVMeditationMixer>
         </template>
       </MVAudioResource>
-    </MVAudioPlayer> -->
+    </MVAudioPlayer>
 
     <!-- <div class="h-full w-[900px] rounded-[20px] overflow-hidden"> -->
-    <MVVideoPlayer>
+    <!-- <MVVideoPlayer>
       <MVVideoResource
         :id="video.id"
         :sources="video.sources"
         :duration="video.duration"
         :poster-url="video.posterUrl"
-        :autoplay="false"
+        :autoplay="true"
         :loop="true"
         :markers="video.markers"
-        :overlay-controls="false"
+        :overlay-controls="true"
         :muted="true"
         @play="logEvent('play', $event)"
         @pause="logEvent('pause', $event)"
@@ -96,7 +96,7 @@
         @error="logEvent('error', $event)"
       >
       </MVVideoResource>
-    </MVVideoPlayer>
+    </MVVideoPlayer> -->
     <!-- </div> -->
   </div>
 </template>

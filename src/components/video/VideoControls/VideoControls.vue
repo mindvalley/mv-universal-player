@@ -10,8 +10,8 @@
       </Transition>
     </button>
     <button v-if="showMute" class="mv-video-control-button group" @click="toggleMute">
-      <svg v-show="mute" v-svg symbol="volume-2-filled" size="20"></svg>
-      <svg v-show="!mute" v-svg symbol="volume-x-filled" size="20"></svg>
+      <svg v-show="mute" v-svg symbol="volume-x-filled" size="20"></svg>
+      <svg v-show="!mute" v-svg symbol="volume-2-filled" size="20"></svg>
       <Transition>
         <span class="mv-tooltip-text group-hover:block" v-if="!isTouchDevice"
           >{{ mute ? unmuteLabel : muteLabel }}
