@@ -18,6 +18,9 @@
         blurEffect
         overlay
         showFavourite
+        favouriteIcon="bookmark-filled"
+        unfavouriteIcon="bookmark-outline"
+        favouriteIconColor="red"
         @play="logEvent('play', $event)"
         @pause="logEvent('pause', $event)"
         @seeking="logEvent('seeking', $event)"
