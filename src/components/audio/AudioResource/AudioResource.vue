@@ -49,6 +49,18 @@ const props = defineProps({
   },
   isFavourite: {
     type: Boolean
+  },
+  favouriteIcon: {
+    type: String,
+    default: 'heart-filled'
+  },
+  unfavouriteIcon: {
+    type: String,
+    default: 'heart-outline'
+  },
+  favouriteIconColor: {
+    type: String,
+    default: '#A3313E'
   }
 })
 
@@ -125,8 +137,14 @@ const handleFavourite = () => {
               {{ title }}
             </h2>
             <span v-if="showFavourite" class="hover:cursor-pointer" @click="handleFavourite"
-              ><svg v-show="!isFavourite" v-svg symbol="heart-outline" size="26"></svg>
-              <svg v-show="isFavourite" v-svg symbol="heart-filled" size="26" color="#A3313E"></svg>
+              ><svg v-show="!isFavourite" v-svg :symbol="unfavouriteIcon" size="26"></svg>
+              <svg
+                v-show="isFavourite"
+                v-svg
+                :symbol="favouriteIcon"
+                size="26"
+                :color="favouriteIconColor"
+              ></svg>
             </span>
           </div>
 
