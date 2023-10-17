@@ -1,6 +1,6 @@
 <template>
   <div class="mv-universal-player">
-    <MVAudioPlayer>
+    <!-- <MVAudioPlayer>
       <MVAudioResource
         :key="audio.id"
         :asset-id="audio.id"
@@ -74,33 +74,51 @@
           </MVMeditationMixer>
         </template>
       </MVAudioResource>
-    </MVAudioPlayer>
+    </MVAudioPlayer> -->
 
-    <!-- <div class="h-full w-[900px] rounded-[20px] overflow-hidden"> -->
-    <!-- <MVVideoPlayer>
-      <MVVideoResource
-        :id="video.id"
-        :sources="video.sources"
-        :duration="video.duration"
-        :poster-url="video.posterUrl"
-        :autoplay="true"
-        :loop="true"
-        :markers="video.markers"
-        :overlay-controls="true"
-        :muted="true"
-        @play="logEvent('play', $event)"
-        @pause="logEvent('pause', $event)"
-        @seeking="logEvent('seeking', $event)"
-        @ended="logEvent('ended', $event)"
-        @rewind="logEvent('rewind', $event)"
-        @fastforward="logEvent('fastforward', $event)"
-        @playbackSpeed="logEvent('playbackSpeed', $event)"
-        @timeupdate="logEvent('timeupdate', $event)"
-        @error="logEvent('error', $event)"
-      >
-      </MVVideoResource>
-    </MVVideoPlayer> -->
-    <!-- </div> -->
+    <div class="h-full rounded-[20px] overflow-hidden">
+      <MVVideoPlayer>
+        <MVVideoResource
+          :id="video.id"
+          :sources="video.sources"
+          :duration="video.duration"
+          :poster-url="video.posterUrl"
+          :autoplay="false"
+          :loop="true"
+          :markers="video.markers"
+          :overlay-controls="false"
+          :muted="true"
+          @play="logEvent('play', $event)"
+          @pause="logEvent('pause', $event)"
+          @seeking="logEvent('seeking', $event)"
+          @ended="logEvent('ended', $event)"
+          @rewind="logEvent('rewind', $event)"
+          @fastforward="logEvent('fastforward', $event)"
+          @playbackSpeed="logEvent('playbackSpeed', $event)"
+          @timeupdate="logEvent('timeupdate', $event)"
+          @error="logEvent('error', $event)"
+        >
+          <template #video-description>
+            <MVVideoDescription
+              :style="{
+                'background-image': 'url(' + video.coverAsset + ')'
+              }"
+              :image-src="video.authorImage"
+              :name="video.artistName"
+              :headline="video.headline"
+              :description="video.description"
+              show-more-text="Show More"
+              show-less-text="Show Less"
+              :coverAsset="video.coverAsset"
+              :averageRating="video.ratings"
+              :ratingsCount="video.totalRatings"
+              class="p-4 md:p-6"
+              :title="video.title"
+            />
+          </template>
+        </MVVideoResource>
+      </MVVideoPlayer>
+    </div>
   </div>
 </template>
 
@@ -110,6 +128,7 @@ import { MVAudioPlayer, MVVideoPlayer } from '.'
 import MVAudioResource from './components/audio/AudioResource/'
 import MVVideoResource from './components/video/VideoResource/'
 import MVAudioDescription from './components/audio/AudioDescription'
+import MVVideoDescription from './components/video/VideoDescription'
 
 import { MVCarousel, MVCarouselSlide } from './components/carousel'
 import { MVMeditationTrackItem, MVMeditationVolumeSlider, MVMeditationMixer } from '.'
@@ -237,6 +256,7 @@ const video = {
   artistName: 'Marisa Peer',
   ratings: 5,
   totalRatings: 4,
+  coverAsset: getImageUrl('removing_inner_blocks_success.jpeg'),
   authorImage: getImageUrl('rtt_marisa_author.jpeg'),
   headline: 'Creator Of Rapid Transformational Therapy®',
   description:

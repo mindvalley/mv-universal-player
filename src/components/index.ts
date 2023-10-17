@@ -17,7 +17,8 @@ import {
   MVVideoItem,
   MVVideoResource,
   MVVideoMakerItem,
-  MVVideoControls
+  MVVideoControls,
+  MVVideoDescription
 } from './video'
 
 import { MVCarousel, MVCarouselSlide } from './carousel'
@@ -40,5 +41,6 @@ export {
   MVVideoItem,
   MVVideoResource,
   MVVideoMakerItem,
-  MVVideoControls
+  MVVideoControls,
+  MVVideoDescription
 }
