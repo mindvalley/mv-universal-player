@@ -461,7 +461,7 @@ provide('videoState', readonly(state))
 </script>
 
 <template>
-  <div class="w-full relative mv-video-item-container">
+  <div class="w-full relative mv-video-item-container group">
     <video :data-testid="props.id" :id="`mv-video-item-${props.id}`" class="video-js mv-video-item">
       <p class="vjs-no-js">
         To play the video please enable JavaScript, and consider upgrading to a web browser that
@@ -491,6 +491,13 @@ provide('videoState', readonly(state))
         :goFullScreen="goFullScreen"
       ></slot>
     </div>
+
+    <!-- This is just for overlay. -->
+    <div
+      v-if="!playedOnce && !state.playing"
+      class="absolute top-0 h-full w-full cursor-pointer rounded-3xl bg-black opacity-0 duration-200 ease-in group-hover:opacity-20"
+      @click="play"
+    ></div>
 
     <button
       v-if="!playedOnce && !state.playing"
