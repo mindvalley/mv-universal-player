@@ -468,7 +468,7 @@ provide('videoState', readonly(state))
 </script>
 
 <template>
-  <div class="w-full relative mv-video-item-container group">
+  <div class="w-full relative mv-video-item-container group/mv-video-item-container">
     <video :data-testid="props.id" :id="`mv-video-item-${props.id}`" class="video-js mv-video-item">
       <p class="vjs-no-js">
         To play the video please enable JavaScript, and consider upgrading to a web browser that
@@ -502,7 +502,7 @@ provide('videoState', readonly(state))
     <!-- This is just for overlay. -->
     <div
       v-if="!playedOnce && !state.playing"
-      class="absolute top-0 h-full w-full cursor-pointer rounded-3xl bg-black opacity-0 duration-200 ease-in group-hover:opacity-20"
+      class="absolute top-0 h-full w-full cursor-pointer rounded-3xl bg-black opacity-0 duration-200 ease-in group-hover/mv-video-item-container:opacity-20"
       @click="play"
     ></div>
 
@@ -510,7 +510,7 @@ provide('videoState', readonly(state))
       v-if="!playedOnce && !state.playing"
       @click="play"
       data-testid="play-button"
-      class="z-50 flex absolute bottom-0 m-4 sm:m-7 lg:m-8 h-12 w-12 sm:h-20 sm:w-20 lg:h-24 lg:w-24 items-center justify-center rounded-full bg-white text-black duration-200 ease-in group-hover:scale-105 group-hover:bg-white"
+      class="z-50 flex absolute bottom-0 m-4 sm:m-7 lg:m-8 h-12 w-12 sm:h-20 sm:w-20 lg:h-24 lg:w-24 items-center justify-center rounded-full bg-white text-black duration-200 ease-in group-hover/mv-video-item-container:scale-105 group-hover/mv-video-item-container:bg-white"
     >
       <svg v-svg symbol="play-filled" class="ml-1 p-2 sm:p-3 lg:p-4"></svg>
     </button>
