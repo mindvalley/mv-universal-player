@@ -79,6 +79,7 @@
     <div class="h-full rounded-[20px] overflow-hidden">
       <MVVideoPlayer>
         <MVVideoResource
+          ref="videoResource"
           :id="video.id"
           :sources="video.sources"
           :duration="video.duration"
@@ -132,6 +133,7 @@ import MVVideoDescription from './components/video/VideoDescription'
 
 import { MVCarousel, MVCarouselSlide } from './components/carousel'
 import { MVMeditationTrackItem, MVMeditationVolumeSlider, MVMeditationMixer } from '.'
+import { ref } from 'vue-demi'
 
 const logEvent = (event: string, data: any) => {
   // console.log(event, data)
