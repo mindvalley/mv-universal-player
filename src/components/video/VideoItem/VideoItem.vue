@@ -293,7 +293,6 @@ const initialize = (id: string, controls = true, loop = false) => {
   rewindButtonDOM.classList.add('vjs-rewind')
   rewindButtonDOM.onclick = function () {
     rewind(15)
-    play()
   }
 
   const fastForwardButton = videoInstance.controlBar.addChild('button', {})
@@ -302,7 +301,6 @@ const initialize = (id: string, controls = true, loop = false) => {
   fastForwardButtonDOM.classList.add('vjs-fast-forward')
   fastForwardButtonDOM.onclick = function () {
     fastForward(15)
-    play()
   }
 }
 
@@ -384,7 +382,11 @@ const setPlaybackRate = (rate: number) => {
 }
 
 const rewind = (seconds: number) => {
-  if (state.value.playing && seconds >= 0) {
+  if (!state.value.playing) {
+    play()
+  }
+
+  if (seconds >= 0) {
     const currentTime =
       state.value.currentTime - seconds >= 0 ? state.value.currentTime - seconds : 0
     emit('rewind', {
@@ -396,12 +398,17 @@ const rewind = (seconds: number) => {
 }
 
 const fastForward = (seconds: number) => {
-  if (state.value.playing && seconds >= 0) {
+  if (!state.value.playing) {
+    play()
+  }
+
+  if (seconds >= 0) {
     const currentTime = state.value.currentTime + seconds
     emit('fastforward', {
       previousTime: state.value.currentTime.toFixed(2),
       currentTime: currentTime.toFixed(2)
     })
+
     setCurrentTime(currentTime)
   }
 }

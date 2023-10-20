@@ -135,6 +135,8 @@ import { MVCarousel, MVCarouselSlide } from './components/carousel'
 import { MVMeditationTrackItem, MVMeditationVolumeSlider, MVMeditationMixer } from '.'
 import { ref } from 'vue-demi'
 
+const videoResource = ref()
+
 const logEvent = (event: string, data: any) => {
   // console.log(event, data)
 }
