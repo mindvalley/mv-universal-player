@@ -1,35 +1,39 @@
 <template>
   <div class="flex flex-row gap-x-2 mv-video-controls">
-    <button v-if="showPlay" class="mv-video-control-button group" @click="togglePlay">
+    <button v-if="showPlay" class="mv-video-control-button group/button" @click="togglePlay">
       <svg v-show="playing" v-svg symbol="pause-filled" size="20"></svg>
       <svg v-show="!playing" v-svg symbol="play-filled" size="20"></svg>
       <Transition>
-        <span class="mv-tooltip-text group-hover:block" v-if="!isTouchDevice"
+        <span class="mv-tooltip-text group-hover/button:block" v-if="!isTouchDevice"
           >{{ playing ? pauseLabel : playLabel }}
         </span>
       </Transition>
     </button>
-    <button v-if="showMute" class="mv-video-control-button group" @click="toggleMute">
+    <button v-if="showMute" class="mv-video-control-button group/button" @click="toggleMute">
       <svg v-show="mute" v-svg symbol="volume-x-filled" size="20"></svg>
       <svg v-show="!mute" v-svg symbol="volume-2-filled" size="20"></svg>
       <Transition>
-        <span class="mv-tooltip-text group-hover:block" v-if="!isTouchDevice"
+        <span class="mv-tooltip-text group-hover/button:block" v-if="!isTouchDevice"
           >{{ mute ? unmuteLabel : muteLabel }}
         </span>
       </Transition>
     </button>
-    <button v-if="showFullScreen" class="mv-video-control-button group" @click="handleFullScreen">
+    <button
+      v-if="showFullScreen"
+      class="mv-video-control-button group/button"
+      @click="handleFullScreen"
+    >
       <svg v-svg symbol="maximize-filled" size="20"></svg>
       <Transition>
-        <span class="mv-tooltip-text group-hover:block" v-if="!isTouchDevice"
+        <span class="mv-tooltip-text group-hover/button:block" v-if="!isTouchDevice"
           >{{ fullscreenLabel }}
         </span>
       </Transition>
     </button>
-    <button v-if="showReplay" class="mv-video-control-button group" @click="handleReplay">
+    <button v-if="showReplay" class="mv-video-control-button group/button" @click="handleReplay">
       <svg v-svg symbol="rotate-ccw-filled" size="20"></svg>
       <Transition>
-        <span class="mv-tooltip-text group-hover:block" v-if="!isTouchDevice"
+        <span class="mv-tooltip-text group-hover/button:block" v-if="!isTouchDevice"
           >{{ replayLabel }}
         </span>
       </Transition>

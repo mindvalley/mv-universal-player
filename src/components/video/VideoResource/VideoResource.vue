@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import type { Source, Marker } from './../../../types/video'
+import type { Source, Marker, Player } from './../../../types/video'
 import MVVideoItem from '../VideoItem'
 import MVVideoControls from './../VideoControls'
+import { ref, defineExpose } from 'vue-demi'
 
 const props = defineProps({
   id: {
@@ -75,11 +76,69 @@ const emitEvent = (eventName: string, payload?: any) => {
   const data = { id: props.id, ...payload }
   emit(eventName, data)
 }
+
+const videoItem = ref()
+
+const play = () => {
+  videoItem.value?.player?.play()
+}
+
+const pause = () => {
+  videoItem.value?.player?.pause()
+}
+
+const setVolume = (volume: number) => {
+  videoItem.value?.player?.setVolume(volume)
+}
+
+const setCurrentTime = (time: number) => {
+  if (!videoItem.value.state.playing) {
+    play()
+  }
+  videoItem.value?.player?.setCurrentTime(time)
+}
+
+const setSources = (sources: Source[]) => {
+  videoItem.value?.player?.setSources(sources)
+}
+
+const setPlaybackRate = (rate: number) => {
+  videoItem.value?.player?.setPlaybackRate(rate)
+}
+
+const mute = () => {
+  videoItem.value?.player?.mute()
+}
+
+const unmute = () => {
+  videoItem.value?.player?.unmute()
+}
+
+const goFullScreen = () => {
+  videoItem.value?.player?.goFullScreen()
+}
+
+const player: Player = {
+  play,
+  pause,
+  setVolume,
+  setCurrentTime,
+  setSources,
+  setPlaybackRate,
+  mute,
+  unmute,
+  goFullScreen
+}
+
+defineExpose({
+  player: player
+})
 </script>
 
 <template>
   <section>
     <MVVideoItem
+      ref="videoItem"
       :sources="sources"
       :id="id"
       :posterUrl="posterUrl"
