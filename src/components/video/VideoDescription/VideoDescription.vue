@@ -28,10 +28,6 @@ const props = defineProps({
     type: String,
     required: true
   },
-  coverAsset: {
-    type: String,
-    required: true
-  },
   overlay: {
     type: Boolean,
     default: true

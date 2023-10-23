@@ -170,6 +170,7 @@ const emit = defineEmits<{
   (e: 'rewind', { previousTime, currentTime }: any): void
   (e: 'fastforward', { previousTime, currentTime }: any): void
   (e: 'fullscreen', { isFullscreen }: any): void
+  (e: 'playbackSpeed', { playbackSpeed }: any): void
   (e: 'error', payload: any): void
   (e: any, payload: any): void
 }>()
