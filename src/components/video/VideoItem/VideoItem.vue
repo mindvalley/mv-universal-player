@@ -212,7 +212,7 @@ watch(
 watch(
   () => state.value.paused,
   (paused) => {
-    if (paused) {
+    if (paused && playedOnce.value) {
       emit('pause', { currentTime: currentTime.value.toFixed(2) })
     }
   }
@@ -239,7 +239,9 @@ watch(
 watch(
   () => state.value.playbackRate,
   (playbackRate) => {
-    emit('playbackSpeed', { playbackSpeed: playbackRate })
+    if (playedOnce.value) {
+      emit('playbackSpeed', { playbackSpeed: playbackRate })
+    }
   }
 )
 
