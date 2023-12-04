@@ -513,7 +513,7 @@ provide('videoState', readonly(state))
       v-if="!playedOnce && !state.playing"
       @click="play"
       data-testid="play-button"
-      class="z-50 flex absolute bottom-0 m-4 sm:m-7 lg:m-8 h-12 w-12 sm:h-20 sm:w-20 lg:h-24 lg:w-24 items-center justify-center rounded-full bg-white text-black duration-200 ease-in group-hover/mv-video-item-container:scale-105 group-hover/mv-video-item-container:bg-white"
+      class="flex absolute bottom-0 m-4 sm:m-7 lg:m-8 h-12 w-12 sm:h-20 sm:w-20 lg:h-24 lg:w-24 items-center justify-center rounded-full bg-white text-black duration-200 ease-in group-hover/mv-video-item-container:scale-105 group-hover/mv-video-item-container:bg-white"
     >
       <svg v-svg symbol="play-filled" class="ml-1 p-2 sm:p-3 lg:p-4"></svg>
     </button>
@@ -529,7 +529,7 @@ provide('videoState', readonly(state))
     <aside
       v-if="sortedMarkers?.length > 0"
       v-show="showMarkersMenu"
-      class="absolute top-0 right-0 bottom-0 z-15 h-full w-full max-w-[430px] rounded-tr-3xl rounded-br-3xl bg-cool-grey-650 text-white"
+      class="absolute top-0 right-0 bottom-0 h-full w-full max-w-[430px] rounded-tr-3xl rounded-br-3xl bg-cool-grey-650 text-white"
     >
       <ul class="h-full overflow-auto">
         <li
