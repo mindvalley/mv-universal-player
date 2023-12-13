@@ -836,9 +836,14 @@ provide('videoState', readonly(state))
       }
 
       // // This replaces the Full-screen button.
-      .vjs-fullscreen-control .vjs-icon-placeholder:before {
+      [title='Fullscreen'] .vjs-icon-placeholder:before {
         mask: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 1.75A3.25 3.25 0 0 0 1.75 5v3a1.25 1.25 0 1 0 2.5 0V5A.75.75 0 0 1 5 4.25h3a1.25 1.25 0 1 0 0-2.5H5ZM16 1.75a1.25 1.25 0 1 0 0 2.5h3a.75.75 0 0 1 .75.75v3a1.25 1.25 0 1 0 2.5 0V5A3.25 3.25 0 0 0 19 1.75h-3ZM3 14.75c-.69 0-1.25.56-1.25 1.25v3A3.25 3.25 0 0 0 5 22.25h3a1.25 1.25 0 1 0 0-2.5H5a.75.75 0 0 1-.75-.75v-3c0-.69-.56-1.25-1.25-1.25ZM21 14.75c-.69 0-1.25.56-1.25 1.25v3a.75.75 0 0 1-.75.75h-3a1.25 1.25 0 1 0 0 2.5h3A3.25 3.25 0 0 0 22.25 19v-3c0-.69-.56-1.25-1.25-1.25Z' fill='currentColor'/%3E%3C/svg%3E%0A")
-          no-repeat 100% 100% !important;
+          no-repeat 100% 100%;
+      }
+
+      [title='Exit Fullscreen'] .vjs-icon-placeholder:before {
+        mask: url("data:image/svg+xml,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 1.75c-.69 0-1.25.56-1.25 1.25v3a.75.75 0 0 1-.75.75H3a1.25 1.25 0 1 0 0 2.5h3A3.25 3.25 0 0 0 9.25 6V3c0-.69-.56-1.25-1.25-1.25ZM16 1.75c-.69 0-1.25.56-1.25 1.25v3A3.25 3.25 0 0 0 18 9.25h3a1.25 1.25 0 1 0 0-2.5h-3a.75.75 0 0 1-.75-.75V3c0-.69-.56-1.25-1.25-1.25ZM3 14.75a1.25 1.25 0 1 0 0 2.5h3a.75.75 0 0 1 .75.75v3a1.25 1.25 0 1 0 2.5 0v-3A3.25 3.25 0 0 0 6 14.75H3ZM18 14.75A3.25 3.25 0 0 0 14.75 18v3a1.25 1.25 0 1 0 2.5 0v-3a.75.75 0 0 1 .75-.75h3a1.25 1.25 0 1 0 0-2.5h-3Z' fill='%23000'/%3E%3C/svg%3E")
+          no-repeat 100% 100%;
       }
 
       // This replaces and adjust the Caption icon.
