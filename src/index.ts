@@ -6,10 +6,16 @@ import SvgSprite from 'vue-svg-sprite'
 import type { App } from 'vue-demi'
 
 const defaultComponents: any = components
+export interface MVUniversalPlayerOptions {
+  svgSpriteOptions: {
+    url: string
+  }
+}
+
 const MVUniversalPlayer = {
-  install(app: App) {
+  install(app: App, options: MVUniversalPlayerOptions) {
     app.use(SvgSprite, {
-      url: svgSprite
+      url: options?.svgSpriteOptions?.url ?? svgSprite
     })
 
     Object.keys(defaultComponents).forEach((name) => {
