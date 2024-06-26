@@ -29,6 +29,7 @@ const emit = defineEmits<{
   (e: 'fastforward', { previousTime, currentTime }: any): void
   (e: 'reset', { currentTime }: any): void
   (e: 'error', payload: any): void
+  (e: 'playbackSpeed', { playbackSpeed }: any): void
   (e: any, payload: any): void
 }>()
 
