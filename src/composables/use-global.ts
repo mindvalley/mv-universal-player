@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid'
+
 export function useGlobal() {
   const humanizeTime = (duration: number) => {
     const hour = Math.floor(duration / 3600) || 0
@@ -43,5 +45,9 @@ export function useGlobal() {
     return updatedSources
   }
 
-  return { humanizeTime, formatSources }
+  const getUUID = () => {
+    return uuidv4()
+  }
+
+  return { humanizeTime, formatSources, getUUID }
 }

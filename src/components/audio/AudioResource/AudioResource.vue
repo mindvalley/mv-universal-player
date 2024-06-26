@@ -6,7 +6,7 @@ import MVAudioPlayButton from '../AudioPlayButton'
 import MVAudioFastForwardButton from '../AudioFastForwardButton'
 import MVAudioRewindButton from '../AudioRewindButton'
 import MVAudioProgressBar from '../AudioProgressBar'
-import { useSlots, computed, ref } from 'vue-demi'
+import { useSlots, computed, ref, watch } from 'vue-demi'
 
 const props = defineProps({
   assetId: {
@@ -81,6 +81,7 @@ const emit = defineEmits<{
   (e: 'fastforward', { previousTime, currentTime }: any): void
   (e: 'reset', { currentTime }: any): void
   (e: 'error', payload: any): void
+  (e: 'playtime', { time }: any): void
   (e: any, payload: any): void
 }>()
 
@@ -94,6 +95,53 @@ const isFavourite = ref(props.isFavourite)
 const handleFavourite = () => {
   isFavourite.value = !isFavourite.value
   emitEvent('favourite', { isFavourite: isFavourite.value })
+}
+
+const playTime = ref(0) // Total time media has been played in seconds
+const playTimerInterval = ref<ReturnType<typeof setInterval> | null>(null)
+
+watch(
+  () => playTime.value,
+  (newPlayTime) => {
+    if (newPlayTime !== 0) {
+      emit('playtime', { time: newPlayTime })
+    }
+  }
+)
+
+const startPlayerTimer = () => {
+  if (playTimerInterval.value === null) {
+    playTimerInterval.value = setInterval(() => {
+      playTime.value += 1
+    }, 1000) // Increment every second
+  }
+}
+
+const pausePlayerTimer = () => {
+  if (playTimerInterval.value !== null) {
+    clearInterval(playTimerInterval.value)
+    playTimerInterval.value = null
+  }
+}
+
+const resetPlayerTimer = () => {
+  pausePlayerTimer()
+  playTime.value = 0
+}
+
+const handleEnded = (event: any) => {
+  resetPlayerTimer()
+  emitEvent('ended', event)
+}
+
+const handlePlay = (event: any) => {
+  emitEvent('play', event)
+  startPlayerTimer()
+}
+
+const handlePause = (event: any) => {
+  emitEvent('pause', event)
+  pausePlayerTimer()
 }
 </script>
 
@@ -113,10 +161,10 @@ const handleFavourite = () => {
       v-slot="{ state, seek, play, pause, rewind, fastForward }"
       :sources="sources"
       :id="assetId"
-      @play="emitEvent('play', $event)"
-      @pause="emitEvent('pause', $event)"
+      @play="handlePlay"
+      @pause="handlePause"
       @seeking="emitEvent('seeking', $event)"
-      @ended="emitEvent('ended', $event)"
+      @ended="handleEnded"
       @rewind="emitEvent('rewind', $event)"
       @fastforward="emitEvent('fastforward', $event)"
       @playbackSpeed="emitEvent('playbackSpeed', $event)"
