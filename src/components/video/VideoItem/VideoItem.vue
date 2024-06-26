@@ -488,7 +488,7 @@ provide('videoState', readonly(state))
     <!-- TODO: hide it based on useSlot -->
     <div
       v-if="overlayControls && playedOnce"
-      class="absolute bottom-2 right-2 sm:bottom-4 md:bottom-6"
+      class="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 md:bottom-6 md:right-6"
     >
       <slot
         name="video-controls"
