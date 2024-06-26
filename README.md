@@ -457,15 +457,16 @@ You can think of this component as an extension to _AudioItem_ component because
 
 **_Events_**
 
-| Name        | Payload                                                       | Description                                                                                 |
-| ----------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| timeupdate  | `{assetId: '...', currentTime: '...'}`                        | The current time of the audio being played. The currentTime will be in seconds.             |
-| play        | `{assetId: '...'}`                                            | It will emit when the audio has started to play.                                            |
-| pause       | `{assetId: '...'}`                                            | It will emit when the audio has paused.                                                     |
-| seeking     | `{assetId: '...', seeking: '...'}`                            | It will emit when the audio is seeked through progress bar. The seeking will be in seconds. |
-| ended       | `{assetId: '...'}`                                            | It will emit the audio has ended.                                                           |
-| rewind      | `{assetId: '...', {previousTime: '...', currentTime: '...'}}` | It will emit when the audio is rewinded.                                                    |
-| fastforward | `{assetId: '...', {previousTime: '...', currentTime: '...'}}` | It will emit when the audio is fast forwarded.                                              |
+| Name        | Payload                                                       | Description                                                                                                                                                                                                                                                                                                        |
+| ----------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| timeupdate  | `{assetId: '...', currentTime: '...'}`                        | The current time of the audio being played. The currentTime will be in seconds.                                                                                                                                                                                                                                    |
+| play        | `{assetId: '...'}`                                            | It will emit when the audio has started to play.                                                                                                                                                                                                                                                                   |
+| pause       | `{assetId: '...'}`                                            | It will emit when the audio has paused.                                                                                                                                                                                                                                                                            |
+| seeking     | `{assetId: '...', seeking: '...'}`                            | It will emit when the audio is seeked through progress bar. The seeking will be in seconds.                                                                                                                                                                                                                        |
+| ended       | `{assetId: '...'}`                                            | It will emit the audio has ended.                                                                                                                                                                                                                                                                                  |
+| rewind      | `{assetId: '...', {previousTime: '...', currentTime: '...'}}` | It will emit when the audio is rewinded.                                                                                                                                                                                                                                                                           |
+| fastforward | `{assetId: '...', {previousTime: '...', currentTime: '...'}}` | It will emit when the audio is fast forwarded.                                                                                                                                                                                                                                                                     |
+| playtime    | `{time: 0}`                                                   | It will emit the actual play time. For exampe, if the audio is of 60 seconds, and user starts playing it and pauses at 30 seconds and drags the slider forward or backward, it will still record only 30 seconds. It means actual play time and not the current time. It will reset only when the audio completes. |
 
 **_Usage_**
 
@@ -653,6 +654,8 @@ _formatSources_ accepts two parameters:
 | ------- | ------------------------------------------------ | ------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | sources | [{id: string, contentType: string, url: string}] | []      | The list of sources which contains renditions.                                                                                |
 | isAudio | boolean                                          | true    | It is to identify whether the sources are of audio or video. For audio '.mp4a' is considered as priority and for video, .hls. |
+
+It also includes UUIDV4 utility. So, if you want to access UUIDV4 just use `const { getUUID } = useGlobal();` and then `console.log(getUUID())`.
 
 ## Package Configuration
 

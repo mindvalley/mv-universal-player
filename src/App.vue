@@ -31,6 +31,7 @@
         @favourite="logEvent('favourite', $event)"
         @timeupdate="logEvent('timeupdate', $event)"
         @error="logEvent('error', $event)"
+        @playtime="logEvent('playtime', $event)"
       >
         <template #audio-description>
           <MVAudioDescription
@@ -87,7 +88,7 @@
           :autoplay="false"
           :loop="false"
           :markers="video.markers"
-          :overlay-controls="false"
+          :overlay-controls="true"
           :muted="true"
           @play="logEvent('play', $event)"
           @pause="logEvent('pause', $event)"
