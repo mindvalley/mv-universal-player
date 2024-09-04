@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/vue'
+import type { Meta, StoryObj } from '@storybook/vue3'
 import { action } from '@storybook/addon-actions'
 
 import { MVAudioResource } from '.'
@@ -142,8 +142,10 @@ export const Default: Story = {
   render: (args: any, { argTypes }) => ({
     components: { MVAudioPlayer, MVAudioResource },
     methods: { logEvent: action('') },
-    props: Object.keys(argTypes),
-    template: `<div class="mv-universal-player"><MVAudioPlayer><MVAudioResource  v-bind="$props" class="my-10 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"   :style="{
+    setup() {
+      return { args }
+    },
+    template: `<div class="mv-universal-player"><MVAudioPlayer><MVAudioResource  v-bind="args" class="my-10 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"   :style="{
       'background-image': 'url(' + posterUrl + ')'
     }"
     @play="logEvent('play', $event)"
@@ -175,17 +177,19 @@ export const Default: Story = {
 }
 
 export const WithDescription: Story = {
-  render: (args: any, { argTypes }) => ({
+  render: (args) => ({
     components: { MVAudioPlayer, MVAudioResource, MVAudioDescription },
-    methods: { logEvent: action('') },
-    props: Object.keys(argTypes),
+    setup() {
+      const logEvent = action('event')
+      return { args, logEvent }
+    },
     template: `
     <div class="mv-universal-player">
     <MVAudioPlayer>
-        <MVAudioResource  v-bind="$props" 
+        <MVAudioResource v-bind="args" 
         class="my-10 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"
         :style="{
-          'background-image': 'url(' + posterUrl + ')'
+          'background-image': 'url(' + args.posterUrl + ')'
         }"
         @play="logEvent('play', $event)"
         @pause="logEvent('pause', $event)"
@@ -201,10 +205,10 @@ export const WithDescription: Story = {
 
         <template #audio-description>
         <MVAudioDescription
-        :image-src="authorImage"
-        :name="artistName"
-        :headline="headline"
-        :description="description"
+        :image-src="args.authorImage"
+        :name="args.artistName"
+        :headline="args.headline"
+        :description="args.description"
         show-more-text="Show More"
         show-less-text="Show Less"
         class="pt-8"
@@ -219,14 +223,14 @@ export const WithDescription: Story = {
   args: {
     ...Default.args,
     authorImage: audio1.authorImage,
-    name: audio1.artistName,
+    artistName: audio1.artistName,
     headline: audio1.headline,
     description: audio1.description
   }
 }
 
 export const WithMeditationMixer: Story = {
-  render: (args: any, { argTypes }) => ({
+  render: (args) => ({
     components: {
       MVAudioPlayer,
       MVAudioResource,
@@ -237,15 +241,17 @@ export const WithMeditationMixer: Story = {
       MVCarousel,
       MVCarouselSlide
     },
-    methods: { logEvent: action('') },
-    props: Object.keys(argTypes),
+    setup() {
+      const logEvent = action('event')
+      return { args, logEvent }
+    },
     template: `
     <div class="mv-universal-player">
       <MVAudioPlayer>
-          <MVAudioResource  v-bind="$props" 
+          <MVAudioResource v-bind="args" 
           class="my-10 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"
           :style="{
-            'background-image': 'url(' + posterUrl + ')'
+            'background-image': 'url(' + args.posterUrl + ')'
           }"
           @play="logEvent('play', $event)"
           @pause="logEvent('pause', $event)"
@@ -261,10 +267,10 @@ export const WithMeditationMixer: Story = {
   
           <template #audio-description>
           <MVAudioDescription
-            :image-src="authorImage"
-            :name="artistName"
-            :headline="headline"
-            :description="description"
+            :image-src="args.authorImage"
+            :name="args.artistName"
+            :headline="args.headline"
+            :description="args.description"
             show-more-text="Show More"
             show-less-text="Show Less"
             class="pt-8"
@@ -279,7 +285,7 @@ export const WithMeditationMixer: Story = {
               <MVCarouselSlide :key="0">
                 <MVMeditationTrackItem :volume="0"></MVMeditationTrackItem>
               </MVCarouselSlide>
-              <MVCarouselSlide v-for="(sound, index) in backgroundSounds" :key="index + 1">
+              <div v-for="(sound, index) in args.backgroundSounds" :key="index + 1">
                 <MVMeditationTrackItem :sources="sound.sources" :background-src="sound.image"
                 :id="sound.id"
                 @play="logEvent('play', $event)"
@@ -287,7 +293,7 @@ export const WithMeditationMixer: Story = {
                 @timeupdate="logEvent('timeupdate', $event)"
                 @error="logEvent('error', $event)"
                 />
-              </MVCarouselSlide>
+              </div>
             </MVCarousel>
           </div>
           <div
@@ -301,7 +307,7 @@ export const WithMeditationMixer: Story = {
           </MVAudioResource>
       </MVAudioPlayer>
       </div>
-      `
+    `
   }),
   args: {
     ...Default.args,
@@ -311,7 +317,7 @@ export const WithMeditationMixer: Story = {
 }
 
 export const MultipleAudios: Story = {
-  render: (args, { argTypes }) => ({
+  render: (args) => ({
     components: {
       MVAudioPlayer,
       MVAudioResource,
@@ -322,12 +328,14 @@ export const MultipleAudios: Story = {
       MVCarousel,
       MVCarouselSlide
     },
-    props: Object.keys(argTypes),
-    methods: { logEvent: action('') },
+    setup() {
+      const logEvent = action('event')
+      return { args, logEvent }
+    },
     template: `
     <div class="mv-universal-player">
       <MVAudioPlayer>
-          <MVAudioResource v-for="(audio, index) in audios"  v-bind="audio"
+          <MVAudioResource v-for="(audio, index) in args.audios" v-bind="args"
           class="my-10 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"
           :style="{
             'background-image': 'url(' + audio.posterUrl + ')'
@@ -369,7 +377,7 @@ export const MultipleAudios: Story = {
               <MVCarouselSlide :key="0">
                 <MVMeditationTrackItem :volume="0"></MVMeditationTrackItem>
               </MVCarouselSlide>
-              <MVCarouselSlide v-for="(sound, index) in audio.backgroundSounds" :key="index + 1">
+              <MVCarouselSlide :v-for="(sound, index) in audio.backgroundSounds" :key="index + 1">
                 <MVMeditationTrackItem :sources="sound.sources" :background-src="sound.image" 
                 :id="sound.id"
                 @play="logEvent('play', $event)"
@@ -391,7 +399,7 @@ export const MultipleAudios: Story = {
           </MVAudioResource>
       </MVAudioPlayer>
       </div>
-      `
+    `
   }),
   args: {
     audios: audios

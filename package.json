@@ -58,27 +58,27 @@
     }
   },
   "dependencies": {
-    "@mindvalley/design-system": "^2.3.0",
+    "@chromatic-com/storybook": "^1.8.0",
+    "@mindvalley/design-system": "^3.2.5",
+    "@storybook/addon-onboarding": "^8.2.9",
+    "@storybook/vue3": "^8.2.9",
     "@vitejs/plugin-vue": "^5.0.5",
     "sass": "^1.61.0",
     "uuid": "^10.0.0",
     "video.js": "^8.0.4",
     "vue-carousel": "^0.18.0",
-    "vue-demi": "^0.13.11",
-    "vue-svg-sprite": "^1.4.3"
+    "vue-demi": "^0.14.10",
+    "vue-svg-sprite": "2.2.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.31.1",
     "@rushstack/eslint-patch": "^1.2.0",
-    "@storybook/addon-actions": "^7.0.10",
-    "@storybook/addon-essentials": "^7.0.10",
-    "@storybook/addon-interactions": "^7.0.10",
-    "@storybook/addon-links": "^7.0.10",
-    "@storybook/addon-styling": "^1.0.6",
-    "@storybook/blocks": "^7.0.10",
-    "@storybook/testing-library": "^0.0.14-next.2",
-    "@storybook/vue": "^7.0.10",
-    "@storybook/vue-vite": "^7.0.10",
+    "@storybook/addon-essentials": "^8.2.9",
+    "@storybook/addon-interactions": "^8.2.9",
+    "@storybook/addon-links": "^8.2.9",
+    "@storybook/blocks": "^8.2.9",
+    "@storybook/test": "^8.2.9",
+    "@storybook/vue3-vite": "^8.2.9",
     "@types/jsdom": "^21.1.0",
     "@types/node": "^18.14.2",
     "@types/uuid": "^10.0.0",
@@ -97,7 +97,7 @@
     "prettier": "^2.8.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "storybook": "^7.0.10",
+    "storybook": "^8.2.9",
     "tailwindcss": "^3.3.1",
     "typescript": "~4.8.4",
     "vite": "^4.1.4",
@@ -109,10 +109,10 @@
   "bugs": {
     "url": "https://github.com/mindvalley/mv-universal-player/issues"
   },
+  "resolutions": {
+    "strip-ansi": "6.0.1"
+  },
   "readme": "ERROR: No README data found!",
   "homepage": "https://github.com/mindvalley/mv-universal-player#readme",
-  "_id": "@mindvalley/mv-universal-player@0.0.71",
-  "resolutions": {
-    "string-width": "4.2.3"
-  }
+  "_id": "@mindvalley/mv-universal-player@0.0.71"
 }

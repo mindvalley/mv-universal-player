@@ -1,7 +1,7 @@
 import * as components from './components'
 import './assets/main.css'
 import svgSprite from '@mindvalley/design-system/dist/svg-sprite/svg-defs.svg'
-import SvgSprite from 'vue-svg-sprite'
+import { svgSpriteDirectivePlugin } from 'vue-svg-sprite'
 
 import type { App } from 'vue-demi'
 
@@ -14,7 +14,7 @@ export interface MVUniversalPlayerOptions {
 
 const MVUniversalPlayer = {
   install(app: App, options: MVUniversalPlayerOptions) {
-    app.use(SvgSprite, {
+    app.use(svgSpriteDirectivePlugin, {
       url: options?.svgSpriteOptions?.url ?? svgSprite
     })
 
