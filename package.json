@@ -111,5 +111,8 @@
   },
   "readme": "ERROR: No README data found!",
   "homepage": "https://github.com/mindvalley/mv-universal-player#readme",
-  "_id": "@mindvalley/mv-universal-player@0.0.71"
+  "_id": "@mindvalley/mv-universal-player@0.0.71",
+  "resolutions": {
+    "string-width": "4.2.3"
+  }
 }
