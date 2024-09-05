@@ -68,7 +68,8 @@
     "video.js": "^8.0.4",
     "vue-carousel": "^0.18.0",
     "vue-demi": "^0.14.10",
-    "vue-svg-sprite": "2.2.1"
+    "vue-svg-sprite": "2.2.1",
+    "vue3-carousel": "^0.3.3"
   },
   "devDependencies": {
     "@playwright/test": "^1.31.1",

@@ -281,7 +281,7 @@ export const WithMeditationMixer: Story = {
         <MVMeditationMixer>
           <div class="text-cool-grey-350 mb-2 text-xs">Mix Track</div>
           <div class="gap-x-2 px-6">
-            <MVCarousel tagName="Slide">
+            <MVCarousel>
               <MVCarouselSlide :key="0">
                 <MVMeditationTrackItem :volume="0"></MVMeditationTrackItem>
               </MVCarouselSlide>
@@ -334,8 +334,8 @@ export const MultipleAudios: Story = {
     },
     template: `
     <div class="mv-universal-player">
-      <MVAudioPlayer>
-          <MVAudioResource v-for="(audio, index) in args.audios" v-bind="args"
+      <MVAudioPlayer >
+          <MVAudioResource v-bind="args" v-for="(audio, index) in args.audios" 
           class="my-10 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"
           :style="{
             'background-image': 'url(' + audio.posterUrl + ')'
@@ -373,7 +373,7 @@ export const MultipleAudios: Story = {
         <MVMeditationMixer>
           <div class="text-cool-grey-350 mb-2 text-xs">Mix Track</div>
           <div class="gap-x-2 px-6">
-            <MVCarousel tagName="Slide">
+            <MVCarousel>
               <MVCarouselSlide :key="0">
                 <MVMeditationTrackItem :volume="0"></MVMeditationTrackItem>
               </MVCarouselSlide>
