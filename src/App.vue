@@ -77,7 +77,7 @@
       </MVAudioResource>
     </MVAudioPlayer> -->
 
-    <div class="h-full rounded-[20px] overflow-hidden">
+    <!-- <div class="h-full rounded-[20px] overflow-hidden">
       <MVVideoPlayer>
         <MVVideoResource
           ref="videoResource"
@@ -120,6 +120,10 @@
           </template>
         </MVVideoResource>
       </MVVideoPlayer>
+    </div> -->
+
+    <div class="mt-20">
+      <MVAdaptiveResource />
     </div>
   </div>
 </template>
@@ -131,7 +135,7 @@ import MVAudioResource from './components/audio/AudioResource/'
 import MVVideoResource from './components/video/VideoResource/'
 import MVAudioDescription from './components/audio/AudioDescription'
 import MVVideoDescription from './components/video/VideoDescription'
-
+import MVAdaptiveResource from './components/adaptive/AdaptiveResource'
 import { MVCarousel, MVCarouselSlide } from './components/carousel'
 import { MVMeditationTrackItem, MVMeditationVolumeSlider, MVMeditationMixer } from '.'
 import { ref } from 'vue-demi'
