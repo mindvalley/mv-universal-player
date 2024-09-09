@@ -82,7 +82,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <MVAudioPlayer>
+  <MVAudioPlayer :loop="true">
     <MVAdaptiveResource
       :id="id"
       :audioSources="audioSources"
@@ -90,6 +90,7 @@ const emit = defineEmits<{
       :poster-url="posterUrl"
       :title="title"
       :artist-name="artistName"
+      :looping-enabled="true"
     />
   </MVAudioPlayer>
 </template>

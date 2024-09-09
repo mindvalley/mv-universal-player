@@ -18,7 +18,11 @@ const props = defineProps({
     default: 'SMALL'
   },
   // Add a new prop for looping state
-  isLooping: {
+  loopingEnabled: {
+    type: Boolean,
+    default: false
+  },
+  isPlaying: {
     type: Boolean,
     default: false
   }
@@ -35,8 +39,16 @@ const isHovering = ref(false)
 const isHoveringActive = ref(false)
 const { humanizeTime } = useGlobal()
 
+// Add this local ref for current time
+const localCurrentTime = ref(props.currentTime)
+
+const hasPlaybackStarted = computed(() => props.currentTime > 0)
+
+const isInteractive = computed(() => hasPlaybackStarted.value && !props.loopingEnabled)
+
+// Update the progressPercentage computed property
 const progressPercentage = computed(() => {
-  return (props.currentTime / props.duration) * 100
+  return (localCurrentTime.value / props.duration) * 100
 })
 
 // Add this computed property
@@ -59,6 +71,7 @@ const scrubberPosition = computed(() => {
 })
 
 const updateTooltip = (event: MouseEvent) => {
+  if (!isInteractive.value) return
   if (!tooltip.value || !seekerUi.value) return
   const rect = seekerUi.value.getBoundingClientRect()
   const hoverPosition = event.clientX - rect.left
@@ -101,6 +114,7 @@ const updateTooltip = (event: MouseEvent) => {
 }
 
 const showTooltip = () => {
+  if (!isInteractive.value) return
   isHovering.value = true
 }
 
@@ -110,6 +124,7 @@ const hideTooltip = () => {
 }
 
 const startDrag = (event: MouseEvent) => {
+  if (!isInteractive.value) return
   isDragging.value = true
   document.addEventListener('mousemove', drag)
   document.addEventListener('mouseup', stopDrag)
@@ -117,32 +132,45 @@ const startDrag = (event: MouseEvent) => {
 }
 
 const drag = (event: MouseEvent) => {
-  if (!isDragging.value || !seekerUi.value) return
+  if (!isDragging.value || !seekerUi.value || !isInteractive.value) return
   const rect = seekerUi.value.getBoundingClientRect()
   const x = Math.max(0, Math.min(event.clientX - rect.left, rect.width))
   const percentage = x / rect.width
   const newTime = props.duration * percentage
+
+  // Update the local current time
+  localCurrentTime.value = newTime
 
   // Always update tooltip to show dragged position time
   if (tooltip.value) {
     tooltip.value.style.left = `${percentage * 100}%`
     tooltip.value.textContent = humanizeTime(newTime)
   }
-
-  emit('seek', newTime)
 }
 
-const stopDrag = () => {
+const stopDrag = (event: MouseEvent) => {
+  if (!isDragging.value || !seekerUi.value || !isInteractive.value) return
+
+  const rect = seekerUi.value.getBoundingClientRect()
+  const x = Math.max(0, Math.min(event.clientX - rect.left, rect.width))
+  const percentage = x / rect.width
+  const newTime = props.duration * percentage
+
   isDragging.value = false
   document.removeEventListener('mousemove', drag)
   document.removeEventListener('mouseup', stopDrag)
+
+  // Emit the seek event when dragging stops
+  emit('seek', newTime)
 }
 
-// Modify the watch function
+// Modify the watch function to update localCurrentTime
 watch(
   () => props.currentTime,
   (newTime) => {
-    if (isDragging.value) return
+    if (!isDragging.value) {
+      localCurrentTime.value = newTime
+    }
     if (tooltip.value && isHoveringActive.value) {
       tooltip.value.textContent = humanizeTime(newTime)
       tooltip.value.style.left = tooltipPosition.value
@@ -155,7 +183,7 @@ watch(
 <template>
   <section class="relative flex items-center justify-center md:w-full">
     <span v-if="size === 'BIG'" class="flex shrink-0 items-center justify-center text-xs">
-      {{ humanizeTime(currentTime) }}
+      {{ humanizeTime(localCurrentTime) }}
     </span>
     <span class="w-full shrink" :class="{ 'bg-black': size === 'SMALL' }">
       <div
@@ -164,14 +192,15 @@ watch(
         @pointerenter="showTooltip"
         @pointermove="updateTooltip($event)"
         @pointerleave="hideTooltip"
-        class="flex cursor-pointer items-center bg-white-24a"
+        class="flex items-center bg-white-24a"
+        :class="{ 'cursor-pointer': isInteractive, 'cursor-default': !isInteractive }"
       >
         <div
           class="relative h-1 w-full shrink rounded-full"
-          :class="{ 'bg-white-24a': !isLooping, 'bg-red-500': isLooping }"
+          :class="{ 'bg-white-24a': !loopingEnabled, 'bg-red-500': loopingEnabled }"
         >
           <div
-            v-if="!isLooping"
+            v-if="!loopingEnabled"
             :style="{ width: progressPercentage + '%' }"
             :class="[
               'absolute top-0 bottom-0 h-1 rounded-full bg-red-500',
@@ -180,14 +209,18 @@ watch(
           ></div>
           <!-- Scrubber circle -->
           <div
-            v-if="isHovering || isDragging"
+            v-if="(isHovering || isDragging) && !loopingEnabled"
             class="scrubber-circle"
             :style="{ left: scrubberPosition }"
             @mousedown.stop="startDrag"
           ></div>
         </div>
       </div>
-      <div ref="tooltip" class="tooltip" :style="{ display: isHovering ? 'block' : 'none' }"></div>
+      <div
+        ref="tooltip"
+        class="tooltip"
+        :style="{ display: isHovering && isInteractive ? 'block' : 'none' }"
+      ></div>
     </span>
     <span v-if="size === 'BIG'" class="flex shrink-0 items-center justify-center text-xs">
       {{ humanizeTime(duration) }}
@@ -241,5 +274,9 @@ watch(
 
 .scrubber-circle:not([style*='left: 0%']):not([style*='left: 100%']) {
   transform: translate(-50%, -50%);
+}
+
+.cursor-default {
+  cursor: default;
 }
 </style>

@@ -57,6 +57,10 @@ const props = defineProps({
   showPlaybackSpeed: {
     type: [Boolean, String],
     default: false
+  },
+  loopingEnabled: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -132,8 +136,6 @@ const handlePause = (event: any) => {
   emitEvent('pause', event)
   pausePlayerTimer()
 }
-
-console.log('props', props)
 </script>
 
 <template>
@@ -158,6 +160,8 @@ console.log('props', props)
         class="text-white"
         :current-time="state?.currentTime"
         @seek="seek"
+        :is-playing="state?.playing"
+        :looping-enabled="loopingEnabled"
       />
     </div>
     <div class="w-full h-20 bg-black items-center flex justify-center">
