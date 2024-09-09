@@ -5,16 +5,19 @@ const TOOLTIP_MARGIN = 10 // Margin between tooltip and element or viewport edge
 export const tooltip: ObjectDirective = {
   mounted(el, binding) {
     el.setAttribute('data-tooltip', binding.value)
-    el.addEventListener('mouseenter', showTooltip)
-    el.addEventListener('mouseleave', hideTooltip)
+    el.addEventListener('pointerenter', showTooltip)
+    el.addEventListener('pointerleave', hideTooltip)
+    document.addEventListener('click', hideTooltipOnClickOutside)
   },
   unmounted(el) {
-    el.removeEventListener('mouseenter', showTooltip)
-    el.removeEventListener('mouseleave', hideTooltip)
+    el.removeEventListener('pointerenter', showTooltip)
+    el.removeEventListener('pointerleave', hideTooltip)
+    document.removeEventListener('click', hideTooltipOnClickOutside)
   }
 }
 
-function showTooltip(event: MouseEvent) {
+function showTooltip(event: PointerEvent) {
+  hideTooltip() // Remove any existing tooltips
   const target = event.currentTarget as HTMLElement
   const tooltipText = target.getAttribute('data-tooltip')
   if (!tooltipText) return
@@ -90,5 +93,12 @@ function hideTooltip() {
   const tooltip = document.querySelector('.custom-tooltip')
   if (tooltip) {
     document.body.removeChild(tooltip)
+  }
+}
+
+function hideTooltipOnClickOutside(event: MouseEvent) {
+  const tooltip = document.querySelector('.custom-tooltip')
+  if (tooltip && !(event.target as HTMLElement).closest('[data-tooltip]')) {
+    hideTooltip()
   }
 }

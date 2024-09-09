@@ -123,7 +123,15 @@
     </div> -->
 
     <div class="mt-20">
-      <MVAdaptiveResource />
+      <MVSoundscapeResource
+        :key="audio.id"
+        :id="audio.id"
+        :audio-sources="audio.sources"
+        :duration="audio.duration"
+        :poster-url="audio.posterUrl"
+        :title="audio.title"
+        :artist-name="audio.artistName"
+      />
     </div>
   </div>
 </template>
@@ -135,7 +143,7 @@ import MVAudioResource from './components/audio/AudioResource/'
 import MVVideoResource from './components/video/VideoResource/'
 import MVAudioDescription from './components/audio/AudioDescription'
 import MVVideoDescription from './components/video/VideoDescription'
-import MVAdaptiveResource from './components/adaptive/AdaptiveResource'
+import MVSoundscapeResource from './components/adaptive/SoundscapeResource'
 import { MVCarousel, MVCarouselSlide } from './components/carousel'
 import { MVMeditationTrackItem, MVMeditationVolumeSlider, MVMeditationMixer } from '.'
 import { ref } from 'vue-demi'
