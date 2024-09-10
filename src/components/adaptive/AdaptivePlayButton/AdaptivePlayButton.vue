@@ -2,7 +2,7 @@
 import { computed } from 'vue-demi'
 import { useDetectBrowser } from './../../../composables/use-detect-browser'
 import type { AdaptiveSize } from '../../../types/adaptive'
-import { PlayerSize } from '../../../models/adaptive.enums'
+import { Size } from '../../../models/adaptive.enums'
 const { isTouchDevice } = useDetectBrowser()
 
 const props = defineProps({
@@ -26,33 +26,17 @@ const togglePlay = () => {
   }
 }
 
-const buttonSize = computed(() => {
-  return props.size === PlayerSize.BIG ? '56px' : '40px'
+const buttonSizeClasses = computed(() => {
+  return props.size === Size.BIG
+    ? 'w-14 h-14' // 56px for both desktop and mobile/tablet
+    : 'w-8 h-8 md:w-10 md:h-10' // 32px for mobile/tablet, 40px for desktop
 })
 </script>
 <template>
-  <button
-    v-if="!playing"
-    v-tooltip="'Play'"
-    @click="togglePlay"
-    :style="{ width: buttonSize, height: buttonSize }"
-  >
-    <svg
-      v-show="!playing"
-      v-svg
-      symbol="play-circle-filled"
-      class="h-full w-full text-white-70a hover:text-white"
-    ></svg>
-  </button>
-  <button
-    v-else
-    v-tooltip="'Pause'"
-    @click="togglePlay"
-    :style="{ width: buttonSize, height: buttonSize }"
-  >
+  <button v-tooltip="playing ? 'Pause' : 'Play'" @click="togglePlay" :class="[buttonSizeClasses]">
     <svg
       v-svg
-      symbol="pause-circle-filled"
+      :symbol="playing ? 'pause-circle-filled' : 'play-circle-filled'"
       class="h-full w-full text-white-70a hover:text-white"
     ></svg>
   </button>

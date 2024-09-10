@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import MVAudioPlayer from '../../audio/AudioPlayer'
 import MVAdaptiveResource from '../AdaptiveResource'
 import type { Source } from './../../../types/audio'
 
@@ -82,15 +81,13 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <MVAudioPlayer :loop="true">
-    <MVAdaptiveResource
-      :id="id"
-      :audioSources="audioSources"
-      :duration="duration"
-      :poster-url="posterUrl"
-      :title="title"
-      :artist-name="artistName"
-      :looping-enabled="true"
-    />
-  </MVAudioPlayer>
+  <MVAdaptiveResource
+    :id="id"
+    :audioSources="audioSources"
+    :duration="duration"
+    :poster-url="posterUrl"
+    :title="title"
+    :artist-name="artistName"
+    :looping-enabled="true"
+  />
 </template>

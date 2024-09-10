@@ -9,6 +9,13 @@ export const tooltip: ObjectDirective = {
     el.addEventListener('pointerleave', hideTooltip)
     document.addEventListener('click', hideTooltipOnClickOutside)
   },
+  updated(el, binding) {
+    el.setAttribute('data-tooltip', binding.value)
+    const tooltip = document.querySelector('.custom-tooltip')
+    if (tooltip && el.matches(':hover')) {
+      showTooltip({ currentTarget: el } as PointerEvent)
+    }
+  },
   unmounted(el) {
     el.removeEventListener('pointerenter', showTooltip)
     el.removeEventListener('pointerleave', hideTooltip)

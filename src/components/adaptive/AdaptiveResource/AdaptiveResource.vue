@@ -1,9 +1,17 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, ref, watch } from 'vue-demi'
-import MVAudioItem from '../../audio/AudioItem'
+import MVAdaptiveItem from '../AdaptiveItem'
 import type { Source } from './../../../types/audio'
 import MVAdaptivePlayButton from '../AdaptivePlayButton'
 import MVAdaptiveProgressBar from '../AdaptiveProgressBar'
+import MVAdaptivePlayer from '../AdaptivePlayer'
+import MVTrackInfoCard from '../TrackInfoCard'
+import { AdaptiveShape } from '../../../types/adaptive'
+import { Shape } from '../../../models/adaptive.enums'
+import MVAdaptiveVolumeSlider from '../AdaptiveVolumeSlider'
+import MVAdaptiveFastForwardButton from '../AdaptiveFastForwardButton'
+import MVAdaptiveRewindButton from '../AdaptiveRewindButton'
+import MVAdaptiveCollectionButton from '../AdaptiveCollectionButton'
 
 const props = defineProps({
   id: {
@@ -61,6 +69,18 @@ const props = defineProps({
   loopingEnabled: {
     type: Boolean,
     default: false
+  },
+  trackInfoCoverShape: {
+    type: String as () => AdaptiveShape,
+    default: Shape.ROUND
+  },
+  showRewindButton: {
+    type: Boolean,
+    default: false
+  },
+  showFastForwardButton: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -82,6 +102,7 @@ const emit = defineEmits<{
   (e: 'minimize'): void
   (e: 'maximize'): void
   (e: 'playtime', { time }: any): void
+  (e: 'collection'): void
   (e: any, payload: any): void
 }>()
 
@@ -136,36 +157,67 @@ const handlePause = (event: any) => {
   emitEvent('pause', event)
   pausePlayerTimer()
 }
+
+const handleCollectionOpen = () => {
+  emitEvent('collection')
+}
 </script>
 
 <template>
-  <MVAudioItem
-    v-slot="{ state, seek, play, pause, rewind, fastForward }"
-    :sources="audioSources"
-    :id="id"
-    @play="handlePlay"
-    @pause="handlePause"
-    @seeking="emitEvent('seeking', $event)"
-    @ended="handleEnded"
-    @rewind="emitEvent('rewind', $event)"
-    @fastforward="emitEvent('fastforward', $event)"
-    @playbackSpeed="emitEvent('playbackSpeed', $event)"
-    @timeupdate="emitEvent('timeupdate', $event)"
-    @reset="emitEvent('reset', $event)"
-    @error="emitEvent('error', $event)"
-  >
-    <div class="w-full">
-      <MVAdaptiveProgressBar
-        :duration="duration"
-        class="text-white"
-        :current-time="state?.currentTime"
-        @seek="seek"
-        :is-playing="state?.playing"
-        :looping-enabled="loopingEnabled"
-      />
-    </div>
-    <div class="w-full h-20 bg-black items-center flex justify-center">
-      <div><MVAdaptivePlayButton @play="play" @pause="pause" :playing="state?.playing" /></div>
-    </div>
-  </MVAudioItem>
+  <MVAdaptivePlayer :loop="loopingEnabled">
+    <MVAdaptiveItem
+      v-slot="{ state, seek, play, pause, rewind, fastForward, setVolume }"
+      :sources="audioSources"
+      :id="id"
+      @play="handlePlay"
+      @pause="handlePause"
+      @seeking="emitEvent('seeking', $event)"
+      @ended="handleEnded"
+      @rewind="emitEvent('rewind', $event)"
+      @fastforward="emitEvent('fastforward', $event)"
+      @playbackSpeed="emitEvent('playbackSpeed', $event)"
+      @timeupdate="emitEvent('timeupdate', $event)"
+      @reset="emitEvent('reset', $event)"
+      @error="emitEvent('error', $event)"
+    >
+      <div class="w-full">
+        <MVAdaptiveProgressBar
+          :duration="duration"
+          class="text-white"
+          :current-time="state?.currentTime"
+          @seek="seek"
+          :is-playing="state?.playing"
+        />
+      </div>
+      <div class="w-full py-3 px-4 bg-black items-center flex justify-between">
+        <div>
+          <MVTrackInfoCard
+            :title="title"
+            :sub-title="artistName"
+            :image="posterUrl"
+            :shape="trackInfoCoverShape"
+          />
+        </div>
+        <div class="flex items-center">
+          <div class="flex items-center mr-6">
+            <MVAdaptiveRewindButton @rewind="rewind" />
+          </div>
+          <MVAdaptivePlayButton @play="play" @pause="pause" :playing="state?.playing" />
+          <div class="flex items-center ml-6">
+            <MVAdaptiveFastForwardButton @fastForward="fastForward" />
+          </div>
+        </div>
+        <div class="flex items-center justify-center">
+          <div class="flex items-center mr-3">
+            <MVAdaptiveCollectionButton @click="handleCollectionOpen" />
+          </div>
+          <MVAdaptiveVolumeSlider
+            :muted="state?.muted"
+            @update:volume="setVolume"
+            :volume="state?.volume"
+          />
+        </div>
+      </div>
+    </MVAdaptiveItem>
+  </MVAdaptivePlayer>
 </template>
