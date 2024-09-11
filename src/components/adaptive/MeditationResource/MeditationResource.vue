@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import MVAdaptiveResource from '../AdaptiveResource'
 import type { Source } from './../../../types/audio'
-import { Shape } from '../../../models/adaptive.enums'
 
 const props = defineProps({
   id: {
@@ -71,6 +70,7 @@ const emit = defineEmits<{
   (e: 'playtime', { time }: any): void
   (e: 'bookmark'): void
   (e: 'close'): void
+  (e: 'meditationMixerClick'): void
   (e: 'collectionOpen'): void
   (e: 'minimize'): void
   (e: 'maximize'): void
@@ -97,8 +97,9 @@ const handleCollectionOpen = () => {
     :title="title"
     :artist-name="artistName"
     looping-enabled
-    show-set-duration
-    :track-info-cover-shape="Shape.SQUARE"
+    show-rewind-button
+    show-fast-forward-button
+    show-meditation-mixer
     @close="handleClose"
     @collection-open="handleCollectionOpen"
   />

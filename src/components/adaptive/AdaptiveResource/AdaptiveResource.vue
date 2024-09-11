@@ -12,6 +12,10 @@ import MVAdaptiveVolumeSlider from '../AdaptiveVolumeSlider'
 import MVAdaptiveFastForwardButton from '../AdaptiveFastForwardButton'
 import MVAdaptiveRewindButton from '../AdaptiveRewindButton'
 import MVAdaptiveCollectionButton from '../AdaptiveCollectionButton'
+import MVAdaptiveCloseButton from '../AdaptiveCloseButton'
+import MVAdaptiveMeditationMixerButton from '../AdaptiveMeditationMixerButton'
+import MVAdaptiveSetDurationButton from '../AdaptiveSetDurationButton'
+import MVAdaptiveFullScreenButton from '../AdaptiveFullScreenButton'
 
 const props = defineProps({
   id: {
@@ -97,12 +101,13 @@ const emit = defineEmits<{
   (e: 'playtime', { time }: any): void
   (e: 'bookmark'): void
   (e: 'close'): void
-  (e: 'meditationMixerClick'): void
-  (e: 'collectionClick'): void
+  (e: 'meditationMixerOpen'): void
+  (e: 'collectionOpen'): void
   (e: 'minimize'): void
   (e: 'maximize'): void
   (e: 'playtime', { time }: any): void
   (e: 'collection'): void
+  (e: 'close'): void
   (e: any, payload: any): void
 }>()
 
@@ -158,8 +163,16 @@ const handlePause = (event: any) => {
   pausePlayerTimer()
 }
 
-const handleCollectionOpen = () => {
-  emitEvent('collection')
+const handleCollectionClick = () => {
+  emitEvent('collection-open')
+}
+
+const handleMeditationMixerClick = () => {
+  emitEvent('meditationMixerOpen')
+}
+
+const handleClose = () => {
+  emitEvent('close')
 }
 </script>
 
@@ -189,7 +202,7 @@ const handleCollectionOpen = () => {
           :is-playing="state?.playing"
         />
       </div>
-      <div class="w-full py-3 px-4 bg-black items-center flex justify-between">
+      <div class="sm:hidden w-full py-3 px-4 bg-black items-center flex justify-between">
         <div>
           <MVTrackInfoCard
             :title="title"
@@ -198,24 +211,66 @@ const handleCollectionOpen = () => {
             :shape="trackInfoCoverShape"
           />
         </div>
-        <div class="flex items-center">
-          <div class="flex items-center mr-6">
-            <MVAdaptiveRewindButton @rewind="rewind" />
+
+        <div class="flex items-center justify-center space-x-3">
+          <div class="flex items-center" v-if="showSetDuration">
+            <MVAdaptiveSetDurationButton @click="handleSetDurationClick" />
           </div>
-          <MVAdaptivePlayButton @play="play" @pause="pause" :playing="state?.playing" />
-          <div class="flex items-center ml-6">
-            <MVAdaptiveFastForwardButton @fastForward="fastForward" />
+          <div class="flex items-center" v-if="showMeditationMixer">
+            <MVAdaptiveMeditationMixerButton @click="handleMeditationMixerClick" />
+          </div>
+          <div class="flex items-center">
+            <MVAdaptiveCollectionButton @click="handleCollectionClick" />
+          </div>
+          <div class="flex items-center">
+            <MVAdaptivePlayButton @play="play" @pause="pause" :playing="state?.playing" />
           </div>
         </div>
-        <div class="flex items-center justify-center">
-          <div class="flex items-center mr-3">
-            <MVAdaptiveCollectionButton @click="handleCollectionOpen" />
+      </div>
+
+      <div class="hidden sm:block">
+        <div class="w-full py-3 px-4 bg-black items-center flex justify-between">
+          <div>
+            <MVTrackInfoCard
+              :title="title"
+              :sub-title="artistName"
+              :image="posterUrl"
+              :shape="trackInfoCoverShape"
+            />
           </div>
-          <MVAdaptiveVolumeSlider
-            :muted="state?.muted"
-            @update:volume="setVolume"
-            :volume="state?.volume"
-          />
+          <div class="flex items-center space-x-6">
+            <div v-if="showRewindButton" class="flex items-center">
+              <MVAdaptiveRewindButton @rewind="rewind" />
+            </div>
+            <MVAdaptivePlayButton @play="play" @pause="pause" :playing="state?.playing" />
+            <div v-if="showFastForwardButton" class="flex items-center">
+              <MVAdaptiveFastForwardButton @fastForward="fastForward" />
+            </div>
+          </div>
+          <div class="flex items-center justify-center space-x-3">
+            <div class="flex items-center" v-if="showSetDuration">
+              <MVAdaptiveSetDurationButton @click="handleSetDurationClick" />
+            </div>
+            <div class="flex items-center" v-if="showMeditationMixer">
+              <MVAdaptiveMeditationMixerButton @click="handleMeditationMixerClick" />
+            </div>
+            <div class="flex items-center">
+              <MVAdaptiveCollectionButton @click="handleCollectionClick" />
+            </div>
+            <div>
+              <MVAdaptiveVolumeSlider
+                :muted="state?.muted"
+                @update:volume="setVolume"
+                :volume="state?.volume"
+              />
+            </div>
+            <div class="flex items-center">
+              <MVAdaptiveFullScreenButton />
+            </div>
+            <div class="flex items-center">
+              <MVAdaptiveCloseButton @click="handleClose" />
+            </div>
+          </div>
         </div>
       </div>
     </MVAdaptiveItem>

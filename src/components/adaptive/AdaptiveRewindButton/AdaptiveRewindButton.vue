@@ -21,7 +21,6 @@ const rewind = () => {
       v-svg
       symbol="rewind-15-filled"
       class="h-full w-full text-white-70a hover:text-white"
-      size="20"
     ></svg>
   </button>
 </template>
