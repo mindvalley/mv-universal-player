@@ -7,7 +7,7 @@ import MVAdaptiveProgressBar from '../AdaptiveProgressBar'
 import MVAdaptivePlayer from '../AdaptivePlayer'
 import MVTrackInfoCard from '../TrackInfoCard'
 import { AdaptiveShape } from '../../../types/adaptive'
-import { Shape } from '../../../models/adaptive.enums'
+import { Shape, Size } from '../../../models/adaptive.enums'
 import MVAdaptiveVolumeSlider from '../AdaptiveVolumeSlider'
 import MVAdaptiveFastForwardButton from '../AdaptiveFastForwardButton'
 import MVAdaptiveRewindButton from '../AdaptiveRewindButton'
@@ -16,6 +16,8 @@ import MVAdaptiveCloseButton from '../AdaptiveCloseButton'
 import MVAdaptiveMeditationMixerButton from '../AdaptiveMeditationMixerButton'
 import MVAdaptiveSetDurationButton from '../AdaptiveSetDurationButton'
 import MVAdaptiveFullScreenButton from '../AdaptiveFullScreenButton'
+import MVAdaptivePreviousButton from '../AdaptivePreviousButton'
+import MVAdaptiveNextButton from '../AdaptiveNextButton'
 
 const props = defineProps({
   id: {
@@ -78,11 +80,11 @@ const props = defineProps({
     type: String as () => AdaptiveShape,
     default: Shape.ROUND
   },
-  showRewindButton: {
+  showRewindAndFastForward: {
     type: Boolean,
     default: false
   },
-  showFastForwardButton: {
+  showPreviousNext: {
     type: Boolean,
     default: false
   }
@@ -110,6 +112,8 @@ const emit = defineEmits<{
   (e: 'close'): void
   (e: any, payload: any): void
 }>()
+
+const isFullScreen = ref(false)
 
 const emitEvent = (eventName: string, payload?: any) => {
   const data = { assetId: props.id, ...payload }
@@ -174,6 +178,18 @@ const handleMeditationMixerClick = () => {
 const handleClose = () => {
   emitEvent('close')
 }
+
+const toggleFullScreen = () => {
+  isFullScreen.value = !isFullScreen.value
+}
+
+const handlePreviousClick = () => {
+  emitEvent('previous')
+}
+
+const handleNextClick = () => {
+  emitEvent('next')
+}
 </script>
 
 <template>
@@ -198,10 +214,14 @@ const handleClose = () => {
           :duration="duration"
           class="text-white"
           :current-time="state?.currentTime"
+          :looping-enabled="loopingEnabled"
           @seek="seek"
           :is-playing="state?.playing"
+          :size="isFullScreen ? Size.BIG : Size.SMALL"
         />
       </div>
+
+      <!-- Mobile/Tablet -->
       <div class="sm:hidden w-full py-3 px-4 bg-black items-center flex justify-between">
         <div>
           <MVTrackInfoCard
@@ -228,6 +248,7 @@ const handleClose = () => {
         </div>
       </div>
 
+      <!-- Desktop -->
       <div class="hidden sm:block">
         <div class="w-full py-3 px-4 bg-black items-center flex justify-between">
           <div>
@@ -239,11 +260,17 @@ const handleClose = () => {
             />
           </div>
           <div class="flex items-center space-x-6">
-            <div v-if="showRewindButton" class="flex items-center">
+            <div v-if="showRewindAndFastForward" class="flex items-center">
               <MVAdaptiveRewindButton @rewind="rewind" />
             </div>
+            <div v-if="showPreviousNext" class="flex items-center">
+              <MVAdaptivePreviousButton @click="previous" />
+            </div>
             <MVAdaptivePlayButton @play="play" @pause="pause" :playing="state?.playing" />
-            <div v-if="showFastForwardButton" class="flex items-center">
+            <div v-if="showPreviousNext" class="flex items-center">
+              <MVAdaptiveNextButton @click="next" />
+            </div>
+            <div v-if="showRewindAndFastForward" class="flex items-center">
               <MVAdaptiveFastForwardButton @fastForward="fastForward" />
             </div>
           </div>
@@ -265,7 +292,10 @@ const handleClose = () => {
               />
             </div>
             <div class="flex items-center">
-              <MVAdaptiveFullScreenButton />
+              <MVAdaptiveFullScreenButton
+                :is-full-screen="isFullScreen"
+                @click="toggleFullScreen"
+              />
             </div>
             <div class="flex items-center">
               <MVAdaptiveCloseButton @click="handleClose" />

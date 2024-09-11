@@ -54,6 +54,10 @@ const props = defineProps({
   showPlaybackSpeed: {
     type: [Boolean, String],
     default: false
+  },
+  showPreviousNext: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -76,6 +80,8 @@ const emit = defineEmits<{
   (e: 'maximize'): void
   (e: 'playtime', { time }: any): void
   (e: 'playbackSpeedChange', { playbackSpeed }: any): void
+  (e: 'previous'): void
+  (e: 'next'): void
   (e: any, payload: any): void
 }>()
 
@@ -85,6 +91,14 @@ const handleClose = () => {
 
 const handleCollectionOpen = () => {
   emit('collectionOpen')
+}
+
+const handlePrevious = () => {
+  emit('previous')
+}
+
+const handleNext = () => {
+  emit('next')
 }
 </script>
 
@@ -97,10 +111,12 @@ const handleCollectionOpen = () => {
     :title="title"
     :artist-name="artistName"
     looping-enabled
-    show-rewind-button
-    show-fast-forward-button
+    show-rewind-and-fast-forward
     show-meditation-mixer
+    :show-previous-next="showPreviousNext"
     @close="handleClose"
     @collection-open="handleCollectionOpen"
+    @previous="handlePrevious"
+    @next="handleNext"
   />
 </template>

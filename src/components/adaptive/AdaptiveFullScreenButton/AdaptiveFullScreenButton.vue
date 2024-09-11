@@ -21,7 +21,7 @@ const toggleFullScreen = () => {
   >
     <svg
       v-svg
-      :symbol="isFullScreen ? 'minimize-2-outline' : 'maximize-2-outline'"
+      :symbol="isFullScreen ? 'minimize-2-outlined' : 'maximize-2-outlined'"
       class="h-full w-full text-white-70a hover:text-white"
     ></svg>
   </button>

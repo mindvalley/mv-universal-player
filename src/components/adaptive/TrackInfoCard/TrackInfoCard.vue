@@ -40,7 +40,7 @@ const props = defineProps({
       ></BaseImage>
     </div>
     <div class="ml-2">
-      <div class="title-9 text-white truncate max-w-48">{{ title }}</div>
+      <div class="title-9 text-white truncate max-w-28 sm:max-w-48">{{ title }}</div>
       <div class="title-9 text-cool-grey-350 truncate">{{ subTitle }}</div>
     </div>
   </div>

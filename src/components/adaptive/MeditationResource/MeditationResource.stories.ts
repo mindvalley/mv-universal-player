@@ -146,3 +146,24 @@ export const Default: Story = {
     artistName: audio2.artistName
   }
 }
+
+export const PreviousNext: Story = {
+  render: (args: any, { argTypes }) => ({
+    title: 'MedtiationResource',
+    components: { MVMeditationResource },
+    setup() {
+      return { args }
+    },
+    template: `<div class="mv-universal-player"><div class="mt-20"><MVMeditationResource v-bind="args" /></div></div>`
+  }),
+  args: {
+    key: audio2.assetId,
+    id: audio2.assetId,
+    audioSources: audio2.sources,
+    duration: audio2.duration,
+    posterUrl: audio2.posterUrl,
+    title: audio2.title,
+    artistName: audio2.artistName,
+    showPreviousNext: true
+  }
+}

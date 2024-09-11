@@ -55,6 +55,14 @@ const props = defineProps({
   showPlaybackSpeed: {
     type: [Boolean, String],
     default: false
+  },
+  showPreviousNext: {
+    type: Boolean,
+    default: false
+  },
+  loopingEnabled: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -76,6 +84,8 @@ const emit = defineEmits<{
   (e: 'maximize'): void
   (e: 'playtime', { time }: any): void
   (e: 'playbackSpeedChange', { playbackSpeed }: any): void
+  (e: 'previous'): void
+  (e: 'next'): void
   (e: any, payload: any): void
 }>()
 
@@ -86,20 +96,31 @@ const handleClose = () => {
 const handleCollectionOpen = () => {
   emit('collectionOpen')
 }
+
+const handlePrevious = () => {
+  emit('previous')
+}
+
+const handleNext = () => {
+  emit('next')
+}
 </script>
 
 <template>
   <MVAdaptiveResource
     :id="id"
-    :audioSources="audioSources"
+    :audio-sources="audioSources"
     :duration="duration"
     :poster-url="posterUrl"
     :title="title"
     :artist-name="artistName"
-    looping-enabled
+    :looping-enabled="loopingEnabled"
     show-set-duration
     :track-info-cover-shape="Shape.SQUARE"
+    :show-previous-next="showPreviousNext"
     @close="handleClose"
     @collection-open="handleCollectionOpen"
+    @previous="handlePrevious"
+    @next="handleNext"
   />
 </template>

@@ -19,7 +19,7 @@
         overlay
         showFavourite
         favouriteIcon="bookmark-filled"
-        unfavouriteIcon="bookmark-outline"
+        unfavouriteIcon="bookmark-outlined"
         favouriteIconColor="red"
         @play="logEvent('play', $event)"
         @pause="logEvent('pause', $event)"
