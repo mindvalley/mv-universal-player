@@ -15,7 +15,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['mute', 'unmute', 'update:volume'])
+const emit = defineEmits(['update:volume'])
 
 const sliderRef = ref<HTMLElement | null>(null)
 const isDragging = ref(false)

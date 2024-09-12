@@ -1,23 +1,11 @@
 <script setup lang="ts">
-import { defineProps, defineEmits, ref, watch } from 'vue-demi'
+import { defineProps, defineEmits, ref, watch, computed } from 'vue-demi'
 import MVAdaptiveItem from '../AdaptiveItem'
 import type { Source } from './../../../types/audio'
-import MVAdaptivePlayButton from '../AdaptivePlayButton'
-import MVAdaptiveProgressBar from '../AdaptiveProgressBar'
 import MVAdaptivePlayer from '../AdaptivePlayer'
-import MVTrackInfoCard from '../TrackInfoCard'
 import { AdaptiveShape } from '../../../types/adaptive'
 import { Shape, Size } from '../../../models/adaptive.enums'
-import MVAdaptiveVolumeSlider from '../AdaptiveVolumeSlider'
-import MVAdaptiveFastForwardButton from '../AdaptiveFastForwardButton'
-import MVAdaptiveRewindButton from '../AdaptiveRewindButton'
-import MVAdaptiveCollectionButton from '../AdaptiveCollectionButton'
-import MVAdaptiveCloseButton from '../AdaptiveCloseButton'
-import MVAdaptiveMeditationMixerButton from '../AdaptiveMeditationMixerButton'
-import MVAdaptiveSetDurationButton from '../AdaptiveSetDurationButton'
-import MVAdaptiveFullScreenButton from '../AdaptiveFullScreenButton'
-import MVAdaptivePreviousButton from '../AdaptivePreviousButton'
-import MVAdaptiveNextButton from '../AdaptiveNextButton'
+import MVAdaptivePlayerBar from '../AdaptivePlayerBar'
 
 const props = defineProps({
   id: {
@@ -65,11 +53,12 @@ const props = defineProps({
     type: Number
   },
   showSetDuration: {
-    type: [Boolean, String],
+    type: Boolean,
     default: false
   },
   showPlaybackSpeed: {
-    type: [Boolean, String],
+    type: Boolean,
+    String,
     default: false
   },
   loopingEnabled: {
@@ -114,6 +103,19 @@ const emit = defineEmits<{
 }>()
 
 const isFullScreen = ref(false)
+const isTransitioning = ref(false)
+
+const toggleFullScreen = () => {
+  isTransitioning.value = true
+  isFullScreen.value = !isFullScreen.value
+  setTimeout(() => {
+    isTransitioning.value = false
+  }, 300) // Match this with your transition duration
+}
+
+const fullScreenClass = computed(() => {
+  return isFullScreen.value || isTransitioning.value ? 'fixed inset-0 z-50 bg-black' : ''
+})
 
 const emitEvent = (eventName: string, payload?: any) => {
   const data = { assetId: props.id, ...payload }
@@ -179,16 +181,16 @@ const handleClose = () => {
   emitEvent('close')
 }
 
-const toggleFullScreen = () => {
-  isFullScreen.value = !isFullScreen.value
-}
-
 const handlePreviousClick = () => {
   emitEvent('previous')
 }
 
 const handleNextClick = () => {
   emitEvent('next')
+}
+
+const handleSetDurationClick = () => {
+  emitEvent('setDuration')
 }
 </script>
 
@@ -209,100 +211,68 @@ const handleNextClick = () => {
       @reset="emitEvent('reset', $event)"
       @error="emitEvent('error', $event)"
     >
-      <div class="w-full">
-        <MVAdaptiveProgressBar
-          :duration="duration"
-          class="text-white"
-          :current-time="state?.currentTime"
-          :looping-enabled="loopingEnabled"
-          @seek="seek"
-          :is-playing="state?.playing"
-          :size="isFullScreen ? Size.BIG : Size.SMALL"
+      <div
+        :class="[
+          fullScreenClass,
+          'transition-all duration-300 ease-in-out',
+          isFullScreen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        ]"
+        data-testid="adaptive-full-screen-player"
+      >
+        <img
+          v-if="isFullScreen || isTransitioning"
+          :src="posterUrl"
+          class="w-full h-full object-cover"
+          alt="Full-screen background"
         />
       </div>
-
-      <!-- Mobile/Tablet -->
-      <div class="sm:hidden w-full py-3 px-4 bg-black items-center flex justify-between">
-        <div>
-          <MVTrackInfoCard
-            :title="title"
-            :sub-title="artistName"
-            :image="posterUrl"
-            :shape="trackInfoCoverShape"
-          />
-        </div>
-
-        <div class="flex items-center justify-center space-x-3">
-          <div class="flex items-center" v-if="showSetDuration">
-            <MVAdaptiveSetDurationButton @click="handleSetDurationClick" />
-          </div>
-          <div class="flex items-center" v-if="showMeditationMixer">
-            <MVAdaptiveMeditationMixerButton @click="handleMeditationMixerClick" />
-          </div>
-          <div class="flex items-center">
-            <MVAdaptiveCollectionButton @click="handleCollectionClick" />
-          </div>
-          <div class="flex items-center">
-            <MVAdaptivePlayButton @play="play" @pause="pause" :playing="state?.playing" />
-          </div>
-        </div>
-      </div>
-
-      <!-- Desktop -->
-      <div class="hidden sm:block">
-        <div class="w-full py-3 px-4 bg-black items-center flex justify-between">
-          <div>
-            <MVTrackInfoCard
-              :title="title"
-              :sub-title="artistName"
-              :image="posterUrl"
-              :shape="trackInfoCoverShape"
-            />
-          </div>
-          <div class="flex items-center space-x-6">
-            <div v-if="showRewindAndFastForward" class="flex items-center">
-              <MVAdaptiveRewindButton @rewind="rewind" />
-            </div>
-            <div v-if="showPreviousNext" class="flex items-center">
-              <MVAdaptivePreviousButton @click="previous" />
-            </div>
-            <MVAdaptivePlayButton @play="play" @pause="pause" :playing="state?.playing" />
-            <div v-if="showPreviousNext" class="flex items-center">
-              <MVAdaptiveNextButton @click="next" />
-            </div>
-            <div v-if="showRewindAndFastForward" class="flex items-center">
-              <MVAdaptiveFastForwardButton @fastForward="fastForward" />
-            </div>
-          </div>
-          <div class="flex items-center justify-center space-x-3">
-            <div class="flex items-center" v-if="showSetDuration">
-              <MVAdaptiveSetDurationButton @click="handleSetDurationClick" />
-            </div>
-            <div class="flex items-center" v-if="showMeditationMixer">
-              <MVAdaptiveMeditationMixerButton @click="handleMeditationMixerClick" />
-            </div>
-            <div class="flex items-center">
-              <MVAdaptiveCollectionButton @click="handleCollectionClick" />
-            </div>
-            <div>
-              <MVAdaptiveVolumeSlider
-                :muted="state?.muted"
-                @update:volume="setVolume"
-                :volume="state?.volume"
-              />
-            </div>
-            <div class="flex items-center">
-              <MVAdaptiveFullScreenButton
-                :is-full-screen="isFullScreen"
-                @click="toggleFullScreen"
-              />
-            </div>
-            <div class="flex items-center">
-              <MVAdaptiveCloseButton @click="handleClose" />
-            </div>
-          </div>
-        </div>
+      <div
+        data-testid="adaptive-mini-player"
+        :class="[
+          'transition-all duration-300 ease-in-out',
+          isFullScreen
+            ? 'fixed bottom-0 left-0 right-0 z-[60] bg-gradient-to-t from-black-70a to-transparent px-10'
+            : 'bg-black'
+        ]"
+      >
+        <MVAdaptivePlayerBar
+          :is-playing="state?.playing"
+          :title="title"
+          :artist-name="artistName"
+          :poster-url="posterUrl"
+          :track-info-cover-shape="trackInfoCoverShape"
+          :volume="state?.volume"
+          :duration="duration"
+          :current-time="state?.currentTime"
+          :is-full-screen="isFullScreen"
+          :looping-enabled="loopingEnabled"
+          :show-rewind-and-fast-forward="showRewindAndFastForward"
+          :show-previous-next="showPreviousNext"
+          :show-set-duration="showSetDuration"
+          :show-playback-speed="showPlaybackSpeed"
+          :show-meditation-mixer="showMeditationMixer"
+          :show-collections="showCollections"
+          @pause="pause"
+          @play="play"
+          @rewind="rewind"
+          @fastForward="fastForward"
+          @seek="seek"
+          @previous="handlePreviousClick"
+          @next="handleNextClick"
+          @setVolume="setVolume"
+          @close="handleClose"
+          @collection="handleCollectionClick"
+          @meditationMixer="handleMeditationMixerClick"
+          @setDuration="handleSetDurationClick"
+          @toggleFullScreen="toggleFullScreen"
+        />
       </div>
     </MVAdaptiveItem>
   </MVAdaptivePlayer>
 </template>
+
+<style scoped>
+.bg-gradient-to-t {
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+}
+</style>

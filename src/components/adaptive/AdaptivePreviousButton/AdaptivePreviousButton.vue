@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <button v-tooltip="'Close'" class="h-5 w-5">
+  <button v-tooltip="'Previous'" class="h-5 w-5">
     <svg
       v-svg
       symbol="skip-back-outlined"
