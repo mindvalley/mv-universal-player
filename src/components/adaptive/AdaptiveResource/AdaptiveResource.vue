@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, defineEmits, ref, watch, computed } from 'vue-demi'
+import { ref, watch } from 'vue-demi'
 import MVAdaptiveItem from '../AdaptiveItem'
 import type { Source } from './../../../types/audio'
 import MVAdaptivePlayer from '../AdaptivePlayer'
@@ -103,19 +103,31 @@ const emit = defineEmits<{
 }>()
 
 const isFullScreen = ref(false)
-const isTransitioning = ref(false)
+const isMiniBarVisible = ref(true)
+let hideTimeout: number | null = null
 
 const toggleFullScreen = () => {
-  isTransitioning.value = true
   isFullScreen.value = !isFullScreen.value
-  setTimeout(() => {
-    isTransitioning.value = false
-  }, 300) // Match this with your transition duration
+  isMiniBarVisible.value = true
+  if (hideTimeout) {
+    clearTimeout(hideTimeout)
+    hideTimeout = null
+  }
 }
 
-const fullScreenClass = computed(() => {
-  return isFullScreen.value || isTransitioning.value ? 'fixed inset-0 z-50 bg-black' : ''
-})
+const handleMouseEnter = () => {
+  isMiniBarVisible.value = true
+  if (hideTimeout) {
+    clearTimeout(hideTimeout)
+    hideTimeout = null
+  }
+}
+
+const handleMouseLeave = () => {
+  hideTimeout = setTimeout(() => {
+    isMiniBarVisible.value = false
+  }, 1500) as unknown as number
+}
 
 const emitEvent = (eventName: string, payload?: any) => {
   const data = { assetId: props.id, ...payload }
@@ -212,27 +224,23 @@ const handleSetDurationClick = () => {
       @error="emitEvent('error', $event)"
     >
       <div
-        :class="[
-          fullScreenClass,
-          'transition-all duration-300 ease-in-out',
-          isFullScreen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        ]"
-        data-testid="adaptive-full-screen-player"
+        v-if="isFullScreen"
+        class="fixed inset-0 z-50 bg-black"
+        @mouseenter="handleMouseEnter"
+        @mouseleave="handleMouseLeave"
       >
-        <img
-          v-if="isFullScreen || isTransitioning"
-          :src="posterUrl"
-          class="w-full h-full object-cover"
-          alt="Full-screen background"
-        />
+        <!-- Full-screen content -->
+        <img :src="posterUrl" class="w-full h-full object-cover" alt="Full-screen background" />
       </div>
       <div
+        @mouseenter="handleMouseEnter"
         data-testid="adaptive-mini-player"
         :class="[
-          'transition-all duration-300 ease-in-out',
+          'transition-all duration-400 ease-in-out',
           isFullScreen
-            ? 'fixed bottom-0 left-0 right-0 z-[60] bg-gradient-to-t from-black-70a to-transparent px-10'
-            : 'bg-black'
+            ? 'fixed bottom-0 left-0 right-0 z-[60] bg-gradient-to-t from-black to-transparent px-10'
+            : 'bg-black',
+          { 'translate-y-full': isFullScreen && !isMiniBarVisible }
         ]"
       >
         <MVAdaptivePlayerBar

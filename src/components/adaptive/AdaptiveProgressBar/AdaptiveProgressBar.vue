@@ -185,7 +185,7 @@ watch(
     <span v-if="size === 'BIG'" class="flex shrink-0 items-center justify-center text-xs">
       {{ humanizeTime(localCurrentTime) }}
     </span>
-    <span class="w-full shrink" :class="{ 'bg-black': size === 'SMALL' }">
+    <span class="w-full shrink" :class="[size === 'BIG' ? 'px-4' : 'px-0']">
       <div
         ref="seekerUi"
         @mousedown="startDrag"
