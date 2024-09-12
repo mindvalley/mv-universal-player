@@ -21,6 +21,8 @@ import {
   MVVideoDescription
 } from './video'
 
+import { MVSoundscapeResource, MVMeditationResource } from './adaptive'
+
 import { MVCarousel, MVCarouselSlide } from './carousel'
 
 export {
@@ -42,5 +44,7 @@ export {
   MVVideoResource,
   MVVideoMakerItem,
   MVVideoControls,
-  MVVideoDescription
+  MVVideoDescription,
+  MVSoundscapeResource,
+  MVMeditationResource
 }
