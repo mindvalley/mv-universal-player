@@ -13,7 +13,7 @@ import MVAdaptiveVolumeSlider from '../AdaptiveVolumeSlider'
 import MVAdaptiveFullScreenButton from '../AdaptiveFullScreenButton'
 import MVAdaptiveCloseButton from '../AdaptiveCloseButton'
 import MVTrackInfoCard from '../TrackInfoCard'
-
+import type { AdaptiveSize } from '../../../types/adaptive'
 const props = defineProps({
   isPlaying: {
     type: Boolean,
@@ -32,7 +32,7 @@ const props = defineProps({
     required: true
   },
   trackInfoCoverShape: {
-    type: String,
+    type: String as () => AdaptiveSize,
     default: 'round'
   },
   volume: {

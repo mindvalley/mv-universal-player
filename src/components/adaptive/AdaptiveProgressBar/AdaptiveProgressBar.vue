@@ -2,6 +2,7 @@
 import { ref, computed, watch } from 'vue-demi'
 import { useGlobal } from '../../../composables/use-global'
 import type { AdaptiveSize } from '../../../types/adaptive'
+import { Size } from '../../../models/adaptive.enums'
 
 const props = defineProps({
   duration: {
@@ -182,10 +183,14 @@ watch(
 
 <template>
   <section class="relative flex items-center justify-center md:w-full">
-    <span v-if="size === 'BIG'" class="flex shrink-0 items-center justify-center text-xs">
+    <span
+      v-if="size === Size.BIG && !loopingEnabled"
+      class="flex shrink-0 items-center justify-center text-xs"
+      :class="[size === Size.BIG ? 'mr-4' : 'mr-0']"
+    >
       {{ humanizeTime(localCurrentTime) }}
     </span>
-    <span class="w-full shrink" :class="[size === 'BIG' ? 'px-4' : 'px-0']">
+    <span class="w-full shrink">
       <div
         ref="seekerUi"
         @mousedown="startDrag"
@@ -217,13 +222,17 @@ watch(
         </div>
       </div>
       <div
+        v-if="size === Size.SMALL"
         ref="tooltip"
         class="tooltip"
         :style="{ display: isHovering && isInteractive ? 'block' : 'none' }"
       ></div>
     </span>
-    <span v-if="size === 'BIG'" class="flex shrink-0 items-center justify-center text-xs">
-      {{ humanizeTime(duration) }}
+    <span v-if="size === Size.BIG" class="flex shrink-0 items-center justify-center text-xs ml-4">
+      <template v-if="!loopingEnabled">
+        {{ humanizeTime(duration) }}
+      </template>
+      <svg v-else v-svg symbol="infinity-filled" class="h-4 w-4 text-white"></svg>
     </span>
   </section>
 </template>
