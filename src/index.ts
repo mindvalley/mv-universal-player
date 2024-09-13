@@ -1,6 +1,6 @@
 import * as components from './components'
 import './assets/main.css'
-import svgSprite from '@mindvalley/design-system/dist/svg-sprite/svg-defs.svg'
+import svgSprite from '@mindvalley/design-system/dist/icons/sprites/ui-icons.svg'
 import { svgSpriteDirectivePlugin } from 'vue-svg-sprite'
 
 import type { App } from 'vue-demi'
