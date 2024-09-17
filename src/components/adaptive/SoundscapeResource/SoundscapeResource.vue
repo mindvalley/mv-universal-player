@@ -132,8 +132,6 @@ const handleCloseDurationSelector = () => {
 
 <template>
   <div>
-    <button class="bg-yellow-400">Click me</button>
-
     <MVAdaptiveOverlay :show="showDurationSelector" @close="handleCloseDurationSelector">
       <MVAdaptiveDurationSelector
         :duration="localDuration"
