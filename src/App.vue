@@ -229,9 +229,7 @@ const backgroundSounds = [
 
 const audio = {
   id: '1',
-  sources: [
-    { type: 'audio/mpeg', src: getSoundUrl('removing_inner_blocks_success_audio.mp3.mp3') }
-  ],
+  sources: [{ type: 'video/mpeg', src: '' }],
   duration: 1932.669,
   posterUrl: getImageUrl('removing_inner_blocks_success.jpeg'),
   title: 'Removing Inner Block to Success',

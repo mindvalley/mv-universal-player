@@ -2,6 +2,9 @@
 import MVAdaptiveResource from '../AdaptiveResource'
 import type { Source } from './../../../types/audio'
 import { Shape } from '../../../models/adaptive.enums'
+import MVAdaptiveDurationSelector from '../AdaptiveDurationSelector'
+import { ref } from 'vue-demi'
+import MVAdaptiveOverlay from '../AdaptiveOverlay'
 
 const props = defineProps({
   id: {
@@ -89,6 +92,11 @@ const emit = defineEmits<{
   (e: any, payload: any): void
 }>()
 
+const localLoopingEnabled = ref(props.loopingEnabled)
+const localDuration = ref(props.duration)
+const showDurationSelector = ref(false)
+const showOverlay = ref(false)
+
 const handleClose = () => {
   emit('close')
 }
@@ -104,23 +112,57 @@ const handlePrevious = () => {
 const handleNext = () => {
   emit('next')
 }
+
+const handleNewTime = (duration: number) => {
+  // emit('newTime', duration)
+}
+
+const handleForever = () => {
+  localLoopingEnabled.value = true
+}
+
+const toggleDurationSelector = () => {
+  showDurationSelector.value = !showDurationSelector.value
+}
+
+const handleCloseDurationSelector = () => {
+  showDurationSelector.value = false
+}
 </script>
 
 <template>
-  <MVAdaptiveResource
-    :id="id"
-    :audio-sources="audioSources"
-    :duration="duration"
-    :poster-url="posterUrl"
-    :title="title"
-    :artist-name="artistName"
-    :looping-enabled="loopingEnabled"
-    show-set-duration
-    :track-info-cover-shape="Shape.SQUARE"
-    :show-previous-next="showPreviousNext"
-    @close="handleClose"
-    @collection-open="handleCollectionOpen"
-    @previous="handlePrevious"
-    @next="handleNext"
-  />
+  <div>
+    <button class="bg-yellow-400">Click me</button>
+
+    <MVAdaptiveOverlay :show="showDurationSelector" @close="handleCloseDurationSelector">
+      <MVAdaptiveDurationSelector
+        :duration="localDuration"
+        :is-looping="localLoopingEnabled"
+        @new-time="handleNewTime"
+        @forever="handleForever"
+        @close="handleCloseDurationSelector"
+      />
+    </MVAdaptiveOverlay>
+
+    <!-- Adaptive Resource -->
+    <div class="fixed bottom-0 right-0 w-full z-30 bg-yellow-200">
+      <MVAdaptiveResource
+        :id="id"
+        :audio-sources="audioSources"
+        :duration="localDuration"
+        :poster-url="posterUrl"
+        :title="title"
+        :artist-name="artistName"
+        :looping-enabled="localLoopingEnabled"
+        show-set-duration
+        :track-info-cover-shape="Shape.SQUARE"
+        :show-previous-next="showPreviousNext"
+        @close="handleClose"
+        @collection-open="handleCollectionOpen"
+        @previous="handlePrevious"
+        @next="handleNext"
+        @set-duration="toggleDurationSelector"
+      />
+    </div>
+  </div>
 </template>
