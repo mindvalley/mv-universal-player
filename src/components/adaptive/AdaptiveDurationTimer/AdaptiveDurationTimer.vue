@@ -32,39 +32,45 @@ function decrementHours() {
 }
 
 function incrementMinutes() {
-  minutes.value = (minutes.value + 1) % 60
+  if (hours.value === 0 && minutes.value === 59) {
+    minutes.value = 1
+  } else {
+    minutes.value = (minutes.value + 1) % 60
+  }
   updateDuration()
 }
 
 function decrementMinutes() {
-  minutes.value = (minutes.value - 1 + 60) % 60
+  if (hours.value === 0 && minutes.value === 1) {
+    minutes.value = 59
+  } else {
+    minutes.value = (minutes.value - 1 + 60) % 60
+  }
   updateDuration()
 }
 </script>
 
 <template>
-  <div>
-    <div class="flex items-center justify-center mb-3">
-      <svg v-svg symbol="infinity-filled" class="h-6 w-6 text-white-70a"></svg>
+  <div class="flex items-center justify-center mb-3">
+    <svg v-svg symbol="infinity-filled" class="h-6 w-6 text-white-70a"></svg>
+  </div>
+  <div class="flex text-white items-center justify-center gap-x-2">
+    <div class="">
+      <MVAdaptiveDurationTimerUnitPicker
+        :selectedUnit="hours"
+        :label="hourLabel"
+        @increment="incrementHours"
+        @decrement="decrementHours"
+      />
     </div>
-    <div class="flex text-white items-center justify-center gap-x-2">
-      <div class="">
-        <MVAdaptiveDurationTimerUnitPicker
-          :selectedUnit="hours"
-          :label="hourLabel"
-          @increment="incrementHours"
-          @decrement="decrementHours"
-        />
-      </div>
-      <div class="text-xl">:</div>
-      <div class="">
-        <MVAdaptiveDurationTimerUnitPicker
-          :selectedUnit="minutes"
-          :label="minuteLabel"
-          @increment="incrementMinutes"
-          @decrement="decrementMinutes"
-        />
-      </div>
+    <div class="text-xl">:</div>
+    <div class="">
+      <MVAdaptiveDurationTimerUnitPicker
+        :selectedUnit="minutes"
+        :label="minuteLabel"
+        @increment="incrementMinutes"
+        @decrement="decrementMinutes"
+      />
     </div>
   </div>
 </template>
