@@ -108,6 +108,7 @@ const emit = defineEmits<{
   (e: 'playtime', { time }: any): void
   (e: 'collection'): void
   (e: 'close'): void
+  (e: 'fullscreen', { isFullScreen }: any): void
   (e: any, payload: any): void
 }>()
 
@@ -120,10 +121,12 @@ const localCurrentTime = ref(0)
 const toggleFullScreen = () => {
   isFullScreen.value = !isFullScreen.value
   isMiniBarVisible.value = true
+
   if (hideTimeout) {
     clearTimeout(hideTimeout)
     hideTimeout = null
   }
+  emitEvent('fullscreen', { isFullScreen: isFullScreen.value })
 }
 
 const handleMouseEnter = () => {

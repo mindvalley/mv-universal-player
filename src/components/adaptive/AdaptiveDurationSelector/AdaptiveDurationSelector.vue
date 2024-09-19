@@ -51,54 +51,67 @@ const handleClose = () => {
     </button>
     <div class="text-center title-8">How long do you want to listen?</div>
     <div class="flex flex-col items-center justify-center">
-      <div v-if="localIsLooping">
-        <div class="flex flex-col items-center justify-center h-[135px] my-6">
-          <svg v-svg symbol="infinity-filled" class="h-10 w-10 text-white"></svg>
-          <div class="title-10">PLAYING FOREVER</div>
+      <Transition name="slide" mode="out-in">
+        <div v-if="localIsLooping" key="looping">
+          <div class="flex flex-col items-center justify-center h-[135px] my-6">
+            <svg v-svg symbol="infinity-filled" class="h-10 w-10 text-white"></svg>
+            <div class="title-10">PLAYING FOREVER</div>
+          </div>
+          <div class="flex flex-col">
+            <button
+              @click="handleStayForever"
+              class="rounded-full bg-white hover:bg-white-90a text-cool-grey-700 title-8 px-4 p-2"
+            >
+              Stay forever
+            </button>
+            <button
+              @click="toggleMode"
+              class="mt-2 text-white title-9 py-2 px-4 flex flex-row rounded-full hover:bg-white-24a"
+            >
+              Change duration
+            </button>
+          </div>
         </div>
-        <div class="flex flex-col">
-          <button
-            @click="handleStayForever"
-            class="rounded-full bg-white hover:bg-white-90a text-cool-grey-700 title-8 px-4 p-2"
-          >
-            Stay forever
-          </button>
-          <button
-            @click="toggleMode"
-            class="mt-2 text-white title-9 py-2 px-4 flex flex-row rounded-full hover:bg-white-24a"
-          >
-            Change duration
-          </button>
+        <div v-else key="timer">
+          <div class="lex flex-col items-center justify-center h-[135px] my-6">
+            <MVAdaptiveDurationTimer
+              :duration="localDuration"
+              @update:duration="handleUpdateDuration"
+            />
+          </div>
+          <div class="flex flex-col items-center justify-center">
+            <button
+              @click="setNewTime"
+              class="rounded-full bg-white hover:bg-white-90a text-cool-grey-700 title-8 px-4 p-2"
+            >
+              Set new time
+            </button>
+            <button
+              @click="toggleMode"
+              class="mt-2 text-white title-9 py-2 px-4 flex flex-row rounded-full hover:bg-white-24a"
+            >
+              <span> <svg v-svg symbol="infinity-filled" class="h-4 w-4 text-white"></svg></span>
+              <span class="ml-1">I want it to play forever</span>
+            </button>
+          </div>
         </div>
-      </div>
-
-      <div v-else>
-        <div class="lex flex-col items-center justify-center h-[135px] my-6">
-          <MVAdaptiveDurationTimer
-            :duration="localDuration"
-            @update:duration="handleUpdateDuration"
-          />
-        </div>
-        <div class="flex flex-col items-center justify-center">
-          <button
-            @click="setNewTime"
-            class="rounded-full bg-white hover:bg-white-90a text-cool-grey-700 title-8 px-4 p-2"
-          >
-            Set new time
-          </button>
-          <button
-            @click="toggleMode"
-            class="mt-2 text-white title-9 py-2 px-4 flex flex-row rounded-full hover:bg-white-24a"
-          >
-            <span> <svg v-svg symbol="infinity-filled" class="h-4 w-4 text-white"></svg></span>
-            <span class="ml-1">I want it to play forever</span>
-          </button>
-        </div>
-      </div>
+      </Transition>
     </div>
   </div>
 </template>
 
 <style scoped>
 /* Add your styles here */
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.3s ease;
+}
+.slide-enter-from {
+  transform: translateY(20px);
+  opacity: 0;
+}
+.slide-leave-to {
+  transform: translateY(-20px);
+  opacity: 0;
+}
 </style>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { ref, onUnmounted } from 'vue-demi'
 import MVAdaptiveResource from '../AdaptiveResource'
+import MVAdaptiveDurationSelector from '../AdaptiveDurationSelector'
+import MVAdaptiveOverlay from '../AdaptiveOverlay'
 import type { Source } from './../../../types/audio'
 import { Shape } from '../../../models/adaptive.enums'
-import MVAdaptiveDurationSelector from '../AdaptiveDurationSelector'
-import { ref, onUnmounted } from 'vue-demi'
-import MVAdaptiveOverlay from '../AdaptiveOverlay'
 
 const props = defineProps({
   id: {
@@ -87,6 +87,7 @@ const adaptiveResource = ref(null)
 const localLoopingEnabled = ref(true)
 const localDuration = ref(240) // 4 minutes
 const showDurationSelector = ref(false)
+const overlayZIndex = ref(50)
 
 const elapsedTime = ref(0)
 const timerInterval = ref<number | null>(null)
@@ -213,6 +214,10 @@ const handleEnded = () => {
   emit('ended', { currentTime: localCurrentTime.value })
 }
 
+const handleFullscreen = ({ isFullScreen }: any) => {
+  overlayZIndex.value = isFullScreen ? 1000 : 50
+}
+
 const emitEvent = (eventName: string, payload?: any) => {
   const data = { id: props.id, ...payload }
   emit(eventName, data)
@@ -221,7 +226,11 @@ const emitEvent = (eventName: string, payload?: any) => {
 
 <template>
   <div>
-    <MVAdaptiveOverlay :show="showDurationSelector" @close="handleCloseDurationSelector">
+    <MVAdaptiveOverlay
+      :show="showDurationSelector"
+      @close="handleCloseDurationSelector"
+      :z-index="overlayZIndex"
+    >
       <MVAdaptiveDurationSelector
         :duration="localDuration"
         :is-looping="localLoopingEnabled"
@@ -257,6 +266,7 @@ const emitEvent = (eventName: string, payload?: any) => {
         @pause="handlePause"
         @seek="handleSeek"
         @ended="handleEnded"
+        @fullscreen="handleFullscreen"
       />
     </div>
   </div>

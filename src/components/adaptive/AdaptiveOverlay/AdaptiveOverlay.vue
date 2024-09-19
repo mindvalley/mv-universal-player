@@ -3,6 +3,10 @@ defineProps({
   show: {
     type: Boolean,
     required: true
+  },
+  zIndex: {
+    type: Number,
+    default: 50
   }
 })
 
@@ -13,12 +17,12 @@ defineEmits(['close'])
   <div>
     <!-- Overlay -->
     <transition name="fade">
-      <div v-if="show" class="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+      <div v-if="show" class="fixed inset-0 bg-black bg-opacity-50" :style="{ zIndex }"></div>
     </transition>
 
     <!-- Content -->
     <transition name="slide-up">
-      <div v-if="show" class="fixed inset-0 overflow-hidden z-50">
+      <div v-if="show" class="fixed inset-0 overflow-hidden" :style="{ zIndex: zIndex + 50 }">
         <div class="absolute inset-0 flex items-center justify-center" @click="$emit('close')">
           <div @click.stop>
             <slot></slot>
