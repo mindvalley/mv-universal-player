@@ -76,6 +76,14 @@ const props = defineProps({
   showPreviousNext: {
     type: Boolean,
     default: false
+  },
+  progressBarCurrentTime: {
+    type: Number,
+    default: 0
+  },
+  overrideProgressBarCurrentTime: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -84,6 +92,7 @@ const emit = defineEmits<{
   (e: 'play', { currentTime }: any): void
   (e: 'pause', { currentTime }: any): void
   (e: 'seeking', { seeking }: any): void
+  (e: 'seek', { time }: any): void // This is to perform the action
   (e: 'ended', { currentTime }: any): void
   (e: 'rewind', { previousTime, currentTime }: any): void
   (e: 'fastforward', { previousTime, currentTime }: any): void
@@ -105,6 +114,8 @@ const emit = defineEmits<{
 const isFullScreen = ref(false)
 const isMiniBarVisible = ref(true)
 let hideTimeout: number | null = null
+const adaptiveItem = ref(null)
+const localCurrentTime = ref(0)
 
 const toggleFullScreen = () => {
   isFullScreen.value = !isFullScreen.value
@@ -130,7 +141,7 @@ const handleMouseLeave = () => {
 }
 
 const emitEvent = (eventName: string, payload?: any) => {
-  const data = { assetId: props.id, ...payload }
+  const data = { id: props.id, ...payload }
   emit(eventName, data)
 }
 
@@ -168,6 +179,7 @@ const resetPlayerTimer = () => {
 
 const handleEnded = (event: any) => {
   resetPlayerTimer()
+  localCurrentTime.value = 0
   emitEvent('ended', event)
 }
 
@@ -204,17 +216,25 @@ const handleNextClick = () => {
 const handleSetDurationClick = () => {
   emitEvent('setDuration')
 }
+
+const handleSeek = (seeking: any) => {
+  emitEvent('seek', { time: seeking })
+}
+
+defineExpose({
+  player: adaptiveItem
+})
 </script>
 
 <template>
   <MVAdaptivePlayer :loop="loopingEnabled">
     <MVAdaptiveItem
-      v-slot="{ state, seek, play, pause, rewind, fastForward, setVolume }"
+      ref="adaptiveItem"
+      v-slot="{ state, play, pause, rewind, fastForward, setVolume, currentTime }"
       :sources="audioSources"
       :id="id"
       @play="handlePlay"
       @pause="handlePause"
-      @seeking="emitEvent('seeking', $event)"
       @ended="handleEnded"
       @rewind="emitEvent('rewind', $event)"
       @fastforward="emitEvent('fastforward', $event)"
@@ -222,6 +242,7 @@ const handleSetDurationClick = () => {
       @timeupdate="emitEvent('timeupdate', $event)"
       @reset="emitEvent('reset', $event)"
       @error="emitEvent('error', $event)"
+      @seeking="emitEvent('seeking', $event)"
     >
       <div
         v-if="isFullScreen"
@@ -251,7 +272,9 @@ const handleSetDurationClick = () => {
           :track-info-cover-shape="trackInfoCoverShape"
           :volume="state?.volume"
           :duration="duration"
-          :current-time="state?.currentTime"
+          :progress-bar-current-time="
+            overrideProgressBarCurrentTime ? progressBarCurrentTime : currentTime
+          "
           :is-full-screen="isFullScreen"
           :looping-enabled="loopingEnabled"
           :show-rewind-and-fast-forward="showRewindAndFastForward"
@@ -264,7 +287,7 @@ const handleSetDurationClick = () => {
           @play="play"
           @rewind="rewind"
           @fastForward="fastForward"
-          @seek="seek"
+          @seek="handleSeek"
           @previous="handlePreviousClick"
           @next="handleNextClick"
           @setVolume="setVolume"

@@ -34,7 +34,6 @@ const toggleMode = () => {
 }
 
 const handleUpdateDuration = (duration: number) => {
-  console.log('duration', duration)
   localDuration.value = duration
 }
 

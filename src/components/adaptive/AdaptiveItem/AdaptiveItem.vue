@@ -5,7 +5,7 @@ import type { Player, Source } from '../../../types/audio'
 const props = defineProps({
   id: {
     type: String,
-    default: () => 'mv-audio-item-' + Math.random().toString().replace('.', '')
+    default: () => 'mv-adaptive-item-' + Math.random().toString().replace('.', '')
   },
   sources: {
     type: Array<Source>,
@@ -14,8 +14,8 @@ const props = defineProps({
   }
 })
 
-const audioState: any = inject('audioState')
-const audioPlayer: Player = inject('audioPlayer', {} as Player)
+const adaptiveState: any = inject('audioState')
+const adaptivePlayer: Player = inject('audioPlayer', {} as Player)
 const playing = ref(false)
 const currentTime = ref(0)
 
@@ -33,9 +33,9 @@ const emit = defineEmits<{
 }>()
 
 watch(
-  () => audioState.value.error,
+  () => adaptiveState.value.error,
   (error) => {
-    if (props.id === audioState.value.audioItemId) {
+    if (props.id === adaptiveState.value.audioItemId) {
       if (error) {
         emit('error', error)
       }
@@ -44,7 +44,7 @@ watch(
 )
 
 watch(
-  [() => audioState.value.playing, () => audioState.value.audioItemId],
+  [() => adaptiveState.value.playing, () => adaptiveState.value.audioItemId],
   ([newPlaying, newAudioItemId]) => {
     if (props.id === newAudioItemId) {
       if (newPlaying) {
@@ -55,9 +55,9 @@ watch(
 )
 
 watch(
-  () => audioState.value.paused,
+  () => adaptiveState.value.paused,
   (paused) => {
-    if (props.id === audioState.value.audioItemId) {
+    if (props.id === adaptiveState.value.audioItemId) {
       if (paused) {
         emit('pause', { currentTime: currentTime.value.toFixed(2) })
       }
@@ -66,18 +66,18 @@ watch(
 )
 
 watch(
-  () => audioState.value.currentTime,
+  () => adaptiveState.value.currentTime,
   (currentTime) => {
-    if (props.id === audioState.value.audioItemId) {
+    if (props.id === adaptiveState.value.audioItemId) {
       emit('timeupdate', { currentTime: currentTime.toFixed(2) })
     }
   }
 )
 
 watch(
-  () => audioState.value.ended,
+  () => adaptiveState.value.ended,
   (ended) => {
-    if (props.id === audioState.value.audioItemId) {
+    if (props.id === adaptiveState.value.audioItemId) {
       if (ended) {
         emit('ended', { currentTime: currentTime.value.toFixed(2) })
         currentTime.value = 0
@@ -87,16 +87,16 @@ watch(
 )
 
 watch(
-  () => audioState.value.playbackRate,
+  () => adaptiveState.value.playbackRate,
   (playbackRate) => {
-    if (props.id === audioState.value.audioItemId) {
+    if (props.id === adaptiveState.value.audioItemId) {
       emit('playbackSpeed', { playbackSpeed: playbackRate })
     }
   }
 )
 
 watch(
-  [() => audioState.value.playing, () => audioState.value.audioItemId],
+  [() => adaptiveState.value.playing, () => adaptiveState.value.audioItemId],
   ([newPlaying, newAudioItemId]) => {
     if (newPlaying) {
       if (newAudioItemId === props.id) {
@@ -112,9 +112,9 @@ watch(
 )
 
 watch(
-  () => audioState.value.currentTime,
+  () => adaptiveState.value.currentTime,
   (newCurrentTime) => {
-    if (audioState.value.audioItemId === props.id) {
+    if (adaptiveState.value.audioItemId === props.id) {
       currentTime.value = newCurrentTime
     } else {
       currentTime.value = 0
@@ -132,107 +132,107 @@ watch(
 )
 
 const play = () => {
-  if (audioState.value.audioItemId !== props.id) {
-    audioPlayer.setSources(props.sources)
+  if (adaptiveState.value.audioItemId !== props.id) {
+    adaptivePlayer.setSources(props.sources)
   }
-  audioPlayer.play(props.id)
+  adaptivePlayer.play(props.id)
 }
 
 const pause = () => {
-  audioPlayer.pause()
+  adaptivePlayer.pause()
 }
 
 const rewind = (seconds: number) => {
   if (
-    audioState.value.audioItemId === props.id &&
-    audioPlayer &&
+    adaptiveState.value.audioItemId === props.id &&
+    adaptivePlayer &&
     seconds >= 0 &&
-    audioState.value.playing
+    adaptiveState.value.playing
   ) {
     const currentTime =
-      audioState.value.currentTime - seconds >= 0 ? audioState.value.currentTime - seconds : 0
+      adaptiveState.value.currentTime - seconds >= 0 ? adaptiveState.value.currentTime - seconds : 0
     emit('rewind', {
-      previousTime: audioState.value.currentTime.toFixed(2),
+      previousTime: adaptiveState.value.currentTime.toFixed(2),
       currentTime: currentTime.toFixed(2)
     })
-    audioPlayer.setCurrentTime(currentTime)
+    adaptivePlayer.setCurrentTime(currentTime)
   }
 }
 
 const fastForward = (seconds: number) => {
   if (
-    audioState.value.audioItemId === props.id &&
-    audioPlayer &&
+    adaptiveState.value.audioItemId === props.id &&
+    adaptivePlayer &&
     seconds >= 0 &&
-    audioState.value.playing
+    adaptiveState.value.playing
   ) {
-    const currentTime = audioState.value.currentTime + seconds
+    const currentTime = adaptiveState.value.currentTime + seconds
     emit('fastforward', {
-      previousTime: audioState.value.currentTime.toFixed(2),
+      previousTime: adaptiveState.value.currentTime.toFixed(2),
       currentTime: currentTime.toFixed(2)
     })
-    audioPlayer.setCurrentTime(currentTime)
+    adaptivePlayer.setCurrentTime(currentTime)
   }
 }
 
 const seek = (time: number) => {
-  if (audioState.value.audioItemId === props.id) {
+  if (adaptiveState.value.audioItemId === props.id) {
     emit('seeking', { seeking: time.toFixed(2) })
-    audioPlayer.setCurrentTime(time)
+    adaptivePlayer.setCurrentTime(time)
   }
 }
 
 const setAudio = () => {
   // We are not checking for specific audioItemId because in background mixer the audio sources can be set before it is being played.
-  audioPlayer.setAudio(props.id)
-  audioPlayer.setSources(props.sources)
+  adaptivePlayer.setAudio(props.id)
+  adaptivePlayer.setSources(props.sources)
 }
 
 const setVolume = (volume: number) => {
-  if (audioState.value.audioItemId === props.id) {
-    audioPlayer.setVolume(volume)
+  if (adaptiveState.value.audioItemId === props.id) {
+    adaptivePlayer.setVolume(volume)
   }
 }
 
 const setPlaybackRate = (rate: number) => {
-  if (audioState.value.audioItemId === props.id) {
-    audioPlayer.setPlaybackRate(rate)
+  if (adaptiveState.value.audioItemId === props.id) {
+    adaptivePlayer.setPlaybackRate(rate)
   }
 }
 
 const setSources = (sources: Source[]) => {
   // We are not checking for specific audioItemId because in background mixer the audio sources can be set before it is being played.
-  audioPlayer.setSources(sources)
+  adaptivePlayer.setSources(sources)
 }
 
 const setCurrentTime = (time: number) => {
-  audioPlayer.setCurrentTime(time)
+  adaptivePlayer.setCurrentTime(time)
   currentTime.value = time
 }
 
 const reset = () => {
-  if (audioState.value.audioItemId === props.id) {
+  if (adaptiveState.value.audioItemId === props.id) {
     setCurrentTime(0)
   }
 }
 
 const setMixing = (enabled: boolean) => {
-  audioPlayer.setMixing(enabled)
+  adaptivePlayer.setMixing(enabled)
 }
 
 const currentPlayingAudioItemId = computed(() => {
-  return audioState.value.audioItemId
+  return adaptiveState.value.audioItemId
 })
 
 const mixing = computed(() => {
-  return audioState.value.mixing
+  return adaptiveState.value.mixing
 })
 
 const volume = computed(() => {
-  return audioState.value.volume
+  return adaptiveState.value.volume
 })
 
-const audioItemPlayer = {
+const adaptiveItemPlayer = {
   play: play,
   pause: pause,
   setAudio: setAudio,
@@ -247,7 +247,7 @@ const audioItemPlayer = {
   reset: reset
 }
 
-const audioItemState = ref({
+const adaptiveItemState = ref({
   currentTime: currentTime,
   playing: playing,
   currentPlayingAudioItemId: currentPlayingAudioItemId,
@@ -255,12 +255,12 @@ const audioItemState = ref({
   volume: volume
 })
 
-provide('audioItemPlayer', audioItemPlayer)
-provide('audioItemState', audioItemState)
+provide('adaptiveItemPlayer', adaptiveItemPlayer)
+provide('adaptiveItemState', adaptiveItemState)
 
 defineExpose({
-  player: audioItemPlayer,
-  state: readonly(audioItemState)
+  player: adaptiveItemPlayer,
+  state: readonly(adaptiveItemState)
 })
 </script>
 
@@ -279,8 +279,8 @@ defineExpose({
       :setMixing="setMixing"
       :setCurrentTime="setCurrentTime"
       :reset="reset"
-      :player="audioItemPlayer"
-      :state="audioItemState"
+      :player="adaptiveItemPlayer"
+      :state="adaptiveItemState"
     ></slot>
   </div>
 </template>

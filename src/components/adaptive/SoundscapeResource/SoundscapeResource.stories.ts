@@ -110,6 +110,23 @@ const audio2 = {
   backgroundSounds: backgroundSounds
 }
 
+const audio3 = {
+  assetId: '3',
+  sources: [{ type: 'audio/mpeg', src: getSoundUrl('soundscape_1.mp3') }],
+  isFavourite: false,
+  duration: 103,
+  posterUrl: getImageUrl('free_youself_from_depression.jpeg'),
+  title: 'Free Yourself from Depression and Anxiety',
+  artistName: 'Marisa Peer',
+  ratings: 4,
+  totalRatings: 5,
+  authorImage: getImageUrl('rtt_marisa_author.jpeg'),
+  headline: 'Creator Of Rapid Transformational Therapy®',
+  description:
+    "Celebrity therapist Marisa Peer's proven techniques will free you from a life of negative patterns and thinking. This hypnosis session softly guides us into a state of deep introspection, where we boost our self-esteem and free ourselves from negative thoughts and patterns by programming healthier habits around eating, exercise, hobbies, thinking, self-love and self-esteem, and relating to others.",
+  backgroundSounds: backgroundSounds
+}
+
 const audios = [audio1, audio2]
 
 function getImageUrl(name: string) {
@@ -163,8 +180,27 @@ export const LoopingEnabled: Story = {
     duration: audio1.duration,
     posterUrl: audio1.posterUrl,
     title: audio1.title,
-    artistName: audio1.artistName,
-    loopingEnabled: true
+    artistName: audio1.artistName
+  }
+}
+
+export const LoopingEnabledShort: Story = {
+  render: (args: any, { argTypes }) => ({
+    title: 'Looping Enabled',
+    components: { MVSoundscapeResource },
+    setup() {
+      return { args }
+    },
+    template: `<div class="mv-universal-player"><div class="mt-20"><MVSoundscapeResource v-bind="args" /></div></div>`
+  }),
+  args: {
+    key: audio3.assetId,
+    id: audio3.assetId,
+    audioSources: audio3.sources,
+    duration: audio3.duration,
+    posterUrl: audio3.posterUrl,
+    title: audio3.title,
+    artistName: audio3.artistName
   }
 }
 
@@ -185,7 +221,6 @@ export const PreviousNext: Story = {
     posterUrl: audio1.posterUrl,
     title: audio1.title,
     artistName: audio1.artistName,
-    loopingEnabled: true,
     showPreviousNext: true
   }
 }

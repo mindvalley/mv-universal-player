@@ -47,7 +47,7 @@ const props = defineProps({
     type: Number,
     default: 0
   },
-  currentTime: {
+  progressBarCurrentTime: {
     type: Number,
     default: 0
   },
@@ -160,7 +160,7 @@ const toggleFullScreen = () => {
       <MVAdaptiveProgressBar
         :duration="duration"
         class="text-white"
-        :current-time="currentTime"
+        :current-time="progressBarCurrentTime"
         :looping-enabled="loopingEnabled"
         @seek="hanldeSeek"
         :is-playing="isPlaying"
