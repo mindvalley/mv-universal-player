@@ -88,6 +88,7 @@ const localLoopingEnabled = ref(true)
 const localDuration = ref(240) // 4 minutes
 const showDurationSelector = ref(false)
 const overlayZIndex = ref(50)
+const isFullScreenEnabled = ref(false)
 
 const elapsedTime = ref(0)
 const timerInterval = ref<number | null>(null)
@@ -215,7 +216,14 @@ const handleEnded = () => {
 }
 
 const handleFullscreen = ({ isFullScreen }: any) => {
+  isFullScreenEnabled.value = isFullScreen
   overlayZIndex.value = isFullScreen ? 1000 : 50
+
+  if (isFullScreen) {
+    adaptiveResource.value?.player?.player?.setAudioOnlyMode(false)
+  } else {
+    adaptiveResource.value?.player?.player?.setAudioOnlyMode(true)
+  }
 }
 
 const emitEvent = (eventName: string, payload?: any) => {
@@ -225,7 +233,7 @@ const emitEvent = (eventName: string, payload?: any) => {
 </script>
 
 <template>
-  <div>
+  <div :class="{ 'fixed left-0 bottom-0 top-0 right-0': isFullScreenEnabled }">
     <MVAdaptiveOverlay
       :show="showDurationSelector"
       @close="handleCloseDurationSelector"
@@ -241,7 +249,7 @@ const emitEvent = (eventName: string, payload?: any) => {
     </MVAdaptiveOverlay>
 
     <!-- Adaptive Resource -->
-    <div class="fixed bottom-0 right-0 w-full z-30">
+    <div class="h-full w-full">
       <MVAdaptiveResource
         ref="adaptiveResource"
         :id="id"

@@ -220,6 +220,18 @@ const setMixing = (enabled: boolean) => {
   adaptivePlayer.setMixing(enabled)
 }
 
+const goFullScreen = () => {
+  adaptivePlayer?.goFullScreen()
+}
+
+const setAudioOnlyMode = (enabled: boolean) => {
+  adaptivePlayer?.setAudioOnlyMode(enabled)
+}
+
+const setAudioPosterMode = (enabled: boolean) => {
+  adaptivePlayer?.setAudioPosterMode(enabled)
+}
+
 const currentPlayingAudioItemId = computed(() => {
   return adaptiveState.value.audioItemId
 })
@@ -244,7 +256,10 @@ const adaptiveItemPlayer = {
   setSources: setSources,
   setMixing: setMixing,
   setCurrentTime: setCurrentTime,
-  reset: reset
+  reset: reset,
+  goFullScreen: goFullScreen,
+  setAudioOnlyMode: setAudioOnlyMode,
+  setAudioPosterMode: setAudioPosterMode
 }
 
 const adaptiveItemState = ref({

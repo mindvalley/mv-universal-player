@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { onMounted, onUnmounted, watch } from 'vue'
+
 const props = defineProps({
   isFullScreen: {
     type: Boolean,
@@ -6,17 +8,42 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['minimize', 'maximize'])
+const emit = defineEmits(['toggleFullScreen'])
 
 const toggleFullScreen = () => {
-  emit(props.isFullScreen ? 'minimize' : 'maximize')
+  emit('toggleFullScreen')
 }
+
+const handleKeyDown = (event: KeyboardEvent) => {
+  if (event.key === 'Escape' && props.isFullScreen) {
+    toggleFullScreen()
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('keydown', handleKeyDown)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleKeyDown)
+})
+
+watch(
+  () => props.isFullScreen,
+  (newValue) => {
+    if (newValue) {
+      document.addEventListener('keydown', handleKeyDown)
+    } else {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }
+)
 </script>
 
 <template>
   <button
     v-tooltip="isFullScreen ? 'Exit full screen' : 'Full screen'"
-    class="h-5 w-5"
+    class="h-5 w-5 outline-none"
     @click="toggleFullScreen"
   >
     <svg

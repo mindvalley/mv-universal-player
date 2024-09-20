@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import VideoJsPlayer from 'video.js'
+import 'video.js/dist/video-js.css'
 import { onMounted, onUnmounted, ref, provide, readonly, defineExpose } from 'vue-demi'
 import type { Player, Source } from '../../../types/audio'
 
@@ -111,11 +112,20 @@ const props = defineProps({
   },
   loop: {
     type: Boolean
+  },
+  posterUrl: {
+    type: String,
+    default: ''
+  },
+  audioOnlyMode: {
+    type: Boolean,
+    default: false
   }
 })
 
 let audioInstance: any
 let state = ref({} as PlayerState)
+const hideVideo = ref(true)
 
 onMounted(() => {
   initialize(props.id, props.loop)
@@ -131,9 +141,12 @@ onUnmounted(() => {
 
 const initialize = (id: string, loop = false) => {
   audioInstance = createInstance(id, {
+    poster: props.posterUrl,
+    fluid: false,
     controls: false,
     playbackRates: props.playbackRates,
-    loop: loop
+    loop: loop,
+    audioOnlyMode: props.audioOnlyMode
   })
 
   createState()
@@ -226,6 +239,25 @@ const setMixing = (enabled: boolean) => {
   updateState('mixing', enabled)
 }
 
+const goFullScreen = () => {
+  if (audioInstance) {
+    audioInstance.requestFullscreen()
+  }
+}
+
+const setAudioOnlyMode = (enabled: boolean) => {
+  if (audioInstance) {
+    hideVideo.value = enabled
+    audioInstance.audioOnlyMode(enabled)
+  }
+}
+
+const setAudioPosterMode = (enabled: boolean) => {
+  if (audioInstance) {
+    audioInstance.audioPosterMode(enabled)
+  }
+}
+
 const player: Player = {
   play,
   pause,
@@ -234,7 +266,10 @@ const player: Player = {
   setSources,
   setAudio,
   setPlaybackRate,
-  setMixing
+  setMixing,
+  goFullScreen,
+  setAudioOnlyMode,
+  setAudioPosterMode
 }
 
 defineExpose({
@@ -247,19 +282,23 @@ provide('audioState', readonly(state))
 </script>
 
 <template>
-  <div class="mv-universal-player-container w-full">
-    <video
-      :data-testid="props.id"
-      :id="props.id"
-      class="video-js mv-universal-player--audio"
-      webkit-playsinline
-      playsinline
-    >
-      <p class="vjs-no-js">
-        To play the audio please enable JavaScript, and consider upgrading to a web browser that
-        <a href="https://videojs.com/html5-video-support/" target="_blank"> supports HTML5 video</a>
-      </p>
-    </video>
+  <div class="mv-universal-player-container h-full w-full">
+    <div class="h-full w-full" :class="[hideVideo ? 'hidden' : 'block']">
+      <video
+        :data-testid="props.id"
+        :id="props.id"
+        class="video-js h-full w-full"
+        webkit-playsinline
+        playsinline
+      >
+        <p class="vjs-no-js">
+          To play the audio please enable JavaScript, and consider upgrading to a web browser that
+          <a href="https://videojs.com/html5-video-support/" target="_blank">
+            supports HTML5 video</a
+          >
+        </p>
+      </video>
+    </div>
     <slot
       :state="state"
       :player="player"
@@ -275,8 +314,4 @@ provide('audioState', readonly(state))
   </div>
 </template>
 
-<style scoped>
-.mv-universal-player--audio {
-  display: none;
-}
-</style>
+<style scoped></style>

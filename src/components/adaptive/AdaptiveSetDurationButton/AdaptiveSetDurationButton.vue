@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <button v-tooltip="'Set duration'" class="h-5 w-5">
+  <button v-tooltip="'Set duration'" class="h-5 w-5 outline-none">
     <svg
       v-svg
       symbol="stopwatch-outlined"

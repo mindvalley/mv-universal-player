@@ -1,6 +1,6 @@
 <script setup lang="ts"></script>
 <template>
-  <button v-tooltip="'View collection'" class="h-6 w-6">
+  <button v-tooltip="'View collection'" class="h-6 w-6 outline-none">
     <svg
       v-svg
       symbol="list-filled"

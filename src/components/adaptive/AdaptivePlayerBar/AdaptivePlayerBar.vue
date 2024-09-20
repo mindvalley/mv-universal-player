@@ -236,7 +236,10 @@ const toggleFullScreen = () => {
             <MVAdaptiveVolumeSlider @update:volume="handleSetVolume" :volume="volume" />
           </div>
           <div class="flex items-center">
-            <MVAdaptiveFullScreenButton :is-full-screen="isFullScreen" @click="toggleFullScreen" />
+            <MVAdaptiveFullScreenButton
+              :is-full-screen="isFullScreen"
+              @toggleFullScreen="toggleFullScreen"
+            />
           </div>
           <div class="flex items-center">
             <MVAdaptiveCloseButton @click="handleClose" />

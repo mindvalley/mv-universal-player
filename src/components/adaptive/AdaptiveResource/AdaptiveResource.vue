@@ -84,6 +84,10 @@ const props = defineProps({
   overrideProgressBarCurrentTime: {
     type: Boolean,
     default: false
+  },
+  audioOnlyMode: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -224,85 +228,112 @@ const handleSeek = (seeking: any) => {
   emitEvent('seek', { time: seeking })
 }
 
+const play = () => {
+  adaptiveItem.value.player?.play()
+}
+
+const pause = () => {
+  adaptiveItem.value.player?.pause()
+}
+
+const rewind = (event: any) => {
+  adaptiveItem.value.player?.rewind(event)
+}
+
+const fastForward = (event: any) => {
+  adaptiveItem.value.player?.fastForward(event)
+}
+
+const setVolume = (event: any) => {
+  adaptiveItem.value.player?.setVolume(event)
+}
+
 defineExpose({
   player: adaptiveItem
 })
 </script>
 
 <template>
-  <MVAdaptivePlayer :loop="loopingEnabled">
-    <MVAdaptiveItem
-      ref="adaptiveItem"
-      v-slot="{ state, play, pause, rewind, fastForward, setVolume, currentTime }"
-      :sources="audioSources"
-      :id="id"
-      @play="handlePlay"
-      @pause="handlePause"
-      @ended="handleEnded"
-      @rewind="emitEvent('rewind', $event)"
-      @fastforward="emitEvent('fastforward', $event)"
-      @playbackSpeed="emitEvent('playbackSpeed', $event)"
-      @timeupdate="emitEvent('timeupdate', $event)"
-      @reset="emitEvent('reset', $event)"
-      @error="emitEvent('error', $event)"
-      @seeking="emitEvent('seeking', $event)"
+  <div class="h-full w-full flex flex-col">
+    <MVAdaptivePlayer
+      :loop="loopingEnabled"
+      :poster-url="posterUrl"
+      :audio-only-mode="audioOnlyMode"
+      @mouseenter="handleMouseEnter"
+      @mouseleave="handleMouseLeave"
     >
-      <div
-        v-if="isFullScreen"
-        class="fixed inset-0 z-50 bg-black"
-        @mouseenter="handleMouseEnter"
-        @mouseleave="handleMouseLeave"
+      <MVAdaptiveItem
+        ref="adaptiveItem"
+        :sources="audioSources"
+        :id="id"
+        @play="handlePlay"
+        @pause="handlePause"
+        @ended="handleEnded"
+        @rewind="emitEvent('rewind', $event)"
+        @fastforward="emitEvent('fastforward', $event)"
+        @playbackSpeed="emitEvent('playbackSpeed', $event)"
+        @timeupdate="emitEvent('timeupdate', $event)"
+        @reset="emitEvent('reset', $event)"
+        @error="emitEvent('error', $event)"
+        @seeking="emitEvent('seeking', $event)"
       >
-        <!-- Full-screen content -->
-        <img :src="posterUrl" class="w-full h-full object-cover" alt="Full-screen background" />
-      </div>
-      <div
-        @mouseenter="handleMouseEnter"
-        data-testid="adaptive-mini-player"
-        :class="[
-          'transition-all duration-400 ease-in-out',
-          isFullScreen
-            ? 'fixed bottom-0 left-0 right-0 z-[60] bg-gradient-to-t from-black to-transparent px-10'
-            : 'bg-black',
-          { 'translate-y-full': isFullScreen && !isMiniBarVisible }
-        ]"
-      >
-        <MVAdaptivePlayerBar
-          :is-playing="state?.playing"
-          :title="title"
-          :artist-name="artistName"
-          :poster-url="posterUrl"
-          :track-info-cover-shape="trackInfoCoverShape"
-          :volume="state?.volume"
-          :duration="duration"
-          :progress-bar-current-time="
-            overrideProgressBarCurrentTime ? progressBarCurrentTime : currentTime
-          "
-          :is-full-screen="isFullScreen"
-          :looping-enabled="loopingEnabled"
-          :show-rewind-and-fast-forward="showRewindAndFastForward"
-          :show-previous-next="showPreviousNext"
-          :show-set-duration="showSetDuration"
-          :show-playback-speed="showPlaybackSpeed"
-          :show-meditation-mixer="showMeditationMixer"
-          :show-collections="showCollections"
-          @pause="pause"
-          @play="play"
-          @rewind="rewind"
-          @fastForward="fastForward"
-          @seek="handleSeek"
-          @previous="handlePreviousClick"
-          @next="handleNextClick"
-          @setVolume="setVolume"
-          @close="handleClose"
-          @collection="handleCollectionClick"
-          @meditationMixer="handleMeditationMixerClick"
-          @setDuration="handleSetDurationClick"
-          @toggleFullScreen="toggleFullScreen"
-        />
-      </div>
-    </MVAdaptiveItem>
-  </MVAdaptivePlayer>
+      </MVAdaptiveItem>
+    </MVAdaptivePlayer>
+    <!-- Show Hide based on video is available or not. Also we can use this section to play the immersive mode. -->
+    <!-- <div
+      v-if="isFullScreen"
+      class="fixed inset-0 z-50 bg-black"
+      @mouseenter="handleMouseEnter"
+      @mouseleave="handleMouseLeave"
+    >
+      <img :src="posterUrl" class="w-full h-full object-cover" alt="Full-screen background" />
+    </div> -->
+    <div
+      @mouseenter="handleMouseEnter"
+      data-testid="adaptive-mini-player"
+      :class="[
+        'transition-all duration-400 ease-in-out',
+        isFullScreen
+          ? 'fixed bottom-0 left-0 right-0 z-[60] bg-gradient-to-t from-black to-transparent px-10'
+          : 'bg-black',
+        { 'translate-y-full': isFullScreen && !isMiniBarVisible }
+      ]"
+    >
+      <MVAdaptivePlayerBar
+        :is-playing="adaptiveItem?.state?.playing"
+        :title="title"
+        :artist-name="artistName"
+        :poster-url="posterUrl"
+        :track-info-cover-shape="trackInfoCoverShape"
+        :volume="adaptiveItem?.state?.volume"
+        :duration="duration"
+        :progress-bar-current-time="
+          overrideProgressBarCurrentTime ? progressBarCurrentTime : currentTime
+        "
+        :is-full-screen="isFullScreen"
+        :looping-enabled="loopingEnabled"
+        :show-rewind-and-fast-forward="showRewindAndFastForward"
+        :show-previous-next="showPreviousNext"
+        :show-set-duration="showSetDuration"
+        :show-playback-speed="showPlaybackSpeed"
+        :show-meditation-mixer="showMeditationMixer"
+        :show-collections="showCollections"
+        @pause="pause"
+        @play="play"
+        @rewind="rewind"
+        @fastForward="fastForward"
+        @seek="handleSeek"
+        @previous="handlePreviousClick"
+        @next="handleNextClick"
+        @setVolume="setVolume"
+        @close="handleClose"
+        @collection="handleCollectionClick"
+        @meditationMixer="handleMeditationMixerClick"
+        @setDuration="handleSetDurationClick"
+        @toggleFullScreen="toggleFullScreen"
+      />
+    </div>
+  </div>
 </template>
 
 <style scoped>

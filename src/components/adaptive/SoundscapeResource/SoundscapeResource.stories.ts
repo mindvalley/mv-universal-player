@@ -127,6 +127,42 @@ const audio3 = {
   backgroundSounds: backgroundSounds
 }
 
+const video1 = {
+  id: '1',
+  markers: [
+    {
+      __typename: 'Marker',
+      id: '3e13b3af-9d39-4147-b724-2d8125f7d1f1',
+      name: 'Marker 1',
+      time: 35
+    },
+    {
+      __typename: 'Marker',
+      id: 'c329b19f-fb46-4bc1-983e-099ce011dc13',
+      name: 'Marker 2 minutes',
+      time: 120
+    },
+    {
+      __typename: 'Marker',
+      id: '4966c85c-401e-4590-8bcb-2ed3ad74072b',
+      name: 'Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus nibh.',
+      time: 125
+    }
+  ],
+  sources: [{ type: 'video/mp4', src: '//vjs.zencdn.net/v/oceans.mp4' }],
+  duration: 46000,
+  posterUrl: getImageUrl('removing_inner_blocks_success.jpeg'),
+  title: 'Removing Inner Block to Success',
+  artistName: 'Marisa Peer',
+  ratings: 5,
+  totalRatings: 4,
+  coverAsset: getImageUrl('removing_inner_blocks_success.jpeg'),
+  authorImage: getImageUrl('rtt_marisa_author.jpeg'),
+  headline: 'Creator Of Rapid Transformational Therapy®',
+  description:
+    'An internationally award-winning qualified hypnotherapist with advanced certificates in hypnotherapy from the Hypnotism Training Institute of Los Angeles. Marisa has completed additional studies in hypno-healing, advanced hypnotherapy, medical hypnotherapy and Gestalt Analysis.\r\n\r\nHaving undertaken further studies at the Proudfoot School of Hypnotherapy and Psychotherapy and the Atkinson Ball College of Hypnotherapy, Marisa has dedicated the last three decades to researching, testing and applying the most beneficial principles of Hypnotherapy, Psychotherapy, NLP, CBT and Neuroscience. \r\n\r\nThe result of over 30 years of careful and rigorous study, Marisa’s unique, Rapid Transformational Therapy®️ (RTT®️), has helped tens of thousands of people worldwide to overcome their own, personal challenges and lead happier, more fulfilling lives. '
+}
+
 const audios = [audio1, audio2]
 
 function getImageUrl(name: string) {
@@ -201,6 +237,26 @@ export const LoopingEnabledShort: Story = {
     posterUrl: audio3.posterUrl,
     title: audio3.title,
     artistName: audio3.artistName
+  }
+}
+
+export const Video: Story = {
+  render: (args: any, { argTypes }) => ({
+    title: 'Video',
+    components: { MVSoundscapeResource },
+    setup() {
+      return { args }
+    },
+    template: `<div class="mv-universal-player"><div>Some element</div><MVSoundscapeResource v-bind="args" /></div>`
+  }),
+  args: {
+    key: video1.id,
+    id: video1.id,
+    audioSources: video1.sources,
+    duration: video1.duration,
+    posterUrl: video1.posterUrl,
+    title: video1.title,
+    artistName: video1.artistName
   }
 }
 

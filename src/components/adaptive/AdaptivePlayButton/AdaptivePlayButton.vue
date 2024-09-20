@@ -33,7 +33,12 @@ const buttonSizeClasses = computed(() => {
 })
 </script>
 <template>
-  <button v-tooltip="playing ? 'Pause' : 'Play'" @click="togglePlay" :class="[buttonSizeClasses]">
+  <button
+    v-tooltip="playing ? 'Pause' : 'Play'"
+    @click="togglePlay"
+    class="outline-none"
+    :class="[buttonSizeClasses]"
+  >
     <svg
       v-svg
       :symbol="playing ? 'pause-circle-filled' : 'play-circle-filled'"
