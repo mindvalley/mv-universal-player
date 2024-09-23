@@ -178,9 +178,13 @@ const toggleFullScreen = () => {
     </div>
 
     <!-- Mobile/Tablet -->
-    <div class="sm:hidden w-full py-3 px-4 items-center flex justify-between">
+    <div
+      class="sm:hidden w-full py-3 items-center flex justify-between"
+      :class="[isFullScreen ? 'px-0' : 'px-4']"
+    >
       <div>
         <MVTrackInfoCard
+          v-if="!isFullScreen"
           :title="title"
           :sub-title="artistName"
           :image="posterUrl"
@@ -206,7 +210,10 @@ const toggleFullScreen = () => {
 
     <!-- Desktop -->
     <div class="hidden sm:block">
-      <div class="w-full py-3 px-4 items-center flex justify-between">
+      <div
+        class="w-full py-3 items-center flex justify-between"
+        :class="[isFullScreen ? 'px-0' : 'px-4']"
+      >
         <div class="flex items-center min-w-28 sm:min-w-48">
           <MVTrackInfoCard
             v-if="!isFullScreen"
@@ -250,7 +257,7 @@ const toggleFullScreen = () => {
               @toggleFullScreen="toggleFullScreen"
             />
           </div>
-          <div class="flex items-center">
+          <div v-if="!isFullScreen" class="flex items-center">
             <MVAdaptiveCloseButton @click="handleClose" />
           </div>
         </div>
