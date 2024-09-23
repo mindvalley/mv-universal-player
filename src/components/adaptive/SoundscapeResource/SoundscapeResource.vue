@@ -260,6 +260,7 @@ const emitEvent = (eventName: string, payload?: any) => {
         :artist-name="artistName"
         :looping-enabled="localLoopingEnabled"
         show-set-duration
+        show-immersive
         :track-info-cover-shape="Shape.ROUND"
         :show-previous-next="showPreviousNext"
         :progress-bar-current-time="localCurrentTime"

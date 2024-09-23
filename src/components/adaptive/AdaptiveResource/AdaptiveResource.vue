@@ -6,7 +6,7 @@ import MVAdaptivePlayer from '../AdaptivePlayer'
 import { AdaptiveShape } from '../../../types/adaptive'
 import { Shape, Size } from '../../../models/adaptive.enums'
 import MVAdaptivePlayerBar from '../AdaptivePlayerBar'
-
+import MVAdaptiveImmersiveLayer from '../AdaptiveImmersiveLayer'
 const props = defineProps({
   id: {
     type: String,
@@ -113,6 +113,7 @@ const emit = defineEmits<{
   (e: 'collection'): void
   (e: 'close'): void
   (e: 'fullscreen', { isFullScreen }: any): void
+  (e: 'toggleImmersive', { isImmersive }: any): void
   (e: any, payload: any): void
 }>()
 
@@ -121,6 +122,7 @@ const isMiniBarVisible = ref(true)
 let hideTimeout: number | null = null
 const adaptiveItem = ref(null)
 const localCurrentTime = ref(0)
+const isImmersive = ref(false)
 
 const toggleFullScreen = () => {
   isFullScreen.value = !isFullScreen.value
@@ -224,6 +226,11 @@ const handleSetDurationClick = () => {
   emitEvent('setDuration')
 }
 
+const handleImmersiveClick = () => {
+  isImmersive.value = !isImmersive.value
+  emitEvent('toggleImmersive')
+}
+
 const handleSeek = (seeking: any) => {
   emitEvent('seek', { time: seeking })
 }
@@ -280,14 +287,16 @@ defineExpose({
       </MVAdaptiveItem>
     </MVAdaptivePlayer>
     <!-- Show Hide based on video is available or not. Also we can use this section to play the immersive mode. -->
-    <!-- <div
+    <div
       v-if="isFullScreen"
       class="fixed inset-0 z-50 bg-black"
       @mouseenter="handleMouseEnter"
       @mouseleave="handleMouseLeave"
     >
-      <img :src="posterUrl" class="w-full h-full object-cover" alt="Full-screen background" />
-    </div> -->
+      <!-- <img :src="posterUrl" class="w-full h-full object-cover" alt="Full-screen background" /> -->
+
+      <MVAdaptiveImmersiveLayer :image="posterUrl" :is-immersive-mode-active="isImmersive" />
+    </div>
     <div
       @mouseenter="handleMouseEnter"
       data-testid="adaptive-mini-player"
@@ -311,6 +320,7 @@ defineExpose({
           overrideProgressBarCurrentTime ? progressBarCurrentTime : currentTime
         "
         :is-full-screen="isFullScreen"
+        :is-immersive="isImmersive"
         :looping-enabled="loopingEnabled"
         :show-rewind-and-fast-forward="showRewindAndFastForward"
         :show-previous-next="showPreviousNext"
@@ -318,6 +328,7 @@ defineExpose({
         :show-playback-speed="showPlaybackSpeed"
         :show-meditation-mixer="showMeditationMixer"
         :show-collections="showCollections"
+        :show-immersive="showImmersive"
         @pause="pause"
         @play="play"
         @rewind="rewind"
@@ -331,6 +342,7 @@ defineExpose({
         @meditationMixer="handleMeditationMixerClick"
         @setDuration="handleSetDurationClick"
         @toggleFullScreen="toggleFullScreen"
+        @toggleImmersive="handleImmersiveClick"
       />
     </div>
   </div>

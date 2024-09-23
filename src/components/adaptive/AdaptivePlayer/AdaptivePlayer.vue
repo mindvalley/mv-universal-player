@@ -314,4 +314,12 @@ provide('audioState', readonly(state))
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+/* video[poster] {
+  object-fit: cover;
+}
+.vjs-poster {
+  background-size: cover;
+  background-position: inherit;
+} */
+</style>

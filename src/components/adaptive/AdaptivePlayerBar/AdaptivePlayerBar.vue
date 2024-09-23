@@ -13,7 +13,9 @@ import MVAdaptiveVolumeSlider from '../AdaptiveVolumeSlider'
 import MVAdaptiveFullScreenButton from '../AdaptiveFullScreenButton'
 import MVAdaptiveCloseButton from '../AdaptiveCloseButton'
 import MVTrackInfoCard from '../TrackInfoCard'
+import MVAdaptiveImmersiveButton from '../AdaptiveImmersiveButton'
 import type { AdaptiveSize } from '../../../types/adaptive'
+
 const props = defineProps({
   isPlaying: {
     type: Boolean,
@@ -40,6 +42,10 @@ const props = defineProps({
     default: 0.5
   },
   isFullScreen: {
+    type: Boolean,
+    default: false
+  },
+  isImmersive: {
     type: Boolean,
     default: false
   },
@@ -74,6 +80,10 @@ const props = defineProps({
   showCollection: {
     type: Boolean,
     default: false
+  },
+  showImmersive: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -91,6 +101,7 @@ const emit = defineEmits<{
   (e: 'close'): void
   (e: 'seek', time: number): void
   (e: 'toggleFullScreen'): void
+  (e: 'toggleImmersive'): void
 }>()
 
 const handlePlay = () => {
@@ -143,6 +154,10 @@ const handleCollectionClick = () => {
 
 const toggleFullScreen = () => {
   emit('toggleFullScreen')
+}
+
+const handleImmersiveClick = () => {
+  emit('toggleImmersive')
 }
 </script>
 
@@ -239,6 +254,9 @@ const toggleFullScreen = () => {
           </div>
         </div>
         <div class="flex items-center justify-center space-x-3">
+          <div class="flex items-center" v-if="showImmersive && isFullScreen">
+            <MVAdaptiveImmersiveButton :is-immersive="isImmersive" @click="handleImmersiveClick" />
+          </div>
           <div class="flex items-center" v-if="showSetDuration">
             <MVAdaptiveSetDurationButton @click="handleSetDurationClick" />
           </div>

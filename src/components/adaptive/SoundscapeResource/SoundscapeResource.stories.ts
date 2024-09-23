@@ -280,3 +280,43 @@ export const PreviousNext: Story = {
     showPreviousNext: true
   }
 }
+
+export const ImmersiveOne: Story = {
+  render: (args: any, { argTypes }) => ({
+    title: 'Immersive - 1',
+    components: { MVSoundscapeResource },
+    setup() {
+      return { args }
+    },
+    template: `<div class="mv-universal-player"><div class="mt-20"><MVSoundscapeResource v-bind="args" /></div></div>`
+  }),
+  args: {
+    key: audio1.assetId,
+    id: audio1.assetId,
+    audioSources: audio1.sources,
+    duration: audio1.duration,
+    posterUrl: audio1.posterUrl,
+    title: audio1.title,
+    artistName: audio1.artistName
+  }
+}
+
+export const ImmersiveTwo: Story = {
+  render: (args: any, { argTypes }) => ({
+    title: 'Immersive - 1',
+    components: { MVSoundscapeResource },
+    setup() {
+      return { args }
+    },
+    template: `<div class="mv-universal-player"><div class="mt-20"><MVSoundscapeResource v-bind="args" /></div></div>`
+  }),
+  args: {
+    key: audio2.assetId,
+    id: audio2.assetId,
+    audioSources: audio2.sources,
+    duration: audio2.duration,
+    posterUrl: audio2.posterUrl,
+    title: audio2.title,
+    artistName: audio2.artistName
+  }
+}

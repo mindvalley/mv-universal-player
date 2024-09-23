@@ -8,10 +8,10 @@ const props = defineProps({
 </script>
 
 <template>
-  <div>
+  <div class="flex items-start justify-start">
     <button
       v-if="isText"
-      class="flex flex-row gap-1 text-teal-300 bg-black bg-opacity-85 rounded-[4px] px-2 py-1"
+      class="flex flex-row gap-1 text-teal-300 bg-black bg-opacity-20 rounded-[4px] px-2 py-1"
     >
       <span><svg v-svg symbol="stopwatch-outlined" class="h-3 w-3"></svg></span
       ><span class="title-10">Set duration</span>
