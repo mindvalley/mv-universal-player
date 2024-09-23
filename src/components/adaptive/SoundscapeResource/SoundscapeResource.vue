@@ -260,7 +260,7 @@ const emitEvent = (eventName: string, payload?: any) => {
         :artist-name="artistName"
         :looping-enabled="localLoopingEnabled"
         show-set-duration
-        :track-info-cover-shape="Shape.SQUARE"
+        :track-info-cover-shape="Shape.ROUND"
         :show-previous-next="showPreviousNext"
         :progress-bar-current-time="localCurrentTime"
         :override-progress-bar-current-time="!localLoopingEnabled"

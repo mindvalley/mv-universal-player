@@ -154,7 +154,16 @@ const toggleFullScreen = () => {
         :sub-title="artistName"
         :image="posterUrl"
         :shape="trackInfoCoverShape"
-      />
+        :size="Size.BIG"
+      >
+        <template #control>
+          <MVAdaptiveSetDurationButton
+            v-if="showSetDuration"
+            is-text
+            @click="handleSetDurationClick"
+          />
+        </template>
+      </MVTrackInfoCard>
     </div>
     <div class="w-full">
       <MVAdaptiveProgressBar

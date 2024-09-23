@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import MVAdaptiveResource from '../AdaptiveResource'
 import type { Source } from './../../../types/audio'
+import { Shape } from '../../../models/adaptive.enums'
 
 const props = defineProps({
   id: {
@@ -113,6 +114,7 @@ const handleNext = () => {
     looping-enabled
     show-rewind-and-fast-forward
     show-meditation-mixer
+    :track-info-cover-shape="Shape.SQUARE"
     :show-previous-next="showPreviousNext"
     @close="handleClose"
     @collection-open="handleCollectionOpen"
