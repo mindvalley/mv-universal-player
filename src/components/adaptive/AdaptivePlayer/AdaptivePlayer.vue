@@ -120,15 +120,23 @@ const props = defineProps({
   audioOnlyMode: {
     type: Boolean,
     default: false
+  },
+  muted: {
+    type: Boolean,
+    default: false
+  },
+  autoPlay: {
+    type: Boolean,
+    default: false
   }
 })
 
 let audioInstance: any
 let state = ref({} as PlayerState)
-const hideVideo = ref(true)
+const hideVideo = ref(props.audioOnlyMode)
 
 onMounted(() => {
-  initialize(props.id, props.loop)
+  initialize(props.id)
 })
 
 onUnmounted(() => {
@@ -139,13 +147,15 @@ onUnmounted(() => {
   }
 })
 
-const initialize = (id: string, loop = false) => {
+const initialize = (id: string) => {
   audioInstance = createInstance(id, {
     poster: props.posterUrl,
     fluid: false,
+    muted: props.muted,
     controls: false,
+    autoplay: props.autoPlay,
     playbackRates: props.playbackRates,
-    loop: loop,
+    loop: props.loop,
     audioOnlyMode: props.audioOnlyMode
   })
 

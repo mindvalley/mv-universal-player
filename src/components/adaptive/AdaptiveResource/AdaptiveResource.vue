@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue-demi'
+import { ref, watch, nextTick } from 'vue-demi'
 import MVAdaptiveItem from '../AdaptiveItem'
 import type { Source } from './../../../types/audio'
 import MVAdaptivePlayer from '../AdaptivePlayer'
 import { AdaptiveShape } from '../../../types/adaptive'
-import { Shape, Size } from '../../../models/adaptive.enums'
+import { Shape } from '../../../models/adaptive.enums'
 import MVAdaptivePlayerBar from '../AdaptivePlayerBar'
 import MVAdaptiveImmersiveLayer from '../AdaptiveImmersiveLayer'
+import BaseImage from '../../global/BaseImage.vue'
+
 const props = defineProps({
   id: {
     type: String,
@@ -88,6 +90,10 @@ const props = defineProps({
   audioOnlyMode: {
     type: Boolean,
     default: false
+  },
+  autoPlay: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -114,6 +120,7 @@ const emit = defineEmits<{
   (e: 'close'): void
   (e: 'fullscreen', { isFullScreen }: any): void
   (e: 'toggleImmersive', { isImmersive }: any): void
+  (e: 'playbackSpeed', { playbackSpeed }: any): void
   (e: any, payload: any): void
 }>()
 
@@ -123,6 +130,32 @@ let hideTimeout: number | null = null
 const adaptiveItem = ref(null)
 const localCurrentTime = ref(0)
 const isImmersive = ref(false)
+const immersiveSetOnce = ref(false)
+const loopingVideoAdaptiveItemRef = ref(null)
+
+watch(isFullScreen, (newVal) => {
+  if (newVal) {
+    if (!immersiveSetOnce.value) {
+      isImmersive.value = true
+      immersiveSetOnce.value = true
+      playLoopingVideo()
+    }
+  }
+})
+
+const playLoopingVideo = async () => {
+  if (isFullScreen.value && isImmersive.value) {
+    await nextTick()
+    loopingVideoAdaptiveItemRef.value?.player?.play()
+  }
+}
+
+const pauseLoopingVideo = async () => {
+  if (isFullScreen.value && isImmersive.value) {
+    await nextTick()
+    loopingVideoAdaptiveItemRef.value?.player?.pause()
+  }
+}
 
 const toggleFullScreen = () => {
   isFullScreen.value = !isFullScreen.value
@@ -136,10 +169,12 @@ const toggleFullScreen = () => {
 }
 
 const handleMouseEnter = () => {
-  isMiniBarVisible.value = true
-  if (hideTimeout) {
-    clearTimeout(hideTimeout)
-    hideTimeout = null
+  if (isFullScreen.value) {
+    isMiniBarVisible.value = true
+    if (hideTimeout) {
+      clearTimeout(hideTimeout)
+      hideTimeout = null
+    }
   }
 }
 
@@ -237,10 +272,12 @@ const handleSeek = (seeking: any) => {
 
 const play = () => {
   adaptiveItem.value.player?.play()
+  playLoopingVideo()
 }
 
 const pause = () => {
   adaptiveItem.value.player?.pause()
+  pauseLoopingVideo()
 }
 
 const rewind = (event: any) => {
@@ -265,9 +302,8 @@ defineExpose({
     <MVAdaptivePlayer
       :loop="loopingEnabled"
       :poster-url="posterUrl"
-      :audio-only-mode="audioOnlyMode"
-      @mouseenter="handleMouseEnter"
-      @mouseleave="handleMouseLeave"
+      :audio-only-mode="true"
+      :auto-play="autoPlay"
     >
       <MVAdaptiveItem
         ref="adaptiveItem"
@@ -286,17 +322,41 @@ defineExpose({
       >
       </MVAdaptiveItem>
     </MVAdaptivePlayer>
-    <!-- Show Hide based on video is available or not. Also we can use this section to play the immersive mode. -->
     <div
       v-if="isFullScreen"
-      class="fixed inset-0 z-50 bg-black"
+      class="fixed inset-0 z-50"
       @mouseenter="handleMouseEnter"
       @mouseleave="handleMouseLeave"
     >
-      <!-- <img :src="posterUrl" class="w-full h-full object-cover" alt="Full-screen background" /> -->
+      <div class="h-full w-full" v-show="videoSources.length > 0 && isImmersive">
+        <MVAdaptivePlayer :poster-url="posterUrl" loop muted auto-play>
+          <MVAdaptiveItem
+            ref="loopingVideoAdaptiveItemRef"
+            :sources="videoSources"
+            :id="id + '-looping-video'"
+          >
+          </MVAdaptiveItem>
+        </MVAdaptivePlayer>
+      </div>
 
-      <MVAdaptiveImmersiveLayer :image="posterUrl" :is-immersive-mode-active="isImmersive" />
+      <div class="h-full w-full" v-if="videoSources.length === 0 && isImmersive">
+        <MVAdaptiveImmersiveLayer
+          :image="posterUrl"
+          is-immersive-mode-active
+          :playing="adaptiveItem?.state?.playing"
+        />
+      </div>
+      <div class="h-full w-full" v-else>
+        <BaseImage
+          class="w-full h-full"
+          img-class="object-cover h-full"
+          :src="posterUrl"
+          :width="1024"
+        />
+      </div>
     </div>
+
+    <!-- Mini Player -->
     <div
       @mouseenter="handleMouseEnter"
       data-testid="adaptive-mini-player"
@@ -317,7 +377,7 @@ defineExpose({
         :volume="adaptiveItem?.state?.volume"
         :duration="duration"
         :progress-bar-current-time="
-          overrideProgressBarCurrentTime ? progressBarCurrentTime : currentTime
+          overrideProgressBarCurrentTime ? progressBarCurrentTime : localCurrentTime
         "
         :is-full-screen="isFullScreen"
         :is-immersive="isImmersive"

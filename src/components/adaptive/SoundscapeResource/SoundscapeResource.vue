@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onUnmounted } from 'vue-demi'
+import { ref, onUnmounted, onMounted } from 'vue-demi'
 import MVAdaptiveResource from '../AdaptiveResource'
 import MVAdaptiveDurationSelector from '../AdaptiveDurationSelector'
 import MVAdaptiveOverlay from '../AdaptiveOverlay'
@@ -58,6 +58,10 @@ const props = defineProps({
   showPreviousNext: {
     type: Boolean,
     default: false
+  },
+  autoPlay: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -93,6 +97,12 @@ const isFullScreenEnabled = ref(false)
 const elapsedTime = ref(0)
 const timerInterval = ref<number | null>(null)
 const localCurrentTime = ref(0)
+
+onMounted(() => {
+  if (props.autoPlay) {
+    adaptiveResource.value?.player?.player?.play()
+  }
+})
 
 // This is for custom progress bar duration calculation.
 const startTimer = () => {
@@ -253,7 +263,9 @@ const emitEvent = (eventName: string, payload?: any) => {
       <MVAdaptiveResource
         ref="adaptiveResource"
         :id="id"
+        :auto-play="autoPlay"
         :audio-sources="audioSources"
+        :video-sources="videoSources"
         :duration="localDuration"
         :poster-url="posterUrl"
         :title="title"

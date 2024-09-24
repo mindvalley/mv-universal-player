@@ -281,9 +281,9 @@ export const PreviousNext: Story = {
   }
 }
 
-export const ImmersiveOne: Story = {
+export const ImmersiveLoopingVideo: Story = {
   render: (args: any, { argTypes }) => ({
-    title: 'Immersive - 1',
+    title: 'Immersive - Looping Video',
     components: { MVSoundscapeResource },
     setup() {
       return { args }
@@ -294,6 +294,7 @@ export const ImmersiveOne: Story = {
     key: audio1.assetId,
     id: audio1.assetId,
     audioSources: audio1.sources,
+    videoSources: video1.sources,
     duration: audio1.duration,
     posterUrl: audio1.posterUrl,
     title: audio1.title,
@@ -301,9 +302,9 @@ export const ImmersiveOne: Story = {
   }
 }
 
-export const ImmersiveTwo: Story = {
+export const ImmersiveDynamicVideo: Story = {
   render: (args: any, { argTypes }) => ({
-    title: 'Immersive - 1',
+    title: 'Immersive - Dynamic Video',
     components: { MVSoundscapeResource },
     setup() {
       return { args }
@@ -315,7 +316,7 @@ export const ImmersiveTwo: Story = {
     id: audio2.assetId,
     audioSources: audio2.sources,
     duration: audio2.duration,
-    posterUrl: audio2.posterUrl,
+    posterUrl: audio1.posterUrl,
     title: audio2.title,
     artistName: audio2.artistName
   }

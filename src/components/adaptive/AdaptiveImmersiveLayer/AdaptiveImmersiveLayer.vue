@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue'
-import BaseImage from './../../global/BaseImage.vue'
+import { ref, onMounted, onUnmounted, watch, nextTick, watchEffect, computed } from 'vue-demi'
 import { extractColors } from 'extract-colors'
 
 const props = defineProps({
@@ -11,11 +10,25 @@ const props = defineProps({
   isImmersiveModeActive: {
     type: Boolean,
     default: false
+  },
+  playing: {
+    type: Boolean,
+    default: false
   }
 })
 
 const canvasRef = ref<HTMLCanvasElement | null>(null)
 let animationFrameId: number | null = null
+
+const randomBackgroundColor = ref('')
+
+// Add this computed property
+const backgroundStyle = computed(() => ({
+  backgroundColor: randomBackgroundColor.value
+}))
+
+// Add this ref to track the animation state
+const isAnimating = ref(false)
 
 onMounted(() => {
   window.addEventListener('resize', handleResize)
@@ -28,16 +41,30 @@ onUnmounted(() => {
 })
 
 watch(
-  () => props.isImmersiveModeActive,
-  async (newValue) => {
-    if (newValue) {
-      await nextTick()
-      handleResize() // Ensure canvas is properly resized and initialized
+  () => props.playing,
+  (newVal) => {
+    if (newVal) {
+      startAnimation()
     } else {
-      stopAnimation()
+      pauseAnimation()
     }
   }
 )
+
+// Modify the watchEffect to include the playing prop
+watchEffect(async () => {
+  if (props.isImmersiveModeActive) {
+    await nextTick()
+    handleResize() // Ensure canvas is properly resized and initialized
+    if (props.playing) {
+      startAnimation()
+    } else {
+      pauseAnimation()
+    }
+  } else {
+    stopAnimation()
+  }
+})
 
 function handleResize() {
   if (canvasRef.value && props.isImmersiveModeActive) {
@@ -59,17 +86,15 @@ async function initCanvas() {
         // Extract color palette from the image
         const colorPalette = await extractColorPalette(props.image)
 
-        // Start the animation
-        animateBackground(ctx, colorPalette)
+        // Generate random background color
+        randomBackgroundColor.value = colorPalette.length > 0 ? colorPalette[0] : '#000000'
+
+        // Start the animation only if playing is true
+        if (props.playing) {
+          startAnimation()
+        }
       }
     }
-  }
-}
-
-function stopAnimation() {
-  if (animationFrameId !== null) {
-    cancelAnimationFrame(animationFrameId)
-    animationFrameId = null
   }
 }
 
@@ -77,7 +102,7 @@ async function extractColorPalette(imageSrc: string): Promise<string[]> {
   const colors = await extractColors(imageSrc, { pixels: 64000, distance: 0.22 })
 
   // Extract the first 5 colors and convert them to hex
-  return colors.map((color) => color.hex)
+  return colors.length > 0 ? colors.map((color) => color.hex) : []
 }
 
 function interpolateColors(color1, color2, factor) {
@@ -88,21 +113,24 @@ function interpolateColors(color1, color2, factor) {
   return result
 }
 
-function hexToRgb(hex) {
+function hexToRgb(hex: string) {
   const bigint = parseInt(hex.slice(1), 16)
   return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255]
 }
 
-function rgbToHex(rgb) {
+function rgbToHex(rgb: number[]) {
   return `#${((1 << 24) + (rgb[0] << 16) + (rgb[1] << 8) + rgb[2]).toString(16).slice(1)}`
 }
 
+// Modify the animateBackground function
 function animateBackground(ctx: CanvasRenderingContext2D, colors: string[]) {
   let time = 0
   const stars = createStars(ctx.canvas.width, ctx.canvas.height)
-  const rgbColors = colors.map(hexToRgb)
+  const rgbColors = colors.length > 0 ? colors.map(hexToRgb) : []
 
   const animate = () => {
+    if (!isAnimating.value) return
+
     time += 0.001 // Slow down the animation
     const width = ctx.canvas.width
     const height = ctx.canvas.height
@@ -146,7 +174,7 @@ function createStars(width: number, height: number) {
     stars.push({
       x: Math.random() * width,
       y: Math.random() * height,
-      size: Math.random() * 2,
+      size: Math.random() * 3,
       speedX: (Math.random() - 0.5) * 0.5,
       speedY: (Math.random() - 0.5) * 0.5
     })
@@ -180,20 +208,40 @@ function drawStars(
   })
   ctx.globalAlpha = 1
 }
+
+// Add these new functions to control the animation
+async function startAnimation() {
+  if (!isAnimating.value) {
+    isAnimating.value = true
+    if (canvasRef.value) {
+      const ctx = canvasRef.value.getContext('2d')
+      if (ctx) {
+        const colors = await extractColorPalette(props.image)
+        animateBackground(ctx, colors)
+      }
+    }
+  }
+}
+
+function pauseAnimation() {
+  isAnimating.value = false
+}
+
+function stopAnimation() {
+  isAnimating.value = false
+  if (animationFrameId !== null) {
+    cancelAnimationFrame(animationFrameId)
+    animationFrameId = null
+  }
+}
 </script>
 
 <template>
-  <div class="relative w-full h-full flex flex-1">
+  <div class="relative w-full h-full flex flex-1 bg-black" :style="backgroundStyle">
     <canvas
       ref="canvasRef"
       class="absolute inset-0 w-full h-full"
       v-show="isImmersiveModeActive"
     ></canvas>
-    <BaseImage
-      v-if="!isImmersiveModeActive"
-      class="absolute inset-0 w-full h-full object-cover"
-      :src="image"
-      :width="1024"
-    />
   </div>
 </template>

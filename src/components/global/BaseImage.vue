@@ -3,7 +3,6 @@ import { computed } from 'vue-demi'
 const props = defineProps({
   aspectRatio: {
     default: 'auto',
-    required: true,
     type: String
   },
   src: {
