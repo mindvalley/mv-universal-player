@@ -9,6 +9,7 @@ import MVAdaptivePlayerBar from '../AdaptivePlayerBar'
 import MVAdaptiveImmersiveLayer from '../AdaptiveImmersiveLayer'
 import MVAdaptivePlayButton from '../AdaptivePlayButton'
 import BaseImage from '../../global/BaseImage.vue'
+import MVAdaptiveNowPlayingInfoCard from '../AdaptiveNowPlayingInfoCard'
 
 const props = defineProps({
   id: {
@@ -95,6 +96,14 @@ const props = defineProps({
   autoPlay: {
     type: Boolean,
     default: false
+  },
+  nowPlayingTitle: {
+    type: String,
+    default: 'NOW PLAYING'
+  },
+  nowPlayingSubtitle: {
+    type: String,
+    default: 'Soundscape'
   }
 })
 
@@ -347,6 +356,9 @@ defineExpose({
       @mouseleave="handleMouseLeave"
       @click="togglePlayPause"
     >
+      <div class="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-b-subtle px-10 py-7">
+        <MVAdaptiveNowPlayingInfoCard />
+      </div>
       <div class="h-full w-full" v-show="videoSources.length > 0 && isImmersive">
         <MVAdaptivePlayer :poster-url="posterUrl" loop muted auto-play>
           <MVAdaptiveItem
@@ -444,6 +456,19 @@ defineExpose({
 <style scoped>
 .bg-gradient-to-t {
   background-image: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.bg-gradient-to-b {
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.bg-gradient-to-b-subtle {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.4) 0%,
+    rgba(0, 0, 0, 0.2) 30%,
+    rgba(0, 0, 0, 0) 100%
+  );
 }
 
 .fade-enter-active,

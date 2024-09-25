@@ -12,7 +12,7 @@ import MVAdaptiveCollectionButton from '../AdaptiveCollectionButton'
 import MVAdaptiveVolumeSlider from '../AdaptiveVolumeSlider'
 import MVAdaptiveFullScreenButton from '../AdaptiveFullScreenButton'
 import MVAdaptiveCloseButton from '../AdaptiveCloseButton'
-import MVTrackInfoCard from '../TrackInfoCard'
+import MVAdaptiveTrackInfoCard from '../AdaptiveTrackInfoCard'
 import MVAdaptiveImmersiveButton from '../AdaptiveImmersiveButton'
 import type { AdaptiveSize } from '../../../types/adaptive'
 
@@ -231,7 +231,7 @@ const handleImmersiveClick = () => {
       >
         <!-- Left column -->
         <div class="flex-1 flex items-center min-w-28 sm:min-w-48">
-          <MVTrackInfoCard
+          <MVAdaptiveTrackInfoCard
             v-if="!isFullScreen"
             :title="title"
             :sub-title="artistName"

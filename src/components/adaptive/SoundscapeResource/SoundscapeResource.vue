@@ -62,6 +62,14 @@ const props = defineProps({
   autoPlay: {
     type: Boolean,
     default: true
+  },
+  nowPlayingTitle: {
+    type: String,
+    default: 'NOW PLAYING'
+  },
+  nowPlayingSubtitle: {
+    type: String,
+    default: 'Soundscape'
   }
 })
 
