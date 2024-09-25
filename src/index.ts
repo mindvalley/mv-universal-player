@@ -34,6 +34,7 @@ export {
   MVAudioItem,
   MVAudioPlayButton,
   MVAudioProgressBar,
+  MVAudioPreviewCard,
   MVAudioRewindButton,
   MVAudioResource,
   MVAudioDescription,

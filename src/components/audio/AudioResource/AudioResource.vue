@@ -9,6 +9,10 @@ import MVAudioProgressBar from '../AudioProgressBar'
 import { useSlots, computed, ref, watch } from 'vue-demi'
 
 const props = defineProps({
+  showControls: {
+    type: Boolean,
+    default: true
+  },
   assetId: {
     required: true,
     type: String
@@ -174,11 +178,11 @@ const handlePause = (event: any) => {
     >
       <div class="grid grid-cols-3 text-white relative gap-4">
         <!-- Image -->
-        <section class="w-full col-span-1 row-span-1 sm:row-span-3">
+        <section class="w-full col-span-1 row-span-1 sm:row-span-3 flex items-center">
           <img :src="posterUrl || ''" class="rounded-xl md:rounded-3xl" :width="350" />
         </section>
 
-        <!-- Title -->
+        <!-- Metadata -->
         <section class="w-full col-span-2">
           <div class="w-full flex justify-between">
             <h2 class="title-bold-9 md:title-bold-8 text-white">
@@ -209,8 +213,12 @@ const handlePause = (event: any) => {
         </section>
         <!-- </section> -->
 
+        <!-- Preview Card -->
+        <slot name="preview-card"></slot>
+
         <!-- Controls -->
         <section
+          v-if="showControls"
           class="flex-col h-full col-span-3 sm:col-span-2"
           :class="[isMeditationMixerAvailable ? 'sm:row-span-2 lg:row-span-1' : 'row-span-2']"
         >
