@@ -134,7 +134,7 @@ export const Default: Story = {
     setup() {
       return { args }
     },
-    template: `<div class="mv-universal-player"><div class="mt-20"><MVMeditationResource v-bind="args" /></div></div>`
+    template: `<div class="mv-universal-player"><div class="mt-20 absolute bottom-0 left-0 right-0"><MVMeditationResource v-bind="args" /></div></div>`
   }),
   args: {
     key: audio2.assetId,
@@ -154,7 +154,7 @@ export const PreviousNext: Story = {
     setup() {
       return { args }
     },
-    template: `<div class="mv-universal-player"><div class="mt-20"><MVMeditationResource v-bind="args" /></div></div>`
+    template: `<div class="mv-universal-player"><div class="mt-20 absolute bottom-0 left-0 right-0"><MVMeditationResource v-bind="args" /></div></div>`
   }),
   args: {
     key: audio2.assetId,

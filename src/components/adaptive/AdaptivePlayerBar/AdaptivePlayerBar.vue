@@ -164,7 +164,7 @@ const handleImmersiveClick = () => {
 <template>
   <div>
     <div v-if="isFullScreen" class="flex items-center mb-4">
-      <MVTrackInfoCard
+      <MVAdaptiveTrackInfoCard
         :title="title"
         :sub-title="artistName"
         :image="posterUrl"
@@ -178,7 +178,7 @@ const handleImmersiveClick = () => {
             @click="handleSetDurationClick"
           />
         </template>
-      </MVTrackInfoCard>
+      </MVAdaptiveTrackInfoCard>
     </div>
     <div class="w-full">
       <MVAdaptiveProgressBar

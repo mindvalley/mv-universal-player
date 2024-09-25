@@ -5,6 +5,10 @@ const props = defineProps({
   isFullScreen: {
     type: Boolean,
     default: false
+  },
+  isDownArrow: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -41,7 +45,11 @@ watch(
 </script>
 
 <template>
+  <button v-if="isDownArrow" class="h-5 w-5 outline-none" @click.stop="toggleFullScreen">
+    <svg v-svg symbol="chevron-down-outlined" class="h-full w-full text-white-70a"></svg>
+  </button>
   <button
+    v-else
     v-tooltip="isFullScreen ? 'Exit full screen' : 'Full screen'"
     class="h-5 w-5 outline-none"
     @click="toggleFullScreen"

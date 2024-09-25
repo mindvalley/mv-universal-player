@@ -10,6 +10,7 @@ import MVAdaptiveImmersiveLayer from '../AdaptiveImmersiveLayer'
 import MVAdaptivePlayButton from '../AdaptivePlayButton'
 import BaseImage from '../../global/BaseImage.vue'
 import MVAdaptiveNowPlayingInfoCard from '../AdaptiveNowPlayingInfoCard'
+import MVAdaptiveFullScreenButton from '../AdaptiveFullScreenButton'
 
 const props = defineProps({
   id: {
@@ -306,6 +307,7 @@ const setVolume = (event: any) => {
 }
 
 const togglePlayPause = () => {
+  console.log('togglePlayPause')
   if (adaptiveItem?.value?.state?.playing) {
     pause()
   } else {
@@ -349,16 +351,31 @@ defineExpose({
       >
       </MVAdaptiveItem>
     </MVAdaptivePlayer>
+
     <div
-      v-if="isFullScreen"
+      v-show="isFullScreen"
       class="fixed inset-0 z-50"
       @mouseenter="handleMouseEnter"
       @mouseleave="handleMouseLeave"
       @click="togglePlayPause"
     >
+      <!-- Top Bar -->
       <div class="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-b-subtle px-10 py-7">
-        <MVAdaptiveNowPlayingInfoCard />
+        <div class="flex items-center justify-between sm:justify-start">
+          <div class="sm:hidden">
+            <MVAdaptiveFullScreenButton is-down-arrow @toggleFullScreen="toggleFullScreen" />
+          </div>
+          <div
+            class="absolute left-1/2 transform -translate-x-1/2 sm:static sm:left-auto sm:transform-none"
+          >
+            <MVAdaptiveNowPlayingInfoCard />
+          </div>
+          <!-- Add an empty div to balance the layout on mobile -->
+          <div class="sm:hidden w-10"></div>
+        </div>
+        <div class="h-1 w-1"></div>
       </div>
+
       <div class="h-full w-full" v-show="videoSources.length > 0 && isImmersive">
         <MVAdaptivePlayer :poster-url="posterUrl" loop muted auto-play>
           <MVAdaptiveItem

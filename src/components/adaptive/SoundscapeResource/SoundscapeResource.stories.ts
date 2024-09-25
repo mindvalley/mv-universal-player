@@ -187,7 +187,7 @@ export const Default: Story = {
     setup() {
       return { args }
     },
-    template: `<div class="mv-universal-player"><div class="mt-20"><MVSoundscapeResource v-bind="args" /></div></div>`
+    template: `<div class="mv-universal-player"><div class="mt-20 absolute bottom-0 left-0 right-0"><MVSoundscapeResource v-bind="args" /></div></div>`
   }),
   args: {
     key: audio1.assetId,
@@ -207,7 +207,7 @@ export const LoopingEnabled: Story = {
     setup() {
       return { args }
     },
-    template: `<div class="mv-universal-player"><div class="mt-20"><MVSoundscapeResource v-bind="args" /></div></div>`
+    template: `<div class="mv-universal-player"><div class="mt-20 absolute bottom-0 left-0 right-0"><MVSoundscapeResource v-bind="args" /></div></div>`
   }),
   args: {
     key: audio1.assetId,
@@ -227,7 +227,7 @@ export const LoopingEnabledShort: Story = {
     setup() {
       return { args }
     },
-    template: `<div class="mv-universal-player"><div class="mt-20"><MVSoundscapeResource v-bind="args" /></div></div>`
+    template: `<div class="mv-universal-player"><div class="mt-20 absolute bottom-0 left-0 right-0"><MVSoundscapeResource v-bind="args" /></div></div>`
   }),
   args: {
     key: audio3.assetId,
@@ -240,26 +240,6 @@ export const LoopingEnabledShort: Story = {
   }
 }
 
-export const Video: Story = {
-  render: (args: any, { argTypes }) => ({
-    title: 'Video',
-    components: { MVSoundscapeResource },
-    setup() {
-      return { args }
-    },
-    template: `<div class="mv-universal-player"><div>Some element</div><MVSoundscapeResource v-bind="args" /></div>`
-  }),
-  args: {
-    key: video1.id,
-    id: video1.id,
-    audioSources: video1.sources,
-    duration: video1.duration,
-    posterUrl: video1.posterUrl,
-    title: video1.title,
-    artistName: video1.artistName
-  }
-}
-
 export const PreviousNext: Story = {
   render: (args: any, { argTypes }) => ({
     title: 'Looping Enabled',
@@ -267,7 +247,7 @@ export const PreviousNext: Story = {
     setup() {
       return { args }
     },
-    template: `<div class="mv-universal-player"><div class="mt-20"><MVSoundscapeResource v-bind="args" /></div></div>`
+    template: `<div class="mv-universal-player"><div class="mt-20 absolute bottom-0 left-0 right-0"><MVSoundscapeResource v-bind="args" /></div></div>`
   }),
   args: {
     key: audio1.assetId,
@@ -288,7 +268,7 @@ export const ImmersiveLoopingVideo: Story = {
     setup() {
       return { args }
     },
-    template: `<div class="mv-universal-player"><div class="mt-20"><MVSoundscapeResource v-bind="args" /></div></div>`
+    template: `<div class="mv-universal-player"><div class="mt-20 absolute bottom-0 left-0 right-0"><MVSoundscapeResource v-bind="args" /></div></div>`
   }),
   args: {
     key: audio1.assetId,
@@ -309,14 +289,14 @@ export const ImmersiveDynamicVideo: Story = {
     setup() {
       return { args }
     },
-    template: `<div class="mv-universal-player"><div class="mt-20"><MVSoundscapeResource v-bind="args" /></div></div>`
+    template: `<div class="mv-universal-player"><div class="mt-20 absolute bottom-0 left-0 right-0"><MVSoundscapeResource v-bind="args" /></div></div>`
   }),
   args: {
     key: audio2.assetId,
     id: audio2.assetId,
     audioSources: audio2.sources,
     duration: audio2.duration,
-    posterUrl: audio1.posterUrl,
+    posterUrl: audio2.posterUrl,
     title: audio2.title,
     artistName: audio2.artistName
   }
