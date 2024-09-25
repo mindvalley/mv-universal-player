@@ -7,6 +7,7 @@ import { AdaptiveShape } from '../../../types/adaptive'
 import { Shape } from '../../../models/adaptive.enums'
 import MVAdaptivePlayerBar from '../AdaptivePlayerBar'
 import MVAdaptiveImmersiveLayer from '../AdaptiveImmersiveLayer'
+import MVAdaptivePlayButton from '../AdaptivePlayButton'
 import BaseImage from '../../global/BaseImage.vue'
 
 const props = defineProps({
@@ -132,13 +133,16 @@ const localCurrentTime = ref(0)
 const isImmersive = ref(false)
 const immersiveSetOnce = ref(false)
 const loopingVideoAdaptiveItemRef = ref(null)
+const showPlayButton = ref(false)
 
 watch(isFullScreen, (newVal) => {
   if (newVal) {
     if (!immersiveSetOnce.value) {
       isImmersive.value = true
       immersiveSetOnce.value = true
-      playLoopingVideo()
+      if (adaptiveItem?.value?.state?.playing) {
+        playLoopingVideo()
+      }
     }
   }
 })
@@ -292,6 +296,20 @@ const setVolume = (event: any) => {
   adaptiveItem.value.player?.setVolume(event)
 }
 
+const togglePlayPause = () => {
+  if (adaptiveItem?.value?.state?.playing) {
+    pause()
+  } else {
+    play()
+  }
+
+  // Show the play button briefly when toggling
+  showPlayButton.value = true
+  setTimeout(() => {
+    showPlayButton.value = false
+  }, 1000) // Hide after 1 second, adjust as needed
+}
+
 defineExpose({
   player: adaptiveItem
 })
@@ -327,6 +345,7 @@ defineExpose({
       class="fixed inset-0 z-50"
       @mouseenter="handleMouseEnter"
       @mouseleave="handleMouseLeave"
+      @click="togglePlayPause"
     >
       <div class="h-full w-full" v-show="videoSources.length > 0 && isImmersive">
         <MVAdaptivePlayer :poster-url="posterUrl" loop muted auto-play>
@@ -354,6 +373,20 @@ defineExpose({
           :width="1024"
         />
       </div>
+
+      <transition name="fade">
+        <div
+          v-show="showPlayButton"
+          class="fixed inset-0 h-full w-full flex items-center justify-center"
+        >
+          <MVAdaptivePlayButton
+            :playing="!adaptiveItem?.state?.playing"
+            :show-tooltip="false"
+            :show-hover-effect="false"
+            icon-color="text-black-70a"
+          />
+        </div>
+      </transition>
     </div>
 
     <!-- Mini Player -->
@@ -411,5 +444,15 @@ defineExpose({
 <style scoped>
 .bg-gradient-to-t {
   background-image: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

@@ -16,7 +16,7 @@ const props = defineProps({
     default: () => []
   },
   videoSources: {
-    type: Array,
+    type: Array<Source>,
     default: () => []
   },
   title: {

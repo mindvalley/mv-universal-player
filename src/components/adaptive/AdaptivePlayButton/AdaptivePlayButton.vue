@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue-demi'
-import { useDetectBrowser } from './../../../composables/use-detect-browser'
 import type { AdaptiveSize } from '../../../types/adaptive'
 import { Size } from '../../../models/adaptive.enums'
-const { isTouchDevice } = useDetectBrowser()
 
 const props = defineProps({
   playing: {
@@ -13,6 +11,18 @@ const props = defineProps({
   size: {
     type: String as () => AdaptiveSize,
     default: 'SMALL'
+  },
+  showTooltip: {
+    type: Boolean,
+    default: true
+  },
+  showHoverEffect: {
+    type: Boolean,
+    default: true
+  },
+  iconColor: {
+    type: String,
+    default: 'text-white-70a'
   }
 })
 
@@ -34,7 +44,7 @@ const buttonSizeClasses = computed(() => {
 </script>
 <template>
   <button
-    v-tooltip="playing ? 'Pause' : 'Play'"
+    v-tooltip="showTooltip ? (playing ? 'Pause' : 'Play') : ''"
     @click="togglePlay"
     class="outline-none"
     :class="[buttonSizeClasses]"
@@ -42,7 +52,8 @@ const buttonSizeClasses = computed(() => {
     <svg
       v-svg
       :symbol="playing ? 'pause-circle-filled' : 'play-circle-filled'"
-      class="h-full w-full text-white-70a hover:text-white"
+      class="h-full w-full rounded-full text-white-70a"
+      :class="[iconColor, { 'hover:text-white': showHoverEffect }]"
     ></svg>
   </button>
 </template>
