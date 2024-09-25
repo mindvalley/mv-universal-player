@@ -229,7 +229,8 @@ const handleImmersiveClick = () => {
         class="w-full py-3 items-center flex justify-between"
         :class="[isFullScreen ? 'px-0' : 'px-4']"
       >
-        <div class="flex items-center min-w-28 sm:min-w-48">
+        <!-- Left column -->
+        <div class="flex-1 flex items-center min-w-28 sm:min-w-48">
           <MVTrackInfoCard
             v-if="!isFullScreen"
             :title="title"
@@ -238,22 +239,28 @@ const handleImmersiveClick = () => {
             :shape="trackInfoCoverShape"
           />
         </div>
-        <div class="flex items-center space-x-6">
-          <div v-if="showRewindAndFastForward" class="flex items-center">
-            <MVAdaptiveRewindButton @rewind="handleRewind" />
-          </div>
-          <div v-if="showPreviousNext" class="flex items-center">
-            <MVAdaptivePreviousButton @click="handlePrevious" />
-          </div>
-          <MVAdaptivePlayButton @play="handlePlay" @pause="handlePause" :playing="isPlaying" />
-          <div v-if="showPreviousNext" class="flex items-center">
-            <MVAdaptiveNextButton @click="handleNext" />
-          </div>
-          <div v-if="showRewindAndFastForward" class="flex items-center">
-            <MVAdaptiveFastForwardButton @fastForward="handleFastForward" />
+
+        <!-- Center column (always centered) -->
+        <div class="flex-1 flex items-center justify-center">
+          <div class="flex items-center space-x-6">
+            <div v-if="showRewindAndFastForward" class="flex items-center">
+              <MVAdaptiveRewindButton @rewind="handleRewind" />
+            </div>
+            <div v-if="showPreviousNext" class="flex items-center">
+              <MVAdaptivePreviousButton @click="handlePrevious" />
+            </div>
+            <MVAdaptivePlayButton @play="handlePlay" @pause="handlePause" :playing="isPlaying" />
+            <div v-if="showPreviousNext" class="flex items-center">
+              <MVAdaptiveNextButton @click="handleNext" />
+            </div>
+            <div v-if="showRewindAndFastForward" class="flex items-center">
+              <MVAdaptiveFastForwardButton @fastForward="handleFastForward" />
+            </div>
           </div>
         </div>
-        <div class="flex items-center justify-center space-x-3">
+
+        <!-- Right column -->
+        <div class="flex-1 flex items-center justify-end space-x-3">
           <div class="flex items-center" v-if="showImmersive && isFullScreen">
             <MVAdaptiveImmersiveButton :is-immersive="isImmersive" @click="handleImmersiveClick" />
           </div>
