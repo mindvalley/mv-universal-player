@@ -198,7 +198,7 @@ const handleImmersiveClick = () => {
       :class="[isFullScreen ? 'px-0' : 'px-4']"
     >
       <div>
-        <MVTrackInfoCard
+        <MVAdaptiveTrackInfoCard
           v-if="!isFullScreen"
           :title="title"
           :sub-title="artistName"

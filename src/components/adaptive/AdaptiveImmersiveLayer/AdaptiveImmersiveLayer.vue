@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, nextTick, watchEffect, computed } from 'vue-demi'
-import { extractColors } from 'extract-colors'
+import { extractColorsFromImageData } from 'extract-colors'
 
 const props = defineProps({
   image: {
@@ -19,6 +19,7 @@ const props = defineProps({
 
 const canvasRef = ref<HTMLCanvasElement | null>(null)
 let animationFrameId: number | null = null
+const colorPalette = ref([])
 
 const randomBackgroundColor = ref('')
 
@@ -30,8 +31,9 @@ const backgroundStyle = computed(() => ({
 // Add this ref to track the animation state
 const isAnimating = ref(false)
 
-onMounted(() => {
+onMounted(async () => {
   window.addEventListener('resize', handleResize)
+  await extractColorPalette(props.image)
   initCanvas()
 })
 
@@ -83,11 +85,9 @@ async function initCanvas() {
       canvasRef.value.height = canvasRef.value.offsetHeight || 150 // Fallback height
 
       if (canvasRef.value.width > 0 && canvasRef.value.height > 0) {
-        // Extract color palette from the image
-        const colorPalette = await extractColorPalette(props.image)
-
         // Generate random background color
-        randomBackgroundColor.value = colorPalette.length > 0 ? colorPalette[0] : '#000000'
+        randomBackgroundColor.value =
+          colorPalette.value.length > 0 ? colorPalette.value[0] : '#000000'
 
         // Start the animation only if playing is true
         if (props.playing) {
@@ -98,11 +98,39 @@ async function initCanvas() {
   }
 }
 
-async function extractColorPalette(imageSrc: string): Promise<string[]> {
-  const colors = await extractColors(imageSrc, { pixels: 64000, distance: 0.22 })
+async function extractColorPalette(imageSrc: string) {
+  // Create an Image object
+  const img = new Image()
+  img.crossOrigin = 'Anonymous' // To avoid CORS issues
+  img.src = imageSrc
+
+  // Wait for the image to load
+  await new Promise((resolve) => {
+    img.onload = resolve
+  })
+
+  // Create a canvas element
+  const canvas = document.createElement('canvas')
+  const ctx = canvas.getContext('2d')
+
+  // Set canvas size to match the image
+  canvas.width = img.width
+  canvas.height = img.height
+
+  // Draw the image onto the canvas
+  ctx.drawImage(img, 0, 0)
+
+  // Get the ImageData from the canvas
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+
+  // Extract colors using the library function
+  const colors = await extractColorsFromImageData(imageData, {
+    pixels: 64000,
+    distance: 0.22
+  })
 
   // Extract the first 5 colors and convert them to hex
-  return colors.length > 0 ? colors.map((color) => color.hex) : []
+  colorPalette.value = colors.length > 0 ? colors.slice(0, 5).map((color) => color.hex) : []
 }
 
 function interpolateColors(color1, color2, factor) {
@@ -216,8 +244,7 @@ async function startAnimation() {
     if (canvasRef.value) {
       const ctx = canvasRef.value.getContext('2d')
       if (ctx) {
-        const colors = await extractColorPalette(props.image)
-        animateBackground(ctx, colors)
+        animateBackground(ctx, colorPalette.value)
       }
     }
   }
