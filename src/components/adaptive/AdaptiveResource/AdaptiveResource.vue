@@ -307,7 +307,6 @@ const setVolume = (event: any) => {
 }
 
 const togglePlayPause = () => {
-  console.log('togglePlayPause')
   if (adaptiveItem?.value?.state?.playing) {
     pause()
   } else {
