@@ -123,7 +123,7 @@
     </div> -->
 
     <div class="mt-20">
-      <MVSoundscapeResource
+      <!-- <MVSoundscapeResource
         :key="audio.id"
         :id="audio.id"
         :audio-sources="audio.sources"
@@ -131,7 +131,10 @@
         :poster-url="audio.posterUrl"
         :title="audio.title"
         :artist-name="audio.artistName"
-      />
+      /> -->
+    </div>
+    <div>
+      <MVAdaptiveBackgroundMixer :background-sounds="backgroundSounds" />
     </div>
   </div>
 </template>
@@ -147,6 +150,7 @@ import MVSoundscapeResource from './components/adaptive/SoundscapeResource'
 import { MVCarousel, MVCarouselSlide } from './components/carousel'
 import { MVMeditationTrackItem, MVMeditationVolumeSlider, MVMeditationMixer } from '.'
 import { ref } from 'vue-demi'
+import MVAdaptiveBackgroundMixer from './components/adaptive/AdaptiveBackgroundMixer'
 
 const videoResource = ref()
 

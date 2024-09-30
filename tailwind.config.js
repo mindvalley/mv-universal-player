@@ -71,6 +71,6 @@ module.exports = {
       35: '600'
     }
   },
-  safelist: ['aspect-square', 'aspect-video', 'aspect-portait'],
+  safelist: ['aspect-square', 'aspect-video', 'aspect-portait', 'carousel'],
   plugins: [require('@mindvalley/design-system/dist/tailwind/plugins/typography.js')()]
 }
