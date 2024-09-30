@@ -70,7 +70,7 @@ const handleTrackChange = (value: any) => {
 </script>
 
 <template>
-  <div class="bg-black h-[265px] min-w-[400px] max-w-[748px] rounded-3xl relative py-4 px-6">
+  <div class="bg-black h-[265px] w-[400px] sm:w-[748px] rounded-3xl relative py-4 px-6">
     <button class="absolute top-4 right-6" @click="handleClose">
       <svg v-svg symbol="x-filled" class="h-4 w-4 text-white-70a"></svg>
     </button>

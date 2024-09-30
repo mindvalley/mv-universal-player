@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import { PropType, ref } from 'vue-demi'
 import MVAdaptiveResource from '../AdaptiveResource'
+import MVAdaptiveBackgroundMixer from './../AdaptiveBackgroundMixer'
 import type { Source } from './../../../types/audio'
 import { Shape } from '../../../models/adaptive.enums'
+import MVAdaptiveOverlay from '../AdaptiveOverlay'
+import { BackgroundSound } from '../../../types/adaptive'
 
 const props = defineProps({
   id: {
@@ -32,10 +36,6 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  showMeditationMixer: {
-    type: Boolean,
-    default: false
-  },
   showImmersive: {
     type: Boolean,
     default: false
@@ -59,6 +59,10 @@ const props = defineProps({
   showPreviousNext: {
     type: Boolean,
     default: false
+  },
+  backgroundSounds: {
+    type: Array as PropType<BackgroundSound[]>,
+    default: () => []
   }
 })
 
@@ -86,6 +90,14 @@ const emit = defineEmits<{
   (e: any, payload: any): void
 }>()
 
+const showMeditationMixer = ref(false)
+const overlayZIndex = ref(50)
+const isFullScreenEnabled = ref(false)
+
+const toggleMeditationMixer = () => {
+  showMeditationMixer.value = !showMeditationMixer.value
+}
+
 const handleClose = () => {
   emit('close')
 }
@@ -101,24 +113,41 @@ const handlePrevious = () => {
 const handleNext = () => {
   emit('next')
 }
+
+console.log('backgroundSounds', props.backgroundSounds)
 </script>
 
 <template>
-  <MVAdaptiveResource
-    :id="id"
-    :audioSources="audioSources"
-    :duration="duration"
-    :poster-url="posterUrl"
-    :title="title"
-    :artist-name="artistName"
-    looping-enabled
-    show-rewind-and-fast-forward
-    show-meditation-mixer
-    :track-info-cover-shape="Shape.SQUARE"
-    :show-previous-next="showPreviousNext"
-    @close="handleClose"
-    @collection-open="handleCollectionOpen"
-    @previous="handlePrevious"
-    @next="handleNext"
-  />
+  <div :class="{ 'fixed left-0 bottom-0 top-0 right-0': isFullScreenEnabled }">
+    <MVAdaptiveOverlay
+      v-if="backgroundSounds && backgroundSounds.length > 0"
+      :show="showMeditationMixer"
+      @close="toggleMeditationMixer"
+      :z-index="overlayZIndex"
+    >
+      <MVAdaptiveBackgroundMixer
+        :background-sounds="backgroundSounds"
+        @close="toggleMeditationMixer"
+      />
+    </MVAdaptiveOverlay>
+
+    <MVAdaptiveResource
+      :id="id"
+      :audioSources="audioSources"
+      :duration="duration"
+      :poster-url="posterUrl"
+      :title="title"
+      :artist-name="artistName"
+      looping-enabled
+      show-rewind-and-fast-forward
+      :show-meditation-mixer="backgroundSounds.length > 0"
+      :track-info-cover-shape="Shape.SQUARE"
+      :show-previous-next="showPreviousNext"
+      @meditation-mixer-open="toggleMeditationMixer"
+      @close="handleClose"
+      @collection-open="handleCollectionOpen"
+      @previous="handlePrevious"
+      @next="handleNext"
+    />
+  </div>
 </template>

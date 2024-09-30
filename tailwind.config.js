@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
 import { colors } from '@mindvalley/design-system'
+const { colors: b2bColors } = '@mindvalley/design-system/b2b'
 
 module.exports = {
   content: ['./src/**/*.{vue,js,ts,jsx,tsx}'],
@@ -10,7 +11,8 @@ module.exports = {
       sans: ['"Sharp Grotesk Book 19"', 'sans-serif']
     },
     colors: {
-      ...colors
+      ...colors,
+      ...b2bColors
     },
     // Place custom config here. This will generate Tailwind config + custom config.
     extend: {
@@ -72,5 +74,9 @@ module.exports = {
     }
   },
   safelist: ['aspect-square', 'aspect-video', 'aspect-portait', 'carousel'],
-  plugins: [require('@mindvalley/design-system/dist/tailwind/plugins/typography.js')()]
+  plugins: [
+    require('@mindvalley/design-system/dist/tailwind/plugins/typography.js')({
+      brands: ['mindvalley', 'b2b']
+    })
+  ]
 }
