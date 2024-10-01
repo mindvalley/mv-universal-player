@@ -1,53 +1,35 @@
 <script setup lang="ts">
-import { ref, computed, PropType } from 'vue-demi'
+import { ref, computed, PropType, onMounted } from 'vue-demi'
 import { Carousel3d, Slide } from 'vue3-carousel-3d'
 import 'vue3-carousel-3d/dist/index.css'
-import { BackgroundSound } from '../../../types/adaptive'
+import { BackgroundTrackItem } from '../../../types/adaptive'
 import MVAdaptiveBackgroundTrackItem from './../AdaptiveBackgroundTrackItem'
 import MVAdaptiveBackgroundVolumeSlider from './../AdaptiveBackgroundVolumeSlider'
 
 const props = defineProps({
-  backgroundSounds: {
-    type: Array as PropType<BackgroundSound[]>,
+  backgroundTrackItems: {
+    type: Array as PropType<BackgroundTrackItem[]>,
     required: true
   },
-  defaultBackgroundSound: {
-    type: Object as PropType<BackgroundSound>,
+  currentBackgroundTrackItem: {
+    type: Object as PropType<BackgroundTrackItem>,
     required: false
   }
 })
 
-const emit = defineEmits(['play', 'pause', 'timeupdate', 'error', 'close'])
+const emit = defineEmits(['play', 'pause', 'timeupdate', 'error', 'close', 'trackChange'])
 const carouselRef = ref(null)
 
-const backgroundTrackItems = computed(() => {
-  let sounds = props.backgroundSounds || []
-  const updatedBackgroundSounds = []
+const currentTrackIndex = computed(() => {
+  return props.backgroundTrackItems.findIndex(
+    (trackItem) => trackItem.item?.id === props.currentBackgroundTrackItem?.id
+  )
+})
 
-  if (props.defaultBackgroundSound) {
-    updatedBackgroundSounds.push({
-      id: props.defaultBackgroundSound.id,
-      item: props.defaultBackgroundSound,
-      volume: 0.5
-    })
-    sounds = sounds.filter((sound) => sound.id !== props.defaultBackgroundSound?.id)
+onMounted(() => {
+  if (carouselRef.value && currentTrackIndex.value !== -1) {
+    carouselRef.value.goSlide(currentTrackIndex.value)
   }
-
-  updatedBackgroundSounds.push({
-    id: 0,
-    item: null,
-    volume: 0
-  })
-
-  sounds.forEach((sound) => {
-    updatedBackgroundSounds.push({
-      id: sound.id,
-      item: sound,
-      volume: 0.5
-    })
-  })
-
-  return updatedBackgroundSounds
 })
 
 const handleClose = () => {
@@ -62,11 +44,14 @@ const handleNext = () => {
   carouselRef.value.goNext()
 }
 
-const handleTrackChange = (value: any) => {
-  console.log('track changed')
-  console.log(carouselRef.value)
-  console.log(value)
+const handleTrackChange = (index: number) => {
+  const track = props.backgroundTrackItems[index]
+  emit('trackChange', track)
 }
+
+const isVolumeSliderDisabled = computed(() => {
+  return !props.currentBackgroundTrackItem?.item
+})
 </script>
 
 <template>
@@ -81,7 +66,7 @@ const handleTrackChange = (value: any) => {
         <svg v-svg symbol="chevron-left-outlined" class="h-6 w-6 text-white"></svg>
       </button>
       <carousel-3d
-        @slide-change="handleTrackChange"
+        @after-slide-change="handleTrackChange"
         ref="carouselRef"
         :disable3d="true"
         :space="100"
@@ -102,7 +87,7 @@ const handleTrackChange = (value: any) => {
     </div>
     <!-- Add volume slider -->
     <div class="mt-6 flex items-center">
-      <MVAdaptiveBackgroundVolumeSlider />
+      <MVAdaptiveBackgroundVolumeSlider :is-disabled="isVolumeSliderDisabled" />
     </div>
   </div>
 </template>

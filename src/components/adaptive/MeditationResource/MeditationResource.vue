@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { PropType, ref } from 'vue-demi'
+import { computed, nextTick, onMounted, PropType, ref } from 'vue-demi'
 import MVAdaptiveResource from '../AdaptiveResource'
 import MVAdaptiveBackgroundMixer from './../AdaptiveBackgroundMixer'
 import type { Source } from './../../../types/audio'
 import { Shape } from '../../../models/adaptive.enums'
 import MVAdaptiveOverlay from '../AdaptiveOverlay'
-import { BackgroundSound } from '../../../types/adaptive'
+import { BackgroundSound, BackgroundTrackItem } from '../../../types/adaptive'
+import MVAdaptivePlayer from '../AdaptivePlayer'
+import MVAdaptiveItem from '../AdaptiveItem'
 
 const props = defineProps({
   id: {
@@ -63,6 +65,10 @@ const props = defineProps({
   backgroundSounds: {
     type: Array as PropType<BackgroundSound[]>,
     default: () => []
+  },
+  defaultBackgroundSound: {
+    type: Object as PropType<BackgroundSound>,
+    default: null
   }
 })
 
@@ -93,6 +99,9 @@ const emit = defineEmits<{
 const showMeditationMixer = ref(false)
 const overlayZIndex = ref(50)
 const isFullScreenEnabled = ref(false)
+const adaptiveResource = ref(null)
+const meditationMixerItem = ref(null)
+const selectedMeditationTrackItem = ref<BackgroundTrackItem | null>(null)
 
 const toggleMeditationMixer = () => {
   showMeditationMixer.value = !showMeditationMixer.value
@@ -114,11 +123,90 @@ const handleNext = () => {
   emit('next')
 }
 
+const backgroundTrackItems = computed(() => {
+  let sounds = props.backgroundSounds || []
+  const updatedBackgroundSounds = []
+
+  if (props.defaultBackgroundSound) {
+    updatedBackgroundSounds.push({
+      id: props.defaultBackgroundSound.id,
+      item: props.defaultBackgroundSound,
+      volume: 0.5
+    })
+    sounds = sounds.filter((sound) => sound.id !== props.defaultBackgroundSound?.id)
+  }
+
+  updatedBackgroundSounds.push({
+    id: 0,
+    item: null,
+    volume: 0
+  })
+
+  sounds.forEach((sound) => {
+    updatedBackgroundSounds.push({
+      id: sound.id,
+      item: sound,
+      volume: 0.5
+    })
+  })
+
+  return updatedBackgroundSounds
+})
+
+onMounted(() => {
+  selectedMeditationTrackItem.value = backgroundTrackItems.value[0]
+})
+
+const handleTrackChange = (track: BackgroundTrackItem) => {
+  selectedMeditationTrackItem.value = track
+
+  if (selectedMeditationTrackItem.value?.item) {
+    playMeditationTrack()
+  } else {
+    pauseMeditationTrack()
+  }
+}
+
+const handlePlay = () => {
+  playMeditationTrack()
+}
+
+const handlePause = () => {
+  pauseMeditationTrack()
+}
+
+const playMeditationTrack = async () => {
+  await nextTick()
+  if (
+    meditationMixerItem.value &&
+    adaptiveResource.value?.player?.state.playing &&
+    selectedMeditationTrackItem.value?.item
+  ) {
+    meditationMixerItem.value.player?.setAudio()
+    meditationMixerItem.value.player?.play()
+  }
+}
+
+const pauseMeditationTrack = () => {
+  if (meditationMixerItem.value) {
+    meditationMixerItem.value.player?.pause()
+  }
+}
+
 console.log('backgroundSounds', props.backgroundSounds)
 </script>
 
 <template>
   <div :class="{ 'fixed left-0 bottom-0 top-0 right-0': isFullScreenEnabled }">
+    <MVAdaptivePlayer loop :audio-only-mode="true">
+      <MVAdaptiveItem
+        ref="meditationMixerItem"
+        :sources="selectedMeditationTrackItem?.item?.sources"
+        id="meditation-mixer-item"
+      >
+      </MVAdaptiveItem>
+    </MVAdaptivePlayer>
+
     <MVAdaptiveOverlay
       v-if="backgroundSounds && backgroundSounds.length > 0"
       :show="showMeditationMixer"
@@ -126,12 +214,15 @@ console.log('backgroundSounds', props.backgroundSounds)
       :z-index="overlayZIndex"
     >
       <MVAdaptiveBackgroundMixer
-        :background-sounds="backgroundSounds"
+        :background-track-items="backgroundTrackItems"
+        :current-background-track-item="selectedMeditationTrackItem"
         @close="toggleMeditationMixer"
+        @track-change="handleTrackChange"
       />
     </MVAdaptiveOverlay>
 
     <MVAdaptiveResource
+      ref="adaptiveResource"
       :id="id"
       :audioSources="audioSources"
       :duration="duration"
@@ -148,6 +239,8 @@ console.log('backgroundSounds', props.backgroundSounds)
       @collection-open="handleCollectionOpen"
       @previous="handlePrevious"
       @next="handleNext"
+      @play="handlePlay"
+      @pause="handlePause"
     />
   </div>
 </template>
