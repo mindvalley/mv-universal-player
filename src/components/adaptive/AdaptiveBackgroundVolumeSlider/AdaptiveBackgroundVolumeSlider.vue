@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue-demi'
+import { ref, watchEffect } from 'vue-demi'
 
 const props = defineProps({
   volume: {
@@ -43,6 +43,14 @@ const handleVolumeChange = (event: any) => {
   localVolume.value = volume
   emit('change', volume)
 }
+
+watchEffect(async () => {
+  if (props.isDisabled) {
+    emit('change', 0)
+  } else {
+    emit('change', localVolume.value)
+  }
+})
 </script>
 
 <template>

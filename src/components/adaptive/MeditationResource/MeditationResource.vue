@@ -102,6 +102,7 @@ const isFullScreenEnabled = ref(false)
 const adaptiveResource = ref(null)
 const meditationMixerItem = ref(null)
 const selectedMeditationTrackItem = ref<BackgroundTrackItem | null>(null)
+const meditationMixerVolume = ref(0.5)
 
 const toggleMeditationMixer = () => {
   showMeditationMixer.value = !showMeditationMixer.value
@@ -158,12 +159,15 @@ onMounted(() => {
 })
 
 const handleTrackChange = (track: BackgroundTrackItem) => {
-  selectedMeditationTrackItem.value = track
+  if (track.item?.id !== selectedMeditationTrackItem.value?.item?.id) {
+    selectedMeditationTrackItem.value = track
+    meditationMixerItem.value.player?.setAudio()
 
-  if (selectedMeditationTrackItem.value?.item) {
-    playMeditationTrack()
-  } else {
-    pauseMeditationTrack()
+    if (selectedMeditationTrackItem.value?.item) {
+      playMeditationTrack()
+    } else {
+      pauseMeditationTrack()
+    }
   }
 }
 
@@ -175,6 +179,17 @@ const handlePause = () => {
   pauseMeditationTrack()
 }
 
+const updateVolume = (backgroundSoundVolume: number, mainSoundVolume: number) => {
+  console.log(backgroundSoundVolume, mainSoundVolume)
+  adaptiveResource.value?.player?.player.setVolume(backgroundSoundVolume)
+  meditationMixerItem.value?.player?.setVolume(mainSoundVolume)
+}
+
+const handleVolumeChange = (volume: number) => {
+  meditationMixerVolume.value = volume
+  updateVolume(1 - volume, volume)
+}
+
 const playMeditationTrack = async () => {
   await nextTick()
   if (
@@ -182,7 +197,6 @@ const playMeditationTrack = async () => {
     adaptiveResource.value?.player?.state.playing &&
     selectedMeditationTrackItem.value?.item
   ) {
-    meditationMixerItem.value.player?.setAudio()
     meditationMixerItem.value.player?.play()
   }
 }
@@ -202,7 +216,7 @@ console.log('backgroundSounds', props.backgroundSounds)
       <MVAdaptiveItem
         ref="meditationMixerItem"
         :sources="selectedMeditationTrackItem?.item?.sources"
-        id="meditation-mixer-item"
+        :id="selectedMeditationTrackItem?.item?.id"
       >
       </MVAdaptiveItem>
     </MVAdaptivePlayer>
@@ -216,8 +230,10 @@ console.log('backgroundSounds', props.backgroundSounds)
       <MVAdaptiveBackgroundMixer
         :background-track-items="backgroundTrackItems"
         :current-background-track-item="selectedMeditationTrackItem"
+        :volume="meditationMixerVolume"
         @close="toggleMeditationMixer"
         @track-change="handleTrackChange"
+        @volume-change="handleVolumeChange"
       />
     </MVAdaptiveOverlay>
 

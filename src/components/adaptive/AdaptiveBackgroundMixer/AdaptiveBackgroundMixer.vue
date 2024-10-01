@@ -14,10 +14,22 @@ const props = defineProps({
   currentBackgroundTrackItem: {
     type: Object as PropType<BackgroundTrackItem>,
     required: false
+  },
+  volume: {
+    type: Number,
+    default: 0.5
   }
 })
 
-const emit = defineEmits(['play', 'pause', 'timeupdate', 'error', 'close', 'trackChange'])
+const emit = defineEmits([
+  'play',
+  'pause',
+  'timeupdate',
+  'error',
+  'close',
+  'trackChange',
+  'volumeChange'
+])
 const carouselRef = ref(null)
 
 const currentTrackIndex = computed(() => {
@@ -52,6 +64,11 @@ const handleTrackChange = (index: number) => {
 const isVolumeSliderDisabled = computed(() => {
   return !props.currentBackgroundTrackItem?.item
 })
+
+const updateVolume = (volume: number) => {
+  console.log(volume)
+  emit('volumeChange', volume)
+}
 </script>
 
 <template>
@@ -87,7 +104,11 @@ const isVolumeSliderDisabled = computed(() => {
     </div>
     <!-- Add volume slider -->
     <div class="mt-6 flex items-center">
-      <MVAdaptiveBackgroundVolumeSlider :is-disabled="isVolumeSliderDisabled" />
+      <MVAdaptiveBackgroundVolumeSlider
+        :is-disabled="isVolumeSliderDisabled"
+        :volume="volume"
+        @change="updateVolume"
+      />
     </div>
   </div>
 </template>
