@@ -248,17 +248,19 @@ watch(
   transform: translateX(-50%);
   background-color: rgba(0, 0, 0, 0.7);
   color: white;
-  padding: 2px 4px;
+  padding: 4px 8px;
   border-radius: 4px;
   font-size: 12px;
   pointer-events: none;
   margin-bottom: 8px;
   white-space: nowrap;
-  /* Remove any existing left or transform properties */
+  font-family: 'Sharp Grotesk Cyr Book 19';
+  min-width: 50px;
+  text-align: center;
 }
 
 .tooltip-active {
-  top: -30px; /* Adjust this value to position the tooltip above the scrubber circle */
+  top: -30px;
 }
 
 /* Add styles for the scrubber circle */
@@ -267,7 +269,7 @@ watch(
   top: 50%;
   width: 12px;
   height: 12px;
-  background-color: #ef4444; /* red-500 equivalent */
+  background-color: #e85546; /* red-500 equivalent */
   border-radius: 50%;
   transform: translate(0, -50%);
   cursor: pointer;

@@ -36,8 +36,8 @@ const props = defineProps({
     </div>
 
     <div class="flex flex-col ml-2">
-      <div class="text-cool-grey-200 text-xs uppercase">{{ title }}</div>
-      <div class="text-white title-9 font-bold">{{ subTitle }}</div>
+      <div class="caption-disclaimer text-cool-grey-200 uppercase">{{ title }}</div>
+      <div class="title-9 text-white font-bold">{{ subTitle }}</div>
     </div>
   </div>
 </template>

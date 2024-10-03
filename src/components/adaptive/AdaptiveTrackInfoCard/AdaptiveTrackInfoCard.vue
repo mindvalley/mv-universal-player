@@ -27,6 +27,8 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits(['title-click'])
+
 const imageSize = ref(props.size === Size.BIG ? 120 : 56)
 const isTransitionComplete = ref(false)
 
@@ -77,6 +79,12 @@ watch(
     }
   }
 )
+
+const handleTitleClick = () => {
+  if (props.size === Size.BIG) {
+    emit('title-click')
+  }
+}
 </script>
 
 <template>
@@ -91,10 +99,22 @@ watch(
         :width="imageSize"
       ></BaseImage>
     </div>
-    <div class="ml-2 flex flex-col justify-center" :style="textContainerStyle">
-      <slot name="control"></slot>
-      <div class="title-9 text-white truncate max-w-28 sm:max-w-48">{{ title }}</div>
-      <div class="title-9 text-cool-grey-350 truncate">{{ subTitle }}</div>
+    <div
+      class="flex flex-col justify-center"
+      :class="[props.size === Size.BIG ? 'ml-2 sm:ml-4' : 'ml-2 sm:ml-3']"
+      :style="textContainerStyle"
+    >
+      <div class="mb-0.5">
+        <slot name="control"></slot>
+      </div>
+      <div
+        @click="handleTitleClick"
+        class="title-9 text-white truncate max-w-28 sm:max-w-48"
+        :class="[props.size === Size.BIG ? 'cursor-pointer hover:underline' : '']"
+      >
+        {{ title }}
+      </div>
+      <div class="caption-disclaimer text-cool-grey-200 truncate">{{ subTitle }}</div>
     </div>
   </div>
 </template>

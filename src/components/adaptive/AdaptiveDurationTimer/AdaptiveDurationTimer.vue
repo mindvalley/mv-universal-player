@@ -22,18 +22,25 @@ const hourLabel = computed(() => (hours.value === 1 || hours.value === 0 ? 'hour
 const minuteLabel = computed(() => (minutes.value === 1 || minutes.value === 0 ? 'min' : 'mins'))
 
 function incrementHours() {
+  if (hours.value === 0 && minutes.value === 0) {
+    minutes.value = 1
+  }
   hours.value = (hours.value + 1) % 24
   updateDuration()
 }
 
 function decrementHours() {
+  if (hours.value === 1 && minutes.value === 0) {
+    minutes.value = 1
+  }
   hours.value = (hours.value - 1 + 24) % 24
   updateDuration()
 }
 
 function incrementMinutes() {
   if (hours.value === 0 && minutes.value === 59) {
-    minutes.value = 1
+    hours.value = 1
+    minutes.value = 0
   } else {
     minutes.value = (minutes.value + 1) % 60
   }
@@ -42,6 +49,7 @@ function incrementMinutes() {
 
 function decrementMinutes() {
   if (hours.value === 0 && minutes.value === 1) {
+    hours.value = 23
     minutes.value = 59
   } else {
     minutes.value = (minutes.value - 1 + 60) % 60
@@ -51,9 +59,6 @@ function decrementMinutes() {
 </script>
 
 <template>
-  <div class="flex items-center justify-center mb-3">
-    <svg v-svg symbol="infinity-filled" class="h-6 w-6 text-white-70a"></svg>
-  </div>
   <div class="flex text-white items-center justify-center gap-x-2">
     <div class="">
       <MVAdaptiveDurationTimerUnitPicker

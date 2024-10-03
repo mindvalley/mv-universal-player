@@ -15,7 +15,6 @@ import MVAdaptiveCloseButton from '../AdaptiveCloseButton'
 import MVAdaptiveTrackInfoCard from '../AdaptiveTrackInfoCard'
 import MVAdaptiveImmersiveButton from '../AdaptiveImmersiveButton'
 import type { AdaptiveSize } from '../../../types/adaptive'
-import { watch } from 'vue-demi'
 
 const props = defineProps({
   isPlaying: {
@@ -164,6 +163,8 @@ const toggleFullScreen = () => {
 const handleImmersiveClick = () => {
   emit('toggleImmersive')
 }
+
+const handleTrackInfoTitleClick = () => {}
 </script>
 
 <template>
@@ -175,12 +176,13 @@ const handleImmersiveClick = () => {
         :image="posterUrl"
         :shape="trackInfoCoverShape"
         :size="Size.BIG"
+        @title-click="handleTrackInfoTitleClick"
       >
         <template #control>
           <MVAdaptiveSetDurationButton
             v-if="showSetDuration"
             is-text
-            @click="handleSetDurationClick"
+            @click.stop="handleSetDurationClick"
           />
         </template>
       </MVAdaptiveTrackInfoCard>

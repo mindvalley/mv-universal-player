@@ -49,7 +49,7 @@ const handleClose = () => {
     <button class="absolute top-4 right-6" @click="handleClose">
       <svg v-svg symbol="x-filled" class="h-4 w-4 text-white-70a"></svg>
     </button>
-    <div class="text-center title-8">How long do you want to listen?</div>
+    <div class="text-center title-9">How long do you want to listen?</div>
     <div class="flex flex-col items-center justify-center">
       <Transition name="slide" mode="out-in">
         <div v-if="localIsLooping" key="looping">
@@ -66,14 +66,17 @@ const handleClose = () => {
             </button>
             <button
               @click="toggleMode"
-              class="mt-2 text-white title-9 py-2 px-4 flex flex-row rounded-full hover:bg-white-24a"
+              class="mt-2 text-white title-9 py-2 px-4 flex flex-row rounded-full hover:bg-white-12a"
             >
               Change duration
             </button>
           </div>
         </div>
-        <div v-else key="timer">
-          <div class="lex flex-col items-center justify-center h-[135px] my-6">
+        <div v-else key="timer" class="flex flex-col items-center justify-center">
+          <div class="flex flex-col items-center justify-center h-[135px] my-6">
+            <button @click="toggleMode" class="mb-3">
+              <svg v-svg symbol="infinity-filled" class="h-6 w-6 text-[#878581]"></svg>
+            </button>
             <MVAdaptiveDurationTimer
               :duration="localDuration"
               @update:duration="handleUpdateDuration"
@@ -88,10 +91,10 @@ const handleClose = () => {
             </button>
             <button
               @click="toggleMode"
-              class="mt-2 text-white title-9 py-2 px-4 flex flex-row rounded-full hover:bg-white-24a"
+              class="mt-2 text-white title-9 py-2 px-4 flex flex-row rounded-full hover:bg-white-12a"
             >
               <span> <svg v-svg symbol="infinity-filled" class="h-4 w-4 text-white"></svg></span>
-              <span class="ml-1">I want it to play forever</span>
+              <span class="ml-1 title-9">I want it to play forever</span>
             </button>
           </div>
         </div>

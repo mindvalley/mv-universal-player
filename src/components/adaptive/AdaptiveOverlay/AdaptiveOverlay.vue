@@ -17,7 +17,11 @@ defineEmits(['close'])
   <div>
     <!-- Overlay -->
     <transition name="fade">
-      <div v-if="show" class="fixed inset-0 bg-black bg-opacity-50" :style="{ zIndex }"></div>
+      <div
+        v-if="show"
+        class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-[2px]"
+        :style="{ zIndex }"
+      ></div>
     </transition>
 
     <!-- Content -->

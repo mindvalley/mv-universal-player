@@ -78,20 +78,20 @@ const handleKeyDown = (event: KeyboardEvent) => {
   >
     <button
       aria-label="Increment"
-      class="w-14 py-1 flex items-center justify-center mb-1 outline-none h-4 rounded-full hover:bg-white-24a"
+      class="w-14 py-1 flex items-center justify-center mb-1 outline-none h-4 rounded-sm hover:bg-white-8a"
       @mousedown="startIncrement"
       @mouseup="stopIncrement"
       @mouseleave="stopIncrement"
       @touchstart.prevent="startIncrement"
       @touchend="stopIncrement"
     >
-      <svg v-svg symbol="chevron-up-outlined" class="h-3 w-3 text-white"></svg>
+      <svg v-svg symbol="chevron-up-outlined" class="h-3 w-3 text-white-90a"></svg>
     </button>
     <div class="relative overflow-hidden h-[60px] w-full">
       <transition :name="direction === 'up' ? 'slide-up' : 'slide-down'">
         <span
           :key="currentUnit"
-          class="text-[44px] text-cool-grey-100 absolute inset-0 flex items-center justify-center"
+          class="text-[44px] text-cool-grey-200 absolute inset-0 flex items-center justify-center"
         >
           {{ formattedUnit }}
         </span>
@@ -100,14 +100,14 @@ const handleKeyDown = (event: KeyboardEvent) => {
     <div class="title-11 uppercase text-white-70a my-1">{{ label }}</div>
     <button
       aria-label="Decrement"
-      class="w-14 py-1 flex items-center justify-center outline-none h-4 rounded-full hover:bg-white-24a"
+      class="w-14 py-1 flex items-center justify-center outline-none h-4 rounded-full hover:bg-white-8a"
       @mousedown="startDecrement"
       @mouseup="stopIncrement"
       @mouseleave="stopIncrement"
       @touchstart.prevent="startDecrement"
       @touchend="stopIncrement"
     >
-      <svg v-svg symbol="chevron-down-outlined" class="h-3 w-3 text-white"></svg>
+      <svg v-svg symbol="chevron-down-outlined" class="h-3 w-3 text-white-90a"></svg>
     </button>
   </div>
 </template>

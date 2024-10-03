@@ -1,7 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 
 import { colors } from '@mindvalley/design-system'
-const { colors: b2bColors } = '@mindvalley/design-system/b2b'
+import { colors as b2bColors } from '@mindvalley/design-system/b2b'
+
+console.log('B2C Colors =============', colors)
 
 module.exports = {
   content: ['./src/**/*.{vue,js,ts,jsx,tsx}'],

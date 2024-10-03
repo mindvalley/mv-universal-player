@@ -11,10 +11,10 @@ const props = defineProps({
   <div class="flex items-start justify-start">
     <button
       v-if="isText"
-      class="flex flex-row gap-1 text-teal-300 bg-black bg-opacity-20 rounded-[4px] px-2 py-1"
+      class="flex flex-row gap-1 text-teal-300 bg-black backdrop-blur-[2px] bg-opacity-20 hover:bg-opacity-30 rounded-[4px] px-2 py-1 items-center"
     >
       <span><svg v-svg symbol="stopwatch-outlined" class="h-3 w-3"></svg></span
-      ><span class="title-10">Set duration</span>
+      ><span class="caption-disclaimer">Set duration</span>
     </button>
     <button v-else v-tooltip="'Set duration'" class="h-5 w-5 outline-none">
       <svg
