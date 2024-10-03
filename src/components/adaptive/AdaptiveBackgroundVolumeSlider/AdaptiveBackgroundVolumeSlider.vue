@@ -55,7 +55,7 @@ watchEffect(async () => {
 
 <template>
   <span class="flex h-full w-full items-center justify-center" :class="{ disabled: isDisabled }">
-    <span class="text-cool-grey-250 text-xs">{{ leftText }}</span>
+    <span class="text-cool-grey-250 title-9">{{ leftText }}</span>
     <input
       data-testid="volume-slider"
       :min="min"
@@ -68,7 +68,7 @@ watchEffect(async () => {
       @input="handleVolumeChange"
       :disabled="isDisabled"
     />
-    <span class="text-cool-grey-250 text-xs">{{ rightText }}</span>
+    <span class="text-cool-grey-250 title-9">{{ rightText }}</span>
   </span>
 </template>
 

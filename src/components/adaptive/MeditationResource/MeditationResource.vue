@@ -158,6 +158,10 @@ onMounted(() => {
   selectedMeditationTrackItem.value = backgroundTrackItems.value[0]
 })
 
+const isMixerEnabled = computed(() => {
+  return selectedMeditationTrackItem.value?.item !== null
+})
+
 const handleTrackChange = (track: BackgroundTrackItem) => {
   if (track.item?.id !== selectedMeditationTrackItem.value?.item?.id) {
     selectedMeditationTrackItem.value = track
@@ -180,13 +184,14 @@ const handlePause = () => {
 }
 
 const updateVolume = (backgroundSoundVolume: number, mainSoundVolume: number) => {
-  console.log(backgroundSoundVolume, mainSoundVolume)
   adaptiveResource.value?.player?.player.setVolume(backgroundSoundVolume)
   meditationMixerItem.value?.player?.setVolume(mainSoundVolume)
 }
 
 const handleVolumeChange = (volume: number) => {
-  meditationMixerVolume.value = volume
+  if (selectedMeditationTrackItem.value?.item) {
+    meditationMixerVolume.value = volume
+  }
   updateVolume(1 - volume, volume)
 }
 
@@ -206,8 +211,6 @@ const pauseMeditationTrack = () => {
     meditationMixerItem.value.player?.pause()
   }
 }
-
-console.log('backgroundSounds', props.backgroundSounds)
 </script>
 
 <template>
@@ -250,6 +253,7 @@ console.log('backgroundSounds', props.backgroundSounds)
       :show-meditation-mixer="backgroundSounds.length > 0"
       :track-info-cover-shape="Shape.SQUARE"
       :show-previous-next="showPreviousNext"
+      :is-mixer-enabled="isMixerEnabled"
       @meditation-mixer-open="toggleMeditationMixer"
       @close="handleClose"
       @collection-open="handleCollectionOpen"

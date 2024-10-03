@@ -15,6 +15,7 @@ import MVAdaptiveCloseButton from '../AdaptiveCloseButton'
 import MVAdaptiveTrackInfoCard from '../AdaptiveTrackInfoCard'
 import MVAdaptiveImmersiveButton from '../AdaptiveImmersiveButton'
 import type { AdaptiveSize } from '../../../types/adaptive'
+import { watch } from 'vue-demi'
 
 const props = defineProps({
   isPlaying: {
@@ -46,6 +47,10 @@ const props = defineProps({
     default: false
   },
   isImmersive: {
+    type: Boolean,
+    default: false
+  },
+  isMixerEnabled: {
     type: Boolean,
     default: false
   },
@@ -212,7 +217,10 @@ const handleImmersiveClick = () => {
           <MVAdaptiveSetDurationButton @click="handleSetDurationClick" />
         </div>
         <div class="flex items-center" v-if="showMeditationMixer">
-          <MVAdaptiveMeditationMixerButton @click="handleMeditationMixerClick" />
+          <MVAdaptiveMeditationMixerButton
+            :mixer-enabled="isMixerEnabled"
+            @click="handleMeditationMixerClick"
+          />
         </div>
         <div class="flex items-center">
           <MVAdaptiveCollectionButton @click="handleCollectionClick" />
@@ -268,7 +276,10 @@ const handleImmersiveClick = () => {
             <MVAdaptiveSetDurationButton @click="handleSetDurationClick" />
           </div>
           <div class="flex items-center" v-if="showMeditationMixer">
-            <MVAdaptiveMeditationMixerButton @click="handleMeditationMixerClick" />
+            <MVAdaptiveMeditationMixerButton
+              :mixer-enabled="isMixerEnabled"
+              @click="handleMeditationMixerClick"
+            />
           </div>
           <div class="flex items-center">
             <MVAdaptiveCollectionButton @click="handleCollectionClick" />

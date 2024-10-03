@@ -66,7 +66,6 @@ const isVolumeSliderDisabled = computed(() => {
 })
 
 const updateVolume = (volume: number) => {
-  console.log(volume)
   emit('volumeChange', volume)
 }
 </script>
@@ -76,7 +75,7 @@ const updateVolume = (volume: number) => {
     <button class="absolute top-4 right-6" @click="handleClose">
       <svg v-svg symbol="x-filled" class="h-4 w-4 text-white-70a"></svg>
     </button>
-    <div class="text-center title-8 text-white">Background mixer</div>
+    <div class="text-center title-9 text-white">Background mixer</div>
 
     <div class="relative">
       <button class="carousel-nav-button left-0" @click="handlePrev">
@@ -125,7 +124,7 @@ const updateVolume = (volume: number) => {
 .carousel-3d-slide.current {
   border: 4px solid #e85546 !important;
   border-radius: 50% !important;
-  @apply h-[116px] w-[116px] sm:h-[136px] sm:w-[136px] !important;
+  @apply h-[116px] w-[116px] sm:h-[136px] sm:w-[136px] ml-4 sm:ml-0 !important;
 }
 
 .carousel-3d-slide:not(.current) {
@@ -133,11 +132,11 @@ const updateVolume = (volume: number) => {
 }
 /* Left slides */
 .carousel-3d-slide.left-1 {
-  @apply opacity-90 h-[90px] w-[90px] sm:h-[100px] sm:w-[100px] top-[27px] sm:top-[40px] -left-[10px] !important;
+  @apply opacity-90 h-[90px] w-[90px] sm:h-[100px] sm:w-[100px] top-[27px] sm:top-[40px] left-[16px] sm:-left-[10px] !important;
 }
 
 .carousel-3d-slide.left-2 {
-  @apply opacity-70 h-[70px] w-[70px] sm:h-[80px] sm:w-[80px] top-[47px] sm:top-[60px] left-0 !important;
+  @apply opacity-70 h-[70px] w-[70px] sm:h-[80px] sm:w-[80px] top-[47px] sm:top-[60px] left-[36px] sm:left-0 !important;
 }
 
 .carousel-3d-slide.left-3 {
@@ -146,11 +145,11 @@ const updateVolume = (volume: number) => {
 
 /* Right slides */
 .carousel-3d-slide.right-1 {
-  @apply opacity-90 h-[90px] w-[90px] sm:h-[100px] sm:w-[100px] top-[27px] sm:top-[40px] left-[50px] !important;
+  @apply opacity-90 h-[90px] w-[90px] sm:h-[100px] sm:w-[100px] top-[27px] sm:top-[40px] left-[40px] sm:left-[50px] !important;
 }
 
 .carousel-3d-slide.right-2 {
-  @apply opacity-70 h-[70px] w-[70px] sm:h-[80px] sm:w-[80px] top-[47px] sm:top-[60px] left-[60px] !important;
+  @apply opacity-70 h-[70px] w-[70px] sm:h-[80px] sm:w-[80px] top-[47px] sm:top-[60px] left-[36px] sm:left-[50px] !important;
 }
 
 .carousel-3d-slide.right-3 {

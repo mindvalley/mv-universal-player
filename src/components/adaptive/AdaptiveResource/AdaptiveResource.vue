@@ -105,6 +105,10 @@ const props = defineProps({
   nowPlayingSubtitle: {
     type: String,
     default: 'Soundscape'
+  },
+  isMixerEnabled: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -442,6 +446,7 @@ defineExpose({
         "
         :is-full-screen="isFullScreen"
         :is-immersive="isImmersive"
+        :is-mixer-enabled="isMixerEnabled"
         :looping-enabled="loopingEnabled"
         :show-rewind-and-fast-forward="showRewindAndFastForward"
         :show-previous-next="showPreviousNext"
