@@ -324,6 +324,12 @@ const togglePlayPause = () => {
   }, 1000) // Hide after 1 second, adjust as needed
 }
 
+const handleTimeUpdate = (event: any) => {
+  console.log('event', event)
+  localCurrentTime.value = Number(event.currentTime)
+  emitEvent('timeupdate', { currentTime: localCurrentTime.value })
+}
+
 defineExpose({
   player: adaptiveItem
 })
@@ -347,10 +353,9 @@ defineExpose({
         @rewind="emitEvent('rewind', $event)"
         @fastforward="emitEvent('fastforward', $event)"
         @playbackSpeed="emitEvent('playbackSpeed', $event)"
-        @timeupdate="emitEvent('timeupdate', $event)"
+        @timeupdate="handleTimeUpdate"
         @reset="emitEvent('reset', $event)"
         @error="emitEvent('error', $event)"
-        @seeking="emitEvent('seeking', $event)"
       >
       </MVAdaptiveItem>
     </MVAdaptivePlayer>

@@ -211,6 +211,16 @@ const pauseMeditationTrack = () => {
     meditationMixerItem.value.player?.pause()
   }
 }
+
+const handleSeek = ({ time }: any) => {
+  adaptiveResource.value?.player?.player?.seek(time)
+  emitEvent('seeking', { seeking: time.toFixed(2) })
+}
+
+const emitEvent = (eventName: string, payload?: any) => {
+  const data = { id: props.id, ...payload }
+  emit(eventName, data)
+}
 </script>
 
 <template>
@@ -248,7 +258,6 @@ const pauseMeditationTrack = () => {
       :poster-url="posterUrl"
       :title="title"
       :artist-name="artistName"
-      looping-enabled
       show-rewind-and-fast-forward
       :show-meditation-mixer="backgroundSounds.length > 0"
       :track-info-cover-shape="Shape.SQUARE"
@@ -261,6 +270,7 @@ const pauseMeditationTrack = () => {
       @next="handleNext"
       @play="handlePlay"
       @pause="handlePause"
+      @seek="handleSeek"
     />
   </div>
 </template>
