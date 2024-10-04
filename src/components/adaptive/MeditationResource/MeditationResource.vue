@@ -69,6 +69,10 @@ const props = defineProps({
   defaultBackgroundSound: {
     type: Object as PropType<BackgroundSound>,
     default: null
+  },
+  autoPlay: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -128,6 +132,12 @@ const backgroundTrackItems = computed(() => {
   let sounds = props.backgroundSounds || []
   const updatedBackgroundSounds = []
 
+  updatedBackgroundSounds.push({
+    id: 'no-background-sound',
+    item: null,
+    volume: 0
+  })
+
   if (props.defaultBackgroundSound) {
     updatedBackgroundSounds.push({
       id: props.defaultBackgroundSound.id,
@@ -136,12 +146,6 @@ const backgroundTrackItems = computed(() => {
     })
     sounds = sounds.filter((sound) => sound.id !== props.defaultBackgroundSound?.id)
   }
-
-  updatedBackgroundSounds.push({
-    id: 'no-background-sound',
-    item: null,
-    volume: 0
-  })
 
   sounds.forEach((sound) => {
     updatedBackgroundSounds.push({
@@ -155,7 +159,17 @@ const backgroundTrackItems = computed(() => {
 })
 
 onMounted(() => {
-  selectedMeditationTrackItem.value = backgroundTrackItems.value[0]
+  if (props.defaultBackgroundSound) {
+    selectedMeditationTrackItem.value =
+      backgroundTrackItems.value.find((item) => item.id === props.defaultBackgroundSound.id) ||
+      backgroundTrackItems.value[0]
+  } else {
+    selectedMeditationTrackItem.value = backgroundTrackItems.value[0]
+  }
+
+  if (props.autoPlay) {
+    adaptiveResource.value?.player?.player?.play()
+  }
 })
 
 const isMixerEnabled = computed(() => {

@@ -188,3 +188,25 @@ export const MeditationMixer: Story = {
     backgroundSounds: backgroundSounds
   }
 }
+
+export const MeditationMixerDefaultSound: Story = {
+  render: (args: any, { argTypes }) => ({
+    title: 'Meditation Mixer - Default Sound',
+    components: { MVMeditationResource },
+    setup() {
+      return { args }
+    },
+    template: `<div class="mv-universal-player"><div class="mt-20 absolute bottom-0 left-0 right-0"><MVMeditationResource v-bind="args" /></div></div>`
+  }),
+  args: {
+    key: audio2.assetId,
+    id: audio2.assetId,
+    audioSources: audio2.sources,
+    duration: audio2.duration,
+    posterUrl: audio2.posterUrl,
+    title: audio2.title,
+    artistName: audio2.artistName,
+    backgroundSounds: backgroundSounds,
+    defaultBackgroundSound: backgroundSounds[2]
+  }
+}
