@@ -385,75 +385,78 @@ defineExpose({
       </MVAdaptiveItem>
     </MVAdaptivePlayer>
 
-    <div
-      v-show="isFullScreen"
-      class="fixed inset-0 z-50"
-      @mouseenter="handleMouseEnter(false)"
-      @mouseleave="handleMouseLeave(false)"
-      @mousemove="handleMouseMove"
-      @click="togglePlayPause"
-    >
-      <!-- Top Bar -->
-      <div class="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-b-subtle px-10 py-7">
-        <div class="flex items-center justify-between sm:justify-start">
-          <div class="sm:hidden">
-            <MVAdaptiveFullScreenButton is-down-arrow @toggleFullScreen="toggleFullScreen" />
+    <Transition name="fade">
+      <div
+        v-show="isFullScreen"
+        class="fixed inset-0 z-50"
+        @mouseenter="handleMouseEnter(false)"
+        @mouseleave="handleMouseLeave(false)"
+        @mousemove="handleMouseMove"
+        @click="togglePlayPause"
+      >
+        <!-- Top Bar -->
+        <div class="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-b-subtle px-10 py-7">
+          <div class="flex items-center justify-between sm:justify-start">
+            <div class="sm:hidden">
+              <MVAdaptiveFullScreenButton is-down-arrow @toggleFullScreen="toggleFullScreen" />
+            </div>
+            <div
+              class="absolute left-1/2 transform -translate-x-1/2 sm:static sm:left-auto sm:transform-none"
+            >
+              <MVAdaptiveNowPlayingInfoCard
+                :title="nowPlayingTitle"
+                :sub-title="nowPlayingSubtitle"
+              />
+            </div>
+            <!-- Add an empty div to balance the layout on mobile -->
+            <div class="sm:hidden w-10"></div>
           </div>
-          <div
-            class="absolute left-1/2 transform -translate-x-1/2 sm:static sm:left-auto sm:transform-none"
-          >
-            <MVAdaptiveNowPlayingInfoCard
-              :title="nowPlayingTitle"
-              :sub-title="nowPlayingSubtitle"
-            />
-          </div>
-          <!-- Add an empty div to balance the layout on mobile -->
-          <div class="sm:hidden w-10"></div>
+          <div class="h-1 w-1"></div>
         </div>
-        <div class="h-1 w-1"></div>
-      </div>
 
-      <div class="h-full w-full" v-show="videoSources.length > 0 && isImmersive">
-        <MVAdaptivePlayer :poster-url="posterUrl" loop muted auto-play>
-          <MVAdaptiveItem
-            ref="loopingVideoAdaptiveItemRef"
-            :sources="videoSources"
-            :id="id + '-looping-video'"
-          >
-          </MVAdaptiveItem>
-        </MVAdaptivePlayer>
-      </div>
+        <div class="h-full w-full" v-show="videoSources.length > 0 && isImmersive">
+          <MVAdaptivePlayer :poster-url="posterUrl" loop muted auto-play>
+            <MVAdaptiveItem
+              ref="loopingVideoAdaptiveItemRef"
+              :sources="videoSources"
+              :id="id + '-looping-video'"
+            >
+            </MVAdaptiveItem>
+          </MVAdaptivePlayer>
+        </div>
 
-      <div class="h-full w-full" v-if="videoSources.length === 0 && isImmersive">
-        <MVAdaptiveImmersiveLayer
-          :image="posterUrl"
-          is-immersive-mode-active
-          :playing="adaptiveItem?.state?.playing"
-        />
-      </div>
-      <div class="h-full w-full" v-else>
-        <BaseImage
-          class="w-full h-full"
-          img-class="object-cover h-full"
-          :src="posterUrl"
-          :width="1024"
-        />
-      </div>
-
-      <transition name="fade">
-        <div
-          v-show="showPlayButton"
-          class="fixed inset-0 h-full w-full flex items-center justify-center"
-        >
-          <MVAdaptivePlayButton
-            :playing="!adaptiveItem?.state?.playing"
-            :show-tooltip="false"
-            :show-hover-effect="false"
-            icon-color="text-black-70a"
+        <div class="h-full w-full" v-if="videoSources.length === 0 && isImmersive">
+          <MVAdaptiveImmersiveLayer
+            :image="posterUrl"
+            is-immersive-mode-active
+            :playing="adaptiveItem?.state?.playing"
           />
         </div>
-      </transition>
-    </div>
+        <div class="h-full w-full" v-else>
+          <BaseImage
+            class="w-full h-full"
+            img-class="object-cover h-full"
+            :src="posterUrl"
+            :width="1024"
+          />
+        </div>
+
+        <!-- Play button -->
+        <Transition name="fade">
+          <div
+            v-show="showPlayButton"
+            class="fixed inset-0 h-full w-full flex items-center justify-center"
+          >
+            <MVAdaptivePlayButton
+              :playing="!adaptiveItem?.state?.playing"
+              :show-tooltip="false"
+              :show-hover-effect="false"
+              icon-color="text-black-70a"
+            />
+          </div>
+        </Transition>
+      </div>
+    </Transition>
 
     <!-- Mini Player -->
     <div
@@ -530,7 +533,7 @@ defineExpose({
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s ease;
+  transition: opacity 0.8s ease;
 }
 
 .fade-enter-from,
