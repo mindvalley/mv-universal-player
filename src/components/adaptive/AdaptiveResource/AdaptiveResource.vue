@@ -149,6 +149,10 @@ const immersiveSetOnce = ref(false)
 const loopingVideoAdaptiveItemRef = ref(null)
 const showPlayButton = ref(false)
 
+// Add this new ref
+const lastActivityTimestamp = ref(Date.now())
+const isMouseOverMiniPlayer = ref(false)
+
 watch(isFullScreen, (newVal) => {
   if (newVal) {
     if (!immersiveSetOnce.value) {
@@ -175,31 +179,53 @@ const pauseLoopingVideo = async () => {
   }
 }
 
-const toggleFullScreen = () => {
-  isFullScreen.value = !isFullScreen.value
-  isMiniBarVisible.value = true
+// Modify the handleMouseEnter function
+const handleMouseEnter = (isMiniPlayer = false) => {
+  if (isFullScreen.value) {
+    isMouseOverMiniPlayer.value = isMiniPlayer
+    showMiniBar()
+  }
+}
 
+// Modify the handleMouseLeave function
+const handleMouseLeave = (isMiniPlayer = false) => {
+  if (isFullScreen.value) {
+    if (isMiniPlayer) {
+      isMouseOverMiniPlayer.value = false
+    }
+    startHideTimer()
+  }
+}
+
+// Add these new functions
+const showMiniBar = () => {
+  isMiniBarVisible.value = true
+  lastActivityTimestamp.value = Date.now()
   if (hideTimeout) {
     clearTimeout(hideTimeout)
-    hideTimeout = null
   }
-  emitEvent('fullscreen', { isFullScreen: isFullScreen.value })
+  startHideTimer()
 }
 
-const handleMouseEnter = () => {
-  if (isFullScreen.value) {
-    isMiniBarVisible.value = true
-    if (hideTimeout) {
-      clearTimeout(hideTimeout)
-      hideTimeout = null
-    }
-  }
-}
-
-const handleMouseLeave = () => {
+const startHideTimer = () => {
   hideTimeout = setTimeout(() => {
-    isMiniBarVisible.value = false
-  }, 1500) as unknown as number
+    if (Date.now() - lastActivityTimestamp.value >= 3000 && !isMouseOverMiniPlayer.value) {
+      isMiniBarVisible.value = false
+    }
+  }, 3000) as unknown as number
+}
+
+const handleMouseMove = () => {
+  if (isFullScreen.value) {
+    showMiniBar()
+  }
+}
+
+// Modify the toggleFullScreen function
+const toggleFullScreen = () => {
+  isFullScreen.value = !isFullScreen.value
+  showMiniBar()
+  emitEvent('fullscreen', { isFullScreen: isFullScreen.value })
 }
 
 const emitEvent = (eventName: string, payload?: any) => {
@@ -325,7 +351,6 @@ const togglePlayPause = () => {
 }
 
 const handleTimeUpdate = (event: any) => {
-  console.log('event', event)
   localCurrentTime.value = Number(event.currentTime)
   emitEvent('timeupdate', { currentTime: localCurrentTime.value })
 }
@@ -363,8 +388,9 @@ defineExpose({
     <div
       v-show="isFullScreen"
       class="fixed inset-0 z-50"
-      @mouseenter="handleMouseEnter"
-      @mouseleave="handleMouseLeave"
+      @mouseenter="handleMouseEnter(false)"
+      @mouseleave="handleMouseLeave(false)"
+      @mousemove="handleMouseMove"
       @click="togglePlayPause"
     >
       <!-- Top Bar -->
@@ -428,10 +454,12 @@ defineExpose({
 
     <!-- Mini Player -->
     <div
-      @mouseenter="handleMouseEnter"
+      @mouseenter="handleMouseEnter(true)"
+      @mouseleave="handleMouseLeave(true)"
+      @mousemove="handleMouseMove"
       data-testid="adaptive-mini-player"
       :class="[
-        'transition-all duration-400 ease-in-out',
+        'transition-all duration-[600ms] ease-in-out',
         isFullScreen
           ? 'fixed bottom-0 left-0 right-0 z-[60] bg-gradient-to-t from-black to-transparent px-10'
           : 'bg-black',

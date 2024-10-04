@@ -1,14 +1,24 @@
 <script setup lang="ts">
-import { PropType } from 'vue-demi'
+import { computed, PropType } from 'vue-demi'
 import { BackgroundTrackItem } from '../../../types/adaptive'
 
 const props = defineProps({
   trackItem: {
     type: Object as PropType<BackgroundTrackItem>
   },
-  isActive: {
-    type: Boolean
+  leftIndex: {
+    type: Number
+  },
+  rightIndex: {
+    type: Number
   }
+})
+
+const noBackgroundSoundTitleClass = computed(() => {
+  if (props.leftIndex === 0 || props.rightIndex === 0) return 'title-10'
+  if (props.leftIndex === 1 || props.rightIndex === 1) return 'title-11'
+  if (props.leftIndex === 2 || props.rightIndex === 2) return 'title-11'
+  return 'title-9'
 })
 </script>
 
@@ -20,9 +30,9 @@ const props = defineProps({
     <div
       data-testid="no-background-sound"
       v-if="!trackItem?.item"
-      class="flex h-full w-full text-white items-center justify-center bg-black text-center text-[10px]"
+      class="flex h-full w-full text-white items-center justify-center bg-black text-center"
     >
-      <span class="text-white title-9 px-10">No background sound</span>
+      <span class="text-white px-10" :class="noBackgroundSoundTitleClass">No background sound</span>
     </div>
     <img
       v-else

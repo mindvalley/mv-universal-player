@@ -3,8 +3,6 @@
 import { colors } from '@mindvalley/design-system'
 import { colors as b2bColors } from '@mindvalley/design-system/b2b'
 
-console.log('B2C Colors =============', colors)
-
 module.exports = {
   content: ['./src/**/*.{vue,js,ts,jsx,tsx}'],
   important: '.mv-universal-player',

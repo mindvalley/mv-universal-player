@@ -94,7 +94,13 @@ const updateVolume = (volume: number) => {
         :animationSpeed="700"
       >
         <Slide v-for="(item, index) in backgroundTrackItems" :key="item.id" :index="index">
-          <MVAdaptiveBackgroundTrackItem :trackItem="item" />
+          <template #default="{ leftIndex, rightIndex }">
+            <MVAdaptiveBackgroundTrackItem
+              :trackItem="item"
+              :left-index="leftIndex"
+              :right-index="rightIndex"
+            />
+          </template>
         </Slide>
       </carousel-3d>
       <button class="carousel-nav-button right-0" @click="handleNext">
@@ -119,6 +125,7 @@ const updateVolume = (volume: number) => {
 
 .carousel-3d-slide {
   background-color: transparent !important;
+  transition: all 0.5s ease;
 }
 
 .carousel-3d-slide.current {
@@ -130,6 +137,7 @@ const updateVolume = (volume: number) => {
 .carousel-3d-slide:not(.current) {
   @apply h-[54px] w-[54px] sm:h-[64px] sm:w-[64px] top-[75px] sm:top-[85px] !important;
 }
+
 /* Left slides */
 .carousel-3d-slide.left-1 {
   @apply opacity-90 h-[90px] w-[90px] sm:h-[100px] sm:w-[100px] top-[27px] sm:top-[40px] left-[16px] sm:-left-[10px] !important;
@@ -149,11 +157,15 @@ const updateVolume = (volume: number) => {
 }
 
 .carousel-3d-slide.right-2 {
-  @apply opacity-70 h-[70px] w-[70px] sm:h-[80px] sm:w-[80px] top-[47px] sm:top-[60px] left-[36px] sm:left-[50px] !important;
+  @apply opacity-70 h-[70px] w-[70px] sm:h-[80px] sm:w-[80px] top-[47px] sm:top-[60px] left-[36px] sm:left-[60px] !important;
 }
 
 .carousel-3d-slide.right-3 {
   @apply opacity-50 h-[54px] w-[54px] sm:h-[64px] sm:w-[64px] top-[70px] sm:top-[75px] left-[50px] !important;
+}
+
+.carousel-3d-slide.far {
+  @apply opacity-30 h-[40px] w-[40px] sm:h-[50px] sm:w-[50px] top-[80px] sm:top-[90px] !important;
 }
 
 /* Remove the following CSS classes as they're now in the Tailwind classes */

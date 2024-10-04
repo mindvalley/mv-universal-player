@@ -138,7 +138,7 @@ const backgroundTrackItems = computed(() => {
   }
 
   updatedBackgroundSounds.push({
-    id: 0,
+    id: 'no-background-sound',
     item: null,
     volume: 0
   })
@@ -162,10 +162,15 @@ const isMixerEnabled = computed(() => {
   return selectedMeditationTrackItem.value?.item !== null
 })
 
-const handleTrackChange = (track: BackgroundTrackItem) => {
+const handleTrackChange = async (track: BackgroundTrackItem) => {
   if (track.item?.id !== selectedMeditationTrackItem.value?.item?.id) {
     selectedMeditationTrackItem.value = track
+
+    // We need to wait for the next tick to set the audio and volume
+    await nextTick()
+
     meditationMixerItem.value.player?.setAudio()
+    handleVolumeChange(meditationMixerVolume.value)
 
     if (selectedMeditationTrackItem.value?.item) {
       playMeditationTrack()
@@ -184,15 +189,20 @@ const handlePause = () => {
 }
 
 const updateVolume = (backgroundSoundVolume: number, mainSoundVolume: number) => {
-  adaptiveResource.value?.player?.player.setVolume(backgroundSoundVolume)
-  meditationMixerItem.value?.player?.setVolume(mainSoundVolume)
+  adaptiveResource.value?.player?.player.setVolume(mainSoundVolume)
+  meditationMixerItem.value?.player?.setVolume(backgroundSoundVolume)
 }
 
 const handleVolumeChange = (volume: number) => {
   if (selectedMeditationTrackItem.value?.item) {
     meditationMixerVolume.value = volume
   }
-  updateVolume(1 - volume, volume)
+
+  if (selectedMeditationTrackItem.value?.item) {
+    updateVolume(1 - volume, volume)
+  } else {
+    updateVolume(0, 1)
+  }
 }
 
 const playMeditationTrack = async () => {
@@ -228,8 +238,8 @@ const emitEvent = (eventName: string, payload?: any) => {
     <MVAdaptivePlayer loop :audio-only-mode="true">
       <MVAdaptiveItem
         ref="meditationMixerItem"
-        :sources="selectedMeditationTrackItem?.item?.sources"
-        :id="selectedMeditationTrackItem?.item?.id"
+        :sources="selectedMeditationTrackItem?.item?.sources || []"
+        :id="selectedMeditationTrackItem?.id"
       >
       </MVAdaptiveItem>
     </MVAdaptivePlayer>

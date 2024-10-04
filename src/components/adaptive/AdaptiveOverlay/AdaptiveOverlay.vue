@@ -50,7 +50,7 @@ defineEmits(['close'])
 
 .slide-up-enter-active,
 .slide-up-leave-active {
-  transition: all 0.3s ease-out;
+  transition: all 0.6s ease-out;
 }
 
 .slide-up-enter-from,
