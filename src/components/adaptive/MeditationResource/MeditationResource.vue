@@ -73,6 +73,14 @@ const props = defineProps({
   autoPlay: {
     type: Boolean,
     default: true
+  },
+  nowPlayingTitle: {
+    type: String,
+    default: 'NOW PLAYING'
+  },
+  nowPlayingSubtitle: {
+    type: String,
+    default: 'Meditation'
   }
 })
 
@@ -287,6 +295,8 @@ const emitEvent = (eventName: string, payload?: any) => {
       :track-info-cover-shape="Shape.SQUARE"
       :show-previous-next="showPreviousNext"
       :is-mixer-enabled="isMixerEnabled"
+      :now-playing-title="nowPlayingTitle"
+      :now-playing-subtitle="nowPlayingSubtitle"
       @meditation-mixer-open="toggleMeditationMixer"
       @close="handleClose"
       @collection-open="handleCollectionOpen"

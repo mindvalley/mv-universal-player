@@ -104,7 +104,7 @@ const props = defineProps({
   },
   nowPlayingSubtitle: {
     type: String,
-    default: 'Soundscape'
+    default: ''
   },
   isMixerEnabled: {
     type: Boolean,
@@ -402,7 +402,10 @@ defineExpose({
           <div
             class="absolute left-1/2 transform -translate-x-1/2 sm:static sm:left-auto sm:transform-none"
           >
-            <MVAdaptiveNowPlayingInfoCard />
+            <MVAdaptiveNowPlayingInfoCard
+              :title="nowPlayingTitle"
+              :sub-title="nowPlayingSubtitle"
+            />
           </div>
           <!-- Add an empty div to balance the layout on mobile -->
           <div class="sm:hidden w-10"></div>

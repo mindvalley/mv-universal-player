@@ -184,6 +184,11 @@ const handleTrackInfoTitleClick = () => {}
             is-text
             @click.stop="handleSetDurationClick"
           />
+          <MVAdaptiveMeditationMixerButton
+            v-if="showMeditationMixer"
+            is-text
+            @click.stop="handleMeditationMixerClick"
+          />
         </template>
       </MVAdaptiveTrackInfoCard>
     </div>

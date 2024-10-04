@@ -285,6 +285,8 @@ const emitEvent = (eventName: string, payload?: any) => {
         :show-previous-next="showPreviousNext"
         :progress-bar-current-time="localCurrentTime"
         :override-progress-bar-current-time="!localLoopingEnabled"
+        :now-playing-title="nowPlayingTitle"
+        :now-playing-subtitle="nowPlayingSubtitle"
         @close="handleClose"
         @collection-open="handleCollectionOpen"
         @previous="handlePrevious"
