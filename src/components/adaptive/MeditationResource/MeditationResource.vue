@@ -291,6 +291,7 @@ const emitEvent = (eventName: string, payload?: any) => {
       :title="title"
       :artist-name="artistName"
       show-rewind-and-fast-forward
+      show-immersive
       :show-meditation-mixer="backgroundSounds.length > 0"
       :track-info-cover-shape="Shape.SQUARE"
       :show-previous-next="showPreviousNext"
