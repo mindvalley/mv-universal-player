@@ -1,0 +1,4 @@
+import MVAdaptiveAboutThisInfoSetDurationButton from './AdaptiveAboutThisInfoSetDurationButton.vue'
+
+export { MVAdaptiveAboutThisInfoSetDurationButton }
+export default MVAdaptiveAboutThisInfoSetDurationButton

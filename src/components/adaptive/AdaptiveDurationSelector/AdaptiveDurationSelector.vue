@@ -46,7 +46,7 @@ const handleClose = () => {
   <div
     class="bg-black max-w-xl p-4 min-w-[400px] sm:min-w-[560px] rounded-3xl text-white flex flex-col items-center justify-center relative"
   >
-    <button class="absolute top-4 right-6" @click="handleClose">
+    <button class="absolute top-4 right-6 rounded-full hover:bg-white-24a p-1" @click="handleClose">
       <svg v-svg symbol="x-filled" class="h-4 w-4 text-white-70a"></svg>
     </button>
     <div class="text-center title-9">How long do you want to listen?</div>
