@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { ref, watch, nextTick } from 'vue-demi'
-import MVAdaptiveItem from '../AdaptiveItem'
 import type { Source } from './../../../types/audio'
-import MVAdaptivePlayer from '../AdaptivePlayer'
 import { AdaptiveShape } from '../../../types/adaptive'
 import { Shape } from '../../../models/adaptive.enums'
+import MVAdaptiveItem from '../AdaptiveItem'
+import MVAdaptivePlayer from '../AdaptivePlayer'
 import MVAdaptivePlayerBar from '../AdaptivePlayerBar'
 import MVAdaptiveImmersiveLayer from '../AdaptiveImmersiveLayer'
 import MVAdaptivePlayButton from '../AdaptivePlayButton'
-import BaseImage from '../../global/BaseImage.vue'
 import MVAdaptiveNowPlayingInfoCard from '../AdaptiveNowPlayingInfoCard'
 import MVAdaptiveFullScreenButton from '../AdaptiveFullScreenButton'
+import BaseImage from '../../global/BaseImage.vue'
 
 const props = defineProps({
   id: {
@@ -407,7 +407,7 @@ defineExpose({
         <div class="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-b-subtle px-10 py-7">
           <div class="flex items-center justify-between sm:justify-start">
             <div class="sm:hidden">
-              <MVAdaptiveFullScreenButton is-down-arrow @toggleFullScreen="toggleFullScreen" />
+              <MVAdaptiveFullScreenButton is-mobile-layout @toggleFullScreen="toggleFullScreen" />
             </div>
             <div
               class="absolute left-1/2 transform -translate-x-1/2 sm:static sm:left-auto sm:transform-none"

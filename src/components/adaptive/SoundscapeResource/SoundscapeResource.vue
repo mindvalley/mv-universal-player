@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ref, onUnmounted, onMounted } from 'vue-demi'
+import { ref, onMounted, onUnmounted } from 'vue-demi'
+import type { Source } from './../../../types/audio'
+import { Shape } from '../../../models/adaptive.enums'
 import MVAdaptiveResource from '../AdaptiveResource'
 import MVAdaptiveDurationSelector from '../AdaptiveDurationSelector'
 import MVAdaptiveOverlay from '../AdaptiveOverlay'
-import type { Source } from './../../../types/audio'
-import { Shape } from '../../../models/adaptive.enums'
 import MVAdaptiveAboutThisInfo from '../AdaptiveAboutThisInfo'
 import MVAdaptiveAboutThisInfoSetDurationButton from '../AdaptiveAboutThisInfo/AdaptiveAboutThisInfoSetDurationButton'
 

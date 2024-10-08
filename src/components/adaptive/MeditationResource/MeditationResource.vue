@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, PropType, ref } from 'vue-demi'
-import MVAdaptiveResource from '../AdaptiveResource'
-import MVAdaptiveBackgroundMixer from './../AdaptiveBackgroundMixer'
 import type { Source } from './../../../types/audio'
 import { Shape } from '../../../models/adaptive.enums'
+import { BackgroundSound, BackgroundTrackItem } from '../../../types/adaptive'
+import MVAdaptiveResource from '../AdaptiveResource'
+import MVAdaptiveBackgroundMixer from './../AdaptiveBackgroundMixer'
 import MVAdaptiveOverlay from '../AdaptiveOverlay'
-import { BackgroundSound, BackgroundTrackItem, AboutThisInfo } from '../../../types/adaptive'
 import MVAdaptivePlayer from '../AdaptivePlayer'
 import MVAdaptiveItem from '../AdaptiveItem'
 import MVAdaptiveAboutThisInfo from '../AdaptiveAboutThisInfo'
 import MVAdaptiveAboutThisInfoMeditationMixerButton from '../AdaptiveAboutThisInfo/AdaptiveAboutThisInfoMeditationMixerButton'
+
 const props = defineProps({
   id: {
     type: String,
