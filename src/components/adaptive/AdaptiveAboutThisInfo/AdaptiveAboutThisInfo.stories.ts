@@ -30,9 +30,9 @@ export const Default: Story = {
     </MVAdaptiveAboutThisInfo></div>`
   }),
   args: {
-    aboutThisTitle: 'About this info card',
+    headerTitle: 'About this info card',
     title: 'Phase 4: Envisioning the Future That is Bright',
-    authorName: 'Vishen',
+    artistName: 'Vishen',
     description:
       'Being happy now is important, but so is thinking about where you want to go. Both are imperative for living a fulfilling life. In this meditation, you’ll uncover your vision for the next three years and experience it with all five senses.',
 
@@ -56,9 +56,9 @@ export const MeditationMixer: Story = {
     </MVAdaptiveAboutThisInfo></div>`
   }),
   args: {
-    aboutThisTitle: 'About this info card',
+    headerTitle: 'About this info card',
     title: 'Phase 4: Envisioning the Future That is Bright',
-    authorName: 'Vishen',
+    artistName: 'Vishen',
     description:
       'Being happy now is important, but so is thinking about where you want to go. Both are imperative for living a fulfilling life. In this meditation, you’ll uncover your vision for the next three years and experience it with all five senses.',
 
@@ -82,9 +82,9 @@ export const MeditationMixerActive: Story = {
     </MVAdaptiveAboutThisInfo></div>`
   }),
   args: {
-    aboutThisTitle: 'About this info card',
+    headerTitle: 'About this info card',
     title: 'Phase 4: Envisioning the Future That is Bright',
-    authorName: 'Vishen',
+    artistName: 'Vishen',
     description:
       'Being happy now is important, but so is thinking about where you want to go. Both are imperative for living a fulfilling life. In this meditation, you’ll uncover your vision for the next three years and experience it with all five senses.',
 
@@ -112,9 +112,9 @@ export const SetDuration: Story = {
     </MVAdaptiveAboutThisInfo></div>`
   }),
   args: {
-    aboutThisTitle: 'About this info card',
+    headerTitle: 'About this info card',
     title: 'Phase 4: Envisioning the Future That is Bright',
-    authorName: 'Vishen',
+    artistName: 'Vishen',
     description:
       'Being happy now is important, but so is thinking about where you want to go. Both are imperative for living a fulfilling life. In this meditation, you’ll uncover your vision for the next three years and experience it with all five senses.',
 

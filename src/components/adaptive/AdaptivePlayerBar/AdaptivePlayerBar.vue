@@ -106,6 +106,7 @@ const emit = defineEmits<{
   (e: 'seek', time: number): void
   (e: 'toggleFullScreen'): void
   (e: 'toggleImmersive'): void
+  (e: 'trackInfoTitleClick'): void
 }>()
 
 const handlePlay = () => {
@@ -164,7 +165,9 @@ const handleImmersiveClick = () => {
   emit('toggleImmersive')
 }
 
-const handleTrackInfoTitleClick = () => {}
+const handleTrackInfoTitleClick = () => {
+  emit('trackInfoTitleClick')
+}
 </script>
 
 <template>

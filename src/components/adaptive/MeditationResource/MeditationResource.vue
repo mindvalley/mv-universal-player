@@ -5,10 +5,11 @@ import MVAdaptiveBackgroundMixer from './../AdaptiveBackgroundMixer'
 import type { Source } from './../../../types/audio'
 import { Shape } from '../../../models/adaptive.enums'
 import MVAdaptiveOverlay from '../AdaptiveOverlay'
-import { BackgroundSound, BackgroundTrackItem } from '../../../types/adaptive'
+import { BackgroundSound, BackgroundTrackItem, AboutThisInfo } from '../../../types/adaptive'
 import MVAdaptivePlayer from '../AdaptivePlayer'
 import MVAdaptiveItem from '../AdaptiveItem'
-
+import MVAdaptiveAboutThisInfo from '../AdaptiveAboutThisInfo'
+import MVAdaptiveAboutThisInfoMeditationMixerButton from '../AdaptiveAboutThisInfo/AdaptiveAboutThisInfoMeditationMixerButton'
 const props = defineProps({
   id: {
     type: String,
@@ -81,6 +82,18 @@ const props = defineProps({
   nowPlayingSubtitle: {
     type: String,
     default: 'Meditation'
+  },
+  description: {
+    type: String,
+    default: ''
+  },
+  ratings: {
+    type: Number,
+    default: 0
+  },
+  tags: {
+    type: Array<string>,
+    default: () => []
   }
 })
 
@@ -115,8 +128,10 @@ const adaptiveResource = ref(null)
 const meditationMixerItem = ref(null)
 const selectedMeditationTrackItem = ref<BackgroundTrackItem | null>(null)
 const meditationMixerVolume = ref(0.5)
+const showAboutThisInfo = ref(false)
 
 const toggleMeditationMixer = () => {
+  showAboutThisInfo.value = false
   showMeditationMixer.value = !showMeditationMixer.value
 }
 
@@ -249,6 +264,11 @@ const handleSeek = ({ time }: any) => {
   emitEvent('seeking', { seeking: time.toFixed(2) })
 }
 
+const toggleAboutThisInfo = () => {
+  showMeditationMixer.value = false
+  showAboutThisInfo.value = !showAboutThisInfo.value
+}
+
 const emitEvent = (eventName: string, payload?: any) => {
   const data = { id: props.id, ...payload }
   emit(eventName, data)
@@ -282,6 +302,31 @@ const emitEvent = (eventName: string, payload?: any) => {
       />
     </MVAdaptiveOverlay>
 
+    <MVAdaptiveOverlay
+      :show="showAboutThisInfo"
+      @close="toggleAboutThisInfo"
+      :z-index="overlayZIndex"
+    >
+      <MVAdaptiveAboutThisInfo
+        header-title="About this meditation"
+        :title="title"
+        :artist-name="artistName"
+        :image="posterUrl"
+        :description="description"
+        :ratings="ratings"
+        :tags="tags"
+        @close="toggleAboutThisInfo"
+      >
+        <template #control>
+          <MVAdaptiveAboutThisInfoMeditationMixerButton
+            @click="toggleMeditationMixer"
+            :track-title="selectedMeditationTrackItem?.item?.title"
+            :is-active="selectedMeditationTrackItem?.item"
+          />
+        </template>
+      </MVAdaptiveAboutThisInfo>
+    </MVAdaptiveOverlay>
+
     <MVAdaptiveResource
       ref="adaptiveResource"
       :id="id"
@@ -298,6 +343,7 @@ const emitEvent = (eventName: string, payload?: any) => {
       :is-mixer-enabled="isMixerEnabled"
       :now-playing-title="nowPlayingTitle"
       :now-playing-subtitle="nowPlayingSubtitle"
+      @track-info-title-click="toggleAboutThisInfo"
       @meditation-mixer-open="toggleMeditationMixer"
       @close="handleClose"
       @collection-open="handleCollectionOpen"

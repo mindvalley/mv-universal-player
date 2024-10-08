@@ -5,72 +5,86 @@ const backgroundSounds = [
   {
     id: '1',
     image: getImageUrl('bg_sound_image_1.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_1.wav.mp3') }]
+    sources: [{ type: '', src: getSoundUrl('bg_sound_1.wav.mp3') }],
+    title: 'Background Sound 1'
   },
   {
     id: '2',
     image: getImageUrl('bg_sound_image_2.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_2.wav.mp3') }]
+    sources: [{ type: '', src: getSoundUrl('bg_sound_2.wav.mp3') }],
+    title: 'Background Sound 2'
   },
   {
     id: '3',
     image: getImageUrl('bg_sound_image_3.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_3.wav.mp3') }]
+    sources: [{ type: '', src: getSoundUrl('bg_sound_3.wav.mp3') }],
+    title: 'Background Sound 3'
   },
   {
     id: '4',
     image: getImageUrl('bg_sound_image_4.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_4.wav.mp3') }]
+    sources: [{ type: '', src: getSoundUrl('bg_sound_4.wav.mp3') }],
+    title: 'Background Sound 4'
   },
   {
     id: '5',
     image: getImageUrl('bg_sound_image_5.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_5.wav.mp3') }]
+    sources: [{ type: '', src: getSoundUrl('bg_sound_5.wav.mp3') }],
+    title: 'Background Sound 5'
   },
   {
     id: '6',
     image: getImageUrl('bg_sound_image_6.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_6.wav.mp3') }]
+    sources: [{ type: '', src: getSoundUrl('bg_sound_6.wav.mp3') }],
+    title: 'Background Sound 6'
   },
   {
     id: '7',
     image: getImageUrl('bg_sound_image_7.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_7.wav.mp3') }]
+    sources: [{ type: '', src: getSoundUrl('bg_sound_7.wav.mp3') }],
+    title: 'Background Sound 7'
   },
   {
     id: '8',
     image: getImageUrl('bg_sound_image_8.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_8.wav.mp3') }]
+    sources: [{ type: '', src: getSoundUrl('bg_sound_8.wav.mp3') }],
+    title: 'Background Sound 8'
   },
   {
     id: '9',
     image: getImageUrl('bg_sound_image_9.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_9.wav.mp3') }]
+    sources: [{ type: '', src: getSoundUrl('bg_sound_9.wav.mp3') }],
+    title: 'Background Sound 9'
   },
   {
     id: '10',
     image: getImageUrl('bg_sound_image_10.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_10.wav.mp3') }]
+    sources: [{ type: '', src: getSoundUrl('bg_sound_10.wav.mp3') }],
+    title: 'Background Sound 10'
   },
   {
     id: '11',
     image: getImageUrl('bg_sound_image_11.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_11.wav.mp3') }]
+    sources: [{ type: '', src: getSoundUrl('bg_sound_11.wav.mp3') }],
+    title: 'Background Sound 11'
   },
   {
     id: '12',
     image: getImageUrl('bg_sound_image_12.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_12.mp3.mp3') }]
+    sources: [{ type: '', src: getSoundUrl('bg_sound_12.mp3.mp3') }],
+    title: 'Background Sound 12'
   },
   {
     id: '13',
     image: getImageUrl('bg_sound_image_13.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_13.mp3.mp3') }]
+    sources: [{ type: '', src: getSoundUrl('bg_sound_13.mp3.mp3') }],
+    title: 'Background Sound 13'
   },
   {
     id: '14',
     image: getImageUrl('bg_sound_image_14.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_14.wav.mp3') }]
+    sources: [{ type: '', src: getSoundUrl('bg_sound_14.wav.mp3') }],
+    title: 'Background Sound 14'
   }
 ]
 
@@ -185,7 +199,10 @@ export const MeditationMixer: Story = {
     posterUrl: audio2.posterUrl,
     title: audio2.title,
     artistName: audio2.artistName,
-    backgroundSounds: backgroundSounds
+    backgroundSounds: backgroundSounds,
+    description: audio2.description,
+    ratings: audio2.ratings,
+    tags: ['Achieving goals', 'Clarity on life vision', 'Focus']
   }
 }
 

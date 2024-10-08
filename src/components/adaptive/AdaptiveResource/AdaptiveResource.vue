@@ -136,6 +136,7 @@ const emit = defineEmits<{
   (e: 'fullscreen', { isFullScreen }: any): void
   (e: 'toggleImmersive', { isImmersive }: any): void
   (e: 'playbackSpeed', { playbackSpeed }: any): void
+  (e: 'trackInfoTitleClick'): void
   (e: any, payload: any): void
 }>()
 
@@ -355,6 +356,10 @@ const handleTimeUpdate = (event: any) => {
   emitEvent('timeupdate', { currentTime: localCurrentTime.value })
 }
 
+const handleTrackInfoTitleClick = () => {
+  emitEvent('track-info-title-click')
+}
+
 defineExpose({
   player: adaptiveItem
 })
@@ -494,6 +499,7 @@ defineExpose({
         :show-meditation-mixer="showMeditationMixer"
         :show-collections="showCollections"
         :show-immersive="showImmersive"
+        @track-info-title-click="handleTrackInfoTitleClick"
         @pause="pause"
         @play="play"
         @rewind="rewind"

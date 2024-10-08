@@ -12,7 +12,7 @@ defineProps({
     type: String,
     required: true
   },
-  authorName: {
+  artistName: {
     type: String,
     required: true
   },
@@ -56,7 +56,7 @@ const handleClose = () => {
       </div>
       <div class="ml-4">
         <div class="title-8 text-white">{{ title }}</div>
-        <div class="caption-disclaimer text-cool-grey-200 mt-[1px]">{{ authorName }}</div>
+        <div class="caption-disclaimer text-cool-grey-200 mt-[1px]">{{ artistName }}</div>
         <div class="flex items-center mt-1">
           <span class="title-8 text-[#B3B8C1]">{{ ratings }}</span
           ><span class="ml-0.5">

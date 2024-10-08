@@ -5,6 +5,8 @@ import MVAdaptiveDurationSelector from '../AdaptiveDurationSelector'
 import MVAdaptiveOverlay from '../AdaptiveOverlay'
 import type { Source } from './../../../types/audio'
 import { Shape } from '../../../models/adaptive.enums'
+import MVAdaptiveAboutThisInfo from '../AdaptiveAboutThisInfo'
+import MVAdaptiveAboutThisInfoSetDurationButton from '../AdaptiveAboutThisInfo/AdaptiveAboutThisInfoSetDurationButton'
 
 const props = defineProps({
   id: {
@@ -70,6 +72,18 @@ const props = defineProps({
   nowPlayingSubtitle: {
     type: String,
     default: 'Soundscape'
+  },
+  description: {
+    type: String,
+    default: ''
+  },
+  ratings: {
+    type: Number,
+    default: 0
+  },
+  tags: {
+    type: Array<string>,
+    default: () => []
   }
 })
 
@@ -101,6 +115,7 @@ const localDuration = ref(240) // 4 minutes
 const showDurationSelector = ref(false)
 const overlayZIndex = ref(50)
 const isFullScreenEnabled = ref(false)
+const showAboutThisInfo = ref(false)
 
 const elapsedTime = ref(0)
 const timerInterval = ref<number | null>(null)
@@ -198,6 +213,7 @@ const handleStayForever = () => {
 }
 
 const toggleDurationSelector = () => {
+  showAboutThisInfo.value = false
   showDurationSelector.value = !showDurationSelector.value
 }
 
@@ -244,6 +260,11 @@ const handleFullscreen = ({ isFullScreen }: any) => {
   }
 }
 
+const toggleAboutThisInfo = () => {
+  showDurationSelector.value = false
+  showAboutThisInfo.value = !showAboutThisInfo.value
+}
+
 const emitEvent = (eventName: string, payload?: any) => {
   const data = { id: props.id, ...payload }
   emit(eventName, data)
@@ -264,6 +285,28 @@ const emitEvent = (eventName: string, payload?: any) => {
         @forever="handleStayForever"
         @close="handleCloseDurationSelector"
       />
+    </MVAdaptiveOverlay>
+
+    <MVAdaptiveOverlay
+      :show="showAboutThisInfo"
+      @close="toggleAboutThisInfo"
+      :z-index="overlayZIndex"
+    >
+      <MVAdaptiveAboutThisInfo
+        header-title="About this soundscape"
+        :title="title"
+        :artist-name="artistName"
+        :image="posterUrl"
+        :description="description"
+        :ratings="ratings"
+        :tags="tags"
+        :shape="Shape.ROUND"
+        @close="toggleAboutThisInfo"
+      >
+        <template #control>
+          <MVAdaptiveAboutThisInfoSetDurationButton @click="toggleDurationSelector" />
+        </template>
+      </MVAdaptiveAboutThisInfo>
     </MVAdaptiveOverlay>
 
     <!-- Adaptive Resource -->
@@ -287,6 +330,7 @@ const emitEvent = (eventName: string, payload?: any) => {
         :override-progress-bar-current-time="!localLoopingEnabled"
         :now-playing-title="nowPlayingTitle"
         :now-playing-subtitle="nowPlayingSubtitle"
+        @track-info-title-click="toggleAboutThisInfo"
         @close="handleClose"
         @collection-open="handleCollectionOpen"
         @previous="handlePrevious"

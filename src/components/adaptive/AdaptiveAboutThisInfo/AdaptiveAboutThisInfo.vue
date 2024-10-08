@@ -5,7 +5,7 @@ import { MVAdaptiveAboutThisInfoCard } from './AdaptiveAboutThisInfoCard'
 import { computed, useSlots } from 'vue-demi'
 
 defineProps({
-  aboutThisTitle: {
+  headerTitle: {
     type: String,
     required: true
   },
@@ -17,7 +17,7 @@ defineProps({
     type: String,
     required: true
   },
-  authorName: {
+  artistName: {
     type: String,
     required: true
   },
@@ -54,7 +54,7 @@ const isControlAvailable = computed(() => {
 
 <template>
   <div class="bg-black rounded-3xl w-[398px] sm:w-[480px] py-4 px-6 relative">
-    <div class="title-9 text-white">{{ aboutThisTitle }}</div>
+    <div class="title-9 text-white">{{ headerTitle }}</div>
     <button class="absolute top-4 right-6 rounded-full hover:bg-white-24a p-1" @click="handleClose">
       <svg v-svg symbol="x-filled" class="h-4 w-4 text-white-70a"></svg>
     </button>
@@ -62,7 +62,7 @@ const isControlAvailable = computed(() => {
       <MVAdaptiveAboutThisInfoCard
         :title="title"
         :image="image"
-        :author-name="authorName"
+        :artist-name="artistName"
         :description="description"
         :shape="shape"
         :ratings="ratings"

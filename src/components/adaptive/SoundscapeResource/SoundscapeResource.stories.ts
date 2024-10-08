@@ -1,79 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import { MVSoundscapeResource } from '.'
 
-const backgroundSounds = [
-  {
-    id: '1',
-    image: getImageUrl('bg_sound_image_1.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_1.wav.mp3') }]
-  },
-  {
-    id: '2',
-    image: getImageUrl('bg_sound_image_2.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_2.wav.mp3') }]
-  },
-  {
-    id: '3',
-    image: getImageUrl('bg_sound_image_3.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_3.wav.mp3') }]
-  },
-  {
-    id: '4',
-    image: getImageUrl('bg_sound_image_4.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_4.wav.mp3') }]
-  },
-  {
-    id: '5',
-    image: getImageUrl('bg_sound_image_5.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_5.wav.mp3') }]
-  },
-  {
-    id: '6',
-    image: getImageUrl('bg_sound_image_6.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_6.wav.mp3') }]
-  },
-  {
-    id: '7',
-    image: getImageUrl('bg_sound_image_7.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_7.wav.mp3') }]
-  },
-  {
-    id: '8',
-    image: getImageUrl('bg_sound_image_8.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_8.wav.mp3') }]
-  },
-  {
-    id: '9',
-    image: getImageUrl('bg_sound_image_9.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_9.wav.mp3') }]
-  },
-  {
-    id: '10',
-    image: getImageUrl('bg_sound_image_10.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_10.wav.mp3') }]
-  },
-  {
-    id: '11',
-    image: getImageUrl('bg_sound_image_11.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_11.wav.mp3') }]
-  },
-  {
-    id: '12',
-    image: getImageUrl('bg_sound_image_12.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_12.mp3.mp3') }]
-  },
-  {
-    id: '13',
-    image: getImageUrl('bg_sound_image_13.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_13.mp3.mp3') }]
-  },
-  {
-    id: '14',
-    image: getImageUrl('bg_sound_image_14.png'),
-    sources: [{ type: '', src: getSoundUrl('bg_sound_14.wav.mp3') }]
-  }
-]
-
 const audio1 = {
   assetId: '1',
   sources: [
@@ -90,7 +17,7 @@ const audio1 = {
   headline: 'Creator Of Rapid Transformational Therapy®',
   description:
     'An internationally award-winning qualified hypnotherapist with advanced certificates in hypnotherapy from the Hypnotism Training Institute of Los Angeles. Marisa has completed additional studies in hypno-healing, advanced hypnotherapy, medical hypnotherapy and Gestalt Analysis.\r\n\r\nHaving undertaken further studies at the Proudfoot School of Hypnotherapy and Psychotherapy and the Atkinson Ball College of Hypnotherapy, Marisa has dedicated the last three decades to researching, testing and applying the most beneficial principles of Hypnotherapy, Psychotherapy, NLP, CBT and Neuroscience. \r\n\r\nThe result of over 30 years of careful and rigorous study, Marisa’s unique, Rapid Transformational Therapy®️ (RTT®️), has helped tens of thousands of people worldwide to overcome their own, personal challenges and lead happier, more fulfilling lives. ',
-  backgroundSounds: backgroundSounds
+  tags: ['Achieving goals', 'Clarity on life vision', 'Focus']
 }
 
 const audio2 = {
@@ -107,7 +34,7 @@ const audio2 = {
   headline: 'Creator Of Rapid Transformational Therapy®',
   description:
     "Celebrity therapist Marisa Peer's proven techniques will free you from a life of negative patterns and thinking. This hypnosis session softly guides us into a state of deep introspection, where we boost our self-esteem and free ourselves from negative thoughts and patterns by programming healthier habits around eating, exercise, hobbies, thinking, self-love and self-esteem, and relating to others.",
-  backgroundSounds: backgroundSounds
+  tags: ['Changing habits', 'New Mindset', 'Improve Health']
 }
 
 const audio3 = {
@@ -124,7 +51,7 @@ const audio3 = {
   headline: 'Creator Of Rapid Transformational Therapy®',
   description:
     "Celebrity therapist Marisa Peer's proven techniques will free you from a life of negative patterns and thinking. This hypnosis session softly guides us into a state of deep introspection, where we boost our self-esteem and free ourselves from negative thoughts and patterns by programming healthier habits around eating, exercise, hobbies, thinking, self-love and self-esteem, and relating to others.",
-  backgroundSounds: backgroundSounds
+  tags: ['Changing habits', 'New Mindset', 'Improve Health']
 }
 
 const video1 = {
@@ -160,7 +87,8 @@ const video1 = {
   authorImage: getImageUrl('rtt_marisa_author.jpeg'),
   headline: 'Creator Of Rapid Transformational Therapy®',
   description:
-    'An internationally award-winning qualified hypnotherapist with advanced certificates in hypnotherapy from the Hypnotism Training Institute of Los Angeles. Marisa has completed additional studies in hypno-healing, advanced hypnotherapy, medical hypnotherapy and Gestalt Analysis.\r\n\r\nHaving undertaken further studies at the Proudfoot School of Hypnotherapy and Psychotherapy and the Atkinson Ball College of Hypnotherapy, Marisa has dedicated the last three decades to researching, testing and applying the most beneficial principles of Hypnotherapy, Psychotherapy, NLP, CBT and Neuroscience. \r\n\r\nThe result of over 30 years of careful and rigorous study, Marisa’s unique, Rapid Transformational Therapy®️ (RTT®️), has helped tens of thousands of people worldwide to overcome their own, personal challenges and lead happier, more fulfilling lives. '
+    'An internationally award-winning qualified hypnotherapist with advanced certificates in hypnotherapy from the Hypnotism Training Institute of Los Angeles. Marisa has completed additional studies in hypno-healing, advanced hypnotherapy, medical hypnotherapy and Gestalt Analysis.\r\n\r\nHaving undertaken further studies at the Proudfoot School of Hypnotherapy and Psychotherapy and the Atkinson Ball College of Hypnotherapy, Marisa has dedicated the last three decades to researching, testing and applying the most beneficial principles of Hypnotherapy, Psychotherapy, NLP, CBT and Neuroscience. \r\n\r\nThe result of over 30 years of careful and rigorous study, Marisa’s unique, Rapid Transformational Therapy®️ (RTT®️), has helped tens of thousands of people worldwide to overcome their own, personal challenges and lead happier, more fulfilling lives. ',
+  tags: ['Achieving goals', 'Clarity on life vision', 'Focus']
 }
 
 const audios = [audio1, audio2]
@@ -196,7 +124,10 @@ export const Default: Story = {
     duration: audio1.duration,
     posterUrl: audio1.posterUrl,
     title: audio1.title,
-    artistName: audio1.artistName
+    artistName: audio1.artistName,
+    description: audio1.description,
+    ratings: audio1.ratings,
+    tags: audio1.tags
   }
 }
 
@@ -216,7 +147,10 @@ export const LoopingEnabled: Story = {
     duration: audio1.duration,
     posterUrl: audio1.posterUrl,
     title: audio1.title,
-    artistName: audio1.artistName
+    artistName: audio1.artistName,
+    description: audio1.description,
+    ratings: audio1.ratings,
+    tags: audio1.tags
   }
 }
 
@@ -236,7 +170,10 @@ export const LoopingEnabledShort: Story = {
     duration: audio3.duration,
     posterUrl: audio3.posterUrl,
     title: audio3.title,
-    artistName: audio3.artistName
+    artistName: audio3.artistName,
+    description: audio3.description,
+    ratings: audio3.ratings,
+    tags: audio3.tags
   }
 }
 
@@ -257,7 +194,10 @@ export const PreviousNext: Story = {
     posterUrl: audio1.posterUrl,
     title: audio1.title,
     artistName: audio1.artistName,
-    showPreviousNext: true
+    showPreviousNext: true,
+    description: audio1.description,
+    ratings: audio1.ratings,
+    tags: audio1.tags
   }
 }
 
@@ -278,7 +218,10 @@ export const ImmersiveLoopingVideo: Story = {
     duration: audio1.duration,
     posterUrl: audio1.posterUrl,
     title: audio1.title,
-    artistName: audio1.artistName
+    artistName: audio1.artistName,
+    description: audio1.description,
+    ratings: audio1.ratings,
+    tags: audio1.tags
   }
 }
 
@@ -298,6 +241,9 @@ export const ImmersiveDynamicVideo: Story = {
     duration: audio2.duration,
     posterUrl: audio2.posterUrl,
     title: audio2.title,
-    artistName: audio2.artistName
+    artistName: audio2.artistName,
+    description: audio2.description,
+    ratings: audio2.ratings,
+    tags: audio2.tags
   }
 }
