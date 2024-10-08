@@ -123,7 +123,6 @@ const emit = defineEmits<{
 }>()
 
 const showMeditationMixer = ref(false)
-const overlayZIndex = ref(50)
 const isFullScreenEnabled = ref(false)
 const adaptiveResource = ref(null)
 const meditationMixerItem = ref(null)
@@ -291,7 +290,6 @@ const emitEvent = (eventName: string, payload?: any) => {
       v-if="backgroundSounds && backgroundSounds.length > 0"
       :show="showMeditationMixer"
       @close="toggleMeditationMixer"
-      :z-index="overlayZIndex"
     >
       <MVAdaptiveBackgroundMixer
         :background-track-items="backgroundTrackItems"
@@ -303,11 +301,7 @@ const emitEvent = (eventName: string, payload?: any) => {
       />
     </MVAdaptiveOverlay>
 
-    <MVAdaptiveOverlay
-      :show="showAboutThisInfo"
-      @close="toggleAboutThisInfo"
-      :z-index="overlayZIndex"
-    >
+    <MVAdaptiveOverlay :show="showAboutThisInfo" @close="toggleAboutThisInfo">
       <MVAdaptiveAboutThisInfo
         header-title="About this meditation"
         :title="title"

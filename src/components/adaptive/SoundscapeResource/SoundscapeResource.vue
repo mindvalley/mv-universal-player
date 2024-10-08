@@ -113,7 +113,6 @@ const adaptiveResource = ref(null)
 const localLoopingEnabled = ref(true)
 const localDuration = ref(240) // 4 minutes
 const showDurationSelector = ref(false)
-const overlayZIndex = ref(50)
 const isFullScreenEnabled = ref(false)
 const showAboutThisInfo = ref(false)
 
@@ -251,7 +250,6 @@ const handleEnded = () => {
 
 const handleFullscreen = ({ isFullScreen }: any) => {
   isFullScreenEnabled.value = isFullScreen
-  overlayZIndex.value = isFullScreen ? 1000 : 50
 
   if (isFullScreen) {
     adaptiveResource.value?.player?.player?.setAudioOnlyMode(false)
@@ -273,11 +271,7 @@ const emitEvent = (eventName: string, payload?: any) => {
 
 <template>
   <div :class="{ 'fixed left-0 bottom-0 top-0 right-0': isFullScreenEnabled }">
-    <MVAdaptiveOverlay
-      :show="showDurationSelector"
-      @close="handleCloseDurationSelector"
-      :z-index="overlayZIndex"
-    >
+    <MVAdaptiveOverlay :show="showDurationSelector" @close="handleCloseDurationSelector">
       <MVAdaptiveDurationSelector
         :duration="localDuration"
         :is-looping="localLoopingEnabled"
@@ -287,11 +281,7 @@ const emitEvent = (eventName: string, payload?: any) => {
       />
     </MVAdaptiveOverlay>
 
-    <MVAdaptiveOverlay
-      :show="showAboutThisInfo"
-      @close="toggleAboutThisInfo"
-      :z-index="overlayZIndex"
-    >
+    <MVAdaptiveOverlay :show="showAboutThisInfo" @close="toggleAboutThisInfo">
       <MVAdaptiveAboutThisInfo
         header-title="About this soundscape"
         :title="title"
