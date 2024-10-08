@@ -109,6 +109,10 @@ const props = defineProps({
   isMixerEnabled: {
     type: Boolean,
     default: false
+  },
+  mixerTrackTitle: {
+    type: String,
+    default: ''
   }
 })
 
@@ -499,6 +503,7 @@ defineExpose({
         :show-meditation-mixer="showMeditationMixer"
         :show-collections="showCollections"
         :show-immersive="showImmersive"
+        :mixer-track-title="mixerTrackTitle"
         @track-info-title-click="handleTrackInfoTitleClick"
         @pause="pause"
         @play="play"

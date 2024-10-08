@@ -57,7 +57,7 @@ const handleClose = () => {
       <div class="ml-4">
         <div class="title-8 text-white">{{ title }}</div>
         <div class="caption-disclaimer text-cool-grey-200 mt-[1px]">{{ artistName }}</div>
-        <div class="flex items-center mt-1">
+        <div class="flex items-center mt-1" v-if="ratings">
           <span class="title-8 text-[#B3B8C1]">{{ ratings }}</span
           ><span class="ml-0.5">
             <svg v-svg symbol="star-filled" class="h-3 w-3 text-white-70a"></svg

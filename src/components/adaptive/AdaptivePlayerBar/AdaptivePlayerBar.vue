@@ -88,6 +88,10 @@ const props = defineProps({
   showImmersive: {
     type: Boolean,
     default: false
+  },
+  mixerTrackTitle: {
+    type: String,
+    default: ''
   }
 })
 
@@ -189,6 +193,8 @@ const handleTrackInfoTitleClick = () => {
           />
           <MVAdaptiveMeditationMixerButton
             v-if="showMeditationMixer"
+            :track-title="mixerTrackTitle"
+            :mixer-enabled="isMixerEnabled"
             is-text
             @click.stop="handleMeditationMixerClick"
           />

@@ -321,7 +321,7 @@ const emitEvent = (eventName: string, payload?: any) => {
           <MVAdaptiveAboutThisInfoMeditationMixerButton
             @click="toggleMeditationMixer"
             :track-title="selectedMeditationTrackItem?.item?.title"
-            :is-active="selectedMeditationTrackItem?.item"
+            :mixer-enabled="isMixerEnabled"
           />
         </template>
       </MVAdaptiveAboutThisInfo>
@@ -343,6 +343,7 @@ const emitEvent = (eventName: string, payload?: any) => {
       :is-mixer-enabled="isMixerEnabled"
       :now-playing-title="nowPlayingTitle"
       :now-playing-subtitle="nowPlayingSubtitle"
+      :mixer-track-title="selectedMeditationTrackItem?.item?.title"
       @track-info-title-click="toggleAboutThisInfo"
       @meditation-mixer-open="toggleMeditationMixer"
       @close="handleClose"
