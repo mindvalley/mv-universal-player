@@ -407,7 +407,11 @@ defineExpose({
         <div class="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-b-subtle px-4 sm:px-10 py-7">
           <div class="flex items-center justify-between sm:justify-start">
             <div class="sm:hidden">
-              <MVAdaptiveFullScreenButton is-mobile-layout @toggleFullScreen="toggleFullScreen" />
+              <MVAdaptiveFullScreenButton
+                is-mobile-layout
+                @toggleFullScreen="toggleFullScreen"
+                :is-full-screen="isFullScreen"
+              />
             </div>
             <div
               class="absolute left-1/2 transform -translate-x-1/2 sm:static sm:left-auto sm:transform-none"

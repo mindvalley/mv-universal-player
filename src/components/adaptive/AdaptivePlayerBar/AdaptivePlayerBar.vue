@@ -225,16 +225,27 @@ const handleTrackInfoTitleClick = () => {
       class="sm:hidden w-full py-3 items-center flex justify-between"
       :class="[isFullScreen ? 'px-0' : 'px-4']"
     >
-      <div>
-        <MVAdaptiveTrackInfoCard
-          v-if="!isFullScreen"
-          :title="title"
-          :sub-title="artistName"
-          :image="posterUrl"
-          :shape="trackInfoCoverShape"
-        />
+      <div class="flex items-center">
+        <div>
+          <MVAdaptiveTrackInfoCard
+            v-if="!isFullScreen"
+            :title="title"
+            :sub-title="artistName"
+            :image="posterUrl"
+            :shape="trackInfoCoverShape"
+          />
+        </div>
+        <div class="ml-2">
+          <MVAdaptiveFullScreenButton
+            v-if="!isFullScreen"
+            is-mobile-layout
+            :is-full-screen="isFullScreen"
+            @toggleFullScreen="toggleFullScreen"
+          />
+        </div>
       </div>
 
+      <!-- Full screen -->
       <div v-if="isFullScreen" class="w-full">
         <div class="flex items-center justify-between space-x-3">
           <!-- Left column -->
@@ -272,6 +283,7 @@ const handleTrackInfoTitleClick = () => {
         </div>
       </div>
 
+      <!-- Mini Player -->
       <div v-else class="flex items-center justify-center space-x-3">
         <div class="flex items-center" v-if="showSetDuration">
           <MVAdaptiveSetDurationButton @click="handleSetDurationClick" />
@@ -282,11 +294,12 @@ const handleTrackInfoTitleClick = () => {
             @click="handleMeditationMixerClick"
           />
         </div>
-        <div class="flex items-center">
-          <MVAdaptiveCollectionButton @click="handleCollectionClick" />
-        </div>
+
         <div class="flex items-center">
           <MVAdaptivePlayButton @play="handlePlay" @pause="handlePause" :playing="isPlaying" />
+        </div>
+        <div class="flex items-center">
+          <MVAdaptiveCloseButton @click="handleClose" />
         </div>
       </div>
     </div>

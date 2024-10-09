@@ -46,7 +46,11 @@ watch(
 
 <template>
   <button v-if="isMobileLayout" class="h-5 w-5 outline-none" @click.stop="toggleFullScreen">
-    <svg v-svg symbol="chevron-down-outlined" class="h-full w-full text-white-70a"></svg>
+    <svg
+      v-svg
+      :symbol="isFullScreen ? 'chevron-down-outlined' : 'chevron-up-outlined'"
+      class="h-full w-full text-white-70a"
+    ></svg>
   </button>
   <button
     v-else
