@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed } from 'vue-demi'
 import type { AdaptiveSize } from '../../../types/adaptive'
 
 const props = defineProps({
