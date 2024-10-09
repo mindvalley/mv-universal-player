@@ -91,13 +91,13 @@ const handleKeyDown = (event: KeyboardEvent) => {
       <transition :name="direction === 'up' ? 'slide-up' : 'slide-down'">
         <span
           :key="currentUnit"
-          class="text-[44px] text-cool-grey-200 absolute inset-0 flex items-center justify-center"
+          class="text-cool-grey-200 absolute inset-0 flex items-center justify-center timer-text"
         >
           {{ formattedUnit }}
         </span>
       </transition>
     </div>
-    <div class="title-11 uppercase text-white-70a my-1">{{ label }}</div>
+    <div class="body-3-xs uppercase text-white-70a my-1">{{ label }}</div>
     <button
       aria-label="Decrement"
       class="w-14 py-1 flex items-center justify-center outline-none h-4 rounded-full hover:bg-white-8a"

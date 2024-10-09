@@ -1,23 +1,33 @@
 <script setup lang="ts"></script>
 
 <template>
-  <span class="marquee-content">
-    <slot></slot>
-  </span>
+  <div class="marquee-container">
+    <div class="marquee-content">
+      <slot v-for="i in 10" :key="i"></slot>
+    </div>
+  </div>
 </template>
 
 <style scoped>
+.marquee-container {
+  overflow: hidden;
+  display: flex;
+  width: 100%;
+}
+
 .marquee-content {
-  display: inline-flex;
+  display: flex;
+  align-items: center;
   white-space: nowrap;
-  animation: marquee 60s linear infinite;
+  flex-shrink: 0;
+  animation: marquee 30s linear infinite;
 }
 
 @keyframes marquee {
-  0% {
+  from {
     transform: translateX(0);
   }
-  100% {
+  to {
     transform: translateX(-50%);
   }
 }

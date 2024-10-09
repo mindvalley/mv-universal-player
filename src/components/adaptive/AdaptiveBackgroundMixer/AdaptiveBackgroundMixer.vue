@@ -71,14 +71,19 @@ const updateVolume = (volume: number) => {
 </script>
 
 <template>
-  <div class="bg-black h-[265px] w-[400px] sm:w-[748px] rounded-3xl relative py-4 px-6">
-    <button class="absolute top-4 right-6 rounded-full hover:bg-white-24a p-1" @click="handleClose">
+  <div
+    class="bg-black h-[235px] sm:h-[265px] w-[400px] sm:w-[748px] rounded-3xl relative py-4 sm:px-6"
+  >
+    <button
+      class="hidden sm:flex absolute top-4 right-6 rounded-full hover:bg-white-24a p-1"
+      @click="handleClose"
+    >
       <svg v-svg symbol="x-filled" class="h-4 w-4 text-white-70a"></svg>
     </button>
-    <div class="text-center title-9 text-white">Background mixer</div>
+    <div class="text-center heading-9 text-white">Background mixer</div>
 
     <div class="relative">
-      <button class="carousel-nav-button left-0" @click="handlePrev">
+      <button class="carousel-nav-button -left-3" @click="handlePrev">
         <svg v-svg symbol="chevron-left-outlined" class="h-6 w-6 text-white"></svg>
       </button>
       <carousel-3d
@@ -103,12 +108,12 @@ const updateVolume = (volume: number) => {
           </template>
         </Slide>
       </carousel-3d>
-      <button class="carousel-nav-button right-0" @click="handleNext">
+      <button class="carousel-nav-button -right-3" @click="handleNext">
         <svg v-svg symbol="chevron-right-outlined" class="h-6 w-6 text-white"></svg>
       </button>
     </div>
     <!-- Add volume slider -->
-    <div class="mt-6 flex items-center">
+    <div class="mt-6 flex items-center px-6 sm:px-0">
       <MVAdaptiveBackgroundVolumeSlider
         :is-disabled="isVolumeSliderDisabled"
         :volume="volume"

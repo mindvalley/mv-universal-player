@@ -13,6 +13,10 @@ const props = defineProps({
   trackTitle: {
     type: String,
     default: ''
+  },
+  isBackgroundEnabled: {
+    type: Boolean,
+    default: false
   }
 })
 </script>
@@ -20,15 +24,16 @@ const props = defineProps({
 <template>
   <button
     v-if="isText"
-    class="flex flex-row gap-1 text-teal-300 bg-black backdrop-blur-[2px] bg-opacity-20 hover:bg-opacity-30 rounded-[4px] px-2 py-1 items-center"
+    class="flex gap-1 text-teal-300 rounded-[4px] px-2 py-1 items-center"
+    :class="[
+      isBackgroundEnabled ? 'bg-black backdrop-blur-[2px] bg-opacity-20 hover:bg-opacity-30' : ''
+    ]"
   >
     <span><svg v-svg symbol="sliders-outlined" class="h-3 w-3"></svg></span>
-    <span v-if="!mixerEnabled" class="caption-disclaimer">Mixer available</span>
+    <span v-if="!mixerEnabled" class="body-2-xs">Mixer available</span>
     <span v-else class="w-[180px] overflow-hidden">
       <AdaptiveMarqueeContent>
-        <span v-for="i in 10" :key="i" class="caption-disclaimer mr-6"
-          >Mixing with {{ trackTitle }}</span
-        >
+        <span class="body-2-xs mr-6">Mixing with {{ trackTitle }}</span>
       </AdaptiveMarqueeContent>
     </span>
   </button>

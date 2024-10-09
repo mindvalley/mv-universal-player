@@ -404,7 +404,7 @@ defineExpose({
         @click="togglePlayPause"
       >
         <!-- Top Bar -->
-        <div class="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-b-subtle px-10 py-7">
+        <div class="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-b-subtle px-4 sm:px-10 py-7">
           <div class="flex items-center justify-between sm:justify-start">
             <div class="sm:hidden">
               <MVAdaptiveFullScreenButton is-mobile-layout @toggleFullScreen="toggleFullScreen" />
@@ -423,6 +423,7 @@ defineExpose({
           <div class="h-1 w-1"></div>
         </div>
 
+        <!-- Show looping video when there is one -->
         <div class="h-full w-full" v-show="videoSources.length > 0 && isImmersive">
           <MVAdaptivePlayer :poster-url="posterUrl" loop muted auto-play>
             <MVAdaptiveItem
@@ -434,6 +435,7 @@ defineExpose({
           </MVAdaptivePlayer>
         </div>
 
+        <!-- Show dynamic video when there is no looping video -->
         <div class="h-full w-full" v-if="videoSources.length === 0 && isImmersive">
           <MVAdaptiveImmersiveLayer
             :image="posterUrl"
@@ -441,6 +443,8 @@ defineExpose({
             :playing="adaptiveItem?.state?.playing"
           />
         </div>
+
+        <!-- Show poster when there is no looping video and immersive if off -->
         <div class="h-full w-full" v-else>
           <BaseImage
             class="w-full h-full"
@@ -450,7 +454,7 @@ defineExpose({
           />
         </div>
 
-        <!-- Play button -->
+        <!-- Full screen play button -->
         <Transition name="fade">
           <div
             v-show="showPlayButton"
@@ -476,7 +480,7 @@ defineExpose({
       :class="[
         'transition-all duration-[600ms] ease-in-out',
         isFullScreen
-          ? 'fixed bottom-0 left-0 right-0 z-[60] bg-gradient-to-t from-black to-transparent px-10'
+          ? 'fixed bottom-0 left-0 right-0 z-[60] bg-gradient-to-t from-black to-transparent px-4 sm:px-10'
           : 'bg-black',
         { 'translate-y-full': isFullScreen && !isMiniBarVisible }
       ]"

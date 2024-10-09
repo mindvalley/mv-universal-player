@@ -24,7 +24,7 @@ const props = defineProps({
     <span v-if="!mixerEnabled" class="title-9 flex-grow text-start">Mixer available</span>
     <div v-else class="flex-grow overflow-hidden">
       <AdaptiveMarqueeContent>
-        <span v-for="i in 10" :key="i" class="title-9 mr-12">Mixing with {{ trackTitle }}</span>
+        <span class="title-9 mr-12">Mixing with {{ trackTitle }}</span>
       </AdaptiveMarqueeContent>
     </div>
     <span class="ml-2">

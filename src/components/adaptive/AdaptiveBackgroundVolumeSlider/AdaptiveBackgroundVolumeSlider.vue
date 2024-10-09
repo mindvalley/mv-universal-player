@@ -59,7 +59,7 @@ watch(
 
 <template>
   <span class="flex h-full w-full items-center justify-center" :class="{ disabled: isDisabled }">
-    <span class="text-cool-grey-250 title-9">{{ leftText }}</span>
+    <span class="text-cool-grey-250 caption-disclaimer">{{ leftText }}</span>
     <input
       data-testid="volume-slider"
       :min="min"
@@ -72,7 +72,7 @@ watch(
       @input="handleVolumeChange"
       :disabled="isDisabled"
     />
-    <span class="text-cool-grey-250 title-9">{{ rightText }}</span>
+    <span class="text-cool-grey-250 caption-disclaimer">{{ rightText }}</span>
   </span>
 </template>
 
@@ -83,7 +83,7 @@ watch(
 
 $track-background-color: #fff;
 $track-border-radius: 5rem;
-$track-height: 0.25rem;
+$track-height: 3px;
 $thumb-margin: -12px;
 $thumb-appearance: none;
 $thumb-height: 28px;

@@ -176,7 +176,8 @@ const handleTrackInfoTitleClick = () => {
 
 <template>
   <div>
-    <div v-if="isFullScreen" class="flex items-center mb-4">
+    <!-- Track Info Card -->
+    <div v-if="isFullScreen" class="flex items-center mb-3 sm:mb-4">
       <MVAdaptiveTrackInfoCard
         :title="title"
         :sub-title="artistName"
@@ -187,20 +188,26 @@ const handleTrackInfoTitleClick = () => {
       >
         <template #control>
           <MVAdaptiveSetDurationButton
+            class="hidden sm:flex"
             v-if="showSetDuration"
             is-text
+            is-background-enabled
             @click.stop="handleSetDurationClick"
           />
           <MVAdaptiveMeditationMixerButton
+            class="hidden sm:flex"
             v-if="showMeditationMixer"
             :track-title="mixerTrackTitle"
             :mixer-enabled="isMixerEnabled"
+            is-background-enabled
             is-text
             @click.stop="handleMeditationMixerClick"
           />
         </template>
       </MVAdaptiveTrackInfoCard>
     </div>
+
+    <!-- Progress Bar -->
     <div class="w-full">
       <MVAdaptiveProgressBar
         :duration="duration"
@@ -228,7 +235,44 @@ const handleTrackInfoTitleClick = () => {
         />
       </div>
 
-      <div class="flex items-center justify-center space-x-3">
+      <div v-if="isFullScreen" class="w-full">
+        <div class="flex items-center justify-between space-x-3">
+          <!-- Left column -->
+          <div class="flex items-center min-w-[20px]"></div>
+
+          <!-- Center column -->
+          <div class="flex items-center justify-center">
+            <MVAdaptivePlayButton
+              @play="handlePlay"
+              @pause="handlePause"
+              :playing="isPlaying"
+              :size="Size.BIG"
+            />
+          </div>
+
+          <!-- Right column -->
+          <div class="flex items-center justify-end" v-if="showImmersive && isFullScreen">
+            <MVAdaptiveImmersiveButton :is-immersive="isImmersive" @click="handleImmersiveClick" />
+          </div>
+        </div>
+
+        <!-- Set duration and meditation mixer -->
+        <div>
+          <div class="flex items-center" v-if="showSetDuration">
+            <MVAdaptiveSetDurationButton is-text @click="handleSetDurationClick" />
+          </div>
+          <div class="flex items-center" v-if="showMeditationMixer">
+            <MVAdaptiveMeditationMixerButton
+              :track-title="mixerTrackTitle"
+              :mixer-enabled="isMixerEnabled"
+              is-text
+              @click="handleMeditationMixerClick"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div v-else class="flex items-center justify-center space-x-3">
         <div class="flex items-center" v-if="showSetDuration">
           <MVAdaptiveSetDurationButton @click="handleSetDurationClick" />
         </div>

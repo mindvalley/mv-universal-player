@@ -18,14 +18,14 @@ const noBackgroundSoundTitleClass = computed(() => {
   if (props.leftIndex === 0 || props.rightIndex === 0) return 'title-10'
   if (props.leftIndex === 1 || props.rightIndex === 1) return 'title-11'
   if (props.leftIndex === 2 || props.rightIndex === 2) return 'title-11'
-  return 'title-9'
+  return 'heading-9'
 })
 </script>
 
 <template>
   <div
     data-testid="background-track-item"
-    class="overflow-hidden rounded-full h-full w-full cursor-pointer"
+    class="overflow-hidden rounded-full h-full w-full cursor-pointer headi"
   >
     <div
       data-testid="no-background-sound"

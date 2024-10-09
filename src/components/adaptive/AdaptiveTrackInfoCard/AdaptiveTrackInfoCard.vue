@@ -109,12 +109,12 @@ const handleTitleClick = () => {
       </div>
       <div
         @click="handleTitleClick"
-        class="title-9 text-white truncate max-w-28 sm:max-w-48"
+        class="heading-9 text-white truncate max-w-28 sm:max-w-48"
         :class="[props.size === Size.BIG ? 'cursor-pointer hover:underline' : '']"
       >
         {{ title }}
       </div>
-      <div class="caption-disclaimer text-cool-grey-200 truncate">{{ subTitle }}</div>
+      <div class="body-2-xs text-cool-grey-200 truncate">{{ subTitle }}</div>
     </div>
   </div>
 </template>

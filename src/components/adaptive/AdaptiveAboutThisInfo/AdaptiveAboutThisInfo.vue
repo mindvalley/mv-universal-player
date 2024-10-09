@@ -54,7 +54,7 @@ const isControlAvailable = computed(() => {
 
 <template>
   <div class="bg-black rounded-3xl w-[398px] sm:w-[480px] py-4 px-6 relative">
-    <div class="title-9 text-white">{{ headerTitle }}</div>
+    <div class="heading-9 text-white">{{ headerTitle }}</div>
     <button class="absolute top-4 right-6 rounded-full hover:bg-white-24a p-1" @click="handleClose">
       <svg v-svg symbol="x-filled" class="h-4 w-4 text-white-70a"></svg>
     </button>
