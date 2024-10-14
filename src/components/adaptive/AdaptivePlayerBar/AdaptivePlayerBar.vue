@@ -184,14 +184,14 @@ const handleTrackInfoTitleClick = () => {
       >
         <template #control>
           <MVAdaptiveSetDurationButton
-            class="hidden sm:flex"
+            class="hidden md:flex"
             v-if="showSetDuration"
             is-text
             is-background-enabled
             @click.stop="handleSetDurationClick"
           />
           <MVAdaptiveMeditationMixerButton
-            class="hidden sm:flex"
+            class="hidden md:flex"
             v-if="showMeditationMixer"
             :track-title="mixerTrackTitle"
             :mixer-enabled="isMixerEnabled"
@@ -218,7 +218,7 @@ const handleTrackInfoTitleClick = () => {
 
     <!-- Mobile/Tablet -->
     <div
-      class="sm:hidden w-full py-3 items-center flex justify-between"
+      class="md:hidden w-full py-3 items-center flex justify-between"
       :class="[isFullScreen ? 'px-0' : 'px-4']"
     >
       <div class="flex items-center">
@@ -301,7 +301,7 @@ const handleTrackInfoTitleClick = () => {
     </div>
 
     <!-- Desktop -->
-    <div class="hidden sm:block">
+    <div class="hidden md:block">
       <div
         class="w-full py-3 items-center flex justify-between"
         :class="[isFullScreen ? 'px-0' : 'px-4']"

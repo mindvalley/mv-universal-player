@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import BaseImage from '../../global/BaseImage.vue'
-
 const props = defineProps({
   title: {
     type: String,

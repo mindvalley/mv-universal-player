@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, nextTick, onMounted, onUnmounted } from 'vue-demi'
+import { ref, watch, nextTick } from 'vue-demi'
 import type { Source } from './../../../types/audio'
 import { AdaptiveShape } from '../../../types/adaptive'
 import { Shape } from '../../../models/adaptive.enums'
@@ -11,6 +11,7 @@ import MVAdaptivePlayButton from '../AdaptivePlayButton'
 import MVAdaptiveNowPlayingInfoCard from '../AdaptiveNowPlayingInfoCard'
 import MVAdaptiveFullScreenButton from '../AdaptiveFullScreenButton'
 import BaseImage from '../../global/BaseImage.vue'
+import { useDetectBrowser } from '../../../composables/use-detect-browser'
 
 const props = defineProps({
   id: {
@@ -154,24 +155,10 @@ const isImmersive = ref(false)
 const immersiveSetOnce = ref(false)
 const loopingVideoAdaptiveItemRef = ref(null)
 const showPlayButton = ref(false)
-
+const { isMobileOrTablet } = useDetectBrowser()
 // Add this new ref
 const lastActivityTimestamp = ref(Date.now())
 const isMouseOverMiniPlayer = ref(false)
-const isMobileScreen = ref(false)
-
-const checkScreenSize = () => {
-  isMobileScreen.value = window.innerWidth < 640 // Adjust this breakpoint as needed
-}
-
-onMounted(() => {
-  checkScreenSize()
-  window.addEventListener('resize', checkScreenSize)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('resize', checkScreenSize)
-})
 
 watch(isFullScreen, (newVal) => {
   if (newVal) {
@@ -410,7 +397,7 @@ defineExpose({
       </MVAdaptiveItem>
     </MVAdaptivePlayer>
 
-    <Transition :name="isMobileScreen ? 'slide' : 'fade'">
+    <Transition :name="isMobileOrTablet ? 'slide' : 'fade'">
       <div
         v-show="isFullScreen"
         class="fixed inset-0 z-50"
@@ -420,9 +407,9 @@ defineExpose({
         @click="togglePlayPause"
       >
         <!-- Top Bar -->
-        <div class="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-b-subtle px-4 sm:px-10 py-7">
-          <div class="flex items-center justify-between sm:justify-start">
-            <div class="sm:hidden">
+        <div class="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-b-subtle px-4 md:px-10 py-7">
+          <div class="flex items-center justify-between md:justify-start">
+            <div class="md:hidden">
               <MVAdaptiveFullScreenButton
                 is-mobile-layout
                 @toggleFullScreen="toggleFullScreen"
@@ -430,7 +417,7 @@ defineExpose({
               />
             </div>
             <div
-              class="absolute left-1/2 transform -translate-x-1/2 sm:static sm:left-auto sm:transform-none"
+              class="absolute left-1/2 transform -translate-x-1/2 md:static md:left-auto md:transform-none"
             >
               <MVAdaptiveNowPlayingInfoCard
                 :title="nowPlayingTitle"
@@ -438,7 +425,7 @@ defineExpose({
               />
             </div>
             <!-- Add an empty div to balance the layout on mobile -->
-            <div class="sm:hidden w-10"></div>
+            <div class="md:hidden w-10"></div>
           </div>
           <div class="h-1 w-1"></div>
         </div>

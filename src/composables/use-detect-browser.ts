@@ -1,6 +1,21 @@
-import { computed } from 'vue-demi'
+import { computed, onMounted, onUnmounted, ref } from 'vue-demi'
 
 export function useDetectBrowser() {
+  const isMobileOrTablet = ref(false)
+
+  const checkScreenSize = () => {
+    isMobileOrTablet.value = window.innerWidth < 768 // Adjust this breakpoint as needed
+  }
+
+  onMounted(() => {
+    checkScreenSize()
+    window.addEventListener('resize', checkScreenSize)
+  })
+
+  onUnmounted(() => {
+    window.removeEventListener('resize', checkScreenSize)
+  })
+
   const isiPhoneOriPadSafari = computed(() => {
     return isAppleDevice.value && isTouchDevice.value && isSafari.value
   })
@@ -65,5 +80,5 @@ export function useDetectBrowser() {
     return window.navigator.userAgent.toLowerCase()
   }
 
-  return { isiPhoneOriPadSafari, isiPhone, isiPad, isTouchDevice }
+  return { isiPhoneOriPadSafari, isiPhone, isiPad, isTouchDevice, isMobileOrTablet }
 }
