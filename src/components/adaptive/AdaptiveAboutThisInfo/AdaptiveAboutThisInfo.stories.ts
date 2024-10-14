@@ -38,7 +38,16 @@ export const Default: Story = {
 
     image: getImageUrl('bg_sound_image_1.png'),
     ratings: 4.6,
-    tags: ['Achieving goals', 'Clarity on life vision', 'Focus']
+    tags: [
+      'Achieving goals',
+      'Clarity on life vision',
+      'Focus',
+      'Meditation',
+      'Health',
+      'Finance',
+      'Relationships',
+      'Career'
+    ]
   }
 }
 

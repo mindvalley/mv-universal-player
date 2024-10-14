@@ -20,16 +20,14 @@ const props = defineProps({
 const canvasRef = ref<HTMLCanvasElement | null>(null)
 let animationFrameId: number | null = null
 const colorPalette = ref([])
-
 const randomBackgroundColor = ref('')
+const isAnimating = ref(false)
+const stars = ref([]) // Add this line to store stars as a reactive reference
 
 // Add this computed property
 const backgroundStyle = computed(() => ({
   backgroundColor: randomBackgroundColor.value
 }))
-
-// Add this ref to track the animation state
-const isAnimating = ref(false)
 
 onMounted(async () => {
   window.addEventListener('resize', handleResize)
@@ -73,6 +71,8 @@ function handleResize() {
     canvasRef.value.width = canvasRef.value.offsetWidth
     canvasRef.value.height = canvasRef.value.offsetHeight
     initCanvas()
+    // Recalculate stars when resizing
+    stars.value = createStars(canvasRef.value.width, canvasRef.value.height)
   }
 }
 
@@ -81,13 +81,16 @@ async function initCanvas() {
     const ctx = canvasRef.value.getContext('2d')
     if (ctx) {
       // Set canvas size
-      canvasRef.value.width = canvasRef.value.offsetWidth || 300 // Fallback width
-      canvasRef.value.height = canvasRef.value.offsetHeight || 150 // Fallback height
+      canvasRef.value.width = canvasRef.value.offsetWidth
+      canvasRef.value.height = canvasRef.value.offsetHeight
 
       if (canvasRef.value.width > 0 && canvasRef.value.height > 0) {
         // Generate random background color
         randomBackgroundColor.value =
           colorPalette.value.length > 0 ? colorPalette.value[0] : '#000000'
+
+        // Initialize stars
+        stars.value = createStars(canvasRef.value.width, canvasRef.value.height)
 
         // Start the animation only if playing is true
         if (props.playing) {
@@ -133,7 +136,7 @@ async function extractColorPalette(imageSrc: string) {
   colorPalette.value = colors.length > 0 ? colors.slice(0, 5).map((color) => color.hex) : []
 }
 
-function interpolateColors(color1, color2, factor) {
+function interpolateColors(color1: number[], color2: number[], factor: number) {
   const result = color1.slice()
   for (let i = 0; i < 3; i++) {
     result[i] = Math.round(result[i] + factor * (color2[i] - result[i]))
@@ -153,13 +156,12 @@ function rgbToHex(rgb: number[]) {
 // Modify the animateBackground function
 function animateBackground(ctx: CanvasRenderingContext2D, colors: string[]) {
   let time = 0
-  const stars = createStars(ctx.canvas.width, ctx.canvas.height)
   const rgbColors = colors.length > 0 ? colors.map(hexToRgb) : []
 
   const animate = () => {
     if (!isAnimating.value) return
 
-    time += 0.001 // Slow down the animation
+    time += 0.001
     const width = ctx.canvas.width
     const height = ctx.canvas.height
 
@@ -188,18 +190,19 @@ function animateBackground(ctx: CanvasRenderingContext2D, colors: string[]) {
       ctx.fillRect(0, 0, width, height)
     }
 
-    // Draw stars
-    drawStars(ctx, stars, time, width, height)
+    // Draw stars using the reactive stars array
+    drawStars(ctx, stars.value, time, width, height)
 
     animationFrameId = requestAnimationFrame(animate)
   }
   animate()
 }
 
+// Modify createStars to return the array instead of setting it directly
 function createStars(width: number, height: number) {
-  const stars = []
+  const newStars = []
   for (let i = 0; i < 100; i++) {
-    stars.push({
+    newStars.push({
       x: Math.random() * width,
       y: Math.random() * height,
       size: Math.random() * 3,
@@ -207,7 +210,7 @@ function createStars(width: number, height: number) {
       speedY: (Math.random() - 0.5) * 0.5
     })
   }
-  return stars
+  return newStars
 }
 
 function drawStars(

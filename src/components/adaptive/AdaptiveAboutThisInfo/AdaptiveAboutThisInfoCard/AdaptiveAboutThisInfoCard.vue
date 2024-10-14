@@ -73,7 +73,7 @@ const handleClose = () => {
       <span
         v-for="tag in tags"
         :key="tag"
-        class="text-cool-grey-200 bg-white-12a body-2-xs px-4 py-2 border rounded-full border-white-12a"
+        class="text-cool-grey-200 bg-white-12a body-2-xs px-4 py-2 border rounded-full border-white-12a my-1"
         >{{ tag }}</span
       >
     </div>

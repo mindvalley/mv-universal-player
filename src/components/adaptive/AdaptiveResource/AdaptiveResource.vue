@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, nextTick } from 'vue-demi'
+import { ref, watch, nextTick, onMounted, onUnmounted } from 'vue-demi'
 import type { Source } from './../../../types/audio'
 import { AdaptiveShape } from '../../../types/adaptive'
 import { Shape } from '../../../models/adaptive.enums'
@@ -157,6 +157,20 @@ const showPlayButton = ref(false)
 // Add this new ref
 const lastActivityTimestamp = ref(Date.now())
 const isMouseOverMiniPlayer = ref(false)
+const isMobileScreen = ref(false)
+
+const checkScreenSize = () => {
+  isMobileScreen.value = window.innerWidth < 640 // Adjust this breakpoint as needed
+}
+
+onMounted(() => {
+  checkScreenSize()
+  window.addEventListener('resize', checkScreenSize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkScreenSize)
+})
 
 watch(isFullScreen, (newVal) => {
   if (newVal) {
@@ -394,7 +408,7 @@ defineExpose({
       </MVAdaptiveItem>
     </MVAdaptivePlayer>
 
-    <Transition name="fade">
+    <Transition :name="isMobileScreen ? 'slide' : 'fade'">
       <div
         v-show="isFullScreen"
         class="fixed inset-0 z-50"
@@ -482,7 +496,7 @@ defineExpose({
       @mousemove="handleMouseMove"
       data-testid="adaptive-mini-player"
       :class="[
-        'transition-all duration-[600ms] ease-in-out',
+        'transition-transform duration-[600ms] ease-in-out',
         isFullScreen
           ? 'fixed bottom-0 left-0 right-0 z-[60] bg-gradient-to-t from-black to-transparent px-4 sm:px-10'
           : 'bg-black',
@@ -558,5 +572,38 @@ defineExpose({
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+.slide-enter-active,
+.slide-leave-active,
+.slide-up-enter-active,
+.slide-up-leave-active,
+.slide-down-enter-active,
+.slide-down-leave-active {
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.slide-enter-from,
+.slide-leave-to,
+.slide-up-enter-from,
+.slide-down-leave-to {
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+.slide-up-leave-to,
+.slide-down-enter-from {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.slide-enter-to,
+.slide-leave-from,
+.slide-up-enter-to,
+.slide-up-leave-from,
+.slide-down-enter-to,
+.slide-down-leave-from {
+  transform: translateY(0);
+  opacity: 1;
 }
 </style>

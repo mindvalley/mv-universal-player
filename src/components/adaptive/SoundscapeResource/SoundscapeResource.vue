@@ -37,24 +37,12 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  showMeditationMixer: {
-    type: Boolean,
-    default: false
-  },
-  showImmersive: {
-    type: Boolean,
-    default: false
-  },
   showCollections: {
     type: Boolean,
     default: false
   },
-  showSetDuration: {
-    type: [Boolean, String],
-    default: false
-  },
   showPlaybackSpeed: {
-    type: [Boolean, String],
+    type: Boolean,
     default: false
   },
   showPreviousNext: {
