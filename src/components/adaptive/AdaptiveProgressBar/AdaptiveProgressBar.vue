@@ -201,14 +201,14 @@ watch(
         :class="{ 'cursor-pointer': isInteractive, 'cursor-default': !isInteractive }"
       >
         <div
-          class="relative h-1 w-full shrink rounded-full"
+          class="relative h-[3px] w-full shrink rounded-full"
           :class="{ 'bg-white-24a': !loopingEnabled, 'bg-red-500': loopingEnabled }"
         >
           <div
             v-if="!loopingEnabled"
             :style="{ width: progressPercentage + '%' }"
             :class="[
-              'absolute top-0 bottom-0 h-1 rounded-full bg-red-500',
+              'absolute top-0 bottom-0 h-[3px] rounded-full bg-red-500',
               { 'transition-width duration-150 ease-linear': !isDragging }
             ]"
           ></div>

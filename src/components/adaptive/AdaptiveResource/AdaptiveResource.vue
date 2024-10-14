@@ -141,6 +141,7 @@ const emit = defineEmits<{
   (e: 'toggleImmersive', { isImmersive }: any): void
   (e: 'playbackSpeed', { playbackSpeed }: any): void
   (e: 'trackInfoTitleClick'): void
+  (e: 'setVolume', { volume }: any): void
   (e: any, payload: any): void
 }>()
 
@@ -353,6 +354,7 @@ const fastForward = (event: any) => {
 
 const setVolume = (event: any) => {
   adaptiveItem.value.player?.setVolume(event)
+  emitEvent('setVolume', { volume: event })
 }
 
 const togglePlayPause = () => {
@@ -498,7 +500,7 @@ defineExpose({
       :class="[
         'transition-transform duration-[600ms] ease-in-out',
         isFullScreen
-          ? 'fixed bottom-0 left-0 right-0 z-[60] bg-gradient-to-t from-black to-transparent px-4 sm:px-10'
+          ? 'fixed bottom-0 left-0 right-0 z-[60] bg-gradient-to-t from-black to-transparent px-4 sm:px-10 pb-2'
           : 'bg-black',
         { 'translate-y-full': isFullScreen && !isMiniBarVisible }
       ]"
@@ -509,7 +511,6 @@ defineExpose({
         :artist-name="artistName"
         :poster-url="posterUrl"
         :track-info-cover-shape="trackInfoCoverShape"
-        :volume="adaptiveItem?.state?.volume"
         :duration="duration"
         :progress-bar-current-time="
           overrideProgressBarCurrentTime ? progressBarCurrentTime : localCurrentTime

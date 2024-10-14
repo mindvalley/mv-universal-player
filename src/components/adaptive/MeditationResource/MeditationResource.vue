@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, PropType, ref } from 'vue-demi'
+import { computed, nextTick, onMounted, PropType, ref, watch, watchEffect } from 'vue-demi'
 import type { Source } from './../../../types/audio'
 import { Shape } from '../../../models/adaptive.enums'
 import { BackgroundSound, BackgroundTrackItem } from '../../../types/adaptive'
@@ -129,6 +129,9 @@ const meditationMixerItem = ref(null)
 const selectedMeditationTrackItem = ref<BackgroundTrackItem | null>(null)
 const meditationMixerVolume = ref(0.5)
 const showAboutThisInfo = ref(false)
+const mainVolume = ref(1)
+const backgroundSoundVolume = ref(1)
+const mainSoundVolume = ref(1)
 
 const toggleMeditationMixer = () => {
   showAboutThisInfo.value = false
@@ -225,9 +228,13 @@ const handlePause = () => {
   pauseMeditationTrack()
 }
 
-const updateVolume = (backgroundSoundVolume: number, mainSoundVolume: number) => {
-  adaptiveResource.value?.player?.player.setVolume(mainSoundVolume)
-  meditationMixerItem.value?.player?.setVolume(backgroundSoundVolume)
+const updateVolume = (
+  mainVolume: number,
+  backgroundSoundVolume: number,
+  mainSoundVolume: number
+) => {
+  adaptiveResource.value?.player?.player.setVolume(mainVolume * mainSoundVolume)
+  meditationMixerItem.value?.player?.setVolume(mainVolume * backgroundSoundVolume)
 }
 
 const handleVolumeChange = (volume: number) => {
@@ -236,9 +243,13 @@ const handleVolumeChange = (volume: number) => {
   }
 
   if (selectedMeditationTrackItem.value?.item) {
-    updateVolume(1 - volume, volume)
+    backgroundSoundVolume.value = 1 - volume
+    mainSoundVolume.value = volume
+    updateVolume(mainVolume.value, backgroundSoundVolume.value, mainSoundVolume.value)
   } else {
-    updateVolume(0, 1)
+    backgroundSoundVolume.value = 0
+    mainSoundVolume.value = 1
+    updateVolume(mainVolume.value, backgroundSoundVolume.value, mainSoundVolume.value)
   }
 }
 
@@ -268,6 +279,14 @@ const toggleAboutThisInfo = () => {
   showMeditationMixer.value = false
   showAboutThisInfo.value = !showAboutThisInfo.value
 }
+
+const handleSetVolume = ({ volume }: { id: string; volume: number }) => {
+  mainVolume.value = volume
+}
+
+watch(mainVolume, (newVolume) => {
+  updateVolume(newVolume, backgroundSoundVolume.value, mainSoundVolume.value)
+})
 
 const emitEvent = (eventName: string, payload?: any) => {
   const data = { id: props.id, ...payload }
@@ -339,6 +358,7 @@ const emitEvent = (eventName: string, payload?: any) => {
       :now-playing-title="nowPlayingTitle"
       :now-playing-subtitle="nowPlayingSubtitle"
       :mixer-track-title="selectedMeditationTrackItem?.item?.title"
+      @set-volume="handleSetVolume"
       @track-info-title-click="toggleAboutThisInfo"
       @meditation-mixer-open="toggleMeditationMixer"
       @close="handleClose"

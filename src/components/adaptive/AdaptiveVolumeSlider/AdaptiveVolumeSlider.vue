@@ -1,36 +1,24 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue-demi'
-import type { AdaptiveSize } from '../../../types/adaptive'
-
-const props = defineProps({
-  volume: {
-    type: Number,
-    required: true,
-    default: 0.5,
-    validator: (value: number) => value >= 0 && value <= 1
-  },
-  size: {
-    type: String as () => AdaptiveSize,
-    default: 'SMALL'
-  }
-})
 
 const emit = defineEmits(['update:volume'])
 
 const sliderRef = ref<HTMLElement | null>(null)
 const isDragging = ref(false)
 const isHovering = ref(false)
+const localVolume = ref(1)
+const volumePercentage = computed(() => localVolume.value * 100)
+const previousVolume = ref(localVolume.value)
 
-const volumePercentage = computed(() => props.volume * 100)
-const previousVolume = ref(props.volume)
-
-const muted = computed(() => props.volume === 0)
+const muted = computed(() => localVolume.value === 0)
 
 const toggleMute = () => {
   if (muted.value) {
+    localVolume.value = previousVolume.value
     emit('update:volume', previousVolume.value)
   } else {
-    previousVolume.value = props.volume
+    previousVolume.value = localVolume.value
+    localVolume.value = 0
     emit('update:volume', 0)
   }
 }
@@ -40,6 +28,7 @@ const updateVolume = (event: MouseEvent) => {
   const rect = sliderRef.value.getBoundingClientRect()
   const x = Math.max(0, Math.min(event.clientX - rect.left, rect.width))
   const newVolume = Math.round((x / rect.width) * 100) / 100
+  localVolume.value = newVolume
   emit('update:volume', newVolume)
 }
 

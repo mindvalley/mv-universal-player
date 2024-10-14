@@ -37,10 +37,6 @@ const props = defineProps({
     type: String as () => AdaptiveSize,
     default: 'round'
   },
-  volume: {
-    type: Number,
-    default: 0.5
-  },
   isFullScreen: {
     type: Boolean,
     default: false
@@ -358,7 +354,7 @@ const handleTrackInfoTitleClick = () => {
             <MVAdaptiveCollectionButton @click="handleCollectionClick" />
           </div>
           <div>
-            <MVAdaptiveVolumeSlider @update:volume="handleSetVolume" :volume="volume" />
+            <MVAdaptiveVolumeSlider @update:volume="handleSetVolume" />
           </div>
           <div class="flex items-center">
             <MVAdaptiveFullScreenButton
