@@ -1,4 +1,3 @@
-import { default as MVSoundscapeResource } from './SoundscapeResource'
-import { default as MVMeditationResource } from './MeditationResource'
+import { MVSoundscapeResource, MVMeditationResource } from './resources'
 
 export { MVSoundscapeResource, MVMeditationResource }
