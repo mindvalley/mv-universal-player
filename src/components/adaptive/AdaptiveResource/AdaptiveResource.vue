@@ -322,25 +322,25 @@ const handleSeek = (seeking: any) => {
 }
 
 const play = () => {
-  adaptiveItem.value.player?.play()
+  adaptiveItem.value?.player?.play()
   playLoopingVideo()
 }
 
 const pause = () => {
-  adaptiveItem.value.player?.pause()
+  adaptiveItem.value?.player?.pause()
   pauseLoopingVideo()
 }
 
 const rewind = (event: any) => {
-  adaptiveItem.value.player?.rewind(event)
+  adaptiveItem.value?.player?.rewind(event)
 }
 
 const fastForward = (event: any) => {
-  adaptiveItem.value.player?.fastForward(event)
+  adaptiveItem.value?.player?.fastForward(event)
 }
 
 const setVolume = (event: any) => {
-  adaptiveItem.value.player?.setVolume(event)
+  adaptiveItem.value?.player?.setVolume(event)
   emitEvent('setVolume', { volume: event })
 }
 
