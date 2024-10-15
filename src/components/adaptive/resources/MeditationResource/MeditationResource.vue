@@ -2,6 +2,7 @@
 import { computed, nextTick, onMounted, PropType, ref, watch } from 'vue-demi'
 import type { Source } from './../../../../types/audio'
 import { Shape } from './../../../../models/adaptive.enums'
+
 import { BackgroundSound, BackgroundTrackItem } from './../../../../types/adaptive'
 import { MVAdaptiveResource } from '../'
 import { MVAdaptiveBackgroundMixer } from '../../background'

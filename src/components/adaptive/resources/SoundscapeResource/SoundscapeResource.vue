@@ -6,7 +6,7 @@ import { MVAdaptiveResource } from '../'
 import { MVAdaptiveDurationSelector } from '../../duration'
 import { MVAdaptiveOverlay } from '../../layers'
 import { MVAdaptiveAboutThisInfo } from '../../info'
-import MVAdaptiveAboutThisInfoSetDurationButton from '../../info/AdaptiveAboutThisInfo/AdaptiveAboutThisInfoSetDurationButton'
+import { MVAdaptiveAboutThisInfoSetDurationButton } from '../../info/AdaptiveAboutThisInfo/AdaptiveAboutThisInfoSetDurationButton'
 
 const props = defineProps({
   id: {

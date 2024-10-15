@@ -3,13 +3,13 @@ import { ref, watch, nextTick } from 'vue-demi'
 import type { Source } from './../../../../types/audio'
 import { AdaptiveShape } from './../../../../types/adaptive'
 import { Shape } from './../../../../models/adaptive.enums'
-import { MVAdaptiveItem, MVAdaptivePlayer, MVAdaptivePlayerBar } from '../../player'
+import { useDetectBrowser } from '../../../../composables/use-detect-browser'
 
+import { MVAdaptiveItem, MVAdaptivePlayer, MVAdaptivePlayerBar } from '../../player'
 import { MVAdaptiveImmersiveLayer } from '../../layers'
 import { MVAdaptivePlayButton, MVAdaptiveFullScreenButton } from '../../controls'
 import { MVAdaptiveNowPlayingInfoCard } from '../../info'
 import BaseImage from './../../../../components/global/BaseImage.vue'
-import { useDetectBrowser } from '../../../../composables/use-detect-browser'
 
 const props = defineProps({
   id: {
