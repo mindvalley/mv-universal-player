@@ -24,7 +24,7 @@ const props = defineProps({
 <template>
   <button
     v-if="isText"
-    class="flex gap-1 text-teal-300 rounded-[4px] px-2 py-1 items-center"
+    class="flex gap-1 text-teal-300 rounded-[4px] py-1 items-center"
     :class="[
       isBackgroundEnabled ? 'bg-black backdrop-blur-[2px] bg-opacity-20 hover:bg-opacity-30' : ''
     ]"

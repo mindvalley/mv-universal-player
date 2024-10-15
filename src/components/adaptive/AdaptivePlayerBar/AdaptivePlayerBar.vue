@@ -88,6 +88,10 @@ const props = defineProps({
   mixerTrackTitle: {
     type: String,
     default: ''
+  },
+  isMiniBarVisible: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -171,176 +175,117 @@ const handleTrackInfoTitleClick = () => {
 </script>
 
 <template>
-  <div>
-    <!-- Track Info Card -->
-    <div v-if="isFullScreen" class="flex items-center mb-3 sm:mb-4">
-      <MVAdaptiveTrackInfoCard
-        :title="title"
-        :sub-title="artistName"
-        :image="posterUrl"
-        :shape="trackInfoCoverShape"
-        :size="Size.BIG"
-        @title-click="handleTrackInfoTitleClick"
-      >
-        <template #control>
-          <MVAdaptiveSetDurationButton
-            class="hidden md:flex"
-            v-if="showSetDuration"
-            is-text
-            is-background-enabled
-            @click.stop="handleSetDurationClick"
-          />
-          <MVAdaptiveMeditationMixerButton
-            class="hidden md:flex"
-            v-if="showMeditationMixer"
-            :track-title="mixerTrackTitle"
-            :mixer-enabled="isMixerEnabled"
-            is-background-enabled
-            is-text
-            @click.stop="handleMeditationMixerClick"
-          />
-        </template>
-      </MVAdaptiveTrackInfoCard>
-    </div>
-
-    <!-- Progress Bar -->
-    <div class="w-full">
-      <MVAdaptiveProgressBar
-        :duration="duration"
-        class="text-white"
-        :current-time="progressBarCurrentTime"
-        :looping-enabled="loopingEnabled"
-        @seek="hanldeSeek"
-        :is-playing="isPlaying"
-        :size="isFullScreen ? Size.BIG : Size.SMALL"
-      />
-    </div>
-
-    <!-- Mobile/Tablet -->
+  <div class="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent">
     <div
-      class="md:hidden w-full py-3 items-center flex justify-between"
-      :class="[isFullScreen ? 'px-0' : 'px-4']"
+      :class="[
+        'transition-all duration-[600ms] ease-in-out',
+        isFullScreen ? 'z-[60] px-4 sm:px-10 pb-[70px] md:pb-2' : 'bg-black',
+        {
+          'translate-y-[80px] md:translate-y-full': isFullScreen && !isMiniBarVisible
+        }
+      ]"
     >
-      <div class="flex items-center">
-        <div>
-          <MVAdaptiveTrackInfoCard
-            v-if="!isFullScreen"
-            :title="title"
-            :sub-title="artistName"
-            :image="posterUrl"
-            :shape="trackInfoCoverShape"
-          />
-        </div>
-        <div class="ml-2">
-          <MVAdaptiveFullScreenButton
-            v-if="!isFullScreen"
-            is-mobile-layout
-            :is-full-screen="isFullScreen"
-            @toggleFullScreen="toggleFullScreen"
-          />
-        </div>
-      </div>
-
-      <!-- Full screen -->
-      <div v-if="isFullScreen" class="w-full">
-        <div class="flex items-center justify-between space-x-3">
-          <!-- Left column -->
-          <div class="flex items-center min-w-[20px]"></div>
-
-          <!-- Center column -->
-          <div class="flex items-center justify-center">
-            <MVAdaptivePlayButton
-              @play="handlePlay"
-              @pause="handlePause"
-              :playing="isPlaying"
-              :size="Size.BIG"
+      <!-- Track Info Card -->
+      <div v-if="isFullScreen" class="flex items-center mb-3 sm:mb-4">
+        <MVAdaptiveTrackInfoCard
+          :title="title"
+          :sub-title="artistName"
+          :image="posterUrl"
+          :shape="trackInfoCoverShape"
+          :size="Size.BIG"
+          @title-click="handleTrackInfoTitleClick"
+        >
+          <template #control>
+            <MVAdaptiveSetDurationButton
+              class="hidden md:flex"
+              v-if="showSetDuration"
+              is-text
+              is-background-enabled
+              @click.stop="handleSetDurationClick"
             />
-          </div>
-
-          <!-- Right column -->
-          <div class="flex items-center justify-end" v-if="showImmersive && isFullScreen">
-            <MVAdaptiveImmersiveButton :is-immersive="isImmersive" @click="handleImmersiveClick" />
-          </div>
-        </div>
-
-        <!-- Set duration and meditation mixer -->
-        <div>
-          <div class="flex items-center" v-if="showSetDuration">
-            <MVAdaptiveSetDurationButton is-text @click="handleSetDurationClick" />
-          </div>
-          <div class="flex items-center" v-if="showMeditationMixer">
             <MVAdaptiveMeditationMixerButton
+              class="hidden md:flex px-2"
+              v-if="showMeditationMixer"
               :track-title="mixerTrackTitle"
               :mixer-enabled="isMixerEnabled"
+              is-background-enabled
               is-text
-              @click="handleMeditationMixerClick"
+              @click.stop="handleMeditationMixerClick"
+            />
+          </template>
+        </MVAdaptiveTrackInfoCard>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="w-full">
+        <MVAdaptiveProgressBar
+          :duration="duration"
+          class="text-white"
+          :current-time="progressBarCurrentTime"
+          :looping-enabled="loopingEnabled"
+          @seek="hanldeSeek"
+          :is-playing="isPlaying"
+          :size="isFullScreen ? Size.BIG : Size.SMALL"
+        />
+      </div>
+
+      <!-- Mobile/Tablet -->
+      <div
+        class="md:hidden w-full py-3 items-center flex justify-between"
+        :class="[isFullScreen ? 'px-0' : 'px-4']"
+      >
+        <div class="flex items-center">
+          <div>
+            <MVAdaptiveTrackInfoCard
+              v-if="!isFullScreen"
+              :title="title"
+              :sub-title="artistName"
+              :image="posterUrl"
+              :shape="trackInfoCoverShape"
+            />
+          </div>
+          <div class="ml-2">
+            <MVAdaptiveFullScreenButton
+              v-if="!isFullScreen"
+              is-mobile-layout
+              :is-full-screen="isFullScreen"
+              @toggleFullScreen="toggleFullScreen"
             />
           </div>
         </div>
-      </div>
 
-      <!-- Mini Player -->
-      <div v-else class="flex items-center justify-center space-x-3">
-        <div class="flex items-center" v-if="showSetDuration">
-          <MVAdaptiveSetDurationButton @click="handleSetDurationClick" />
-        </div>
-        <div class="flex items-center" v-if="showMeditationMixer">
-          <MVAdaptiveMeditationMixerButton
-            :mixer-enabled="isMixerEnabled"
-            @click="handleMeditationMixerClick"
-          />
-        </div>
+        <!-- Full screen -->
+        <div
+          v-if="isFullScreen"
+          class="w-full transition-opacity duration-[600ms] ease-in-out"
+          :class="{ 'opacity-0': !isMiniBarVisible, 'opacity-100': isMiniBarVisible }"
+        >
+          <div class="flex items-center justify-between space-x-3">
+            <!-- Left column -->
+            <div class="flex items-center min-w-[20px]"></div>
 
-        <div class="flex items-center">
-          <MVAdaptivePlayButton @play="handlePlay" @pause="handlePause" :playing="isPlaying" />
-        </div>
-        <div class="flex items-center">
-          <MVAdaptiveCloseButton @click="handleClose" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Desktop -->
-    <div class="hidden md:block">
-      <div
-        class="w-full py-3 items-center flex justify-between"
-        :class="[isFullScreen ? 'px-0' : 'px-4']"
-      >
-        <!-- Left column -->
-        <div class="flex-1 flex items-center min-w-28 sm:min-w-48">
-          <MVAdaptiveTrackInfoCard
-            v-if="!isFullScreen"
-            :title="title"
-            :sub-title="artistName"
-            :image="posterUrl"
-            :shape="trackInfoCoverShape"
-          />
-        </div>
-
-        <!-- Center column (always centered) -->
-        <div class="flex-1 flex items-center justify-center">
-          <div class="flex items-center space-x-6">
-            <div v-if="showRewindAndFastForward" class="flex items-center">
-              <MVAdaptiveRewindButton @rewind="handleRewind" />
+            <!-- Center column -->
+            <div class="flex items-center justify-center">
+              <MVAdaptivePlayButton
+                @play="handlePlay"
+                @pause="handlePause"
+                :playing="isPlaying"
+                :size="Size.BIG"
+              />
             </div>
-            <div v-if="showPreviousNext" class="flex items-center">
-              <MVAdaptivePreviousButton @click="handlePrevious" />
-            </div>
-            <MVAdaptivePlayButton @play="handlePlay" @pause="handlePause" :playing="isPlaying" />
-            <div v-if="showPreviousNext" class="flex items-center">
-              <MVAdaptiveNextButton @click="handleNext" />
-            </div>
-            <div v-if="showRewindAndFastForward" class="flex items-center">
-              <MVAdaptiveFastForwardButton @fastForward="handleFastForward" />
+
+            <!-- Right column -->
+            <div class="flex items-center justify-end" v-if="showImmersive && isFullScreen">
+              <MVAdaptiveImmersiveButton
+                :is-immersive="isImmersive"
+                @click="handleImmersiveClick"
+              />
             </div>
           </div>
         </div>
 
-        <!-- Right column -->
-        <div class="flex-1 flex items-center justify-end space-x-3">
-          <div class="flex items-center" v-if="showImmersive && isFullScreen">
-            <MVAdaptiveImmersiveButton :is-immersive="isImmersive" @click="handleImmersiveClick" />
-          </div>
+        <!-- Mini Player -->
+        <div v-else class="flex items-center justify-center space-x-3">
           <div class="flex items-center" v-if="showSetDuration">
             <MVAdaptiveSetDurationButton @click="handleSetDurationClick" />
           </div>
@@ -350,23 +295,113 @@ const handleTrackInfoTitleClick = () => {
               @click="handleMeditationMixerClick"
             />
           </div>
+
           <div class="flex items-center">
-            <MVAdaptiveCollectionButton @click="handleCollectionClick" />
-          </div>
-          <div>
-            <MVAdaptiveVolumeSlider @update:volume="handleSetVolume" />
+            <MVAdaptivePlayButton @play="handlePlay" @pause="handlePause" :playing="isPlaying" />
           </div>
           <div class="flex items-center">
-            <MVAdaptiveFullScreenButton
-              :is-full-screen="isFullScreen"
-              @toggleFullScreen="toggleFullScreen"
-            />
-          </div>
-          <div v-if="!isFullScreen" class="flex items-center">
             <MVAdaptiveCloseButton @click="handleClose" />
           </div>
+        </div>
+      </div>
+
+      <!-- Desktop -->
+      <div class="hidden md:block">
+        <div
+          class="w-full py-3 items-center flex justify-between"
+          :class="[isFullScreen ? 'px-0' : 'px-4']"
+        >
+          <!-- Left column -->
+          <div class="flex-1 flex items-center min-w-28 sm:min-w-48">
+            <MVAdaptiveTrackInfoCard
+              v-if="!isFullScreen"
+              :title="title"
+              :sub-title="artistName"
+              :image="posterUrl"
+              :shape="trackInfoCoverShape"
+            />
+          </div>
+
+          <!-- Center column (always centered) -->
+          <div class="flex-1 flex items-center justify-center">
+            <div class="flex items-center space-x-6">
+              <div v-if="showRewindAndFastForward" class="flex items-center">
+                <MVAdaptiveRewindButton @rewind="handleRewind" />
+              </div>
+              <div v-if="showPreviousNext" class="flex items-center">
+                <MVAdaptivePreviousButton @click="handlePrevious" />
+              </div>
+              <MVAdaptivePlayButton @play="handlePlay" @pause="handlePause" :playing="isPlaying" />
+              <div v-if="showPreviousNext" class="flex items-center">
+                <MVAdaptiveNextButton @click="handleNext" />
+              </div>
+              <div v-if="showRewindAndFastForward" class="flex items-center">
+                <MVAdaptiveFastForwardButton @fastForward="handleFastForward" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Right column -->
+          <div class="flex-1 flex items-center justify-end space-x-3">
+            <div class="flex items-center" v-if="showImmersive && isFullScreen">
+              <MVAdaptiveImmersiveButton
+                :is-immersive="isImmersive"
+                @click="handleImmersiveClick"
+              />
+            </div>
+            <div class="flex items-center" v-if="showSetDuration">
+              <MVAdaptiveSetDurationButton @click="handleSetDurationClick" />
+            </div>
+            <div class="flex items-center" v-if="showMeditationMixer">
+              <MVAdaptiveMeditationMixerButton
+                :mixer-enabled="isMixerEnabled"
+                @click="handleMeditationMixerClick"
+              />
+            </div>
+            <div class="flex items-center">
+              <MVAdaptiveCollectionButton @click="handleCollectionClick" />
+            </div>
+            <div>
+              <MVAdaptiveVolumeSlider @update:volume="handleSetVolume" />
+            </div>
+            <div class="flex items-center">
+              <MVAdaptiveFullScreenButton
+                :is-full-screen="isFullScreen"
+                @toggleFullScreen="toggleFullScreen"
+              />
+            </div>
+            <div v-if="!isFullScreen" class="flex items-center">
+              <MVAdaptiveCloseButton @click="handleClose" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Set duration and meditation mixer -->
+    <div
+      class="md:hidden pb-[34px] z-[65] bottom-0 left-0 right-0 absolute px-4 sm:px-10"
+      v-if="isFullScreen"
+    >
+      <div class="inline-flex">
+        <div class="flex items-center" v-if="showSetDuration">
+          <MVAdaptiveSetDurationButton is-text @click="handleSetDurationClick" />
+        </div>
+        <div class="flex items-center" v-if="showMeditationMixer">
+          <MVAdaptiveMeditationMixerButton
+            :track-title="mixerTrackTitle"
+            :mixer-enabled="isMixerEnabled"
+            is-text
+            @click="handleMeditationMixerClick"
+          />
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.bg-gradient-to-t {
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+}
+</style>

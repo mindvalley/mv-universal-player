@@ -484,13 +484,6 @@ defineExpose({
       @mouseleave="handleMouseLeave(true)"
       @mousemove="handleMouseMove"
       data-testid="adaptive-mini-player"
-      :class="[
-        'transition-transform duration-[600ms] ease-in-out',
-        isFullScreen
-          ? 'fixed bottom-0 left-0 right-0 z-[60] bg-gradient-to-t from-black to-transparent px-4 sm:px-10 pb-2'
-          : 'bg-black',
-        { 'translate-y-full': isFullScreen && !isMiniBarVisible }
-      ]"
     >
       <MVAdaptivePlayerBar
         :is-playing="adaptiveItem?.state?.playing"
@@ -503,6 +496,7 @@ defineExpose({
           overrideProgressBarCurrentTime ? progressBarCurrentTime : localCurrentTime
         "
         :is-full-screen="isFullScreen"
+        :is-mini-bar-visible="isMiniBarVisible"
         :is-immersive="isImmersive"
         :is-mixer-enabled="isMixerEnabled"
         :looping-enabled="loopingEnabled"
@@ -535,14 +529,6 @@ defineExpose({
 </template>
 
 <style scoped>
-.bg-gradient-to-t {
-  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
-}
-
-.bg-gradient-to-b {
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
-}
-
 .bg-gradient-to-b-subtle {
   background-image: linear-gradient(
     to bottom,
