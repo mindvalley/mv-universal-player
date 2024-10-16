@@ -331,7 +331,7 @@ const emitEvent = (eventName: string, payload?: any) => {
         :tags="tags"
         @close="toggleAboutThisInfo"
       >
-        <template #control>
+        <template #control v-if="backgroundSounds && backgroundSounds.length > 0">
           <MVAdaptiveAboutThisInfoMeditationMixerButton
             @click="toggleMeditationMixer"
             :track-title="selectedMeditationTrackItem?.item?.title"
@@ -351,7 +351,7 @@ const emitEvent = (eventName: string, payload?: any) => {
       :artist-name="artistName"
       show-rewind-and-fast-forward
       show-immersive
-      :show-meditation-mixer="backgroundSounds.length > 0"
+      :show-meditation-mixer="backgroundSounds && backgroundSounds.length > 0"
       :track-info-cover-shape="Shape.SQUARE"
       :show-previous-next="showPreviousNext"
       :is-mixer-enabled="isMixerEnabled"

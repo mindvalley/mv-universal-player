@@ -158,6 +158,8 @@ const { isMobileOrTablet } = useDetectBrowser()
 const lastActivityTimestamp = ref(Date.now())
 const isMouseOverMiniPlayer = ref(false)
 
+console.log(props.showMeditationMixer)
+
 watch(isFullScreen, (newVal) => {
   if (newVal) {
     if (!immersiveSetOnce.value) {
