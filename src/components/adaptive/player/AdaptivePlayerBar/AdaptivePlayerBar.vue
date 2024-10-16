@@ -18,6 +18,7 @@ import {
 import { MVAdaptiveTrackInfoCard } from '../../info'
 
 import type { AdaptiveSize } from '../../../../types/adaptive'
+import { computed, useSlots } from 'vue-demi'
 
 const props = defineProps({
   isPlaying: {
@@ -116,6 +117,12 @@ const emit = defineEmits<{
   (e: 'trackInfoTitleClick'): void
 }>()
 
+const slots = useSlots()
+
+const isControlAvailable = computed(() => {
+  return slots && !!slots['control']
+})
+
 const handlePlay = () => {
   emit('play')
 }
@@ -182,7 +189,8 @@ const handleTrackInfoTitleClick = () => {
     <div
       :class="[
         'transition-all duration-[600ms] ease-in-out',
-        isFullScreen ? 'z-[60] px-4 sm:px-10 pb-[70px] md:pb-2' : 'bg-black',
+        isFullScreen ? 'z-[60] px-4 sm:px-10  md:pb-2' : 'bg-black',
+        isFullScreen ? (showSetDuration || showMeditationMixer ? 'pb-[70px]' : 'pb-3') : 'pb-0',
         {
           'translate-y-[80px] md:translate-y-full': isFullScreen && !isMiniBarVisible
         }
