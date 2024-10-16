@@ -52,8 +52,13 @@ const stopDrag = () => {
 </script>
 
 <template>
-  <div class="flex items-center space-x-2">
-    <button v-tooltip="muted ? 'Unmute' : 'Mute'" @click="toggleMute" class="w-5 h-5">
+  <div data-testid="adaptive-volume-slider" class="flex items-center space-x-2">
+    <button
+      data-testid="mute-button"
+      v-tooltip="muted ? 'Unmute' : 'Mute'"
+      @click="toggleMute"
+      class="w-5 h-5"
+    >
       <svg
         v-svg
         :symbol="muted ? 'volume-x-filled' : 'volume-2-filled'"
@@ -61,6 +66,7 @@ const stopDrag = () => {
       ></svg>
     </button>
     <div
+      data-testid="slider"
       ref="sliderRef"
       @mousedown="startDrag"
       @mouseenter="isHovering = true"
@@ -68,6 +74,7 @@ const stopDrag = () => {
       class="relative h-1 w-24 cursor-pointer rounded-full bg-white-24a"
     >
       <div
+        data-testid="slider-bar"
         :style="{ width: `${volumePercentage}%` }"
         :class="[
           'absolute top-0 bottom-0 left-0 h-1 rounded-full transition-colors duration-200',
@@ -75,6 +82,7 @@ const stopDrag = () => {
         ]"
       ></div>
       <div
+        data-testid="slider-ball"
         v-if="isHovering || isDragging"
         :style="{ left: `${volumePercentage}%` }"
         class="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 cursor-grab rounded-full bg-red-500"

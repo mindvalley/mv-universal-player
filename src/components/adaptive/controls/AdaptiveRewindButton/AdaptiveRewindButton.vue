@@ -16,7 +16,12 @@ const rewind = () => {
 </script>
 
 <template>
-  <button @click="rewind()" v-tooltip="'15 sec rewind'" class="h-6 w-6 outline-none">
+  <button
+    data-testid="adaptive-rewind-button"
+    @click="rewind()"
+    v-tooltip="'15 sec rewind'"
+    class="h-6 w-6 outline-none"
+  >
     <svg
       v-svg
       symbol="rewind-15-filled"

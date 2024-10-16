@@ -42,10 +42,10 @@ const handleClose = () => {
 </script>
 
 <template>
-  <div>
+  <div data-testid="adaptive-about-this-info-card">
     <!-- Track Info -->
-    <div class="flex items-center mt-6">
-      <div>
+    <div data-testid="track-info" class="flex items-center mt-6">
+      <div data-testid="track-image">
         <BaseImage
           class="h-[100px] w-[100px] sm:h-[140px] sm:w-[140px]"
           :src="image"
@@ -54,22 +54,26 @@ const handleClose = () => {
           :width="640"
         ></BaseImage>
       </div>
-      <div class="ml-4">
-        <div class="heading-8 text-white">{{ title }}</div>
-        <div class="caption-disclaimer text-cool-grey-200 mt-[1px]">{{ artistName }}</div>
-        <div class="flex items-center mt-1" v-if="ratings">
-          <span class="heading-8 text-[#B3B8C1]">{{ ratings }}</span
-          ><span class="ml-0.5">
+      <div data-testid="track-info-container" class="ml-4">
+        <div data-testid="track-title" class="heading-8 text-white">{{ title }}</div>
+        <div data-testid="track-artist" class="caption-disclaimer text-cool-grey-200 mt-[1px]">
+          {{ artistName }}
+        </div>
+        <div data-testid="track-ratings" class="flex items-center mt-1" v-if="ratings">
+          <span data-testid="track-ratings-value" class="heading-8 text-[#B3B8C1]">{{
+            ratings
+          }}</span
+          ><span data-testid="track-ratings-star" class="ml-0.5">
             <svg v-svg symbol="star-filled" class="h-3 w-3 text-white-70a"></svg
           ></span>
         </div>
       </div>
     </div>
 
-    <div class="my-4 text-white body-small">
+    <div data-testid="track-description" class="my-4 text-white body-small">
       {{ description }}
     </div>
-    <div class="gap-x-1 flex flex-wrap">
+    <div data-testid="track-tags" class="gap-x-1 flex flex-wrap">
       <span
         v-for="tag in tags"
         :key="tag"

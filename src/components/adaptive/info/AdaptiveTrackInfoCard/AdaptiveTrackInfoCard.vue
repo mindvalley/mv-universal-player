@@ -88,8 +88,8 @@ const handleTitleClick = () => {
 </script>
 
 <template>
-  <div class="flex" :style="containerStyle">
-    <div>
+  <div data-testid="adaptive-track-info-card" class="flex" :style="containerStyle">
+    <div data-testid="image">
       <BaseImage
         :class="[props.size !== Size.BIG && 'h-12 w-12 sm:h-14 sm:w-14']"
         :style="props.size === Size.BIG ? imageStyle : {}"
@@ -100,21 +100,25 @@ const handleTitleClick = () => {
       ></BaseImage>
     </div>
     <div
+      data-testid="container"
       class="flex flex-col justify-center"
       :class="[props.size === Size.BIG ? 'ml-2 sm:ml-4' : 'ml-2 sm:ml-3']"
       :style="textContainerStyle"
     >
-      <div class="mb-0.5">
+      <div data-testid="control" class="mb-0.5">
         <slot name="control"></slot>
       </div>
       <div
         @click="handleTitleClick"
+        data-testid="title"
         class="heading-9 text-white truncate max-w-28 sm:max-w-48"
         :class="[props.size === Size.BIG ? 'cursor-pointer hover:underline' : '']"
       >
         {{ title }}
       </div>
-      <div class="body-2-xs text-cool-grey-200 truncate">{{ subTitle }}</div>
+      <div data-testid="sub-title" class="body-2-xs text-cool-grey-200 truncate">
+        {{ subTitle }}
+      </div>
     </div>
   </div>
 </template>

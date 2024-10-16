@@ -45,7 +45,12 @@ watch(
 </script>
 
 <template>
-  <button v-if="isMobileLayout" class="h-5 w-5 outline-none" @click.stop="toggleFullScreen">
+  <button
+    data-testid="adaptive-full-screen-button"
+    v-if="isMobileLayout"
+    class="h-5 w-5 outline-none"
+    @click.stop="toggleFullScreen"
+  >
     <svg
       v-svg
       :symbol="isFullScreen ? 'chevron-down-outlined' : 'chevron-up-outlined'"
@@ -53,6 +58,7 @@ watch(
     ></svg>
   </button>
   <button
+    data-testid="adaptive-full-screen-button"
     v-else
     v-tooltip="isFullScreen ? 'Exit full screen' : 'Full screen'"
     class="h-5 w-5 outline-none"

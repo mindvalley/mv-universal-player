@@ -258,7 +258,10 @@ const emitEvent = (eventName: string, payload?: any) => {
 </script>
 
 <template>
-  <div :class="{ 'fixed left-0 bottom-0 top-0 right-0': isFullScreenEnabled }">
+  <div
+    data-testid="soundscape-resource"
+    :class="{ 'fixed left-0 bottom-0 top-0 right-0': isFullScreenEnabled }"
+  >
     <MVAdaptiveOverlay :show="showDurationSelector" @close="handleCloseDurationSelector">
       <MVAdaptiveDurationSelector
         :duration="localDuration"

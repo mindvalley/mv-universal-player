@@ -12,8 +12,8 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="flex flex-row items-center">
-    <div class="h-4 w-9 hidden sm:block">
+  <div data-testid="adaptive-now-playing-info-card" class="flex flex-row items-center">
+    <div data-testid="wings-icon" class="h-4 w-9 hidden sm:block">
       <svg viewBox="0 0 109 48" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clip-path="url(#clip0_5739_234)">
           <path
@@ -33,11 +33,13 @@ const props = defineProps({
       </svg>
     </div>
 
-    <div class="ml-2">
-      <div class="body-2-xs text-cool-grey-200 uppercase">
+    <div data-testid="now-playing-info" class="ml-2">
+      <div data-testid="title" class="body-2-xs text-cool-grey-200 uppercase">
         {{ title }}
       </div>
-      <div class="heading-9 text-white text-center sm:text-start">{{ subTitle }}</div>
+      <div data-testid="sub-title" class="heading-9 text-white text-center sm:text-start">
+        {{ subTitle }}
+      </div>
     </div>
   </div>
 </template>

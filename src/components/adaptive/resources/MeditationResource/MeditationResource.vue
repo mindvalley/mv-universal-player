@@ -2,7 +2,6 @@
 import { computed, nextTick, onMounted, PropType, ref, watch } from 'vue-demi'
 import type { Source } from './../../../../types/audio'
 import { Shape } from './../../../../models/adaptive.enums'
-
 import { BackgroundSound, BackgroundTrackItem } from './../../../../types/adaptive'
 import { MVAdaptiveResource } from '../'
 import { MVAdaptiveBackgroundMixer } from '../../background'
@@ -295,7 +294,10 @@ const emitEvent = (eventName: string, payload?: any) => {
 </script>
 
 <template>
-  <div :class="{ 'fixed left-0 bottom-0 top-0 right-0': isFullScreenEnabled }">
+  <div
+    data-testid="meditation-resource"
+    :class="{ 'fixed left-0 bottom-0 top-0 right-0': isFullScreenEnabled }"
+  >
     <MVAdaptivePlayer loop :audio-only-mode="true">
       <MVAdaptiveItem
         ref="meditationMixerItem"

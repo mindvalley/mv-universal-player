@@ -4,7 +4,6 @@ import type { Source } from './../../../../types/audio'
 import { AdaptiveShape } from './../../../../types/adaptive'
 import { Shape } from './../../../../models/adaptive.enums'
 import { useDetectBrowser } from '../../../../composables/use-detect-browser'
-
 import { MVAdaptiveItem, MVAdaptivePlayer, MVAdaptivePlayerBar } from '../../player'
 import { MVAdaptiveImmersiveLayer } from '../../layers'
 import { MVAdaptivePlayButton, MVAdaptiveFullScreenButton } from '../../controls'
@@ -372,7 +371,7 @@ defineExpose({
 </script>
 
 <template>
-  <div class="h-full w-full flex flex-col">
+  <div data-testid="adaptive-resource" class="h-full w-full flex flex-col">
     <MVAdaptivePlayer
       :loop="loopingEnabled"
       :poster-url="posterUrl"
@@ -398,6 +397,7 @@ defineExpose({
 
     <Transition :name="isMobileOrTablet ? 'slide' : 'fade'">
       <div
+        data-testid="adaptive-full-screen"
         v-show="isFullScreen"
         class="fixed inset-0 z-50"
         @mouseenter="handleMouseEnter(false)"
@@ -406,7 +406,10 @@ defineExpose({
         @click="togglePlayPause"
       >
         <!-- Top Bar -->
-        <div class="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-b-subtle px-4 md:px-10 py-7">
+        <div
+          data-testid="top-bar"
+          class="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-b-subtle px-4 md:px-10 py-7"
+        >
           <div class="flex items-center justify-between md:justify-start">
             <div class="md:hidden">
               <MVAdaptiveFullScreenButton
@@ -430,7 +433,11 @@ defineExpose({
         </div>
 
         <!-- Show looping video when there is one -->
-        <div class="h-full w-full" v-show="videoSources.length > 0 && isImmersive">
+        <div
+          data-testid="looping-video"
+          class="h-full w-full"
+          v-show="videoSources.length > 0 && isImmersive"
+        >
           <MVAdaptivePlayer :poster-url="posterUrl" loop muted auto-play>
             <MVAdaptiveItem
               ref="loopingVideoAdaptiveItemRef"
@@ -442,7 +449,11 @@ defineExpose({
         </div>
 
         <!-- Show dynamic video when there is no looping video -->
-        <div class="h-full w-full" v-if="videoSources.length === 0 && isImmersive">
+        <div
+          data-testid="dynamic-video"
+          class="h-full w-full"
+          v-if="videoSources.length === 0 && isImmersive"
+        >
           <MVAdaptiveImmersiveLayer
             :image="posterUrl"
             is-immersive-mode-active
@@ -451,7 +462,7 @@ defineExpose({
         </div>
 
         <!-- Show poster when there is no looping video and immersive if off -->
-        <div class="h-full w-full" v-else>
+        <div data-testid="poster" class="h-full w-full" v-else>
           <BaseImage
             class="w-full h-full"
             img-class="object-cover h-full"

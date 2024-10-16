@@ -267,9 +267,14 @@ function stopAnimation() {
 </script>
 
 <template>
-  <div class="relative w-full h-full flex flex-1 bg-black" :style="backgroundStyle">
+  <div
+    data-testid="adaptive-immersive-layer"
+    class="relative w-full h-full flex flex-1 bg-black"
+    :style="backgroundStyle"
+  >
     <canvas
       ref="canvasRef"
+      data-testid="canvas"
       class="absolute inset-0 w-full h-full"
       v-show="isImmersiveModeActive"
     ></canvas>

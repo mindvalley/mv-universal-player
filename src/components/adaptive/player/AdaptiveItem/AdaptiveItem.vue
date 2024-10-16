@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { inject, provide, ref, toRefs, reactive, watch, readonly, computed } from 'vue-demi'
-import type { Player, Source } from '../../../types/audio'
+import { inject, provide, ref, watch, readonly, computed } from 'vue-demi'
+import type { Player, Source } from '../../../../types/audio'
 
 const props = defineProps({
   id: {
@@ -281,7 +281,7 @@ defineExpose({
 </script>
 
 <template>
-  <div class="w-full">
+  <div data-testid="adaptive-item" class="w-full">
     <slot
       :play="play"
       :pause="pause"

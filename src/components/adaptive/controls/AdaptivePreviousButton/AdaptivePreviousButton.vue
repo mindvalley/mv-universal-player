@@ -1,7 +1,11 @@
 <script setup lang="ts"></script>
 
 <template>
-  <button v-tooltip="'Previous'" class="h-5 w-5 outline-none">
+  <button
+    data-testid="adaptive-previous-button"
+    v-tooltip="'Previous'"
+    class="h-5 w-5 outline-none"
+  >
     <svg
       v-svg
       symbol="skip-back-outlined"

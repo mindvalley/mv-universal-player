@@ -117,12 +117,6 @@ const emit = defineEmits<{
   (e: 'trackInfoTitleClick'): void
 }>()
 
-const slots = useSlots()
-
-const isControlAvailable = computed(() => {
-  return slots && !!slots['control']
-})
-
 const handlePlay = () => {
   emit('play')
 }
@@ -185,8 +179,9 @@ const handleTrackInfoTitleClick = () => {
 </script>
 
 <template>
-  <div class="fixed bottom-0 left-0 right-0">
+  <div data-testid="adaptive-player-bar" class="fixed bottom-0 left-0 right-0">
     <div
+      data-testid="container"
       :class="[
         'transition-transform duration-[600ms] ease-in-out bg-gradient-to-t from-black to-transparent',
         isFullScreen ? 'z-[60] px-4 sm:px-10  md:pb-2' : 'bg-black',
@@ -197,7 +192,7 @@ const handleTrackInfoTitleClick = () => {
       ]"
     >
       <!-- Track Info Card -->
-      <div v-if="isFullScreen" class="flex items-center mb-3 sm:mb-4">
+      <div data-testid="track-info-card" v-if="isFullScreen" class="flex items-center mb-3 sm:mb-4">
         <MVAdaptiveTrackInfoCard
           :title="title"
           :sub-title="artistName"
@@ -267,16 +262,17 @@ const handleTrackInfoTitleClick = () => {
 
         <!-- Full screen -->
         <div
+          data-testid="controls"
           v-if="isFullScreen"
           class="w-full transition-opacity duration-[600ms] ease-in-out"
           :class="{ 'opacity-0': !isMiniBarVisible, 'opacity-100': isMiniBarVisible }"
         >
           <div class="flex items-center justify-between space-x-3">
             <!-- Left column -->
-            <div class="flex items-center min-w-[20px]"></div>
+            <div data-testid="left-column" class="flex items-center min-w-[20px]"></div>
 
             <!-- Center column -->
-            <div class="flex items-center justify-center">
+            <div data-testid="center-column" class="flex items-center justify-center">
               <MVAdaptivePlayButton
                 @play="handlePlay"
                 @pause="handlePause"
@@ -286,7 +282,11 @@ const handleTrackInfoTitleClick = () => {
             </div>
 
             <!-- Right column -->
-            <div class="flex items-center justify-end" v-if="showImmersive && isFullScreen">
+            <div
+              data-testid="right-column"
+              class="flex items-center justify-end"
+              v-if="showImmersive && isFullScreen"
+            >
               <MVAdaptiveImmersiveButton
                 :is-immersive="isImmersive"
                 @click="handleImmersiveClick"
@@ -296,7 +296,7 @@ const handleTrackInfoTitleClick = () => {
         </div>
 
         <!-- Mini Player -->
-        <div v-else class="flex items-center justify-center space-x-3">
+        <div data-testid="mini-player" v-else class="flex items-center justify-center space-x-3">
           <div class="flex items-center" v-if="showSetDuration">
             <MVAdaptiveSetDurationButton @click="handleSetDurationClick" />
           </div>
@@ -317,13 +317,13 @@ const handleTrackInfoTitleClick = () => {
       </div>
 
       <!-- Desktop -->
-      <div class="hidden md:block">
+      <div data-testid="desktop-controls" class="hidden md:block">
         <div
           class="w-full py-3 items-center flex justify-between"
           :class="[isFullScreen ? 'px-0' : 'px-4']"
         >
           <!-- Left column -->
-          <div class="flex-1 flex items-center min-w-28 sm:min-w-48">
+          <div data-testid="left-column" class="flex-1 flex items-center min-w-28 sm:min-w-48">
             <MVAdaptiveTrackInfoCard
               v-if="!isFullScreen"
               :title="title"
@@ -334,7 +334,7 @@ const handleTrackInfoTitleClick = () => {
           </div>
 
           <!-- Center column (always centered) -->
-          <div class="flex-1 flex items-center justify-center">
+          <div data-testid="center-column" class="flex-1 flex items-center justify-center">
             <div class="flex items-center space-x-6">
               <div v-if="showRewindAndFastForward" class="flex items-center">
                 <MVAdaptiveRewindButton @rewind="handleRewind" />
@@ -353,7 +353,7 @@ const handleTrackInfoTitleClick = () => {
           </div>
 
           <!-- Right column -->
-          <div class="flex-1 flex items-center justify-end space-x-3">
+          <div data-testid="right-column" class="flex-1 flex items-center justify-end space-x-3">
             <div class="flex items-center" v-if="showImmersive && isFullScreen">
               <MVAdaptiveImmersiveButton
                 :is-immersive="isImmersive"
@@ -391,6 +391,7 @@ const handleTrackInfoTitleClick = () => {
 
     <!-- Set duration and meditation mixer -->
     <div
+      data-testid="duration-or-meditation-mixer-container"
       class="md:hidden pb-[34px] z-[65] bottom-0 left-0 right-0 absolute px-4 sm:px-10"
       v-if="isFullScreen"
     >

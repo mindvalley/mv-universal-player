@@ -59,8 +59,11 @@ function decrementMinutes() {
 </script>
 
 <template>
-  <div class="flex text-white items-center justify-center gap-x-2">
-    <div class="">
+  <div
+    data-testid="adaptive-duration-timer"
+    class="flex text-white items-center justify-center gap-x-2"
+  >
+    <div data-testid="hours-picker">
       <MVAdaptiveDurationTimerUnitPicker
         :selectedUnit="hours"
         :label="hourLabel"
@@ -69,7 +72,7 @@ function decrementMinutes() {
       />
     </div>
     <div class="text-xl">:</div>
-    <div class="">
+    <div data-testid="minutes-picker">
       <MVAdaptiveDurationTimerUnitPicker
         :selectedUnit="minutes"
         :label="minuteLabel"

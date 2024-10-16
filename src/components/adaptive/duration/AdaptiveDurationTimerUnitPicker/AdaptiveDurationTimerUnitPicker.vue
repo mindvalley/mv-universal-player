@@ -72,11 +72,13 @@ const handleKeyDown = (event: KeyboardEvent) => {
 
 <template>
   <div
+    data-testid="adaptive-duration-timer-unit-picker"
     class="flex flex-col items-center justify-center min-w-16 h-[100px]"
     tabindex="0"
     @keydown="handleKeyDown"
   >
     <button
+      data-testid="increment-button"
       aria-label="Increment"
       class="w-14 py-1 flex items-center justify-center mb-1 outline-none h-4 rounded-sm hover:bg-white-8a"
       @mousedown="startIncrement"
@@ -87,9 +89,10 @@ const handleKeyDown = (event: KeyboardEvent) => {
     >
       <svg v-svg symbol="chevron-up-outlined" class="h-3 w-3 text-white-90a"></svg>
     </button>
-    <div class="relative overflow-hidden h-[60px] w-full">
+    <div data-testid="picker-container" class="relative overflow-hidden h-[60px] w-full">
       <transition :name="direction === 'up' ? 'slide-up' : 'slide-down'">
         <span
+          data-testid="unit-text"
           :key="currentUnit"
           class="text-cool-grey-200 absolute inset-0 flex items-center justify-center timer-text"
         >
@@ -99,6 +102,7 @@ const handleKeyDown = (event: KeyboardEvent) => {
     </div>
     <div class="body-3-xs uppercase text-white-70a my-1">{{ label }}</div>
     <button
+      data-testid="decrement-button"
       aria-label="Decrement"
       class="w-14 py-1 flex items-center justify-center outline-none h-4 rounded-full hover:bg-white-8a"
       @mousedown="startDecrement"

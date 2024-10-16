@@ -53,9 +53,16 @@ const isControlAvailable = computed(() => {
 </script>
 
 <template>
-  <div class="bg-black rounded-3xl w-[398px] sm:w-[480px] py-4 px-6 relative">
-    <div class="heading-9 text-white">{{ headerTitle }}</div>
-    <button class="absolute top-4 right-6 rounded-full hover:bg-white-24a p-1" @click="handleClose">
+  <div
+    data-testid="adaptive-about-this-info"
+    class="bg-black rounded-3xl w-[398px] sm:w-[480px] py-4 px-6 relative"
+  >
+    <div data-testid="header-title" class="heading-9 text-white">{{ headerTitle }}</div>
+    <button
+      data-testid="close-button"
+      class="absolute top-4 right-6 rounded-full hover:bg-white-24a p-1"
+      @click="handleClose"
+    >
       <svg v-svg symbol="x-filled" class="h-4 w-4 text-white-70a"></svg>
     </button>
     <div>
@@ -69,7 +76,11 @@ const isControlAvailable = computed(() => {
         :tags="tags"
       />
     </div>
-    <div v-if="isControlAvailable" class="w-full border border-white-12a my-6"></div>
+    <div
+      v-if="isControlAvailable"
+      data-testid="divider"
+      class="w-full border border-white-12a my-6"
+    ></div>
     <slot name="control"></slot>
   </div>
 </template>

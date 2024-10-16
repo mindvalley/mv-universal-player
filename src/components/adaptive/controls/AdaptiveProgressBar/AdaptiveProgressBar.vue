@@ -182,16 +182,21 @@ watch(
 </script>
 
 <template>
-  <section class="relative flex items-center justify-center md:w-full">
+  <section
+    data-testid="adaptive-progress-bar"
+    class="relative flex items-center justify-center md:w-full"
+  >
     <span
+      data-testid="current-time"
       v-if="size === Size.BIG && !loopingEnabled"
       class="flex shrink-0 items-center justify-center text-xs"
       :class="[size === Size.BIG ? 'mr-4' : 'mr-0']"
     >
       {{ humanizeTime(localCurrentTime) }}
     </span>
-    <span class="w-full shrink">
+    <span data-testid="progress-bar-container" class="w-full shrink">
       <div
+        data-testid="progress-bar"
         ref="seekerUi"
         @mousedown="startDrag"
         @pointerenter="showTooltip"
@@ -201,10 +206,12 @@ watch(
         :class="{ 'cursor-pointer': isInteractive, 'cursor-default': !isInteractive }"
       >
         <div
+          data-testid="progress-bar-track"
           class="relative h-[3px] w-full shrink rounded-full"
           :class="{ 'bg-white-24a': !loopingEnabled, 'bg-red-500': loopingEnabled }"
         >
           <div
+            data-testid="progress-bar-track-progress"
             v-if="!loopingEnabled"
             :style="{ width: progressPercentage + '%' }"
             :class="[
@@ -214,6 +221,7 @@ watch(
           ></div>
           <!-- Scrubber circle -->
           <div
+            data-testid="scrubber-circle"
             v-if="(isHovering || isDragging) && !loopingEnabled"
             class="scrubber-circle"
             :style="{ left: scrubberPosition }"
@@ -222,13 +230,18 @@ watch(
         </div>
       </div>
       <div
+        data-testid="tooltip"
         v-if="size === Size.SMALL"
         ref="tooltip"
         class="tooltip"
         :style="{ display: isHovering && isInteractive ? 'block' : 'none' }"
       ></div>
     </span>
-    <span v-if="size === Size.BIG" class="flex shrink-0 items-center justify-center text-xs ml-4">
+    <span
+      data-testid="duration"
+      v-if="size === Size.BIG"
+      class="flex shrink-0 items-center justify-center text-xs ml-4"
+    >
       <template v-if="!loopingEnabled">
         {{ humanizeTime(duration) }}
       </template>

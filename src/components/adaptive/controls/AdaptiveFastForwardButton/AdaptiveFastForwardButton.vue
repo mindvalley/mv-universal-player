@@ -16,7 +16,12 @@ const handleFastForward = () => {
 </script>
 
 <template>
-  <button @click="handleFastForward()" v-tooltip="'15 sec forward'" class="h-6 w-6 outline-none">
+  <button
+    data-testid="adaptive-fast-forward-button"
+    @click="handleFastForward()"
+    v-tooltip="'15 sec forward'"
+    class="h-6 w-6 outline-none"
+  >
     <svg
       v-svg
       symbol="forward-15-filled"

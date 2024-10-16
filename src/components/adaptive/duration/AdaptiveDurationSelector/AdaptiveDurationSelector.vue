@@ -44,27 +44,37 @@ const handleClose = () => {
 
 <template>
   <div
+    data-testid="adaptive-duration-selector"
     class="bg-black max-w-xl p-4 min-w-[400px] sm:min-w-[560px] rounded-3xl text-white flex flex-col items-center justify-center relative"
   >
-    <button class="absolute top-4 right-6 rounded-full hover:bg-white-24a p-1" @click="handleClose">
+    <button
+      data-testid="close-button"
+      class="absolute top-4 right-6 rounded-full hover:bg-white-24a p-1"
+      @click="handleClose"
+    >
       <svg v-svg symbol="x-filled" class="h-4 w-4 text-white-70a"></svg>
     </button>
-    <div class="text-center heading-9">How long do you want to listen?</div>
+    <div data-testid="heading" class="text-center heading-9">How long do you want to listen?</div>
     <div class="flex flex-col items-center justify-center">
       <Transition name="slide" mode="out-in">
-        <div v-if="localIsLooping" key="looping">
-          <div class="flex flex-col items-center justify-center h-[135px] my-6">
+        <div data-testid="looping-container" v-if="localIsLooping" key="looping">
+          <div
+            data-testid="playing-forever-title"
+            class="flex flex-col items-center justify-center h-[135px] my-6"
+          >
             <svg v-svg symbol="infinity-filled" class="h-10 w-10 text-white"></svg>
             <div class="title-10">PLAYING FOREVER</div>
           </div>
-          <div class="flex flex-col">
+          <div data-testid="stay-forever-container" class="flex flex-col">
             <button
+              data-testid="stay-forever-button"
               @click="handleStayForever"
               class="rounded-full bg-white hover:bg-white-90a text-cool-grey-700 button-text-medium px-4 p-2"
             >
               Stay forever
             </button>
             <button
+              data-testid="change-duration-button"
               @click="toggleMode"
               class="mt-2 text-white button-text-small py-2 px-4 flex flex-row rounded-full hover:bg-white-12a"
             >
@@ -72,9 +82,17 @@ const handleClose = () => {
             </button>
           </div>
         </div>
-        <div v-else key="timer" class="flex flex-col items-center justify-center">
-          <div class="flex flex-col items-center justify-center h-[135px] my-6">
-            <button @click="toggleMode" class="mb-3">
+        <div
+          data-testid="timer-container"
+          v-else
+          key="timer"
+          class="flex flex-col items-center justify-center"
+        >
+          <div
+            data-testid="timer-title"
+            class="flex flex-col items-center justify-center h-[135px] my-6"
+          >
+            <button data-testid="timer-button" @click="toggleMode" class="mb-3">
               <svg v-svg symbol="infinity-filled" class="h-6 w-6 text-[#878581]"></svg>
             </button>
             <MVAdaptiveDurationTimer
@@ -84,12 +102,14 @@ const handleClose = () => {
           </div>
           <div class="flex flex-col items-center justify-center">
             <button
+              data-testid="set-new-time-button"
               @click="setNewTime"
               class="rounded-full bg-white hover:bg-white-90a text-cool-grey-700 button-text-medium px-4 p-2"
             >
               Set new time
             </button>
             <button
+              data-testid="forever-button"
               @click="toggleMode"
               class="mt-2 text-white button-text-small py-2 px-4 flex flex-row rounded-full hover:bg-white-12a"
             >

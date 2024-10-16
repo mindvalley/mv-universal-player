@@ -44,6 +44,7 @@ const buttonSizeClasses = computed(() => {
 </script>
 <template>
   <button
+    data-testid="adaptive-play-button"
     v-tooltip="showTooltip ? (playing ? 'Pause' : 'Play') : ''"
     @click="togglePlay"
     class="outline-none"

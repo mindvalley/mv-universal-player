@@ -2,7 +2,7 @@
 import VideoJsPlayer from 'video.js'
 import 'video.js/dist/video-js.css'
 import { onMounted, onUnmounted, ref, provide, readonly, defineExpose } from 'vue-demi'
-import type { Player, Source } from '../../../types/audio'
+import type { Player, Source } from '../../../../types/audio'
 
 const StateConfig = {
   src: {

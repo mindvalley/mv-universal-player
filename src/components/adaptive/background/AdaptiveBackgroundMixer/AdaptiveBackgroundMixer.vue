@@ -71,21 +71,24 @@ const updateVolume = (volume: number) => {
 
 <template>
   <div
+    data-testid="adaptive-background-mixer"
     class="bg-black h-[235px] sm:h-[265px] w-[400px] sm:w-[748px] rounded-3xl relative py-4 sm:px-6"
   >
     <button
+      data-testid="close-button"
       class="hidden sm:flex absolute top-4 right-6 rounded-full hover:bg-white-24a p-1"
       @click="handleClose"
     >
       <svg v-svg symbol="x-filled" class="h-4 w-4 text-white-70a"></svg>
     </button>
-    <div class="text-center heading-9 text-white">Background mixer</div>
+    <div data-testid="title" class="text-center heading-9 text-white">Background mixer</div>
 
     <div class="relative">
-      <button class="carousel-nav-button -left-3" @click="handlePrev">
+      <button data-testid="prev-button" class="carousel-nav-button -left-3" @click="handlePrev">
         <svg v-svg symbol="chevron-left-outlined" class="h-6 w-6 text-white"></svg>
       </button>
       <carousel-3d
+        data-testid="carousel"
         @after-slide-change="handleTrackChange"
         ref="carouselRef"
         :disable3d="true"
@@ -107,7 +110,7 @@ const updateVolume = (volume: number) => {
           </template>
         </Slide>
       </carousel-3d>
-      <button class="carousel-nav-button -right-3" @click="handleNext">
+      <button data-testid="next-button" class="carousel-nav-button -right-3" @click="handleNext">
         <svg v-svg symbol="chevron-right-outlined" class="h-6 w-6 text-white"></svg>
       </button>
     </div>

@@ -1,8 +1,8 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="marquee-container">
-    <div class="marquee-content">
+  <div data-testid="adaptive-marquee-content" class="marquee-container">
+    <div data-testid="marquee-content" class="marquee-content">
       <slot v-for="i in 10" :key="i"></slot>
     </div>
   </div>

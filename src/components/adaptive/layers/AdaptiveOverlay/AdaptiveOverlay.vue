@@ -10,11 +10,12 @@ defineEmits(['close'])
 </script>
 
 <template>
-  <div>
+  <div data-testid="adaptive-overlay">
     <!-- Overlay -->
     <transition name="fade">
       <div
         v-if="show"
+        data-testid="overlay"
         class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-[2px]"
         :style="{ zIndex: 100 }"
       ></div>
@@ -22,8 +23,17 @@ defineEmits(['close'])
 
     <!-- Content -->
     <transition name="slide-up">
-      <div v-if="show" class="fixed inset-0 overflow-hidden" :style="{ zIndex: 150 }">
-        <div class="absolute inset-0 flex items-center justify-center" @click="$emit('close')">
+      <div
+        v-if="show"
+        data-testid="content-container"
+        class="fixed inset-0 overflow-hidden"
+        :style="{ zIndex: 150 }"
+      >
+        <div
+          data-testid="content"
+          class="absolute inset-0 flex items-center justify-center"
+          @click="$emit('close')"
+        >
           <div @click.stop>
             <slot></slot>
           </div>

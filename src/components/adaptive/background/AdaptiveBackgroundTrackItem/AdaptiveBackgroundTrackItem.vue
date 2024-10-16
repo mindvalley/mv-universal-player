@@ -24,7 +24,7 @@ const noBackgroundSoundTitleClass = computed(() => {
 
 <template>
   <div
-    data-testid="background-track-item"
+    data-testid="adaptive-background-track-item"
     class="overflow-hidden rounded-full h-full w-full cursor-pointer headi"
   >
     <div
@@ -32,7 +32,9 @@ const noBackgroundSoundTitleClass = computed(() => {
       v-if="!trackItem?.item"
       class="flex h-full w-full text-white items-center justify-center bg-black text-center"
     >
-      <span class="text-white px-10" :class="noBackgroundSoundTitleClass">No background sound</span>
+      <span data-testid="title" class="text-white px-10" :class="noBackgroundSoundTitleClass"
+        >No background sound</span
+      >
     </div>
     <img
       v-else
