@@ -8,7 +8,7 @@ const props = defineProps({
   },
   trackTitle: {
     type: String,
-    required: true
+    default: ''
   }
 })
 </script>

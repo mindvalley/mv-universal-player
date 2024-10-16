@@ -141,6 +141,7 @@ const emit = defineEmits<{
   (e: 'playbackSpeed', { playbackSpeed }: any): void
   (e: 'trackInfoTitleClick'): void
   (e: 'setVolume', { volume }: any): void
+  (e: 'setDuration'): void
   (e: any, payload: any): void
 }>()
 
@@ -157,8 +158,6 @@ const { isMobileOrTablet } = useDetectBrowser()
 // Add this new ref
 const lastActivityTimestamp = ref(Date.now())
 const isMouseOverMiniPlayer = ref(false)
-
-console.log(props.showMeditationMixer)
 
 watch(isFullScreen, (newVal) => {
   if (newVal) {
@@ -247,7 +246,7 @@ watch(
   () => playTime.value,
   (newPlayTime) => {
     if (newPlayTime !== 0) {
-      emit('playtime', { time: newPlayTime })
+      emitEvent('playtime', { time: newPlayTime })
     }
   }
 )
@@ -364,7 +363,7 @@ const handleTimeUpdate = (event: any) => {
 }
 
 const handleTrackInfoTitleClick = () => {
-  emitEvent('track-info-title-click')
+  emitEvent('trackInfoTitleClick')
 }
 
 defineExpose({

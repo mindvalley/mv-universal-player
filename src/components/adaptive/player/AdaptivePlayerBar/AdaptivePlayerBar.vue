@@ -185,10 +185,10 @@ const handleTrackInfoTitleClick = () => {
 </script>
 
 <template>
-  <div class="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent">
+  <div class="fixed bottom-0 left-0 right-0">
     <div
       :class="[
-        'transition-all duration-[600ms] ease-in-out',
+        'transition-transform duration-[600ms] ease-in-out bg-gradient-to-t from-black to-transparent',
         isFullScreen ? 'z-[60] px-4 sm:px-10  md:pb-2' : 'bg-black',
         isFullScreen ? (showSetDuration || showMeditationMixer ? 'pb-[70px]' : 'pb-3') : 'pb-0',
         {
