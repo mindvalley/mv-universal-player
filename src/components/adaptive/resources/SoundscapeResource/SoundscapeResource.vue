@@ -224,7 +224,7 @@ const handleSeek = ({ time }: any) => {
   // We are setting the actual audio time and not what user sees on the progress bar. Because most of the times, the audio duration is less than what the user has manually set in case of loop scenario.
   adaptiveResource.value?.player?.player?.seek(localSeekingTime)
   elapsedTime.value = Number(time)
-  emitEvent('seeking', { seeking: time.toFixed(2) })
+  emitEvent('seeking', { seeking: Number(time.toFixed(2)) })
 }
 
 const handleEnded = () => {

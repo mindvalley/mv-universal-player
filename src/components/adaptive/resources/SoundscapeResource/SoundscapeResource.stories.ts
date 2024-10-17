@@ -119,7 +119,7 @@ export const Default: Story = {
     },
     template: `<div class="mv-universal-player"><div class="mt-20 absolute bottom-0 left-0 right-0"><MVSoundscapeResource v-bind="args"
        @play="logEvent('play', $event)"
-    @pause="logEvent('pause', $event)" @maximize="logEvent('maximize', $event)" @minimize="logEvent('minimize', $event)" @muted="logEvent('muted', $event)" @close="logEvent('close', $event)" @collection-open="logEvent('collection-open', $event)" @setDuration="logEvent('setDuration', $event)"  @ended="logEvent('ended', $event)" @error="logEvent('error', $event)" @playtime="logEvent('playtime', $event)"  /></div></div>`
+    @pause="logEvent('pause', $event)" @maximize="logEvent('maximize', $event)" @minimize="logEvent('minimize', $event)" @muted="logEvent('muted', $event)" @close="logEvent('close', $event)" @collection-open="logEvent('collection-open', $event)" @setDuration="logEvent('setDuration', $event)"  @ended="logEvent('ended', $event)" @error="logEvent('error', $event)" @playtime="logEvent('playtime', $event)" @seeking="logEvent('seeking', $event)"  /></div></div>`
   }),
   args: {
     key: audio1.assetId,
