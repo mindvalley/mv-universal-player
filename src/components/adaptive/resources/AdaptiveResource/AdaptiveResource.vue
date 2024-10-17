@@ -134,13 +134,13 @@ const emit = defineEmits<{
   (e: 'maximize'): void
   (e: 'playtime', { time }: any): void
   (e: 'collection'): void
-  (e: 'close'): void
   (e: 'fullscreen', { isFullScreen }: any): void
   (e: 'toggleImmersive', { isImmersive }: any): void
   (e: 'playbackSpeed', { playbackSpeed }: any): void
   (e: 'trackInfoTitleClick'): void
   (e: 'setVolume', { volume }: any): void
   (e: 'setDuration'): void
+  (e: 'muted', { muted }: any): void
   (e: any, payload: any): void
 }>()
 
@@ -270,6 +270,14 @@ const resetPlayerTimer = () => {
   playTime.value = 0
 }
 
+const restartPlayerTimer = () => {
+  resetPlayerTimer()
+
+  if (adaptiveItem.value?.state?.playing) {
+    startPlayerTimer()
+  }
+}
+
 const handleEnded = (event: any) => {
   resetPlayerTimer()
   localCurrentTime.value = 0
@@ -287,7 +295,7 @@ const handlePause = (event: any) => {
 }
 
 const handleCollectionClick = () => {
-  emitEvent('collection-open')
+  emitEvent('collectionOpen')
 }
 
 const handleMeditationMixerClick = () => {
@@ -356,6 +364,10 @@ const togglePlayPause = () => {
   }, 1000) // Hide after 1 second, adjust as needed
 }
 
+const handleMuted = (muted: boolean) => {
+  emitEvent('muted', { muted })
+}
+
 const handleTimeUpdate = (event: any) => {
   localCurrentTime.value = Number(event.currentTime)
   emitEvent('timeupdate', { currentTime: localCurrentTime.value })
@@ -366,7 +378,9 @@ const handleTrackInfoTitleClick = () => {
 }
 
 defineExpose({
-  player: adaptiveItem
+  player: adaptiveItem,
+  restartPlayerTimer,
+  resetPlayerTimer
 })
 </script>
 
@@ -533,6 +547,7 @@ defineExpose({
         @setDuration="handleSetDurationClick"
         @toggleFullScreen="toggleFullScreen"
         @toggleImmersive="handleImmersiveClick"
+        @muted="handleMuted"
       />
     </div>
   </div>

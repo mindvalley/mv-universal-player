@@ -11,7 +11,7 @@ import { MVAdaptiveAboutThisInfoSetDurationButton } from '../../info/AdaptiveAbo
 const props = defineProps({
   id: {
     type: String,
-    default: ''
+    required: true
   },
   audioSources: {
     type: Array<Source>,
@@ -81,19 +81,16 @@ const emit = defineEmits<{
   (e: 'pause', { currentTime }: any): void
   (e: 'seeking', { seeking }: any): void
   (e: 'ended', { currentTime }: any): void
-  (e: 'rewind', { previousTime, currentTime }: any): void
-  (e: 'fastforward', { previousTime, currentTime }: any): void
   (e: 'error', payload: any): void
   (e: 'playtime', { time }: any): void
-  (e: 'bookmark'): void
   (e: 'close'): void
   (e: 'collectionOpen'): void
   (e: 'minimize'): void
   (e: 'maximize'): void
-  (e: 'playtime', { time }: any): void
-  (e: 'playbackSpeedChange', { playbackSpeed }: any): void
   (e: 'previous'): void
   (e: 'next'): void
+  (e: 'muted', { muted }: any): void
+  (e: 'setDuration', { seconds }: any): void
   (e: any, payload: any): void
 }>()
 
@@ -148,41 +145,35 @@ const handlePlay = () => {
   if (!localLoopingEnabled.value) {
     startTimer()
   }
-  emitEvent('play', { currentTime: localCurrentTime.value })
+  emitEvent('play', { currentTime: Number(localCurrentTime.value.toFixed(2)) })
 }
 
 const stopSound = () => {
   adaptiveResource.value?.player?.player?.pause()
+  adaptiveResource.value?.resetPlayerTimer()
   handleEnded()
 }
 
 const handlePause = () => {
   pauseTimer()
-  emitEvent('pause', { currentTime: localCurrentTime.value })
+  emitEvent('pause', { currentTime: Number(localCurrentTime.value.toFixed(2)) })
 }
 
 onUnmounted(() => {
   pauseTimer()
 })
 
-const handleClose = () => {
-  emit('close')
-}
-
-const handleCollectionOpen = () => {
-  emit('collectionOpen')
-}
-
 const handlePrevious = () => {
-  emit('previous')
+  emitEvent('previous')
 }
 
 const handleNext = () => {
-  emit('next')
+  emitEvent('next')
 }
 
 const handleSetNewTime = (duration: number) => {
   if (duration > 0) {
+    adaptiveResource.value?.restartPlayerTimer()
     localDuration.value = duration
     localLoopingEnabled.value = false
     toggleDurationSelector()
@@ -190,13 +181,17 @@ const handleSetNewTime = (duration: number) => {
     if (adaptiveResource.value?.player?.state.playing) {
       startTimer()
     }
+
+    emitEvent('setDuration', { seconds: duration })
   }
 }
 
 const handleStayForever = () => {
+  adaptiveResource.value?.restartPlayerTimer()
   localLoopingEnabled.value = true
   stopTimer()
   toggleDurationSelector()
+  emitEvent('setDuration', { seconds: 0 })
 }
 
 const toggleDurationSelector = () => {
@@ -214,7 +209,7 @@ const handleTimeUpdate = ({ currentTime }: any) => {
   } else {
     localCurrentTime.value = Number(currentTime)
   }
-  emitEvent('timeupdate', { currentTime: localCurrentTime.value.toFixed(2) })
+  emitEvent('timeupdate', { currentTime: Number(localCurrentTime.value.toFixed(2)) })
 }
 
 const handleSeek = ({ time }: any) => {
@@ -233,7 +228,23 @@ const handleSeek = ({ time }: any) => {
 }
 
 const handleEnded = () => {
-  emit('ended', { currentTime: localCurrentTime.value })
+  emitEvent('ended', { currentTime: Number(localCurrentTime.value.toFixed(2)) })
+}
+
+const handleMuted = ({ muted }: { id: string; muted: boolean }) => {
+  emitEvent('muted', { muted: muted })
+}
+
+const handleClose = () => {
+  emitEvent('close')
+}
+
+const handleCollectionOpen = () => {
+  emitEvent('collectionOpen')
+}
+
+const handlePlaytime = ({ time }: any) => {
+  emitEvent('playtime', { time })
 }
 
 const handleFullscreen = ({ isFullScreen }: any) => {
@@ -241,14 +252,20 @@ const handleFullscreen = ({ isFullScreen }: any) => {
 
   if (isFullScreen) {
     adaptiveResource.value?.player?.player?.setAudioOnlyMode(false)
+    emitEvent('maximize')
   } else {
     adaptiveResource.value?.player?.player?.setAudioOnlyMode(true)
+    emitEvent('minimize')
   }
 }
 
 const toggleAboutThisInfo = () => {
   showDurationSelector.value = false
   showAboutThisInfo.value = !showAboutThisInfo.value
+}
+
+const handleError = (event: any) => {
+  emitEvent('error', event)
 }
 
 const emitEvent = (eventName: string, payload?: any) => {
@@ -323,6 +340,9 @@ const emitEvent = (eventName: string, payload?: any) => {
         @seek="handleSeek"
         @ended="handleEnded"
         @fullscreen="handleFullscreen"
+        @muted="handleMuted"
+        @error="handleError"
+        @playtime="handlePlaytime"
       />
     </div>
   </div>

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import { MVSoundscapeResource } from '.'
+import { action } from '@storybook/addon-actions'
 
 const audio1 = {
   assetId: '1',
@@ -112,10 +113,13 @@ export const Default: Story = {
   render: (args: any, { argTypes }) => ({
     title: 'Soundscape',
     components: { MVSoundscapeResource },
+    methods: { logEvent: action('') },
     setup() {
       return { args }
     },
-    template: `<div class="mv-universal-player"><div class="mt-20 absolute bottom-0 left-0 right-0"><MVSoundscapeResource v-bind="args" /></div></div>`
+    template: `<div class="mv-universal-player"><div class="mt-20 absolute bottom-0 left-0 right-0"><MVSoundscapeResource v-bind="args"
+       @play="logEvent('play', $event)"
+    @pause="logEvent('pause', $event)" @maximize="logEvent('maximize', $event)" @minimize="logEvent('minimize', $event)" @muted="logEvent('muted', $event)" @close="logEvent('close', $event)" @collection-open="logEvent('collection-open', $event)" @setDuration="logEvent('setDuration', $event)"  @ended="logEvent('ended', $event)" @error="logEvent('error', $event)" @playtime="logEvent('playtime', $event)"  /></div></div>`
   }),
   args: {
     key: audio1.assetId,
@@ -135,6 +139,7 @@ export const LoopingEnabled: Story = {
   render: (args: any, { argTypes }) => ({
     title: 'Looping Enabled',
     components: { MVSoundscapeResource },
+    methods: { logEvent: action('') },
     setup() {
       return { args }
     },
@@ -158,6 +163,7 @@ export const LoopingEnabledShort: Story = {
   render: (args: any, { argTypes }) => ({
     title: 'Looping Enabled',
     components: { MVSoundscapeResource },
+    methods: { logEvent: action('') },
     setup() {
       return { args }
     },
@@ -181,10 +187,11 @@ export const PreviousNext: Story = {
   render: (args: any, { argTypes }) => ({
     title: 'Looping Enabled',
     components: { MVSoundscapeResource },
+    methods: { logEvent: action('') },
     setup() {
       return { args }
     },
-    template: `<div class="mv-universal-player"><div class="mt-20 absolute bottom-0 left-0 right-0"><MVSoundscapeResource v-bind="args" /></div></div>`
+    template: `<div class="mv-universal-player"><div class="mt-20 absolute bottom-0 left-0 right-0"><MVSoundscapeResource v-bind="args" @previous="logEvent('previous', $event)" @next="logEvent('next', $event)" /></div></div>`
   }),
   args: {
     key: audio1.assetId,
@@ -205,6 +212,7 @@ export const ImmersiveLoopingVideo: Story = {
   render: (args: any, { argTypes }) => ({
     title: 'Immersive - Looping Video',
     components: { MVSoundscapeResource },
+    methods: { logEvent: action('') },
     setup() {
       return { args }
     },
@@ -229,6 +237,7 @@ export const ImmersiveDynamicVideo: Story = {
   render: (args: any, { argTypes }) => ({
     title: 'Immersive - Dynamic Video',
     components: { MVSoundscapeResource },
+    methods: { logEvent: action('') },
     setup() {
       return { args }
     },

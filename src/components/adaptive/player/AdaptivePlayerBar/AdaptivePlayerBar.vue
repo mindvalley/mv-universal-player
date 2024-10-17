@@ -115,6 +115,7 @@ const emit = defineEmits<{
   (e: 'toggleFullScreen'): void
   (e: 'toggleImmersive'): void
   (e: 'trackInfoTitleClick'): void
+  (e: 'muted', muted: boolean): void
 }>()
 
 const handlePlay = () => {
@@ -175,6 +176,10 @@ const handleImmersiveClick = () => {
 
 const handleTrackInfoTitleClick = () => {
   emit('trackInfoTitleClick')
+}
+
+const handleMuted = (muted: boolean) => {
+  emit('muted', muted)
 }
 </script>
 
@@ -373,7 +378,7 @@ const handleTrackInfoTitleClick = () => {
               <MVAdaptiveCollectionButton @click="handleCollectionClick" />
             </div>
             <div>
-              <MVAdaptiveVolumeSlider @update:volume="handleSetVolume" />
+              <MVAdaptiveVolumeSlider @update:volume="handleSetVolume" @muted="handleMuted" />
             </div>
             <div class="flex items-center">
               <MVAdaptiveFullScreenButton

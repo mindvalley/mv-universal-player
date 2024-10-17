@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue-demi'
+import { ref, computed, watch } from 'vue-demi'
 
-const emit = defineEmits(['update:volume'])
+const emit = defineEmits<{
+  (e: 'update:volume', volume: number): void
+  (e: 'muted', muted: boolean): void
+}>()
 
 const sliderRef = ref<HTMLElement | null>(null)
 const isDragging = ref(false)
@@ -11,6 +14,10 @@ const volumePercentage = computed(() => localVolume.value * 100)
 const previousVolume = ref(localVolume.value)
 
 const muted = computed(() => localVolume.value === 0)
+
+watch(muted, (newVal) => {
+  emit('muted', newVal)
+})
 
 const toggleMute = () => {
   if (muted.value) {
