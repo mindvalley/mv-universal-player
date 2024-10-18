@@ -104,6 +104,10 @@ const emit = defineEmits<{
   (e: 'previous'): void
   (e: 'next'): void
   (e: 'muted', { muted }: any): void
+  (e: 'backgroundMixerPlay', { currentTime }: any): void
+  (e: 'backgroundMixerPause', { currentTime }: any): void
+  (e: 'backgroundMixerTimeupdate', { currentTime }: any): void
+  (e: 'backgroundMixerEnded', { volume }: any): void
   (e: any, payload: any): void
 }>()
 
@@ -151,6 +155,7 @@ const handleTimeUpdate = ({ currentTime }: { currentTime: number }) => {
 
 const handleEnded = ({ id, currentTime }: { id: string; currentTime: number }) => {
   emitEvent('ended', { currentTime })
+  emitBackgroundMixerEvent('backgroundMixerEnded', { currentTime })
 }
 
 const backgroundTrackItems = computed(() => {
@@ -333,6 +338,27 @@ const emitEvent = (eventName: string, payload?: any) => {
   const data = { id: props.id, ...payload }
   emit(eventName, data)
 }
+
+const handleBackgroundMixerPlay = (payload: any) => {
+  emitBackgroundMixerEvent('backgroundMixerPlay', payload)
+}
+
+const handleBackgroundMixerPause = (payload: any) => {
+  emitBackgroundMixerEvent('backgroundMixerPause', payload)
+}
+
+const handleBackroundMixerTimeupdate = (payload: any) => {
+  emitBackgroundMixerEvent('backgroundMixerTimeupdate', payload)
+}
+
+const emitBackgroundMixerEvent = (eventName: string, payload?: any) => {
+  const data = {
+    id: props.id,
+    backgroundSoundId: selectedMeditationTrackItem.value?.item?.id,
+    ...payload
+  }
+  emit(eventName, data)
+}
 </script>
 
 <template>
@@ -342,6 +368,9 @@ const emitEvent = (eventName: string, payload?: any) => {
         ref="meditationMixerItem"
         :sources="selectedMeditationTrackItem?.item?.sources || []"
         :id="selectedMeditationTrackItem?.id"
+        @play="handleBackgroundMixerPlay"
+        @pause="handleBackgroundMixerPause"
+        @timeupdate="handleBackroundMixerTimeupdate"
       >
       </MVAdaptiveItem>
     </MVAdaptivePlayer>

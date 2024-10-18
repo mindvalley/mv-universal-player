@@ -219,7 +219,11 @@ export const MeditationMixerDefaultSound: Story = {
       return { args }
     },
     template: `<div class="mv-universal-player"><div class="mt-20 absolute bottom-0 left-0 right-0"><MVMeditationResource v-bind="args"   @play="logEvent('play', $event)"
-    @pause="logEvent('pause', $event)" @maximize="logEvent('maximize', $event)" @minimize="logEvent('minimize', $event)" @muted="logEvent('muted', $event)" @close="logEvent('close', $event)" @collection-open="logEvent('collection-open', $event)" @ended="logEvent('ended', $event)" @error="logEvent('error', $event)" @playtime="logEvent('playtime', $event)" @seeking="logEvent('seeking', $event)" @fastforward="logEvent('fastforward', $event)" @rewind="logEvent('rewind', $event)" @timeupdate="logEvent('timeupdate', $event)" @meditationMixerOpen="logEvent('meditationMixerOpen', $event)" @meditationMixerClose="logEvent('meditationMixerClose', $event)" /></div></div>`
+    @pause="logEvent('pause', $event)" @maximize="logEvent('maximize', $event)" @minimize="logEvent('minimize', $event)" @muted="logEvent('muted', $event)" @close="logEvent('close', $event)" @collection-open="logEvent('collection-open', $event)" @ended="logEvent('ended', $event)" @error="logEvent('error', $event)" @playtime="logEvent('playtime', $event)" @seeking="logEvent('seeking', $event)" @fastforward="logEvent('fastforward', $event)" @rewind="logEvent('rewind', $event)" @meditationMixerOpen="logEvent('meditationMixerOpen', $event)" @meditationMixerClose="logEvent('meditationMixerClose', $event)"
+    @backgroundMixerPlay="logEvent('backgroundMixerPlay', $event)"
+    @backgroundMixerPause="logEvent('backgroundMixerPause', $event)"
+    @backgroundMixerEnded="logEvent('backgroundMixerEnded', $event)"
+    /></div></div>`
   }),
   args: {
     key: audio2.assetId,
