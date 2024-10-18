@@ -31,10 +31,6 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  showBookmark: {
-    type: Boolean,
-    default: false
-  },
   posterUrl: {
     type: String,
     default: ''
@@ -50,14 +46,6 @@ const props = defineProps({
   duration: {
     required: true,
     type: Number
-  },
-  showSetDuration: {
-    type: [Boolean, String],
-    default: false
-  },
-  showPlaybackSpeed: {
-    type: [Boolean, String],
-    default: false
   },
   showPreviousNext: {
     type: Boolean,
@@ -105,52 +93,64 @@ const emit = defineEmits<{
   (e: 'ended', { currentTime }: any): void
   (e: 'rewind', { previousTime, currentTime }: any): void
   (e: 'fastforward', { previousTime, currentTime }: any): void
-  (e: 'reset', { currentTime }: any): void
   (e: 'error', payload: any): void
   (e: 'playtime', { time }: any): void
-  (e: 'bookmark'): void
   (e: 'close'): void
-  (e: 'meditationMixerClick'): void
+  (e: 'meditationMixerOpen'): void
+  (e: 'meditationMixerClose'): void
   (e: 'collectionOpen'): void
   (e: 'minimize'): void
   (e: 'maximize'): void
-  (e: 'playtime', { time }: any): void
-  (e: 'playbackSpeedChange', { playbackSpeed }: any): void
   (e: 'previous'): void
   (e: 'next'): void
+  (e: 'muted', { muted }: any): void
   (e: any, payload: any): void
 }>()
 
 const showMeditationMixer = ref(false)
-const isFullScreenEnabled = ref(false)
 const adaptiveResource = ref(null)
 const meditationMixerItem = ref(null)
 const selectedMeditationTrackItem = ref<BackgroundTrackItem | null>(null)
 const meditationMixerVolume = ref(0.5)
 const showAboutThisInfo = ref(false)
 const mainVolume = ref(1)
+
+// TODO: Might have to change this to 0.5 for both if the default background sound is set.
 const backgroundSoundVolume = ref(1)
 const mainSoundVolume = ref(1)
 
 const toggleMeditationMixer = () => {
   showAboutThisInfo.value = false
   showMeditationMixer.value = !showMeditationMixer.value
+  if (showMeditationMixer.value) {
+    emitEvent('meditationMixerOpen')
+  } else {
+    emitEvent('meditationMixerClose')
+  }
 }
 
 const handleClose = () => {
-  emit('close')
+  emitEvent('close')
 }
 
 const handleCollectionOpen = () => {
-  emit('collectionOpen')
+  emitEvent('collectionOpen')
 }
 
 const handlePrevious = () => {
-  emit('previous')
+  emitEvent('previous')
 }
 
 const handleNext = () => {
-  emit('next')
+  emitEvent('next')
+}
+
+const handleTimeUpdate = ({ currentTime }: { currentTime: number }) => {
+  emitEvent('timeupdate', { currentTime })
+}
+
+const handleEnded = ({ id, currentTime }: { id: string; currentTime: number }) => {
+  emitEvent('ended', { currentTime })
 }
 
 const backgroundTrackItems = computed(() => {
@@ -219,12 +219,30 @@ const handleTrackChange = async (track: BackgroundTrackItem) => {
   }
 }
 
-const handlePlay = () => {
+const handlePlay = ({ id, currentTime }: { id: string; currentTime: string }) => {
+  emitEvent('play', { currentTime: Number(currentTime) })
   playMeditationTrack()
 }
 
-const handlePause = () => {
+const handlePause = ({ id, currentTime }: { id: string; currentTime: string }) => {
+  emitEvent('pause', { currentTime: Number(currentTime) })
   pauseMeditationTrack()
+}
+
+const handleFullscreen = ({ isFullScreen }: any) => {
+  if (isFullScreen) {
+    emitEvent('maximize')
+  } else {
+    emitEvent('minimize')
+  }
+}
+
+const handleMuted = ({ muted }: { id: string; muted: boolean }) => {
+  emitEvent('muted', { muted: muted })
+}
+
+const handlePlaytime = ({ time }: any) => {
+  emitEvent('playtime', { time })
 }
 
 const updateVolume = (
@@ -271,7 +289,31 @@ const pauseMeditationTrack = () => {
 
 const handleSeek = ({ time }: any) => {
   adaptiveResource.value?.player?.player?.seek(time)
-  emitEvent('seeking', { seeking: time.toFixed(2) })
+  emitEvent('seeking', { seeking: Number(time.toFixed(2)) })
+}
+
+const handleFastForward = ({
+  id,
+  previousTime,
+  currentTime
+}: {
+  id: string
+  previousTime: number
+  currentTime: number
+}) => {
+  emitEvent('fastforward', { previousTime, currentTime })
+}
+
+const handleRewind = ({
+  id,
+  previousTime,
+  currentTime
+}: {
+  id: string
+  previousTime: number
+  currentTime: number
+}) => {
+  emitEvent('rewind', { previousTime, currentTime })
 }
 
 const toggleAboutThisInfo = () => {
@@ -294,10 +336,7 @@ const emitEvent = (eventName: string, payload?: any) => {
 </script>
 
 <template>
-  <div
-    data-testid="meditation-resource"
-    :class="{ 'fixed left-0 bottom-0 top-0 right-0': isFullScreenEnabled }"
-  >
+  <div data-testid="meditation-resource">
     <MVAdaptivePlayer loop :audio-only-mode="true">
       <MVAdaptiveItem
         ref="meditationMixerItem"
@@ -369,7 +408,14 @@ const emitEvent = (eventName: string, payload?: any) => {
       @next="handleNext"
       @play="handlePlay"
       @pause="handlePause"
+      @timeupdate="handleTimeUpdate"
       @seek="handleSeek"
+      @fullscreen="handleFullscreen"
+      @muted="handleMuted"
+      @fastforward="handleFastForward"
+      @rewind="handleRewind"
+      @ended="handleEnded"
+      @playtime="handlePlaytime"
     />
   </div>
 </template>

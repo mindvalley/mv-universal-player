@@ -337,12 +337,16 @@ const pause = () => {
   pauseLoopingVideo()
 }
 
-const rewind = (event: any) => {
-  adaptiveItem.value?.player?.rewind(event)
+const rewind = (time: number) => {
+  if (adaptiveItem?.value?.state?.playing) {
+    adaptiveItem.value?.player?.rewind(time)
+  }
 }
 
-const fastForward = (event: any) => {
-  adaptiveItem.value?.player?.fastForward(event)
+const fastForward = (time: any) => {
+  if (adaptiveItem?.value?.state?.playing) {
+    adaptiveItem.value?.player?.fastForward(time)
+  }
 }
 
 const setVolume = (event: any) => {

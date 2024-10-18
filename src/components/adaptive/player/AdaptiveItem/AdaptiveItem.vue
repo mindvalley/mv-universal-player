@@ -49,7 +49,7 @@ watch(
   ([newPlaying, newAudioItemId]) => {
     if (props.id === newAudioItemId) {
       if (newPlaying) {
-        emit('play', { currentTime: currentTime.value.toFixed(2) })
+        emit('play', { currentTime: Number(currentTime.value.toFixed(2)) })
       }
     }
   }
@@ -60,7 +60,7 @@ watch(
   (paused) => {
     if (props.id === adaptiveState.value.audioItemId) {
       if (paused) {
-        emit('pause', { currentTime: currentTime.value.toFixed(2) })
+        emit('pause', { currentTime: Number(currentTime.value.toFixed(2)) })
       }
     }
   }
@@ -70,7 +70,7 @@ watch(
   () => adaptiveState.value.currentTime,
   (currentTime) => {
     if (props.id === adaptiveState.value.audioItemId) {
-      emit('timeupdate', { currentTime: currentTime.toFixed(2) })
+      emit('timeupdate', { currentTime: Number(currentTime.toFixed(2)) })
     }
   }
 )
@@ -80,7 +80,7 @@ watch(
   (ended) => {
     if (props.id === adaptiveState.value.audioItemId) {
       if (ended) {
-        emit('ended', { currentTime: currentTime.value.toFixed(2) })
+        emit('ended', { currentTime: Number(currentTime.value.toFixed(2)) })
         currentTime.value = 0
       }
     }
@@ -127,7 +127,7 @@ watch(
   [() => currentTime.value, () => playing.value],
   ([newCurrentTime, newPlaying], [oldCurrentTime, oldPlaying]) => {
     if (oldCurrentTime !== 0 && newCurrentTime === 0) {
-      emit('reset', { currentTime: currentTime.value })
+      emit('reset', { currentTime: Number(currentTime.value) })
     }
   }
 )
@@ -153,8 +153,8 @@ const rewind = (seconds: number) => {
     const currentTime =
       adaptiveState.value.currentTime - seconds >= 0 ? adaptiveState.value.currentTime - seconds : 0
     emit('rewind', {
-      previousTime: adaptiveState.value.currentTime.toFixed(2),
-      currentTime: currentTime.toFixed(2)
+      previousTime: Number(adaptiveState.value.currentTime.toFixed(2)),
+      currentTime: Number(currentTime.toFixed(2))
     })
     adaptivePlayer.setCurrentTime(currentTime)
   }
@@ -169,8 +169,8 @@ const fastForward = (seconds: number) => {
   ) {
     const currentTime = adaptiveState.value.currentTime + seconds
     emit('fastforward', {
-      previousTime: adaptiveState.value.currentTime.toFixed(2),
-      currentTime: currentTime.toFixed(2)
+      previousTime: Number(adaptiveState.value.currentTime.toFixed(2)),
+      currentTime: Number(currentTime.toFixed(2))
     })
     adaptivePlayer.setCurrentTime(currentTime)
   }

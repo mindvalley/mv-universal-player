@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import { MVMeditationResource } from '.'
+import { action } from '@storybook/addon-actions'
 
 const backgroundSounds = [
   {
@@ -145,6 +146,7 @@ export const Default: Story = {
   render: (args: any, { argTypes }) => ({
     title: 'MedtiationResource',
     components: { MVMeditationResource },
+    methods: { logEvent: action('') },
     setup() {
       return { args }
     },
@@ -165,10 +167,11 @@ export const PreviousNext: Story = {
   render: (args: any, { argTypes }) => ({
     title: 'Previous & Next',
     components: { MVMeditationResource },
+    methods: { logEvent: action('') },
     setup() {
       return { args }
     },
-    template: `<div class="mv-universal-player"><div class="mt-20 absolute bottom-0 left-0 right-0"><MVMeditationResource v-bind="args" /></div></div>`
+    template: `<div class="mv-universal-player"><div class="mt-20 absolute bottom-0 left-0 right-0"><MVMeditationResource v-bind="args" @previous="logEvent('previous', $event)" @next="logEvent('next', $event)" /></div></div>`
   }),
   args: {
     key: audio2.assetId,
@@ -186,6 +189,7 @@ export const MeditationMixer: Story = {
   render: (args: any, { argTypes }) => ({
     title: 'Meditation Mixer',
     components: { MVMeditationResource },
+    methods: { logEvent: action('') },
     setup() {
       return { args }
     },
@@ -210,10 +214,12 @@ export const MeditationMixerDefaultSound: Story = {
   render: (args: any, { argTypes }) => ({
     title: 'Meditation Mixer - Default Sound',
     components: { MVMeditationResource },
+    methods: { logEvent: action('') },
     setup() {
       return { args }
     },
-    template: `<div class="mv-universal-player"><div class="mt-20 absolute bottom-0 left-0 right-0"><MVMeditationResource v-bind="args" /></div></div>`
+    template: `<div class="mv-universal-player"><div class="mt-20 absolute bottom-0 left-0 right-0"><MVMeditationResource v-bind="args"   @play="logEvent('play', $event)"
+    @pause="logEvent('pause', $event)" @maximize="logEvent('maximize', $event)" @minimize="logEvent('minimize', $event)" @muted="logEvent('muted', $event)" @close="logEvent('close', $event)" @collection-open="logEvent('collection-open', $event)" @ended="logEvent('ended', $event)" @error="logEvent('error', $event)" @playtime="logEvent('playtime', $event)" @seeking="logEvent('seeking', $event)" @fastforward="logEvent('fastforward', $event)" @rewind="logEvent('rewind', $event)" @timeupdate="logEvent('timeupdate', $event)" @meditationMixerOpen="logEvent('meditationMixerOpen', $event)" @meditationMixerClose="logEvent('meditationMixerClose', $event)" /></div></div>`
   }),
   args: {
     key: audio2.assetId,
