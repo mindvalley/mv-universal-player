@@ -197,6 +197,13 @@ onMounted(() => {
     selectedMeditationTrackItem.value = backgroundTrackItems.value[0]
   }
 
+  // If there is a default background sound, set the volumes to 0.5 for both main and background sound
+  if (selectedMeditationTrackItem.value?.item) {
+    mainSoundVolume.value = 0.5
+    backgroundSoundVolume.value = 0.5
+    updateVolume(mainVolume.value, backgroundSoundVolume.value, mainSoundVolume.value)
+  }
+
   if (props.autoPlay) {
     adaptiveResource.value?.player?.player?.play()
   }
@@ -207,7 +214,9 @@ const isMixerEnabled = computed(() => {
 })
 
 const handleTrackChange = async (track: BackgroundTrackItem) => {
+  console.log('track change ---', track)
   if (track.item?.id !== selectedMeditationTrackItem.value?.item?.id) {
+    console.log('track change ---')
     selectedMeditationTrackItem.value = track
 
     // We need to wait for the next tick to set the audio and volume
@@ -255,6 +264,12 @@ const updateVolume = (
   backgroundSoundVolume: number,
   mainSoundVolume: number
 ) => {
+  console.log(
+    'updateVolume',
+    mainVolume,
+    mainVolume * mainSoundVolume,
+    mainVolume * backgroundSoundVolume
+  )
   adaptiveResource.value?.player?.player.setVolume(mainVolume * mainSoundVolume)
   meditationMixerItem.value?.player?.setVolume(mainVolume * backgroundSoundVolume)
 }
@@ -330,15 +345,6 @@ const handleSetVolume = ({ volume }: { id: string; volume: number }) => {
   mainVolume.value = volume
 }
 
-watch(mainVolume, (newVolume) => {
-  updateVolume(newVolume, backgroundSoundVolume.value, mainSoundVolume.value)
-})
-
-const emitEvent = (eventName: string, payload?: any) => {
-  const data = { id: props.id, ...payload }
-  emit(eventName, data)
-}
-
 const handleBackgroundMixerPlay = (payload: any) => {
   emitBackgroundMixerEvent('backgroundMixerPlay', payload)
 }
@@ -349,6 +355,15 @@ const handleBackgroundMixerPause = (payload: any) => {
 
 const handleBackroundMixerTimeupdate = (payload: any) => {
   emitBackgroundMixerEvent('backgroundMixerTimeupdate', payload)
+}
+
+watch(mainVolume, (newVolume) => {
+  updateVolume(newVolume, backgroundSoundVolume.value, mainSoundVolume.value)
+})
+
+const emitEvent = (eventName: string, payload?: any) => {
+  const data = { id: props.id, ...payload }
+  emit(eventName, data)
 }
 
 const emitBackgroundMixerEvent = (eventName: string, payload?: any) => {
