@@ -508,6 +508,7 @@ defineExpose({
 
     <!-- Mini Player -->
     <div
+      class="z-[50]"
       @mouseenter="handleMouseEnter(true)"
       @mouseleave="handleMouseLeave(true)"
       @mousemove="handleMouseMove"
