@@ -35,14 +35,6 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  showImmersive: {
-    type: Boolean,
-    default: false
-  },
-  showCollections: {
-    type: Boolean,
-    default: false
-  },
   duration: {
     required: true,
     type: Number
@@ -107,7 +99,7 @@ const emit = defineEmits<{
   (e: 'backgroundMixerPlay', { currentTime }: any): void
   (e: 'backgroundMixerPause', { currentTime }: any): void
   (e: 'backgroundMixerTimeupdate', { currentTime }: any): void
-  (e: 'backgroundMixerEnded', { volume }: any): void
+  (e: 'backgroundMixerEnded', { currentTime }: any): void
   (e: any, payload: any): void
 }>()
 
@@ -214,7 +206,6 @@ const isMixerEnabled = computed(() => {
 })
 
 const handleTrackChange = async (track: BackgroundTrackItem) => {
-  console.log('track change ---', track)
   if (track.item?.id !== selectedMeditationTrackItem.value?.item?.id) {
     console.log('track change ---')
     selectedMeditationTrackItem.value = track

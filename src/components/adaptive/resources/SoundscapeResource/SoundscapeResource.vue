@@ -15,7 +15,8 @@ const props = defineProps({
   },
   audioSources: {
     type: Array<Source>,
-    default: () => []
+    default: () => [],
+    required: true
   },
   videoSources: {
     type: Array<Source>,
@@ -29,19 +30,11 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  showBookmark: {
-    type: Boolean,
-    default: false
-  },
   posterUrl: {
     type: String,
     default: ''
   },
   showCollections: {
-    type: Boolean,
-    default: false
-  },
-  showPlaybackSpeed: {
     type: Boolean,
     default: false
   },
