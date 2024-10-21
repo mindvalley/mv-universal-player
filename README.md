@@ -762,6 +762,7 @@ It exposes below properties:
 - isiPhone
 - isiPad
 - isTouchDevice
+- isMobileOrTablet
 
 Usage:
 
