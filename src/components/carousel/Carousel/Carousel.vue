@@ -32,7 +32,9 @@ const breakpoints = {
   <Carousel :items-to-show="7" :items-to-scroll="3" :settings="settings" :breakpoints="breakpoints">
     <slot></slot>
 
-    <Navigation data-testid="navigation" />
+    <template #addons>
+      <Navigation data-testid="navigation" />
+    </template>
   </Carousel>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="mv-universal-player">
-    <!-- <MVAudioPlayer>
+    <MVAudioPlayer>
       <MVAudioResource
         :key="audio.id"
         :asset-id="audio.id"
@@ -49,11 +49,11 @@
           <MVMeditationMixer>
             <div class="text-cool-grey-350 mb-2 text-xs">Mix Track</div>
             <div class="gap-x-2 px-6">
-              <MVCarousel tagName="Slide">
-                <MVCarouselSlide :key="0">
+              <MVCarousel tag-name="Slide">
+                <Slide :key="0">
                   <MVMeditationTrackItem :volume="0"></MVMeditationTrackItem>
-                </MVCarouselSlide>
-                <MVCarouselSlide v-for="(sound, index) in backgroundSounds" :key="index + 1">
+                </Slide>
+                <Slide v-for="(sound, index) in backgroundSounds" :key="index + 1">
                   <MVMeditationTrackItem
                     :sources="sound.sources"
                     :background-src="sound.image"
@@ -64,7 +64,7 @@
                     @timeupdate="logEvent('timeupdate', $event)"
                     @error="logEvent('error', $event)"
                   />
-                </MVCarouselSlide>
+                </Slide>
               </MVCarousel>
             </div>
             <div
@@ -75,67 +75,7 @@
           </MVMeditationMixer>
         </template>
       </MVAudioResource>
-    </MVAudioPlayer> -->
-
-    <!-- <div class="h-full rounded-[20px] overflow-hidden">
-      <MVVideoPlayer>
-        <MVVideoResource
-          ref="videoResource"
-          :id="video.id"
-          :sources="video.sources"
-          :duration="video.duration"
-          :poster-url="video.posterUrl"
-          :autoplay="false"
-          :loop="false"
-          :markers="video.markers"
-          :overlay-controls="true"
-          :muted="true"
-          @play="logEvent('play', $event)"
-          @pause="logEvent('pause', $event)"
-          @seeking="logEvent('seeking', $event)"
-          @ended="logEvent('ended', $event)"
-          @rewind="logEvent('rewind', $event)"
-          @fastforward="logEvent('fastforward', $event)"
-          @playbackSpeed="logEvent('playbackSpeed', $event)"
-          @timeupdate="logEvent('timeupdate', $event)"
-          @error="logEvent('error', $event)"
-        >
-          <template #video-description>
-            <MVVideoDescription
-              :style="{
-                'background-image': 'url(' + video.coverAsset + ')'
-              }"
-              :image-src="video.authorImage"
-              :name="video.artistName"
-              :headline="video.headline"
-              :description="video.description"
-              show-more-text="Show More"
-              show-less-text="Show Less"
-              :coverAsset="video.coverAsset"
-              :averageRating="video.ratings"
-              :ratingsCount="video.totalRatings"
-              class="p-4 md:p-6"
-              :title="video.title"
-            />
-          </template>
-        </MVVideoResource>
-      </MVVideoPlayer>
-    </div> -->
-
-    <div class="mt-20">
-      <!-- <MVSoundscapeResource
-        :key="audio.id"
-        :id="audio.id"
-        :audio-sources="audio.sources"
-        :duration="audio.duration"
-        :poster-url="audio.posterUrl"
-        :title="audio.title"
-        :artist-name="audio.artistName"
-      /> -->
-    </div>
-    <div>
-      <MVAdaptiveBackgroundMixer :background-sounds="backgroundSounds" />
-    </div>
+    </MVAudioPlayer>
   </div>
 </template>
 
@@ -146,11 +86,11 @@ import MVAudioResource from './components/audio/AudioResource/'
 import MVVideoResource from './components/video/VideoResource/'
 import MVAudioDescription from './components/audio/AudioDescription'
 import MVVideoDescription from './components/video/VideoDescription'
-import MVSoundscapeResource from './components/adaptive/SoundscapeResource'
-import { MVCarousel, MVCarouselSlide } from './components/carousel'
+import { MVCarousel } from './components/carousel'
+import { MVCarouselSlide } from './components/carousel/CarouselSlide'
 import { MVMeditationTrackItem, MVMeditationVolumeSlider, MVMeditationMixer } from '.'
 import { ref } from 'vue-demi'
-import MVAdaptiveBackgroundMixer from './components/adaptive/AdaptiveBackgroundMixer'
+import { Slide } from 'vue3-carousel'
 
 const videoResource = ref()
 

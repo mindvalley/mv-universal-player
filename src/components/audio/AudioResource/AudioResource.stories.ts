@@ -5,8 +5,8 @@ import { MVAudioResource } from '.'
 import { MVAudioPlayer } from './../AudioPlayer'
 import { MVAudioDescription } from './../AudioDescription'
 import { MVMeditationMixer, MVMeditationTrackItem, MVMeditationVolumeSlider } from './../Meditation'
-import { MVCarousel, MVCarouselSlide } from './../../carousel'
-
+import { MVCarousel } from './../../carousel'
+import { Slide } from 'vue3-carousel'
 const backgroundSounds = [
   {
     id: '1',
@@ -239,7 +239,7 @@ export const WithMeditationMixer: Story = {
       MVMeditationTrackItem,
       MVMeditationVolumeSlider,
       MVCarousel,
-      MVCarouselSlide
+      Slide
     },
     setup() {
       const logEvent = action('event')
@@ -282,10 +282,10 @@ export const WithMeditationMixer: Story = {
           <div class="text-cool-grey-350 mb-2 text-xs">Mix Track</div>
           <div class="gap-x-2 px-6">
             <MVCarousel>
-              <MVCarouselSlide :key="0">
+              <Slide :key="0">
                 <MVMeditationTrackItem :volume="0"></MVMeditationTrackItem>
-              </MVCarouselSlide>
-              <div v-for="(sound, index) in args.backgroundSounds" :key="index + 1">
+              </Slide>
+              <Slide v-for="(sound, index) in args.backgroundSounds" :key="index + 1">
                 <MVMeditationTrackItem :sources="sound.sources" :background-src="sound.image"
                 :id="sound.id"
                 @play="logEvent('play', $event)"
@@ -293,7 +293,7 @@ export const WithMeditationMixer: Story = {
                 @timeupdate="logEvent('timeupdate', $event)"
                 @error="logEvent('error', $event)"
                 />
-              </div>
+              </Slide>
             </MVCarousel>
           </div>
           <div
@@ -326,7 +326,7 @@ export const MultipleAudios: Story = {
       MVMeditationTrackItem,
       MVMeditationVolumeSlider,
       MVCarousel,
-      MVCarouselSlide
+      Slide
     },
     setup() {
       const logEvent = action('event')
@@ -340,6 +340,14 @@ export const MultipleAudios: Story = {
           :style="{
             'background-image': 'url(' + audio.posterUrl + ')'
           }"
+          :asset-id="audio.assetId"
+          :sources="audio.sources"
+          :duration="audio.duration"
+          :poster-url="audio.posterUrl"
+          :title="audio.title"
+          :artist-name="audio.artistName"
+          :ratings="audio.ratings"
+          :total-ratings="audio.totalRatings"
           :key="index"   
           blurEffect
           overlay
@@ -374,10 +382,10 @@ export const MultipleAudios: Story = {
           <div class="text-cool-grey-350 mb-2 text-xs">Mix Track</div>
           <div class="gap-x-2 px-6">
             <MVCarousel>
-              <MVCarouselSlide :key="0">
+              <Slide :key="0">
                 <MVMeditationTrackItem :volume="0"></MVMeditationTrackItem>
-              </MVCarouselSlide>
-              <MVCarouselSlide :v-for="(sound, index) in audio.backgroundSounds" :key="index + 1">
+              </Slide>
+              <Slide v-for="(sound, index) in audio.backgroundSounds" :key="index + 1">
                 <MVMeditationTrackItem :sources="sound.sources" :background-src="sound.image" 
                 :id="sound.id"
                 @play="logEvent('play', $event)"
@@ -385,7 +393,7 @@ export const MultipleAudios: Story = {
                 @timeupdate="logEvent('timeupdate', $event)"
                 @error="logEvent('error', $event)"
                 />
-              </MVCarouselSlide>
+              </Slide>
             </MVCarousel>
           </div>
           <div
