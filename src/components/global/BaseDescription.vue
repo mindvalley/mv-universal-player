@@ -54,7 +54,7 @@ const showFullDescription = ref(false)
     <section class="text-sm text-cool-grey-350">
       <div v-if="props.description.length <= 250 || showFullDescription === true">
         <div
-          class="cursor-pointer"
+          :class="{ 'cursor-pointer': props.description.length > 250 }"
           @click="showFullDescription = false"
           v-html="props.description"
         />
@@ -67,7 +67,10 @@ const showFullDescription = ref(false)
         </button>
       </div>
       <div v-else>
-        <div class="cursor-pointer" @click="showFullDescription = true">
+        <div
+          :class="{ 'cursor-pointer': !showFullDescription }"
+          @click="showFullDescription = true"
+        >
           {{ `${props.description.slice(0, 250)}...` }}
         </div>
         <button
