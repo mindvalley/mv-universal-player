@@ -207,7 +207,6 @@ const isMixerEnabled = computed(() => {
 
 const handleTrackChange = async (track: BackgroundTrackItem) => {
   if (track.item?.id !== selectedMeditationTrackItem.value?.item?.id) {
-    console.log('track change ---')
     selectedMeditationTrackItem.value = track
 
     // We need to wait for the next tick to set the audio and volume
@@ -255,12 +254,6 @@ const updateVolume = (
   backgroundSoundVolume: number,
   mainSoundVolume: number
 ) => {
-  console.log(
-    'updateVolume',
-    mainVolume,
-    mainVolume * mainSoundVolume,
-    mainVolume * backgroundSoundVolume
-  )
   adaptiveResource.value?.player?.player.setVolume(mainVolume * mainSoundVolume)
   meditationMixerItem.value?.player?.setVolume(mainVolume * backgroundSoundVolume)
 }
