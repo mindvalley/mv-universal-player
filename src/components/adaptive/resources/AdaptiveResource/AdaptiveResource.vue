@@ -9,7 +9,7 @@ import { MVAdaptiveImmersiveLayer } from '../../layers'
 import { MVAdaptivePlayButton, MVAdaptiveFullScreenButton } from '../../controls'
 import { MVAdaptiveNowPlayingInfoCard } from '../../info'
 import BaseImage from './../../../../components/global/BaseImage.vue'
-
+import { Size } from '../../../../models/adaptive.enums'
 const props = defineProps({
   id: {
     type: String,
@@ -500,6 +500,7 @@ defineExpose({
               :show-tooltip="false"
               :show-hover-effect="false"
               icon-color="text-black-70a"
+              :size="isMobileOrTablet ? Size.BIG : Size.SMALL"
             />
           </div>
         </Transition>

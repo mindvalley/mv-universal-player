@@ -16,9 +16,7 @@ import {
   MVAdaptiveFullScreenButton
 } from '../../controls'
 import { MVAdaptiveTrackInfoCard } from '../../info'
-
 import type { AdaptiveSize } from '../../../../types/adaptive'
-import { computed, useSlots } from 'vue-demi'
 
 const props = defineProps({
   isPlaying: {
