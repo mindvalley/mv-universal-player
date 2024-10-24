@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, nextTick, watchEffect, computed } from 'vue-demi'
 import { extractColorsFromImageData } from 'extract-colors'
+import { createNoise3D } from 'simplex-noise'
 
 const props = defineProps({
   image: {
@@ -20,13 +21,13 @@ const props = defineProps({
 const canvasRef = ref<HTMLCanvasElement | null>(null)
 let animationFrameId: number | null = null
 const colorPalette = ref([])
-const randomBackgroundColor = ref('')
 const isAnimating = ref(false)
-const stars = ref([]) // Add this line to store stars as a reactive reference
 
-// Add this computed property
+const noise3D = createNoise3D()
+
 const backgroundStyle = computed(() => ({
-  backgroundColor: randomBackgroundColor.value
+  overflow: 'hidden',
+  position: 'relative'
 }))
 
 onMounted(async () => {
@@ -51,11 +52,10 @@ watch(
   }
 )
 
-// Modify the watchEffect to include the playing prop
 watchEffect(async () => {
   if (props.isImmersiveModeActive) {
     await nextTick()
-    handleResize() // Ensure canvas is properly resized and initialized
+    handleResize()
     if (props.playing) {
       startAnimation()
     } else {
@@ -71,8 +71,6 @@ function handleResize() {
     canvasRef.value.width = canvasRef.value.offsetWidth
     canvasRef.value.height = canvasRef.value.offsetHeight
     initCanvas()
-    // Recalculate stars when resizing
-    stars.value = createStars(canvasRef.value.width, canvasRef.value.height)
   }
 }
 
@@ -80,19 +78,10 @@ async function initCanvas() {
   if (canvasRef.value) {
     const ctx = canvasRef.value.getContext('2d')
     if (ctx) {
-      // Set canvas size
       canvasRef.value.width = canvasRef.value.offsetWidth
       canvasRef.value.height = canvasRef.value.offsetHeight
 
       if (canvasRef.value.width > 0 && canvasRef.value.height > 0) {
-        // Generate random background color
-        randomBackgroundColor.value =
-          colorPalette.value.length > 0 ? colorPalette.value[0] : '#000000'
-
-        // Initialize stars
-        stars.value = createStars(canvasRef.value.width, canvasRef.value.height)
-
-        // Start the animation only if playing is true
         if (props.playing) {
           startAnimation()
         }
@@ -102,154 +91,119 @@ async function initCanvas() {
 }
 
 async function extractColorPalette(imageSrc: string) {
-  // Create an Image object
   const img = new Image()
-  img.crossOrigin = 'Anonymous' // To avoid CORS issues
+  img.crossOrigin = 'Anonymous'
   img.src = imageSrc
 
-  // Wait for the image to load
   await new Promise((resolve) => {
     img.onload = resolve
   })
 
-  // Create a canvas element
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')
 
-  // Set canvas size to match the image
   canvas.width = img.width
   canvas.height = img.height
 
-  // Draw the image onto the canvas
   ctx.drawImage(img, 0, 0)
 
-  // Get the ImageData from the canvas
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
 
-  // Extract colors using the library function
   const colors = await extractColorsFromImageData(imageData, {
     pixels: 64000,
     distance: 0.22
   })
 
-  // Extract the first 5 colors and convert them to hex
   colorPalette.value = colors.length > 0 ? colors.slice(0, 5).map((color) => color.hex) : []
 }
 
-function interpolateColors(color1: number[], color2: number[], factor: number) {
-  const result = color1.slice()
-  for (let i = 0; i < 3; i++) {
-    result[i] = Math.round(result[i] + factor * (color2[i] - result[i]))
-  }
-  return result
+function hexToRgba(hex: string, alpha: number = 1): string {
+  const r = parseInt(hex.slice(1, 3), 16)
+  const g = parseInt(hex.slice(3, 5), 16)
+  const b = parseInt(hex.slice(5, 7), 16)
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`
 }
 
-function hexToRgb(hex: string) {
-  const bigint = parseInt(hex.slice(1), 16)
-  return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255]
-}
+function animateAurora(ctx: CanvasRenderingContext2D) {
+  const width = ctx.canvas.width
+  const height = ctx.canvas.height
+  const now = Date.now()
+  const time = now / 4000
 
-function rgbToHex(rgb: number[]) {
-  return `#${((1 << 24) + (rgb[0] << 16) + (rgb[1] << 8) + rgb[2]).toString(16).slice(1)}`
-}
+  ctx.clearRect(0, 0, width, height)
 
-// Modify the animateBackground function
-function animateBackground(ctx: CanvasRenderingContext2D, colors: string[]) {
-  let time = 0
-  const rgbColors = colors.length > 0 ? colors.map(hexToRgb) : []
+  // Modify the gradient to extend further down
+  const gradient = ctx.createLinearGradient(0, 0, width, height * 1.5)
 
-  const animate = () => {
-    if (!isAnimating.value) return
+  // Use colorPalette colors for the gradient
+  const colors =
+    colorPalette.value.length >= 5
+      ? colorPalette.value
+      : ['#563B94', '#B2405F', '#00C800', '#373C8C', '#00C800']
 
-    time += 0.001
-    const width = ctx.canvas.width
-    const height = ctx.canvas.height
+  gradient.addColorStop(0, hexToRgba(colors[1]))
+  gradient.addColorStop((Math.sin(time) + 1) * 0.5 * 0.2, hexToRgba(colors[1]))
+  gradient.addColorStop((Math.cos(time) + 1) * 0.5 * 0.2 + 0.444, hexToRgba(colors[0]))
+  gradient.addColorStop(1, hexToRgba(colors[1]))
+  gradient.addColorStop(1, hexToRgba(colors[1]))
 
-    ctx.clearRect(0, 0, width, height)
+  ctx.fillStyle = gradient
+  ctx.fillRect(0, 0, width, height * 10)
 
-    // Create multiple linear gradients to simulate Northern Lights
-    for (let i = 0; i < 5; i++) {
-      // Increase the number of gradients
-      const gradient = ctx.createLinearGradient(
-        0,
-        height * Math.sin(time + i),
-        width,
-        height * Math.cos(time + i)
-      )
+  ctx.save()
+  // ctx.globalCompositeOperation = 'source-over'
 
-      for (let j = 0; j < rgbColors.length; j++) {
-        const color1 = rgbColors[j]
-        const color2 = rgbColors[(j + 1) % rgbColors.length]
-        const factor = (time * 0.2 + j / rgbColors.length) % 1
-        const interpolatedColor = rgbToHex(interpolateColors(color1, color2, factor))
-        gradient.addColorStop(j / rgbColors.length, interpolatedColor)
-      }
+  ctx.restore()
 
-      ctx.globalAlpha = 0.1 // Reduce the global alpha value to make gradients less visible
-      ctx.fillStyle = gradient
-      ctx.fillRect(0, 0, width, height)
+  const imageData = ctx.getImageData(0, 0, width, height)
+  const data = imageData.data
+
+  const octaves = 0.3
+  // Adjust the noise scale
+  const scaleX = 2 / octaves
+  const scaleY = 0.5 / octaves
+
+  for (let i = 0; i < data.length; i += 4) {
+    const x = (i / 4) % width
+    const y = Math.floor(i / 4 / width)
+
+    let n = 0
+    let frequency = 0.3
+    let persistence = 1.5
+
+    for (let oi = 0; oi < octaves; oi++) {
+      frequency *= 2
+      const amplitude = Math.pow(persistence, oi)
+      n +=
+        noise3D((x / width) * frequency * scaleX, (y / height) * frequency * scaleY, time) *
+        amplitude
     }
 
-    // Draw stars using the reactive stars array
-    drawStars(ctx, stars.value, time, width, height)
+    const factor = n * 0.5 + 0.5
 
-    animationFrameId = requestAnimationFrame(animate)
+    data[i] = Math.floor(factor * data[i])
+    data[i + 1] = Math.floor(factor * data[i + 1])
+    data[i + 2] = Math.floor(factor * data[i + 2])
   }
-  animate()
+
+  ctx.putImageData(imageData, 0, 0)
 }
 
-// Modify createStars to return the array instead of setting it directly
-function createStars(width: number, height: number) {
-  const newStars = []
-  for (let i = 0; i < 100; i++) {
-    newStars.push({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      size: Math.random() * 3,
-      speedX: (Math.random() - 0.5) * 0.5,
-      speedY: (Math.random() - 0.5) * 0.5
-    })
+function animate() {
+  if (!isAnimating.value) return
+
+  const ctx = canvasRef.value?.getContext('2d')
+  if (ctx) {
+    animateAurora(ctx)
   }
-  return newStars
+
+  animationFrameId = requestAnimationFrame(animate)
 }
 
-function drawStars(
-  ctx: CanvasRenderingContext2D,
-  stars: any[],
-  time: number,
-  width: number,
-  height: number
-) {
-  ctx.fillStyle = 'white'
-  stars.forEach((star) => {
-    star.x += star.speedX
-    star.y += star.speedY
-
-    // Wrap stars around the edges
-    if (star.x < 0) star.x = width
-    if (star.x > width) star.x = 0
-    if (star.y < 0) star.y = height
-    if (star.y > height) star.y = 0
-
-    const twinkle = Math.sin(time * 2 + star.speedX * 100) * 0.5 + 0.5
-    ctx.globalAlpha = twinkle
-    ctx.beginPath()
-    ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2)
-    ctx.fill()
-  })
-  ctx.globalAlpha = 1
-}
-
-// Add these new functions to control the animation
 async function startAnimation() {
   if (!isAnimating.value) {
     isAnimating.value = true
-    if (canvasRef.value) {
-      const ctx = canvasRef.value.getContext('2d')
-      if (ctx) {
-        animateBackground(ctx, colorPalette.value)
-      }
-    }
+    animate()
   }
 }
 
@@ -269,7 +223,7 @@ function stopAnimation() {
 <template>
   <div
     data-testid="adaptive-immersive-layer"
-    class="relative w-full h-full flex flex-1 bg-black"
+    class="relative w-full h-full flex flex-1"
     :style="backgroundStyle"
   >
     <canvas
