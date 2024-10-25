@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, watch, nextTick } from 'vue-demi'
+import { ref, watch, nextTick, onMounted } from 'vue-demi'
+import { extractColorsFromImageData } from 'extract-colors'
 import type { Source } from './../../../../types/audio'
 import { AdaptiveShape } from './../../../../types/adaptive'
 import { Shape } from './../../../../models/adaptive.enums'
@@ -10,6 +11,7 @@ import { MVAdaptivePlayButton, MVAdaptiveFullScreenButton } from '../../controls
 import { MVAdaptiveNowPlayingInfoCard } from '../../info'
 import BaseImage from './../../../../components/global/BaseImage.vue'
 import { Size } from '../../../../models/adaptive.enums'
+
 const props = defineProps({
   id: {
     type: String,
@@ -157,6 +159,11 @@ const { isMobileOrTablet } = useDetectBrowser()
 // Add this new ref
 const lastActivityTimestamp = ref(Date.now())
 const isMouseOverMiniPlayer = ref(false)
+const colorPalette = ref<string[]>([])
+
+onMounted(() => {
+  extractColorPalette(props.posterUrl)
+})
 
 watch(isFullScreen, (newVal) => {
   if (newVal) {
@@ -381,6 +388,33 @@ const handleTrackInfoTitleClick = () => {
   emitEvent('trackInfoTitleClick')
 }
 
+const extractColorPalette = async (imageSrc: string) => {
+  const img = new Image()
+  img.crossOrigin = 'Anonymous'
+  img.src = imageSrc
+
+  await new Promise((resolve) => {
+    img.onload = resolve
+  })
+
+  const canvas = document.createElement('canvas')
+  const ctx = canvas.getContext('2d')
+
+  canvas.width = img.width
+  canvas.height = img.height
+
+  ctx.drawImage(img, 0, 0)
+
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+
+  const colors = await extractColorsFromImageData(imageData, {
+    pixels: 64000,
+    distance: 0.22
+  })
+
+  colorPalette.value = colors.length > 0 ? colors.slice(0, 5).map((color) => color.hex) : []
+}
+
 defineExpose({
   player: adaptiveItem,
   restartPlayerTimer,
@@ -390,12 +424,7 @@ defineExpose({
 
 <template>
   <div data-testid="adaptive-resource" class="h-full w-full flex flex-col">
-    <MVAdaptivePlayer
-      :loop="loopingEnabled"
-      :poster-url="posterUrl"
-      :audio-only-mode="true"
-      :auto-play="autoPlay"
-    >
+    <MVAdaptivePlayer :loop="loopingEnabled" :audio-only-mode="true" :auto-play="autoPlay">
       <MVAdaptiveItem
         ref="adaptiveItem"
         :sources="audioSources"
@@ -470,17 +499,18 @@ defineExpose({
         <div
           data-testid="dynamic-video"
           class="h-full w-full"
-          v-if="videoSources.length === 0 && isImmersive"
+          v-show="videoSources.length === 0 && isImmersive"
         >
           <MVAdaptiveImmersiveLayer
             :image="posterUrl"
-            is-immersive-mode-active
+            :is-immersive-mode-active="isImmersive"
             :playing="adaptiveItem?.state?.playing"
+            :color-palette="colorPalette"
           />
         </div>
 
         <!-- Show poster when there is no looping video and immersive if off -->
-        <div data-testid="poster" class="h-full w-full" v-else>
+        <div data-testid="poster" class="h-full w-full" v-show="!isImmersive">
           <BaseImage
             class="w-full h-full"
             img-class="object-cover h-full"

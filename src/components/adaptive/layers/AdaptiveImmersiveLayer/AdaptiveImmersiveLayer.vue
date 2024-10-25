@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, nextTick, watchEffect, computed } from 'vue-demi'
-import { extractColorsFromImageData } from 'extract-colors'
 import { createNoise3D } from 'simplex-noise'
 
 const props = defineProps({
@@ -15,25 +14,29 @@ const props = defineProps({
   playing: {
     type: Boolean,
     default: false
+  },
+  colorPalette: {
+    type: Array<string>,
+    default: () => []
   }
 })
 
 const canvasRef = ref<HTMLCanvasElement | null>(null)
 let animationFrameId: number | null = null
-const colorPalette = ref([])
 const isAnimating = ref(false)
 
-const noise3D = createNoise3D()
+const noise3D = ref(createNoise3D())
 
 const backgroundStyle = computed(() => ({
   overflow: 'hidden',
   position: 'relative'
 }))
 
-onMounted(async () => {
+onMounted(() => {
   window.addEventListener('resize', handleResize)
-  await extractColorPalette(props.image)
   initCanvas()
+  // Draw initial frame
+  drawInitialFrame()
 })
 
 onUnmounted(() => {
@@ -76,7 +79,7 @@ function handleResize() {
 
 async function initCanvas() {
   if (canvasRef.value) {
-    const ctx = canvasRef.value.getContext('2d')
+    const ctx = canvasRef.value.getContext('2d', { willReadFrequently: true })
     if (ctx) {
       canvasRef.value.width = canvasRef.value.offsetWidth
       canvasRef.value.height = canvasRef.value.offsetHeight
@@ -84,37 +87,13 @@ async function initCanvas() {
       if (canvasRef.value.width > 0 && canvasRef.value.height > 0) {
         if (props.playing) {
           startAnimation()
+        } else {
+          // Draw initial frame when not playing
+          drawInitialFrame()
         }
       }
     }
   }
-}
-
-async function extractColorPalette(imageSrc: string) {
-  const img = new Image()
-  img.crossOrigin = 'Anonymous'
-  img.src = imageSrc
-
-  await new Promise((resolve) => {
-    img.onload = resolve
-  })
-
-  const canvas = document.createElement('canvas')
-  const ctx = canvas.getContext('2d')
-
-  canvas.width = img.width
-  canvas.height = img.height
-
-  ctx.drawImage(img, 0, 0)
-
-  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-
-  const colors = await extractColorsFromImageData(imageData, {
-    pixels: 64000,
-    distance: 0.22
-  })
-
-  colorPalette.value = colors.length > 0 ? colors.slice(0, 5).map((color) => color.hex) : []
 }
 
 function hexToRgba(hex: string, alpha: number = 1): string {
@@ -130,69 +109,69 @@ function animateAurora(ctx: CanvasRenderingContext2D) {
   const now = Date.now()
   const time = now / 4000
 
-  ctx.clearRect(0, 0, width, height)
+  if (width && height) {
+    ctx.clearRect(0, 0, width, height)
 
-  // Modify the gradient to extend further down
-  const gradient = ctx.createLinearGradient(0, 0, width, height * 1.5)
+    // Modify the gradient to extend further down
+    const gradient = ctx.createLinearGradient(0, 0, width, height * 1.5)
 
-  // Use colorPalette colors for the gradient
-  const colors =
-    colorPalette.value.length >= 5
-      ? colorPalette.value
-      : ['#563B94', '#B2405F', '#00C800', '#373C8C', '#00C800']
+    // Use colorPalette colors for the gradient
+    const colors =
+      props.colorPalette.length >= 5
+        ? props.colorPalette
+        : ['#563B94', '#B2405F', '#00C800', '#373C8C', '#00C800']
 
-  gradient.addColorStop(0, hexToRgba(colors[1]))
-  gradient.addColorStop((Math.sin(time) + 1) * 0.5 * 0.2, hexToRgba(colors[1]))
-  gradient.addColorStop((Math.cos(time) + 1) * 0.5 * 0.2 + 0.444, hexToRgba(colors[0]))
-  gradient.addColorStop(1, hexToRgba(colors[1]))
-  gradient.addColorStop(1, hexToRgba(colors[1]))
+    gradient.addColorStop(0, hexToRgba(colors[1]))
+    gradient.addColorStop((Math.sin(time) + 1) * 0.5 * 0.2, hexToRgba(colors[1]))
+    gradient.addColorStop((Math.cos(time) + 1) * 0.5 * 0.2 + 0.444, hexToRgba(colors[0]))
+    gradient.addColorStop(1, hexToRgba(colors[1]))
+    gradient.addColorStop(1, hexToRgba(colors[1]))
 
-  ctx.fillStyle = gradient
-  ctx.fillRect(0, 0, width, height * 10)
+    ctx.fillStyle = gradient
+    ctx.fillRect(0, 0, width, height * 10)
 
-  ctx.save()
-  // ctx.globalCompositeOperation = 'source-over'
+    const imageData = ctx.getImageData(0, 0, width, height)
+    const data = imageData.data
 
-  ctx.restore()
+    const octaves = 0.3
+    const scaleX = 2 / octaves
+    const scaleY = 0.5 / octaves
 
-  const imageData = ctx.getImageData(0, 0, width, height)
-  const data = imageData.data
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        const i = (y * width + x) * 4
 
-  const octaves = 0.3
-  // Adjust the noise scale
-  const scaleX = 2 / octaves
-  const scaleY = 0.5 / octaves
+        let n = 0
+        let frequency = 0.3
+        let persistence = 1.5
 
-  for (let i = 0; i < data.length; i += 4) {
-    const x = (i / 4) % width
-    const y = Math.floor(i / 4 / width)
+        for (let oi = 0; oi < octaves; oi++) {
+          frequency *= 2
+          const amplitude = Math.pow(persistence, oi)
+          n +=
+            noise3D.value(
+              (x / width) * frequency * scaleX,
+              (y / height) * frequency * scaleY,
+              time
+            ) * amplitude
+        }
 
-    let n = 0
-    let frequency = 0.3
-    let persistence = 1.5
+        const factor = n * 0.5 + 0.5
 
-    for (let oi = 0; oi < octaves; oi++) {
-      frequency *= 2
-      const amplitude = Math.pow(persistence, oi)
-      n +=
-        noise3D((x / width) * frequency * scaleX, (y / height) * frequency * scaleY, time) *
-        amplitude
+        data[i] = Math.floor(factor * data[i])
+        data[i + 1] = Math.floor(factor * data[i + 1])
+        data[i + 2] = Math.floor(factor * data[i + 2])
+      }
     }
 
-    const factor = n * 0.5 + 0.5
-
-    data[i] = Math.floor(factor * data[i])
-    data[i + 1] = Math.floor(factor * data[i + 1])
-    data[i + 2] = Math.floor(factor * data[i + 2])
+    ctx.putImageData(imageData, 0, 0)
   }
-
-  ctx.putImageData(imageData, 0, 0)
 }
 
 function animate() {
   if (!isAnimating.value) return
 
-  const ctx = canvasRef.value?.getContext('2d')
+  const ctx = canvasRef.value?.getContext('2d', { willReadFrequently: true })
   if (ctx) {
     animateAurora(ctx)
   }
@@ -200,7 +179,7 @@ function animate() {
   animationFrameId = requestAnimationFrame(animate)
 }
 
-async function startAnimation() {
+function startAnimation() {
   if (!isAnimating.value) {
     isAnimating.value = true
     animate()
@@ -209,13 +188,20 @@ async function startAnimation() {
 
 function pauseAnimation() {
   isAnimating.value = false
-}
-
-function stopAnimation() {
-  isAnimating.value = false
   if (animationFrameId !== null) {
     cancelAnimationFrame(animationFrameId)
     animationFrameId = null
+  }
+}
+
+function stopAnimation() {
+  pauseAnimation()
+}
+
+function drawInitialFrame() {
+  const ctx = canvasRef.value?.getContext('2d', { willReadFrequently: true })
+  if (ctx) {
+    animateAurora(ctx)
   }
 }
 </script>
