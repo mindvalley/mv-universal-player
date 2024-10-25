@@ -230,7 +230,8 @@ export const ImmersiveLoopingVideo: Story = {
     artistName: audio1.artistName,
     description: audio1.description,
     ratings: audio1.ratings,
-    tags: audio1.tags
+    tags: audio1.tags,
+    autoPlay: false
   }
 }
 
@@ -254,6 +255,7 @@ export const ImmersiveDynamicVideo: Story = {
     artistName: audio2.artistName,
     description: audio2.description,
     ratings: audio2.ratings,
-    tags: audio2.tags
+    tags: audio2.tags,
+    autoPlay: false
   }
 }
