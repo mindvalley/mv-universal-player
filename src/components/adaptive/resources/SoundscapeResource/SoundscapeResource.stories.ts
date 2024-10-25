@@ -131,7 +131,8 @@ export const Default: Story = {
     artistName: audio1.artistName,
     description: audio1.description,
     ratings: audio1.ratings,
-    tags: audio1.tags
+    tags: audio1.tags,
+    autoPlay: false
   }
 }
 

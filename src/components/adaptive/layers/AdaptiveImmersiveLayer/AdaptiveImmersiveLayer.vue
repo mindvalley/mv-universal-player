@@ -76,7 +76,7 @@ function handleResize() {
 
 async function initCanvas() {
   if (canvasRef.value) {
-    const ctx = canvasRef.value.getContext('2d')
+    const ctx = canvasRef.value.getContext('2d', { willReadFrequently: true })
     if (ctx) {
       canvasRef.value.width = canvasRef.value.offsetWidth
       canvasRef.value.height = canvasRef.value.offsetHeight
@@ -192,7 +192,7 @@ function animateAurora(ctx: CanvasRenderingContext2D) {
 function animate() {
   if (!isAnimating.value) return
 
-  const ctx = canvasRef.value?.getContext('2d')
+  const ctx = canvasRef.value?.getContext('2d', { willReadFrequently: true })
   if (ctx) {
     animateAurora(ctx)
   }
