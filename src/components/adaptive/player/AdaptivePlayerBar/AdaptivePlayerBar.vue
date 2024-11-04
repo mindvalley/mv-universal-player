@@ -345,7 +345,12 @@ const handleMuted = (muted: boolean) => {
               <div v-if="showPreviousNext" class="flex items-center">
                 <MVAdaptivePreviousButton @click="handlePrevious" />
               </div>
-              <MVAdaptivePlayButton @play="handlePlay" @pause="handlePause" :playing="isPlaying" />
+              <MVAdaptivePlayButton
+                @play="handlePlay"
+                @pause="handlePause"
+                :playing="isPlaying"
+                :size="isFullScreen ? Size.BIG : Size.SMALL"
+              />
               <div v-if="showPreviousNext" class="flex items-center">
                 <MVAdaptiveNextButton @click="handleNext" />
               </div>
