@@ -32,6 +32,11 @@ const backgroundStyle = computed(() => ({
   position: 'relative'
 }))
 
+// Add these refs after the existing refs
+const startTime = ref<number | null>(null)
+const pausedTime = ref<number | null>(null)
+const totalPausedTime = ref(0)
+
 onMounted(() => {
   window.addEventListener('resize', handleResize)
   initCanvas()
@@ -106,8 +111,13 @@ function hexToRgba(hex: string, alpha: number = 1): string {
 function animateAurora(ctx: CanvasRenderingContext2D) {
   const width = ctx.canvas.width
   const height = ctx.canvas.height
-  const now = Date.now()
-  const time = now / 4000
+
+  // Calculate time with pause offset
+  if (startTime.value === null) {
+    startTime.value = Date.now()
+  }
+  const currentTime = Date.now()
+  const time = (currentTime - startTime.value - totalPausedTime.value) / 4000
 
   if (width && height) {
     ctx.clearRect(0, 0, width, height)
@@ -182,12 +192,18 @@ function animate() {
 function startAnimation() {
   if (!isAnimating.value) {
     isAnimating.value = true
+    if (pausedTime.value !== null) {
+      // Add the paused duration to total paused time
+      totalPausedTime.value += Date.now() - pausedTime.value
+      pausedTime.value = null
+    }
     animate()
   }
 }
 
 function pauseAnimation() {
   isAnimating.value = false
+  pausedTime.value = Date.now()
   if (animationFrameId !== null) {
     cancelAnimationFrame(animationFrameId)
     animationFrameId = null
@@ -196,6 +212,10 @@ function pauseAnimation() {
 
 function stopAnimation() {
   pauseAnimation()
+  // Reset all timing variables
+  startTime.value = null
+  pausedTime.value = null
+  totalPausedTime.value = 0
 }
 
 function drawInitialFrame() {

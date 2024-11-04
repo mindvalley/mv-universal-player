@@ -5,6 +5,6 @@
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 12px;
-  z-index: 9999;
+  z-index: 9999 !important;
   font-family: 'Sharp Grotesk Cyr Medium 20';
 }
