@@ -55,9 +55,9 @@ const isControlAvailable = computed(() => {
 <template>
   <div
     data-testid="adaptive-about-this-info"
-    class="bg-black rounded-3xl w-[398px] sm:w-[480px] py-4 px-6 relative"
+    class="bg-black rounded-3xl w-[398px] sm:w-[480px] py-4 px-6 relative max-h-[calc(70vh)] flex flex-col"
   >
-    <div data-testid="header-title" class="heading-9 text-white">{{ headerTitle }}</div>
+    <div data-testid="header-title" class="heading-9 text-white mb-1">{{ headerTitle }}</div>
     <button
       data-testid="close-button"
       class="absolute top-4 right-6 rounded-full hover:bg-white-24a p-1"
@@ -65,7 +65,7 @@ const isControlAvailable = computed(() => {
     >
       <svg v-svg symbol="x-filled" class="h-4 w-4 text-white-70a"></svg>
     </button>
-    <div>
+    <div class="flex-1 overflow-y-auto custom-scrollbar">
       <MVAdaptiveAboutThisInfoCard
         :title="title"
         :image="image"
@@ -76,11 +76,38 @@ const isControlAvailable = computed(() => {
         :tags="tags"
       />
     </div>
-    <div
-      v-if="isControlAvailable"
-      data-testid="divider"
-      class="w-full border border-white-12a my-6"
-    ></div>
-    <slot name="control"></slot>
+    <template v-if="isControlAvailable">
+      <div data-testid="divider" class="w-full border border-white-12a my-6"></div>
+      <div class="">
+        <slot name="control"></slot>
+      </div>
+    </template>
   </div>
 </template>
+
+<style scoped lang="scss">
+.custom-scrollbar {
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent; /* thumb color, track color */
+
+  /* WebKit */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+}
+</style>
