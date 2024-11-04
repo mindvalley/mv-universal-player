@@ -87,9 +87,13 @@ const isControlAvailable = computed(() => {
 
 <style scoped lang="scss">
 .custom-scrollbar {
+  padding-right: 6px;
+  margin-right: -6px;
+  scrollbar-gutter: stable;
+
   /* Firefox */
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.2) transparent; /* thumb color, track color */
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 
   /* WebKit */
   &::-webkit-scrollbar {
@@ -99,6 +103,7 @@ const isControlAvailable = computed(() => {
   &::-webkit-scrollbar-track {
     background: transparent;
     border-radius: 3px;
+    margin: 4px 0;
   }
 
   &::-webkit-scrollbar-thumb {
