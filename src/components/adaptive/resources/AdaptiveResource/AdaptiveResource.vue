@@ -160,6 +160,7 @@ const { isMobileOrTablet } = useDetectBrowser()
 const lastActivityTimestamp = ref(Date.now())
 const isMouseOverMiniPlayer = ref(false)
 const colorPalette = ref<string[]>([])
+const hidePlayButtonTimeout = ref<number | null>(null)
 
 onMounted(() => {
   extractColorPalette(props.posterUrl)
@@ -361,18 +362,30 @@ const setVolume = (event: any) => {
   emitEvent('setVolume', { volume: event })
 }
 
-const togglePlayPause = () => {
+const handleFullscreenLayerClick = () => {
   if (adaptiveItem?.value?.state?.playing) {
     pause()
   } else {
     play()
   }
 
-  // Show the play button briefly when toggling
+  toggleFullscreenPlayButton()
+}
+
+const toggleFullscreenPlayButton = () => {
+  // Clear any existing timeout
+  if (hidePlayButtonTimeout.value) {
+    clearTimeout(hidePlayButtonTimeout.value)
+  }
+
+  // Show the button
   showPlayButton.value = true
-  setTimeout(() => {
+
+  // Set new timeout
+  hidePlayButtonTimeout.value = setTimeout(() => {
     showPlayButton.value = false
-  }, 1000) // Hide after 1 second, adjust as needed
+    hidePlayButtonTimeout.value = null
+  }, 1000) as unknown as number
 }
 
 const handleMuted = (muted: boolean) => {
@@ -450,7 +463,7 @@ defineExpose({
         @mouseenter="handleMouseEnter(false)"
         @mouseleave="handleMouseLeave(false)"
         @mousemove="handleMouseMove"
-        @click="togglePlayPause"
+        @click="handleFullscreenLayerClick"
       >
         <!-- Top Bar -->
         <div
@@ -520,20 +533,31 @@ defineExpose({
         </div>
 
         <!-- Full screen play button -->
-        <Transition name="fade">
-          <div
-            v-show="showPlayButton"
-            class="fixed inset-0 h-full w-full flex items-center justify-center"
-          >
-            <MVAdaptivePlayButton
-              :playing="!adaptiveItem?.state?.playing"
-              :show-tooltip="false"
-              :show-hover-effect="false"
-              icon-color="text-black-70a"
-              :size="isMobileOrTablet ? Size.BIG : Size.SMALL"
-            />
-          </div>
-        </Transition>
+        <!-- <Transition name="fade"> -->
+        <div
+          v-show="showPlayButton"
+          class="fixed inset-0 h-full w-full flex items-center justify-center"
+        >
+          <MVAdaptivePlayButton
+            v-if="!adaptiveItem?.state?.playing"
+            :playing="true"
+            :show-tooltip="false"
+            :show-hover-effect="false"
+            icon-color="text-black-70a"
+            :size="isMobileOrTablet ? Size.BIG : Size.SMALL"
+            is-zooming
+          />
+          <MVAdaptivePlayButton
+            v-else
+            :playing="false"
+            :show-tooltip="false"
+            :show-hover-effect="false"
+            icon-color="text-black-70a"
+            :size="isMobileOrTablet ? Size.BIG : Size.SMALL"
+            is-zooming
+          />
+        </div>
+        <!-- </Transition> -->
       </div>
     </Transition>
 

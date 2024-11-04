@@ -23,6 +23,10 @@ const props = defineProps({
   iconColor: {
     type: String,
     default: 'text-white-70a'
+  },
+  isZooming: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -48,13 +52,30 @@ const buttonSizeClasses = computed(() => {
     v-tooltip="showTooltip ? (playing ? 'Pause' : 'Play') : ''"
     @click="togglePlay"
     class="outline-none"
-    :class="[buttonSizeClasses]"
+    :class="[buttonSizeClasses, { 'zoom-fade-effect cursor-default': isZooming }]"
   >
     <svg
       v-svg
       :symbol="playing ? 'pause-circle-filled' : 'play-circle-filled'"
-      class="h-full w-full rounded-full text-white-70a"
+      class="h-full w-full rounded-full text-white-70a transition-colors duration-200"
       :class="[iconColor, { 'hover:text-white': showHoverEffect }]"
     ></svg>
   </button>
 </template>
+
+<style scoped>
+@keyframes zoom-fade {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+.zoom-fade-effect {
+  animation: zoom-fade 1s ease-out forwards;
+}
+</style>
