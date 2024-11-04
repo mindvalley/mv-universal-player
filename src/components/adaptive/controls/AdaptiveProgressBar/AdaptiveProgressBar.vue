@@ -189,12 +189,12 @@ watch(
     <span
       data-testid="current-time"
       v-if="size === Size.BIG && !loopingEnabled"
-      class="flex shrink-0 items-center justify-center text-xs"
+      class="flex items-center justify-center text-xs w-9"
       :class="[size === Size.BIG ? 'mr-4' : 'mr-0']"
     >
       {{ humanizeTime(localCurrentTime) }}
     </span>
-    <span data-testid="progress-bar-container" class="w-full shrink">
+    <span data-testid="progress-bar-container" class="w-full">
       <div
         data-testid="progress-bar"
         ref="seekerUi"
@@ -207,7 +207,7 @@ watch(
       >
         <div
           data-testid="progress-bar-track"
-          class="relative h-[3px] w-full shrink rounded-full"
+          class="relative h-[3px] w-full rounded-full"
           :class="{ 'bg-white-24a': !loopingEnabled, 'bg-red-500': loopingEnabled }"
         >
           <div
@@ -240,7 +240,7 @@ watch(
     <span
       data-testid="duration"
       v-if="size === Size.BIG"
-      class="flex shrink-0 items-center justify-center text-xs ml-4"
+      class="flex items-center justify-center text-xs ml-4 w-9"
     >
       <template v-if="!loopingEnabled">
         {{ humanizeTime(duration) }}
