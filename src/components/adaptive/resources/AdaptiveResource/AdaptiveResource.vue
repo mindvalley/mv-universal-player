@@ -532,8 +532,6 @@ defineExpose({
           />
         </div>
 
-        <!-- Full screen play button -->
-        <!-- <Transition name="fade"> -->
         <div
           v-show="showPlayButton"
           class="fixed inset-0 h-full w-full flex items-center justify-center"
@@ -557,7 +555,6 @@ defineExpose({
             is-zooming
           />
         </div>
-        <!-- </Transition> -->
       </div>
     </Transition>
 
