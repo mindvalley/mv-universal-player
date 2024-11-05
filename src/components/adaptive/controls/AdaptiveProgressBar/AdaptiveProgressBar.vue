@@ -184,7 +184,7 @@ watch(
 <template>
   <section
     data-testid="adaptive-progress-bar"
-    class="relative flex items-center justify-center md:w-full"
+    class="relative flex items-center justify-center xl:w-full"
   >
     <span
       data-testid="current-time"

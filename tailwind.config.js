@@ -7,6 +7,14 @@ module.exports = {
   content: ['./src/**/*.{vue,js,ts,jsx,tsx}'],
   important: '.mv-universal-player',
   theme: {
+    screens: {
+      xs: '375px', // Mobile Portrait
+      sm: '480px', // Mobile Landscape
+      md: '768px', // Tablet Portrait
+      lg: '992px', // Tablet Landscape
+      xl: '1280px', // Desktop
+      '2xl': '1800px' // Large Desktop
+    },
     fontFamily: {
       sans: ['"Sharp Grotesk Book 19"', 'sans-serif']
     },

@@ -468,10 +468,10 @@ defineExpose({
         <!-- Top Bar -->
         <div
           data-testid="top-bar"
-          class="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-b-subtle px-4 md:px-10 py-7"
+          class="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-b-subtle px-4 xl:px-10 py-7"
         >
-          <div class="flex items-center justify-between md:justify-start">
-            <div class="md:hidden">
+          <div class="flex items-center justify-between xl:justify-start">
+            <div class="xl:hidden">
               <MVAdaptiveFullScreenButton
                 is-mobile-layout
                 @toggleFullScreen="toggleFullScreen"
@@ -479,7 +479,7 @@ defineExpose({
               />
             </div>
             <div
-              class="absolute left-1/2 transform -translate-x-1/2 md:static md:left-auto md:transform-none"
+              class="absolute left-1/2 transform -translate-x-1/2 xl:static xl:left-auto xl:transform-none"
             >
               <MVAdaptiveNowPlayingInfoCard
                 :title="nowPlayingTitle"
@@ -487,7 +487,7 @@ defineExpose({
               />
             </div>
             <!-- Add an empty div to balance the layout on mobile -->
-            <div class="md:hidden w-10"></div>
+            <div class="xl:hidden w-10"></div>
           </div>
           <div class="h-1 w-1"></div>
         </div>

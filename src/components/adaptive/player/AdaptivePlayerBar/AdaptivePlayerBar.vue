@@ -187,10 +187,10 @@ const handleMuted = (muted: boolean) => {
       data-testid="container"
       :class="[
         'transition-transform duration-[600ms] ease-in-out bg-gradient-to-t from-black to-transparent',
-        isFullScreen ? 'z-[60] px-4 sm:px-10  md:pb-2' : 'bg-black',
+        isFullScreen ? 'z-[60] px-4 sm:px-10  xl:pb-2' : 'bg-black',
         isFullScreen ? (showSetDuration || showMeditationMixer ? 'pb-[70px]' : 'pb-3') : 'pb-0',
         {
-          'translate-y-[80px] md:translate-y-full': isFullScreen && !isMiniBarVisible
+          'translate-y-[80px] xl:translate-y-full': isFullScreen && !isMiniBarVisible
         }
       ]"
     >
@@ -206,14 +206,14 @@ const handleMuted = (muted: boolean) => {
         >
           <template #control>
             <MVAdaptiveSetDurationButton
-              class="hidden md:flex"
+              class="hidden xl:flex"
               v-if="showSetDuration"
               is-text
               is-background-enabled
               @click.stop="handleSetDurationClick"
             />
             <MVAdaptiveMeditationMixerButton
-              class="hidden md:flex px-2"
+              class="hidden xl:flex px-2"
               v-if="showMeditationMixer"
               :track-title="mixerTrackTitle"
               :mixer-enabled="isMixerEnabled"
@@ -240,7 +240,7 @@ const handleMuted = (muted: boolean) => {
 
       <!-- Mobile/Tablet -->
       <div
-        class="md:hidden w-full py-3 items-center flex justify-between"
+        class="xl:hidden w-full py-3 items-center flex justify-between"
         :class="[isFullScreen ? 'px-0' : 'px-4']"
       >
         <div class="flex items-center">
@@ -320,7 +320,7 @@ const handleMuted = (muted: boolean) => {
       </div>
 
       <!-- Desktop -->
-      <div data-testid="desktop-controls" class="hidden md:block">
+      <div data-testid="desktop-controls" class="hidden xl:block">
         <div
           class="w-full py-3 items-center flex justify-between"
           :class="[isFullScreen ? 'px-0' : 'px-4']"
@@ -400,7 +400,7 @@ const handleMuted = (muted: boolean) => {
     <!-- Set duration and meditation mixer -->
     <div
       data-testid="duration-or-meditation-mixer-container"
-      class="md:hidden pb-[34px] z-[65] bottom-0 left-0 right-0 absolute px-4 sm:px-10"
+      class="xl:hidden pb-[34px] z-[65] bottom-0 left-0 right-0 absolute px-4 sm:px-10"
       v-if="isFullScreen"
     >
       <div class="inline-flex">

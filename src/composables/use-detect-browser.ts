@@ -4,7 +4,7 @@ export function useDetectBrowser() {
   const isMobileOrTablet = ref(false)
 
   const checkScreenSize = () => {
-    isMobileOrTablet.value = window.innerWidth < 768 // Adjust this breakpoint as needed
+    isMobileOrTablet.value = window.innerWidth < 1280 // Adjust this breakpoint as needed
   }
 
   onMounted(() => {
