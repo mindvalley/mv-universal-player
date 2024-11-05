@@ -24,7 +24,7 @@ export const tooltip: ObjectDirective = {
 }
 
 function showTooltip(event: PointerEvent) {
-  hideTooltip() // Remove any existing tooltips
+  hideTooltip()
   const target = event.currentTarget as HTMLElement
   const tooltipText = target.getAttribute('data-tooltip')
   if (!tooltipText) return
@@ -32,58 +32,51 @@ function showTooltip(event: PointerEvent) {
   const tooltip = document.createElement('div')
   tooltip.textContent = tooltipText
   tooltip.className = 'custom-tooltip'
-  document.body.appendChild(tooltip)
 
-  const { position, left, top } = calculatePosition(target, tooltip)
+  // Check if we're in fullscreen mode
+  const isFullscreen = !!document.fullscreenElement
 
-  tooltip.classList.add(`tooltip-${position}`)
-  tooltip.style.left = `${left}px`
-  tooltip.style.top = `${top}px`
+  if (isFullscreen) {
+    document.fullscreenElement?.appendChild(tooltip)
+    const targetRect = target.getBoundingClientRect()
+    const tooltipRect = tooltip.getBoundingClientRect()
+
+    // Use viewport-relative positioning like in normal mode
+    let left = targetRect.left + targetRect.width / 2 - tooltipRect.width / 2
+    let top = targetRect.top - tooltipRect.height - TOOLTIP_MARGIN
+
+    // Ensure tooltip stays within viewport
+    left = Math.max(
+      TOOLTIP_MARGIN,
+      Math.min(left, window.innerWidth - tooltipRect.width - TOOLTIP_MARGIN)
+    )
+    top = Math.max(
+      TOOLTIP_MARGIN,
+      Math.min(top, window.innerHeight - tooltipRect.height - TOOLTIP_MARGIN)
+    )
+
+    tooltip.style.left = `${left}px`
+    tooltip.style.top = `${top}px`
+  } else {
+    // In normal mode, append to body
+    document.body.appendChild(tooltip)
+    const { position, left, top } = calculatePositionNormal(target, tooltip)
+    tooltip.style.left = `${left}px`
+    tooltip.style.top = `${top}px`
+  }
 }
 
-function calculatePosition(target: HTMLElement, tooltip: HTMLElement) {
+function calculatePositionNormal(target: HTMLElement, tooltip: HTMLElement) {
   const targetRect = target.getBoundingClientRect()
   const tooltipRect = tooltip.getBoundingClientRect()
   const viewportWidth = window.innerWidth
   const viewportHeight = window.innerHeight
 
-  const positions = [
-    { name: 'top', available: targetRect.top > tooltipRect.height + TOOLTIP_MARGIN },
-    {
-      name: 'bottom',
-      available: viewportHeight - targetRect.bottom > tooltipRect.height + TOOLTIP_MARGIN
-    },
-    { name: 'left', available: targetRect.left > tooltipRect.width + TOOLTIP_MARGIN },
-    {
-      name: 'right',
-      available: viewportWidth - targetRect.right > tooltipRect.width + TOOLTIP_MARGIN
-    }
-  ]
+  // Use viewport-relative positioning for normal mode
+  let left = targetRect.left + targetRect.width / 2 - tooltipRect.width / 2
+  let top = targetRect.top - tooltipRect.height - TOOLTIP_MARGIN
 
-  const position = positions.find((pos) => pos.available)?.name || 'top'
-
-  let left, top
-
-  switch (position) {
-    case 'top':
-      left = targetRect.left + targetRect.width / 2 - tooltipRect.width / 2
-      top = targetRect.top - tooltipRect.height - TOOLTIP_MARGIN
-      break
-    case 'bottom':
-      left = targetRect.left + targetRect.width / 2 - tooltipRect.width / 2
-      top = targetRect.bottom + TOOLTIP_MARGIN
-      break
-    case 'left':
-      left = targetRect.left - tooltipRect.width - TOOLTIP_MARGIN
-      top = targetRect.top + targetRect.height / 2 - tooltipRect.height / 2
-      break
-    case 'right':
-      left = targetRect.right + TOOLTIP_MARGIN
-      top = targetRect.top + targetRect.height / 2 - tooltipRect.height / 2
-      break
-  }
-
-  // Ensure the tooltip stays within the viewport
+  // Ensure tooltip stays within viewport
   left = Math.max(
     TOOLTIP_MARGIN,
     Math.min(left, viewportWidth - tooltipRect.width - TOOLTIP_MARGIN)
@@ -93,13 +86,13 @@ function calculatePosition(target: HTMLElement, tooltip: HTMLElement) {
     Math.min(top, viewportHeight - tooltipRect.height - TOOLTIP_MARGIN)
   )
 
-  return { position, left, top }
+  return { position: 'top', left, top }
 }
 
 function hideTooltip() {
   const tooltip = document.querySelector('.custom-tooltip')
   if (tooltip) {
-    document.body.removeChild(tooltip)
+    tooltip.parentElement?.removeChild(tooltip)
   }
 }
 

@@ -110,6 +110,7 @@ const selectedMeditationTrackItem = ref<BackgroundTrackItem | null>(null)
 const meditationMixerVolume = ref(0.5)
 const showAboutThisInfo = ref(false)
 const mainVolume = ref(1)
+const fullscreenElement = ref<HTMLElement | null>(null)
 
 // TODO: Might have to change this to 0.5 for both if the default background sound is set.
 const backgroundSoundVolume = ref(1)
@@ -361,7 +362,7 @@ const emitBackgroundMixerEvent = (eventName: string, payload?: any) => {
 </script>
 
 <template>
-  <div data-testid="meditation-resource">
+  <div ref="fullscreenElement" data-testid="meditation-resource">
     <MVAdaptivePlayer loop :audio-only-mode="true">
       <MVAdaptiveItem
         ref="meditationMixerItem"
@@ -427,6 +428,7 @@ const emitBackgroundMixerEvent = (eventName: string, payload?: any) => {
       :now-playing-title="nowPlayingTitle"
       :now-playing-subtitle="nowPlayingSubtitle"
       :mixer-track-title="selectedMeditationTrackItem?.item?.title"
+      :fullscreen-element="fullscreenElement"
       @set-volume="handleSetVolume"
       @track-info-title-click="toggleAboutThisInfo"
       @meditation-mixer-open="toggleMeditationMixer"
