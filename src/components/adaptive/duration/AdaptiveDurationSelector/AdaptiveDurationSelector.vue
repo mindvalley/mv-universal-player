@@ -45,7 +45,7 @@ const handleClose = () => {
 <template>
   <div
     data-testid="adaptive-duration-selector"
-    class="bg-black max-w-xl p-4 min-w-[400px] sm:min-w-[560px] rounded-3xl text-white flex flex-col items-center justify-center relative"
+    class="bg-black p-4 w-[calc(100vw-32px)] sm:max-w-[560px] rounded-3xl text-white flex flex-col items-center justify-center relative"
   >
     <button
       data-testid="close-button"

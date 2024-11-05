@@ -55,7 +55,7 @@ const isControlAvailable = computed(() => {
 <template>
   <div
     data-testid="adaptive-about-this-info"
-    class="bg-black rounded-3xl w-[398px] sm:w-[480px] py-4 px-6 relative max-h-[calc(70vh)] flex flex-col"
+    class="bg-black rounded-3xl w-[calc(100vw-32px)] sm:max-w-[480px] py-4 px-6 relative max-h-[calc(70vh)] flex flex-col"
   >
     <div data-testid="header-title" class="heading-9 text-white mb-1">{{ headerTitle }}</div>
     <button
