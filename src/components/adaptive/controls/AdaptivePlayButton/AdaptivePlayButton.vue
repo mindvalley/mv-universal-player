@@ -43,7 +43,7 @@ const togglePlay = () => {
 const buttonSizeClasses = computed(() => {
   return props.size === Size.BIG
     ? 'w-14 h-14' // 56px for both desktop and mobile/tablet
-    : 'w-8 h-8 xl:w-10 xl:h-10' // 32px for mobile/tablet, 40px for desktop
+    : 'w-10 h-10' // 32px for mobile/tablet, 40px for desktop
 })
 </script>
 <template>

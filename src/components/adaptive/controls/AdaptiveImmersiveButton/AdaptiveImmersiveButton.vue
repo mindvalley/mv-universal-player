@@ -17,7 +17,7 @@ const toggleImmersive = () => {
   <button
     data-testid="adaptive-immersive-button"
     v-tooltip="isImmersive ? 'Disable immersive' : 'Enable immersive'"
-    class="h-5 w-5 outline-none"
+    class="h-6 w-6 xl:h-5 xl:w-5 outline-none"
     @click="toggleImmersive"
   >
     <svg

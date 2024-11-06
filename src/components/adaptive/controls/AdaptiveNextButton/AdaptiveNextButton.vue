@@ -1,7 +1,11 @@
 <script setup lang="ts"></script>
 
 <template>
-  <button data-testid="adaptive-next-button" v-tooltip="'Next'" class="h-5 w-5 outline-none">
+  <button
+    data-testid="adaptive-next-button"
+    v-tooltip="'Next'"
+    class="h-6 w-6 xl:h-5 xl:w-5 outline-none"
+  >
     <svg
       v-svg
       symbol="skip-forward-outlined"

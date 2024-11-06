@@ -40,7 +40,12 @@ const props = defineProps({
       </MVAdaptiveMarqueeContent>
     </span>
   </button>
-  <button data-testid="adaptive-meditation-mixer-button" v-else v-tooltip="'Mixer'" class="h-5 w-5">
+  <button
+    data-testid="adaptive-meditation-mixer-button"
+    v-else
+    v-tooltip="'Mixer'"
+    class="h-6 w-6 xl:h-5 xl:w-5"
+  >
     <svg
       data-testid="icon"
       v-svg

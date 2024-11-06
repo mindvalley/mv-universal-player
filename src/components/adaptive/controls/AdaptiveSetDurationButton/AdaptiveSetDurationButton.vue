@@ -28,7 +28,7 @@ const props = defineProps({
       data-testid="adaptive-set-duration-button"
       v-else
       v-tooltip="'Set duration'"
-      class="h-5 w-5 outline-none"
+      class="h-6 w-6 xl:h-5 xl:w-5 outline-none"
     >
       <svg
         v-svg
