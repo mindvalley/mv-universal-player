@@ -379,8 +379,10 @@ const toggleFullscreenPlayButton = () => {
     clearTimeout(hidePlayButtonTimeout.value)
   }
 
-  // Show the button
-  showPlayButton.value = true
+  // Show the button. This is to match the speed of play/pause state and the button state.
+  setTimeout(() => {
+    showPlayButton.value = true
+  }, 0)
 
   // Set new timeout
   hidePlayButtonTimeout.value = setTimeout(() => {
