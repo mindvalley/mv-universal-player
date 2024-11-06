@@ -246,8 +246,8 @@ const handleMuted = (muted: boolean) => {
 
       <!-- Mobile/Tablet -->
       <div
-        class="xl:hidden w-full py-3 items-center flex justify-between"
-        :class="[isFullScreen ? 'px-0' : 'px-4']"
+        class="xl:hidden w-full items-center flex justify-between"
+        :class="[isFullScreen ? 'px-0 py-3' : 'px-4 pt-3 pb-4 md:px-6 md:py-3']"
       >
         <div class="flex items-center">
           <div>
@@ -330,8 +330,8 @@ const handleMuted = (muted: boolean) => {
       <!-- Desktop -->
       <div data-testid="desktop-controls" class="hidden xl:block">
         <div
-          class="w-full py-3 items-center flex justify-between"
-          :class="[isFullScreen ? 'px-0' : 'px-4']"
+          class="w-full items-center py-3 flex justify-between"
+          :class="[isFullScreen ? 'px-0' : 'px-6']"
         >
           <!-- Left column -->
           <div data-testid="left-column" class="flex-1 flex items-center min-w-28 sm:min-w-48">

@@ -285,7 +285,8 @@ watch(
     <span
       data-testid="duration"
       v-if="size === Size.BIG"
-      class="flex items-center justify-center text-xs ml-4 w-9"
+      class="flex items-center justify-center text-xs w-9"
+      :class="[!loopingEnabled ? 'ml-4' : 'ml-2']"
     >
       <template v-if="!loopingEnabled">
         {{ humanizeTime(duration) }}
