@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, watch, nextTick, onMounted } from 'vue-demi'
-import { useFullscreen } from '@vueuse/core'
 import { extractColorsFromImageData } from 'extract-colors'
 import type { Source } from './../../../../types/audio'
 import { AdaptiveShape } from './../../../../types/adaptive'
@@ -114,10 +113,6 @@ const props = defineProps({
   mixerTrackTitle: {
     type: String,
     default: ''
-  },
-  fullscreenElement: {
-    type: Object,
-    default: null
   }
 })
 
@@ -141,7 +136,7 @@ const emit = defineEmits<{
   (e: 'maximize'): void
   (e: 'playtime', { time }: any): void
   (e: 'collection'): void
-  (e: 'fullscreen', { isFullscreen }: any): void
+  (e: 'fullscreen', { isFullScreen }: any): void
   (e: 'toggleImmersive', { isImmersive }: any): void
   (e: 'playbackSpeed', { playbackSpeed }: any): void
   (e: 'trackInfoTitleClick'): void
@@ -152,7 +147,7 @@ const emit = defineEmits<{
 }>()
 
 // const fullscreenElement = ref<HTMLElement | null>(null)
-const { isFullscreen, toggle } = useFullscreen(props.fullscreenElement)
+const isFullScreen = ref(false)
 const isMiniBarVisible = ref(true)
 let hideTimeout: number | null = null
 const adaptiveItem = ref(null)
@@ -172,7 +167,7 @@ onMounted(() => {
   extractColorPalette(props.posterUrl)
 })
 
-watch(isFullscreen, (newVal) => {
+watch(isFullScreen, (newVal) => {
   if (newVal) {
     if (!immersiveSetOnce.value) {
       isImmersive.value = true
@@ -185,14 +180,14 @@ watch(isFullscreen, (newVal) => {
 })
 
 const playLoopingVideo = async () => {
-  if (isFullscreen.value && isImmersive.value) {
+  if (isFullScreen.value && isImmersive.value) {
     await nextTick()
     loopingVideoAdaptiveItemRef.value?.player?.play()
   }
 }
 
 const pauseLoopingVideo = async () => {
-  if (isFullscreen.value && isImmersive.value) {
+  if (isFullScreen.value && isImmersive.value) {
     await nextTick()
     loopingVideoAdaptiveItemRef.value?.player?.pause()
   }
@@ -200,7 +195,7 @@ const pauseLoopingVideo = async () => {
 
 // Modify the handleMouseEnter function
 const handleMouseEnter = (isMiniPlayer = false) => {
-  if (isFullscreen.value) {
+  if (isFullScreen.value) {
     isMouseOverMiniPlayer.value = isMiniPlayer
     showMiniBar()
   }
@@ -208,7 +203,7 @@ const handleMouseEnter = (isMiniPlayer = false) => {
 
 // Modify the handleMouseLeave function
 const handleMouseLeave = (isMiniPlayer = false) => {
-  if (isFullscreen.value) {
+  if (isFullScreen.value) {
     if (isMiniPlayer) {
       isMouseOverMiniPlayer.value = false
     }
@@ -235,17 +230,16 @@ const startHideTimer = () => {
 }
 
 const handleMouseMove = () => {
-  if (isFullscreen.value) {
+  if (isFullScreen.value) {
     showMiniBar()
   }
 }
 
 // Modify the toggleFullScreen function
 const toggleFullScreen = () => {
-  toggle()
-  isFullscreen.value = !isFullscreen.value
+  isFullScreen.value = !isFullScreen.value
   showMiniBar()
-  emitEvent('fullscreen', { isFullscreen: isFullscreen.value })
+  emitEvent('fullscreen', { isFullScreen: isFullScreen.value })
 }
 
 const emitEvent = (eventName: string, payload?: any) => {
@@ -443,7 +437,7 @@ defineExpose({
 </script>
 
 <template>
-  <div ref="fullscreenElement" data-testid="adaptive-resource" class="h-full w-full flex flex-col">
+  <div data-testid="adaptive-resource" class="h-full w-full flex flex-col">
     <MVAdaptivePlayer :loop="loopingEnabled" :audio-only-mode="true" :auto-play="autoPlay">
       <MVAdaptiveItem
         ref="adaptiveItem"
@@ -465,7 +459,7 @@ defineExpose({
     <Transition :name="isMobileOrTablet ? 'slide' : 'fade'">
       <div
         data-testid="adaptive-full-screen"
-        v-show="isFullscreen"
+        v-show="isFullScreen"
         class="fixed inset-0 z-50"
         @mouseenter="handleMouseEnter(false)"
         @mouseleave="handleMouseLeave(false)"
@@ -482,7 +476,7 @@ defineExpose({
               <MVAdaptiveFullScreenButton
                 is-mobile-layout
                 @toggleFullScreen="toggleFullScreen"
-                :is-full-screen="isFullscreen"
+                :is-full-screen="isFullScreen"
               />
             </div>
             <div
@@ -583,7 +577,7 @@ defineExpose({
         :progress-bar-current-time="
           overrideProgressBarCurrentTime ? progressBarCurrentTime : localCurrentTime
         "
-        :is-full-screen="isFullscreen"
+        :is-full-screen="isFullScreen"
         :is-mini-bar-visible="isMiniBarVisible"
         :is-immersive="isImmersive"
         :is-mixer-enabled="isMixerEnabled"

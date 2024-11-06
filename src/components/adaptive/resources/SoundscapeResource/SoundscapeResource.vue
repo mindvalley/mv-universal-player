@@ -7,7 +7,6 @@ import { MVAdaptiveDurationSelector } from '../../duration'
 import { MVAdaptiveOverlay } from '../../layers'
 import { MVAdaptiveAboutThisInfo } from '../../info'
 import { MVAdaptiveAboutThisInfoSetDurationButton } from '../../info/AdaptiveAboutThisInfo/AdaptiveAboutThisInfoSetDurationButton'
-import { useFullscreen } from '@vueuse/core'
 
 const props = defineProps({
   id: {
@@ -94,7 +93,6 @@ const localDuration = ref(240) // 4 minutes
 const showDurationSelector = ref(false)
 const isFullScreenEnabled = ref(false)
 const showAboutThisInfo = ref(false)
-const fullscreenElement = ref<HTMLElement | null>(null)
 
 const elapsedTime = ref(0)
 const timerInterval = ref<number | null>(null)
@@ -271,7 +269,6 @@ const emitEvent = (eventName: string, payload?: any) => {
 
 <template>
   <div
-    ref="fullscreenElement"
     data-testid="soundscape-resource"
     :class="{ 'fixed left-0 bottom-0 top-0 right-0': isFullScreenEnabled }"
   >
@@ -324,7 +321,6 @@ const emitEvent = (eventName: string, payload?: any) => {
         :override-progress-bar-current-time="!localLoopingEnabled"
         :now-playing-title="nowPlayingTitle"
         :now-playing-subtitle="nowPlayingSubtitle"
-        :fullscreen-element="fullscreenElement"
         @track-info-title-click="toggleAboutThisInfo"
         @close="handleClose"
         @collection-open="handleCollectionOpen"
