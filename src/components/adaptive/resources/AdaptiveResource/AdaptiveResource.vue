@@ -402,6 +402,10 @@ const handleTrackInfoTitleClick = () => {
   emitEvent('trackInfoTitleClick')
 }
 
+const handleTrackInfoImageClick = () => {
+  emitEvent('trackInfoImageClick')
+}
+
 const extractColorPalette = async (imageSrc: string) => {
   const img = new Image()
   img.crossOrigin = 'Anonymous'
@@ -591,6 +595,7 @@ defineExpose({
         :show-immersive="showImmersive"
         :mixer-track-title="mixerTrackTitle"
         @track-info-title-click="handleTrackInfoTitleClick"
+        @track-info-image-click="handleTrackInfoImageClick"
         @pause="pause"
         @play="play"
         @rewind="rewind"

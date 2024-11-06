@@ -27,7 +27,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['title-click'])
+const emit = defineEmits(['title-click', 'image-click'])
 
 const imageSize = ref(props.size === Size.BIG ? 120 : 56)
 const isTransitionComplete = ref(false)
@@ -81,15 +81,17 @@ watch(
 )
 
 const handleTitleClick = () => {
-  if (props.size === Size.BIG) {
-    emit('title-click')
-  }
+  emit('title-click')
+}
+
+const handleImageClick = () => {
+  emit('image-click')
 }
 </script>
 
 <template>
   <div data-testid="adaptive-track-info-card" class="flex" :style="containerStyle">
-    <div data-testid="image">
+    <div data-testid="image" class="cursor-pointer" @click="handleImageClick">
       <BaseImage
         :class="[props.size !== Size.BIG && 'h-12 w-12 sm:h-14 sm:w-14']"
         :style="props.size === Size.BIG ? imageStyle : {}"
@@ -111,8 +113,7 @@ const handleTitleClick = () => {
       <div
         @click="handleTitleClick"
         data-testid="title"
-        class="heading-9 text-white truncate max-w-28 sm:max-w-48"
-        :class="[props.size === Size.BIG ? 'cursor-pointer hover:underline' : '']"
+        class="heading-9 text-white truncate max-w-28 sm:max-w-48 cursor-pointer hover:underline"
       >
         {{ title }}
       </div>

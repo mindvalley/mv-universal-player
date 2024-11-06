@@ -322,6 +322,7 @@ const emitEvent = (eventName: string, payload?: any) => {
         :now-playing-title="nowPlayingTitle"
         :now-playing-subtitle="nowPlayingSubtitle"
         @track-info-title-click="toggleAboutThisInfo"
+        @track-info-image-click="toggleAboutThisInfo"
         @close="handleClose"
         @collection-open="handleCollectionOpen"
         @previous="handlePrevious"

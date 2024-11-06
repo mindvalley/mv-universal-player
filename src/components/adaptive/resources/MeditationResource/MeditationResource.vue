@@ -429,6 +429,7 @@ const emitBackgroundMixerEvent = (eventName: string, payload?: any) => {
       :mixer-track-title="selectedMeditationTrackItem?.item?.title"
       @set-volume="handleSetVolume"
       @track-info-title-click="toggleAboutThisInfo"
+      @track-info-image-click="toggleAboutThisInfo"
       @meditation-mixer-open="toggleMeditationMixer"
       @close="handleClose"
       @collection-open="handleCollectionOpen"

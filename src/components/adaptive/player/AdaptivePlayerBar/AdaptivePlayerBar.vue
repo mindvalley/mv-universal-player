@@ -113,6 +113,7 @@ const emit = defineEmits<{
   (e: 'toggleFullScreen'): void
   (e: 'toggleImmersive'): void
   (e: 'trackInfoTitleClick'): void
+  (e: 'trackInfoImageClick'): void
   (e: 'muted', muted: boolean): void
 }>()
 
@@ -176,6 +177,10 @@ const handleTrackInfoTitleClick = () => {
   emit('trackInfoTitleClick')
 }
 
+const handleTrackInfoImageClick = () => {
+  emit('trackInfoImageClick')
+}
+
 const handleMuted = (muted: boolean) => {
   emit('muted', muted)
 }
@@ -203,6 +208,7 @@ const handleMuted = (muted: boolean) => {
           :shape="trackInfoCoverShape"
           :size="Size.BIG"
           @title-click="handleTrackInfoTitleClick"
+          @image-click="handleTrackInfoImageClick"
         >
           <template #control>
             <MVAdaptiveSetDurationButton
@@ -251,6 +257,8 @@ const handleMuted = (muted: boolean) => {
               :sub-title="artistName"
               :image="posterUrl"
               :shape="trackInfoCoverShape"
+              @image-click="handleTrackInfoImageClick"
+              @title-click="handleTrackInfoTitleClick"
             />
           </div>
           <div class="ml-2">
@@ -333,6 +341,8 @@ const handleMuted = (muted: boolean) => {
               :sub-title="artistName"
               :image="posterUrl"
               :shape="trackInfoCoverShape"
+              @title-click="handleTrackInfoTitleClick"
+              @image-click="handleTrackInfoImageClick"
             />
           </div>
 
