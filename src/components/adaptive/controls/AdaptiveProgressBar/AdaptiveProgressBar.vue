@@ -165,6 +165,50 @@ const stopDrag = (event: MouseEvent) => {
   emit('seek', newTime)
 }
 
+// Add these new event handlers
+const startTouch = (event: TouchEvent) => {
+  if (!isInteractive.value) return
+  isDragging.value = true
+  document.addEventListener('touchmove', handleTouch)
+  document.addEventListener('touchend', stopTouch)
+  handleTouch(event)
+}
+
+const handleTouch = (event: TouchEvent) => {
+  if (!isDragging.value || !seekerUi.value || !isInteractive.value) return
+  const touch = event.touches[0]
+  const rect = seekerUi.value.getBoundingClientRect()
+  const x = Math.max(0, Math.min(touch.clientX - rect.left, rect.width))
+  const percentage = x / rect.width
+  const newTime = props.duration * percentage
+
+  localCurrentTime.value = newTime
+
+  if (tooltip.value) {
+    tooltip.value.style.left = `${percentage * 100}%`
+    tooltip.value.textContent = humanizeTime(newTime)
+  }
+
+  // Prevent scrolling while dragging
+  event.preventDefault()
+}
+
+const stopTouch = (event: TouchEvent) => {
+  if (!isDragging.value || !seekerUi.value || !isInteractive.value) return
+
+  const touch = event.changedTouches[0]
+  const rect = seekerUi.value.getBoundingClientRect()
+  const x = Math.max(0, Math.min(touch.clientX - rect.left, rect.width))
+  const percentage = x / rect.width
+  const newTime = props.duration * percentage
+
+  isDragging.value = false
+  document.removeEventListener('touchmove', handleTouch)
+  document.removeEventListener('touchend', stopTouch)
+
+  emit('seek', newTime)
+}
+
 // Modify the watch function to update localCurrentTime
 watch(
   () => props.currentTime,
@@ -199,6 +243,7 @@ watch(
         data-testid="progress-bar"
         ref="seekerUi"
         @mousedown="startDrag"
+        @touchstart="startTouch"
         @pointerenter="showTooltip"
         @pointermove="updateTooltip($event)"
         @pointerleave="hideTooltip"
