@@ -200,7 +200,11 @@ const handleMuted = (muted: boolean) => {
       ]"
     >
       <!-- Track Info Card -->
-      <div data-testid="track-info-card" v-if="isFullScreen" class="flex items-center mb-3 sm:mb-4">
+      <div
+        data-testid="track-info-card"
+        v-if="isFullScreen"
+        class="flex items-center mb-3 sm:mb-4 w-full"
+      >
         <MVAdaptiveTrackInfoCard
           :title="title"
           :sub-title="artistName"
@@ -249,8 +253,8 @@ const handleMuted = (muted: boolean) => {
         class="xl:hidden w-full items-center flex justify-between"
         :class="[isFullScreen ? 'px-0 py-3' : 'px-4 pt-3 pb-4 md:px-6 md:py-3']"
       >
-        <div class="flex items-center">
-          <div>
+        <div class="flex items-center" :class="{ 'max-w-[60%] md:max-w-[60%]': !isFullScreen }">
+          <div class="w-full">
             <MVAdaptiveTrackInfoCard
               v-if="!isFullScreen"
               :title="title"
@@ -271,7 +275,7 @@ const handleMuted = (muted: boolean) => {
           </div>
         </div>
 
-        <!-- Full screen -->
+        <!-- When full screen -->
         <div
           data-testid="controls"
           v-if="isFullScreen"
@@ -306,8 +310,8 @@ const handleMuted = (muted: boolean) => {
           </div>
         </div>
 
-        <!-- Mini Player -->
-        <div data-testid="mini-player" v-else class="flex items-center justify-center space-x-3">
+        <!-- When not full screen -->
+        <div data-testid="mini-player" v-else class="flex items-center justify-end space-x-3">
           <div class="flex items-center" v-if="showSetDuration">
             <MVAdaptiveSetDurationButton @click="handleSetDurationClick" />
           </div>
@@ -330,11 +334,11 @@ const handleMuted = (muted: boolean) => {
       <!-- Desktop -->
       <div data-testid="desktop-controls" class="hidden xl:block">
         <div
-          class="w-full items-center py-3 flex justify-between"
+          class="w-full py-3 grid grid-cols-3 items-center"
           :class="[isFullScreen ? 'px-0' : 'px-6']"
         >
           <!-- Left column -->
-          <div data-testid="left-column" class="flex-1 flex items-center min-w-28 sm:min-w-48">
+          <div data-testid="left-column" class="min-w-28 sm:min-w-48 w-full">
             <MVAdaptiveTrackInfoCard
               v-if="!isFullScreen"
               :title="title"
@@ -346,8 +350,8 @@ const handleMuted = (muted: boolean) => {
             />
           </div>
 
-          <!-- Center column (always centered) -->
-          <div data-testid="center-column" class="flex-1 flex items-center justify-center">
+          <!-- Center column -->
+          <div data-testid="center-column" class="flex justify-center">
             <div class="flex items-center space-x-6">
               <div v-if="showRewindAndFastForward" class="flex items-center">
                 <MVAdaptiveRewindButton @rewind="handleRewind" />
@@ -371,7 +375,7 @@ const handleMuted = (muted: boolean) => {
           </div>
 
           <!-- Right column -->
-          <div data-testid="right-column" class="flex-1 flex items-center justify-end space-x-3">
+          <div data-testid="right-column" class="flex items-center justify-end space-x-3">
             <div class="flex items-center" v-if="showImmersive && isFullScreen">
               <MVAdaptiveImmersiveButton
                 :is-immersive="isImmersive"

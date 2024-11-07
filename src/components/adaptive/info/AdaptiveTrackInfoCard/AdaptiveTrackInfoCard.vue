@@ -90,7 +90,7 @@ const handleImageClick = () => {
 </script>
 
 <template>
-  <div data-testid="adaptive-track-info-card" class="flex" :style="containerStyle">
+  <div data-testid="adaptive-track-info-card" class="flex w-full" :style="containerStyle">
     <div data-testid="image" class="cursor-pointer" @click="handleImageClick">
       <BaseImage
         :class="[props.size !== Size.BIG && 'h-12 w-12 sm:h-14 sm:w-14']"
@@ -103,7 +103,7 @@ const handleImageClick = () => {
     </div>
     <div
       data-testid="container"
-      class="flex flex-col justify-center"
+      class="flex flex-col justify-center min-w-0 w-full"
       :class="[props.size === Size.BIG ? 'ml-2 sm:ml-4' : 'ml-2 sm:ml-3']"
       :style="textContainerStyle"
     >
@@ -113,7 +113,8 @@ const handleImageClick = () => {
       <div
         @click="handleTitleClick"
         data-testid="title"
-        class="heading-9 text-white truncate max-w-28 sm:max-w-48 cursor-pointer hover:underline"
+        class="heading-9 text-white truncate cursor-pointer hover:underline w-full"
+        :class="{ 'max-w-[70%] xl:max-w-[50%]': props.size === Size.BIG }"
       >
         {{ title }}
       </div>
