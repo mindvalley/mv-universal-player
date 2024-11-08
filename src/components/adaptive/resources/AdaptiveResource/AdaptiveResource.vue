@@ -630,7 +630,7 @@ defineExpose({
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.8s ease;
+  transition: opacity 2s ease;
 }
 
 .fade-enter-from,
