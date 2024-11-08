@@ -18,6 +18,10 @@ const props = defineProps({
   colorPalette: {
     type: Array<string>,
     default: () => []
+  },
+  visible: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -74,6 +78,23 @@ watchEffect(async () => {
   }
 })
 
+watch(
+  () => props.visible,
+  async (isVisible) => {
+    if (isVisible) {
+      await nextTick()
+      handleResize()
+      if (props.playing) {
+        startAnimation()
+      } else {
+        drawInitialFrame()
+      }
+    } else {
+      stopAnimation()
+    }
+  }
+)
+
 function handleResize() {
   if (canvasRef.value && props.isImmersiveModeActive) {
     canvasRef.value.width = canvasRef.value.offsetWidth
@@ -112,6 +133,8 @@ function animateAurora(ctx: CanvasRenderingContext2D) {
   const width = ctx.canvas.width
   const height = ctx.canvas.height
 
+  if (!width || !height) return
+
   // Calculate time with pause offset
   if (startTime.value === null) {
     startTime.value = Date.now()
@@ -119,63 +142,62 @@ function animateAurora(ctx: CanvasRenderingContext2D) {
   const currentTime = Date.now()
   const time = (currentTime - startTime.value - totalPausedTime.value) / 4000
 
-  if (width && height) {
-    ctx.clearRect(0, 0, width, height)
+  // Clear only the visible area
+  ctx.clearRect(0, 0, width, height)
 
-    // Modify the gradient to extend further down
-    const gradient = ctx.createLinearGradient(0, 0, width, height * 1.5)
+  // Create gradient once and reuse
+  const gradient = ctx.createLinearGradient(0, 0, width, height * 1.5)
+  const colors =
+    props.colorPalette.length >= 5
+      ? props.colorPalette
+      : ['#563B94', '#B2405F', '#00C800', '#373C8C', '#00C800']
 
-    // Use colorPalette colors for the gradient
-    const colors =
-      props.colorPalette.length >= 5
-        ? props.colorPalette
-        : ['#563B94', '#B2405F', '#00C800', '#373C8C', '#00C800']
+  const sinTime = (Math.sin(time) + 1) * 0.1 // Precalculate
+  const cosTime = (Math.cos(time) + 1) * 0.1 + 0.444
 
-    gradient.addColorStop(0, hexToRgba(colors[1]))
-    gradient.addColorStop((Math.sin(time) + 1) * 0.5 * 0.2, hexToRgba(colors[1]))
-    gradient.addColorStop((Math.cos(time) + 1) * 0.5 * 0.2 + 0.444, hexToRgba(colors[0]))
-    gradient.addColorStop(1, hexToRgba(colors[1]))
-    gradient.addColorStop(1, hexToRgba(colors[1]))
+  gradient.addColorStop(0, hexToRgba(colors[1]))
+  gradient.addColorStop(sinTime, hexToRgba(colors[1]))
+  gradient.addColorStop(cosTime, hexToRgba(colors[0]))
+  gradient.addColorStop(1, hexToRgba(colors[1]))
 
-    ctx.fillStyle = gradient
-    ctx.fillRect(0, 0, width, height * 10)
+  ctx.fillStyle = gradient
+  ctx.fillRect(0, 0, width, height)
 
-    const imageData = ctx.getImageData(0, 0, width, height)
-    const data = imageData.data
+  // Get image data only for the visible area
+  const imageData = ctx.getImageData(0, 0, width, height)
+  const data = imageData.data
 
-    const octaves = 0.3
-    const scaleX = 2 / octaves
-    const scaleY = 0.5 / octaves
+  // Precalculate constants
+  const octaves = 0.3
+  const scaleX = 2 / octaves
+  const scaleY = 0.5 / octaves
+  const widthInv = 1 / width
+  const heightInv = 1 / height
 
-    for (let y = 0; y < height; y++) {
-      for (let x = 0; x < width; x++) {
-        const i = (y * width + x) * 4
+  // Process pixels in chunks for better performance
+  const frequency = 0.3
 
-        let n = 0
-        let frequency = 0.3
-        let persistence = 1.5
+  for (let y = 0; y < height; y++) {
+    const yCoord = y * heightInv * frequency * scaleY
+    const rowOffset = y * width * 4
 
-        for (let oi = 0; oi < octaves; oi++) {
-          frequency *= 2
-          const amplitude = Math.pow(persistence, oi)
-          n +=
-            noise3D.value(
-              (x / width) * frequency * scaleX,
-              (y / height) * frequency * scaleY,
-              time
-            ) * amplitude
-        }
+    for (let x = 0; x < width; x++) {
+      const i = rowOffset + x * 4
+      const xCoord = x * widthInv * frequency * scaleX
 
-        const factor = n * 0.5 + 0.5
+      // Simplified noise calculation with fewer octaves
+      const n = noise3D.value(xCoord, yCoord, time)
+      const factor = n * 0.5 + 0.5
 
-        data[i] = Math.floor(factor * data[i])
-        data[i + 1] = Math.floor(factor * data[i + 1])
-        data[i + 2] = Math.floor(factor * data[i + 2])
-      }
+      // Batch pixel operations
+      data[i] = (data[i] * factor) | 0 // Red
+      data[i + 1] = (data[i + 1] * factor) | 0 // Green
+      data[i + 2] = (data[i + 2] * factor) | 0 // Blue
+      // Alpha channel (i + 3) remains unchanged
     }
-
-    ctx.putImageData(imageData, 0, 0)
   }
+
+  ctx.putImageData(imageData, 0, 0)
 }
 
 function animate() {
@@ -192,8 +214,10 @@ function animate() {
 function startAnimation() {
   if (!isAnimating.value) {
     isAnimating.value = true
-    if (pausedTime.value !== null) {
-      // Add the paused duration to total paused time
+    if (startTime.value === null) {
+      startTime.value = Date.now()
+      totalPausedTime.value = 0
+    } else if (pausedTime.value !== null) {
       totalPausedTime.value += Date.now() - pausedTime.value
       pausedTime.value = null
     }
@@ -221,6 +245,10 @@ function stopAnimation() {
 function drawInitialFrame() {
   const ctx = canvasRef.value?.getContext('2d', { willReadFrequently: true })
   if (ctx) {
+    if (startTime.value === null) {
+      startTime.value = Date.now()
+      totalPausedTime.value = 0
+    }
     animateAurora(ctx)
   }
 }

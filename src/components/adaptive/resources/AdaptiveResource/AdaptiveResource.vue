@@ -526,6 +526,7 @@ defineExpose({
             :is-immersive-mode-active="isImmersive"
             :playing="adaptiveItem?.state?.playing"
             :color-palette="colorPalette"
+            :visible="isFullScreen"
           />
         </div>
 
@@ -644,7 +645,7 @@ defineExpose({
 .slide-up-leave-active,
 .slide-down-enter-active,
 .slide-down-leave-active {
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
 .slide-enter-from,
