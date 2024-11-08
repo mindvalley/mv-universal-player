@@ -27,7 +27,7 @@ const props = defineProps({
     v-if="isText"
     class="flex gap-1 text-teal-300 rounded-[4px] px-1 py-[2px] items-center"
     :class="[
-      isBackgroundEnabled ? 'bg-black backdrop-blur-[2px] bg-opacity-20 hover:bg-opacity-30' : ''
+      isBackgroundEnabled ? 'bg-black backdrop-blur-[2px] bg-opacity-20 hover:bg-opacity-40' : ''
     ]"
   >
     <span data-testid="icon"><svg v-svg symbol="sliders-outlined" class="h-3 w-3"></svg></span>
