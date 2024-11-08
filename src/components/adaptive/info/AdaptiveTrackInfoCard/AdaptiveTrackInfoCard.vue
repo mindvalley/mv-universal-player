@@ -57,7 +57,7 @@ onMounted(() => {
       setTimeout(() => {
         isTransitionComplete.value = true
       }, 500)
-    }, 1000)
+    }, 3000)
   }
 })
 
@@ -113,7 +113,7 @@ const handleImageClick = () => {
       <div
         data-testid="title"
         class="heading-9 text-white truncate"
-        :class="{ 'max-w-[70%] xl:max-w-[50%]': props.size === Size.BIG }"
+        :class="{ ' xl:max-w-[50%]': props.size === Size.BIG }"
       >
         <span @click="handleTitleClick" class="cursor-pointer hover:underline">
           {{ title }}
