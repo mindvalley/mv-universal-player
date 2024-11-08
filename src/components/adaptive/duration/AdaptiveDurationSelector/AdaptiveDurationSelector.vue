@@ -110,7 +110,7 @@ const handleClose = () => {
             </button>
             <button
               data-testid="forever-button"
-              @click="toggleMode"
+              @click="handleStayForever"
               class="mt-2 text-white button-text-small py-2 px-4 flex flex-row rounded-full hover:bg-white-12a"
             >
               <span> <svg v-svg symbol="infinity-filled" class="h-4 w-4 text-white"></svg></span>
