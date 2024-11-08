@@ -166,6 +166,16 @@ const hidePlayButtonTimeout = ref<number | null>(null)
 // Add this ref to track if we're in the middle of a fullscreen transition
 const isFullscreenTransitioning = ref(false)
 
+// Add this new ref
+const initialTouchMiniBarVisible = ref(true)
+
+// Add these new methods
+const handleTouchStart = () => {
+  if (isMobileOrTablet.value) {
+    initialTouchMiniBarVisible.value = isMiniBarVisible.value
+  }
+}
+
 // Watch fullscreen changes
 watch(isFullScreen, (newValue, oldValue) => {
   if (newValue !== oldValue) {
@@ -378,6 +388,15 @@ const setVolume = (event: any) => {
 }
 
 const handleFullscreenLayerClick = () => {
+  // For mobile devices only
+  if (isMobileOrTablet.value) {
+    // Use the initial visibility state from when the touch started
+    if (!initialTouchMiniBarVisible.value) {
+      showMiniBar() // Show the bar for the next interaction
+      return
+    }
+  }
+
   if (adaptiveItem?.value?.state?.playing) {
     pause()
   } else {
@@ -484,6 +503,7 @@ defineExpose({
         @mouseenter="handleMouseEnter(false)"
         @mouseleave="handleMouseLeave(false)"
         @mousemove="handleMouseMove"
+        @touchstart="handleTouchStart"
         @click="handleFullscreenLayerClick"
       >
         <!-- Top Bar -->
@@ -515,7 +535,6 @@ defineExpose({
 
         <TransitionGroup
           :name="isFullScreen && !isFullscreenTransitioning ? 'scenario-fade' : undefined"
-          mode="out-in"
         >
           <!-- Scenario 1: Show looping video when there is one -->
           <div
