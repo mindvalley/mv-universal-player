@@ -111,12 +111,13 @@ const handleImageClick = () => {
         <slot name="control"></slot>
       </div>
       <div
-        @click="handleTitleClick"
         data-testid="title"
-        class="heading-9 text-white truncate cursor-pointer hover:underline w-full"
+        class="heading-9 text-white truncate"
         :class="{ 'max-w-[70%] xl:max-w-[50%]': props.size === Size.BIG }"
       >
-        {{ title }}
+        <span @click="handleTitleClick" class="cursor-pointer hover:underline">
+          {{ title }}
+        </span>
       </div>
       <div data-testid="sub-title" class="caption-disclaimer text-cool-grey-200 truncate">
         {{ subTitle }}
