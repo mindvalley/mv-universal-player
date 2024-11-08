@@ -25,7 +25,7 @@ const props = defineProps({
   <button
     data-testid="adaptive-meditation-mixer-button"
     v-if="isText"
-    class="flex gap-1 text-teal-300 rounded-[4px] py-1 items-center"
+    class="flex gap-1 text-teal-300 rounded-[4px] px-1 py-[2px] items-center"
     :class="[
       isBackgroundEnabled ? 'bg-black backdrop-blur-[2px] bg-opacity-20 hover:bg-opacity-30' : ''
     ]"
