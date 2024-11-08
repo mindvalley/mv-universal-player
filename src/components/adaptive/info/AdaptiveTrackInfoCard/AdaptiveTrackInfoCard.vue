@@ -118,7 +118,7 @@ const handleImageClick = () => {
       >
         {{ title }}
       </div>
-      <div data-testid="sub-title" class="body-2-xs text-cool-grey-200 truncate">
+      <div data-testid="sub-title" class="caption-disclaimer text-cool-grey-200 truncate">
         {{ subTitle }}
       </div>
     </div>
