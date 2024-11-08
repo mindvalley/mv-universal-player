@@ -163,6 +163,20 @@ const isMouseOverMiniPlayer = ref(false)
 const colorPalette = ref<string[]>([])
 const hidePlayButtonTimeout = ref<number | null>(null)
 
+// Add this ref to track if we're in the middle of a fullscreen transition
+const isFullscreenTransitioning = ref(false)
+
+// Watch fullscreen changes
+watch(isFullScreen, (newValue, oldValue) => {
+  if (newValue !== oldValue) {
+    isFullscreenTransitioning.value = true
+    // Reset after transition completes (adjust timeout to match your fullscreen transition duration)
+    setTimeout(() => {
+      isFullscreenTransitioning.value = false
+    }, 500) // Assuming 500ms transition
+  }
+})
+
 onMounted(() => {
   extractColorPalette(props.posterUrl)
 })
@@ -499,46 +513,53 @@ defineExpose({
           <div class="h-1 w-1"></div>
         </div>
 
-        <!-- Show looping video when there is one -->
-        <div
-          data-testid="looping-video"
-          class="h-full w-full"
-          v-show="videoSources.length > 0 && isImmersive"
+        <TransitionGroup
+          :name="isFullScreen && !isFullscreenTransitioning ? 'scenario-fade' : undefined"
+          mode="out-in"
         >
-          <MVAdaptivePlayer :poster-url="posterUrl" loop muted auto-play>
-            <MVAdaptiveItem
-              ref="loopingVideoAdaptiveItemRef"
-              :sources="videoSources"
-              :id="id + '-looping-video'"
-            >
-            </MVAdaptiveItem>
-          </MVAdaptivePlayer>
-        </div>
+          <!-- Scenario 1: Show looping video when there is one -->
+          <div
+            data-testid="looping-video"
+            class="absolute inset-0"
+            v-show="videoSources.length > 0 && isImmersive"
+            :key="'looping-video'"
+          >
+            <MVAdaptivePlayer :poster-url="posterUrl" loop muted auto-play>
+              <MVAdaptiveItem
+                ref="loopingVideoAdaptiveItemRef"
+                :sources="videoSources"
+                :id="id + '-looping-video'"
+              >
+              </MVAdaptiveItem>
+            </MVAdaptivePlayer>
+          </div>
 
-        <!-- Show dynamic video when there is no looping video -->
-        <div
-          data-testid="dynamic-video"
-          class="h-full w-full"
-          v-show="videoSources.length === 0 && isImmersive"
-        >
-          <MVAdaptiveImmersiveLayer
-            :image="posterUrl"
-            :is-immersive-mode-active="isImmersive"
-            :playing="adaptiveItem?.state?.playing"
-            :color-palette="colorPalette"
-            :visible="isFullScreen"
-          />
-        </div>
+          <!-- Scenario 2: Show dynamic video when there is no looping video -->
+          <div
+            data-testid="dynamic-video"
+            class="absolute inset-0"
+            v-show="videoSources.length === 0 && isImmersive"
+            :key="'dynamic-video'"
+          >
+            <MVAdaptiveImmersiveLayer
+              :image="posterUrl"
+              :is-immersive-mode-active="isImmersive"
+              :playing="adaptiveItem?.state?.playing"
+              :color-palette="colorPalette"
+              :visible="isFullScreen"
+            />
+          </div>
 
-        <!-- Show poster when there is no looping video and immersive if off -->
-        <div data-testid="poster" class="h-full w-full" v-show="!isImmersive">
-          <BaseImage
-            class="w-full h-full"
-            img-class="object-cover h-full"
-            :src="posterUrl"
-            :width="1024"
-          />
-        </div>
+          <!-- Scenario 3: Show poster when there is no looping video and immersive if off -->
+          <div data-testid="poster" class="absolute inset-0" v-show="!isImmersive" :key="'poster'">
+            <BaseImage
+              class="w-full h-full"
+              img-class="object-cover h-full"
+              :src="posterUrl"
+              :width="1024"
+            />
+          </div>
+        </TransitionGroup>
 
         <div
           v-show="showPlayButton"
@@ -631,7 +652,7 @@ defineExpose({
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 2s ease;
+  transition: opacity 1.5s ease;
 }
 
 .fade-enter-from,
@@ -669,6 +690,21 @@ defineExpose({
 .slide-down-enter-to,
 .slide-down-leave-from {
   transform: translateY(0);
+  opacity: 1;
+}
+
+.scenario-fade-enter-active,
+.scenario-fade-leave-active {
+  transition: opacity 1.5s ease;
+}
+
+.scenario-fade-enter-from,
+.scenario-fade-leave-to {
+  opacity: 0;
+}
+
+.scenario-fade-enter-to,
+.scenario-fade-leave-from {
   opacity: 1;
 }
 </style>
