@@ -663,10 +663,13 @@ defineExpose({
 .bg-gradient-to-b-subtle {
   background-image: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0.4) 0%,
-    rgba(0, 0, 0, 0.2) 30%,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.6) 20%,
+    rgba(0, 0, 0, 0.2) 60%,
     rgba(0, 0, 0, 0) 100%
   );
+  padding-bottom: 60px;
+  margin-bottom: -60px;
 }
 
 .fade-enter-active,

@@ -191,11 +191,14 @@ const handleMuted = (muted: boolean) => {
     <div
       data-testid="container"
       :class="[
-        'transition-transform duration-[600ms] ease-in-out bg-gradient-to-t from-black to-transparent',
+        'transition-transform duration-[600ms] ease-in-out',
         isFullScreen ? 'z-[60] px-4 sm:px-10  xl:pb-2' : 'bg-black',
         isFullScreen ? (showSetDuration || showMeditationMixer ? 'pb-[70px]' : 'pb-3') : 'pb-0',
         {
           'translate-y-[80px] xl:translate-y-full': isFullScreen && !isMiniBarVisible
+        },
+        {
+          'bg-gradient-to-t from-black to-transparent': isFullScreen
         }
       ]"
     >
@@ -436,6 +439,14 @@ const handleMuted = (muted: boolean) => {
 
 <style scoped>
 .bg-gradient-to-t {
-  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+  background-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.8) 20%,
+    rgba(0, 0, 0, 0.3) 60%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  padding-top: 60px;
+  margin-top: -60px;
 }
 </style>
