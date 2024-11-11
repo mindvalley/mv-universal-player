@@ -107,7 +107,7 @@ const handleImageClick = () => {
       :class="[props.size === Size.BIG ? 'ml-2 sm:ml-4' : 'ml-2 sm:ml-3']"
       :style="textContainerStyle"
     >
-      <div data-testid="control" class="mb-0.5">
+      <div data-testid="control" class="mb-0.5 inline-flex">
         <slot name="control"></slot>
       </div>
       <div
