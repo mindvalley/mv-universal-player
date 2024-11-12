@@ -388,6 +388,10 @@ const setVolume = (event: any) => {
 }
 
 const handleFullscreenLayerClick = () => {
+  if (!isFullScreen.value) {
+    return
+  }
+
   // For mobile devices only
   if (isMobileOrTablet.value) {
     // Use the initial visibility state from when the touch started

@@ -51,7 +51,7 @@ const buttonSizeClasses = computed(() => {
     data-testid="adaptive-play-button"
     v-tooltip="showTooltip ? (playing ? 'Pause' : 'Play') : ''"
     @click="togglePlay"
-    class="outline-none"
+    class="outline-none transition-all duration-500"
     :class="[buttonSizeClasses, { 'zoom-fade-effect cursor-default': isZooming }]"
   >
     <svg

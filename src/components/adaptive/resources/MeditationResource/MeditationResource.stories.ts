@@ -159,7 +159,8 @@ export const Default: Story = {
     duration: audio2.duration,
     posterUrl: audio2.posterUrl,
     title: audio2.title,
-    artistName: audio2.artistName
+    artistName: audio2.artistName,
+    autoPlay: false
   }
 }
 

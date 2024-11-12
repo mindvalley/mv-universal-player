@@ -63,7 +63,7 @@ const handleClose = () => {
             :class="[
               'transition-all duration-500 relative mt-10',
               localIsLooping
-                ? 'opacity-20 transform scale-90 blur-sm'
+                ? 'opacity-40 transform scale-90 blur-sm'
                 : 'opacity-100 transform scale-100'
             ]"
           >

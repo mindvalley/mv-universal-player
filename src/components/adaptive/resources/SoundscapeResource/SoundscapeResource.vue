@@ -297,44 +297,41 @@ const emitEvent = (eventName: string, payload?: any) => {
       </MVAdaptiveAboutThisInfo>
     </MVAdaptiveOverlay>
 
-    <!-- Adaptive Resource -->
-    <div class="h-full w-full">
-      <MVAdaptiveResource
-        ref="adaptiveResource"
-        :id="id"
-        :auto-play="autoPlay"
-        :audio-sources="audioSources"
-        :video-sources="videoSources"
-        :duration="localDuration"
-        :poster-url="posterUrl"
-        :title="title"
-        :artist-name="artistName"
-        :looping-enabled="localLoopingEnabled"
-        show-set-duration
-        show-immersive
-        :track-info-cover-shape="Shape.ROUND"
-        :show-previous-next="showPreviousNext"
-        :progress-bar-current-time="localCurrentTime"
-        :override-progress-bar-current-time="!localLoopingEnabled"
-        :now-playing-title="nowPlayingTitle"
-        :now-playing-subtitle="nowPlayingSubtitle"
-        @track-info-title-click="toggleAboutThisInfo"
-        @track-info-image-click="toggleAboutThisInfo"
-        @close="handleClose"
-        @collection-open="handleCollectionOpen"
-        @previous="handlePrevious"
-        @next="handleNext"
-        @set-duration="toggleDurationSelector"
-        @timeupdate="handleTimeUpdate"
-        @play="handlePlay"
-        @pause="handlePause"
-        @seek="handleSeek"
-        @ended="handleEnded"
-        @fullscreen="handleFullscreen"
-        @muted="handleMuted"
-        @error="handleError"
-        @playtime="handlePlaytime"
-      />
-    </div>
+    <MVAdaptiveResource
+      ref="adaptiveResource"
+      :id="id"
+      :auto-play="autoPlay"
+      :audio-sources="audioSources"
+      :video-sources="videoSources"
+      :duration="localDuration"
+      :poster-url="posterUrl"
+      :title="title"
+      :artist-name="artistName"
+      :looping-enabled="localLoopingEnabled"
+      show-set-duration
+      show-immersive
+      :track-info-cover-shape="Shape.ROUND"
+      :show-previous-next="showPreviousNext"
+      :progress-bar-current-time="localCurrentTime"
+      :override-progress-bar-current-time="!localLoopingEnabled"
+      :now-playing-title="nowPlayingTitle"
+      :now-playing-subtitle="nowPlayingSubtitle"
+      @track-info-title-click="toggleAboutThisInfo"
+      @track-info-image-click="toggleAboutThisInfo"
+      @close="handleClose"
+      @collection-open="handleCollectionOpen"
+      @previous="handlePrevious"
+      @next="handleNext"
+      @set-duration="toggleDurationSelector"
+      @timeupdate="handleTimeUpdate"
+      @play="handlePlay"
+      @pause="handlePause"
+      @seek="handleSeek"
+      @ended="handleEnded"
+      @fullscreen="handleFullscreen"
+      @muted="handleMuted"
+      @error="handleError"
+      @playtime="handlePlaytime"
+    />
   </div>
 </template>
