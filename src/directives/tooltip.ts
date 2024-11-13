@@ -29,64 +29,17 @@ function showTooltip(event: PointerEvent) {
   const tooltipText = target.getAttribute('data-tooltip')
   if (!tooltipText) return
 
+  // Make target position relative if it isn't already
+  if (window.getComputedStyle(target).position === 'static') {
+    target.style.position = 'relative'
+  }
+
   const tooltip = document.createElement('div')
   tooltip.textContent = tooltipText
   tooltip.className = 'custom-tooltip'
 
-  // Check if we're in fullscreen mode
-  const isFullscreen = !!document.fullscreenElement
-
-  if (isFullscreen) {
-    document.fullscreenElement?.appendChild(tooltip)
-    const targetRect = target.getBoundingClientRect()
-    const tooltipRect = tooltip.getBoundingClientRect()
-
-    // Use viewport-relative positioning like in normal mode
-    let left = targetRect.left + targetRect.width / 2 - tooltipRect.width / 2
-    let top = targetRect.top - tooltipRect.height - TOOLTIP_MARGIN
-
-    // Ensure tooltip stays within viewport
-    left = Math.max(
-      TOOLTIP_MARGIN,
-      Math.min(left, window.innerWidth - tooltipRect.width - TOOLTIP_MARGIN)
-    )
-    top = Math.max(
-      TOOLTIP_MARGIN,
-      Math.min(top, window.innerHeight - tooltipRect.height - TOOLTIP_MARGIN)
-    )
-
-    tooltip.style.left = `${left}px`
-    tooltip.style.top = `${top}px`
-  } else {
-    // In normal mode, append to body
-    document.body.appendChild(tooltip)
-    const { position, left, top } = calculatePositionNormal(target, tooltip)
-    tooltip.style.left = `${left}px`
-    tooltip.style.top = `${top}px`
-  }
-}
-
-function calculatePositionNormal(target: HTMLElement, tooltip: HTMLElement) {
-  const targetRect = target.getBoundingClientRect()
-  const tooltipRect = tooltip.getBoundingClientRect()
-  const viewportWidth = window.innerWidth
-  const viewportHeight = window.innerHeight
-
-  // Use viewport-relative positioning for normal mode
-  let left = targetRect.left + targetRect.width / 2 - tooltipRect.width / 2
-  let top = targetRect.top - tooltipRect.height - TOOLTIP_MARGIN
-
-  // Ensure tooltip stays within viewport
-  left = Math.max(
-    TOOLTIP_MARGIN,
-    Math.min(left, viewportWidth - tooltipRect.width - TOOLTIP_MARGIN)
-  )
-  top = Math.max(
-    TOOLTIP_MARGIN,
-    Math.min(top, viewportHeight - tooltipRect.height - TOOLTIP_MARGIN)
-  )
-
-  return { position: 'top', left, top }
+  // Append to target instead of container
+  target.appendChild(tooltip)
 }
 
 function hideTooltip() {

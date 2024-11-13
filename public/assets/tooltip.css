@@ -1,4 +1,8 @@
-.custom-tooltip {
+.mv-universal-player {
+  position: relative;
+}
+
+.mv-universal-player .custom-tooltip {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.8);
   color: #fff;
@@ -8,4 +12,9 @@
   z-index: 9999 !important;
   font-family: 'Sharp Grotesk Cyr Medium 20';
   pointer-events: none;
+  white-space: nowrap;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 6px;
 }
