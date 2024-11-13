@@ -480,7 +480,7 @@ defineExpose({
 </script>
 
 <template>
-  <div data-testid="adaptive-resource" class="h-full w-full flex flex-col">
+  <div data-testid="adaptive-resource" class="h-full w-full flex flex-col overflow-hidden">
     <MVAdaptivePlayer :loop="loopingEnabled" :audio-only-mode="true" :auto-play="autoPlay">
       <MVAdaptiveItem
         ref="adaptiveItem"
@@ -612,7 +612,7 @@ defineExpose({
 
     <!-- Mini Player -->
     <div
-      class="z-[50]"
+      class="z-[50] w-full"
       @mouseenter="handleMouseEnter(true)"
       @mouseleave="handleMouseLeave(true)"
       @mousemove="handleMouseMove"
