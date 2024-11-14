@@ -1,8 +1,8 @@
 import { Preview, setup } from '@storybook/vue3'
+import FloatingVue from 'floating-vue'
 import './../public/assets/main.css'
 import svgSprite from '@mindvalley/design-system/dist/icons/sprites/ui-icons.svg'
 import { svgSpriteDirectivePlugin } from 'vue-svg-sprite'
-import { tooltip } from './../src/directives/tooltip'
 
 const preview: Preview = {
   parameters: {
@@ -19,7 +19,14 @@ setup((app) => {
   app.use(svgSpriteDirectivePlugin, {
     url: svgSprite
   })
-  app.directive('tooltip', tooltip)
+  app.use(FloatingVue, {
+    disabled: window.innerWidth < 768,
+    themes: {
+      tooltip: {
+        triggers: ['hover', 'click', 'focus', 'touch']
+      }
+    }
+  })
 })
 
 export default preview

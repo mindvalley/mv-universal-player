@@ -197,7 +197,9 @@ onMounted(() => {
   }
 
   if (props.autoPlay) {
-    adaptiveResource.value?.player?.player?.play()
+    setTimeout(() => {
+      adaptiveResource.value?.player?.player?.play()
+    }, 0)
   }
 })
 

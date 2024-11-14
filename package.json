@@ -64,6 +64,7 @@
     "@storybook/vue3": "^8.2.9",
     "@vitejs/plugin-vue": "^5.0.5",
     "extract-colors": "^4.0.8",
+    "floating-vue": "^5.2.2",
     "sass": "^1.61.0",
     "simplex-noise": "^4.0.3",
     "uuid": "^10.0.0",

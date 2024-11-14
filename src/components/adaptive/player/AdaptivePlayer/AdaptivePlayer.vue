@@ -102,7 +102,7 @@ interface PlayerState extends PlayerBaseState {
 const props = defineProps({
   id: {
     type: String,
-    default: () => 'mv-audio-player-' + Math.random().toString().replace('.', '')
+    default: () => 'mv-adaptive-player-' + Math.random().toString().replace('.', '')
   },
   playbackRates: {
     type: Array<Number>,
@@ -136,12 +136,12 @@ let state = ref({} as PlayerState)
 const hideVideo = ref(props.audioOnlyMode)
 
 onMounted(() => {
-  initialize(props.id)
+  setTimeout(() => {
+    initialize(props.id)
+  }, 0)
 })
 
 onUnmounted(() => {
-  audioInstance.dispose()
-
   if (audioInstance) {
     audioInstance.dispose()
   }

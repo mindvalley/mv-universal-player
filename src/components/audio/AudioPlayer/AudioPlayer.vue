@@ -122,8 +122,6 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  audioInstance.dispose()
-
   if (audioInstance) {
     audioInstance.dispose()
   }

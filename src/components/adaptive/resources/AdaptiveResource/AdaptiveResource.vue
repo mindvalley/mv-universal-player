@@ -480,7 +480,11 @@ defineExpose({
 </script>
 
 <template>
-  <div data-testid="adaptive-resource" class="h-full w-full flex flex-col overflow-hidden">
+  <div
+    data-testid="adaptive-resource"
+    class="h-full w-full flex flex-col"
+    :class="{ 'overflow-hidden': isFullScreen }"
+  >
     <MVAdaptivePlayer :loop="loopingEnabled" :audio-only-mode="true" :auto-play="autoPlay">
       <MVAdaptiveItem
         ref="adaptiveItem"
