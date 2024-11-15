@@ -41,6 +41,9 @@ const startTime = ref<number | null>(null)
 const pausedTime = ref<number | null>(null)
 const totalPausedTime = ref(0)
 
+// Add a new debounced resize handler
+let resizeTimeout: number | null = null
+
 onMounted(() => {
   window.addEventListener('resize', handleResize)
   initCanvas()
@@ -51,6 +54,9 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
   stopAnimation()
+  if (resizeTimeout) {
+    clearTimeout(resizeTimeout)
+  }
 })
 
 watch(
@@ -96,11 +102,51 @@ watch(
 )
 
 function handleResize() {
-  if (canvasRef.value && props.isImmersiveModeActive) {
-    canvasRef.value.width = canvasRef.value.offsetWidth
-    canvasRef.value.height = canvasRef.value.offsetHeight
-    initCanvas()
+  if (!canvasRef.value || !props.isImmersiveModeActive) return
+
+  const newWidth = canvasRef.value.offsetWidth
+  const newHeight = canvasRef.value.offsetHeight
+
+  if (newWidth === 0 || newHeight === 0) return
+
+  const ctx = canvasRef.value.getContext('2d', { willReadFrequently: true })
+  if (!ctx) return
+
+  // Store old dimensions and content
+  const oldCanvas = canvasRef.value
+  if (oldCanvas.width > 0 && oldCanvas.height > 0) {
+    const tempCanvas = document.createElement('canvas')
+    tempCanvas.width = oldCanvas.width
+    tempCanvas.height = oldCanvas.height
+    const tempCtx = tempCanvas.getContext('2d')
+    if (tempCtx) {
+      tempCtx.drawImage(oldCanvas, 0, 0)
+
+      // Resize canvas
+      canvasRef.value.width = newWidth
+      canvasRef.value.height = newHeight
+
+      // Draw the old content scaled to the new size
+      ctx.drawImage(tempCanvas, 0, 0, newWidth, newHeight)
+    }
+  } else {
+    canvasRef.value.width = newWidth
+    canvasRef.value.height = newHeight
   }
+
+  // Instead of full reinit, just trigger a new frame
+  if (resizeTimeout) {
+    clearTimeout(resizeTimeout)
+  }
+  resizeTimeout = setTimeout(() => {
+    if (props.playing) {
+      // If we're playing, just let the animation continue
+      return
+    } else {
+      // If we're paused, draw a new static frame
+      drawInitialFrame()
+    }
+  }, 100) as unknown as number
 }
 
 async function initCanvas() {
@@ -177,23 +223,35 @@ function animateAurora(ctx: CanvasRenderingContext2D) {
   // Process pixels in chunks for better performance
   const frequency = 0.3
 
-  for (let y = 0; y < height; y++) {
-    const yCoord = y * heightInv * frequency * scaleY
-    const rowOffset = y * width * 4
+  // Add these constants
+  const chunkSize = 4 // Process every 2nd pixel
+  const heightSteps = Math.ceil(height / chunkSize)
+  const widthSteps = Math.ceil(width / chunkSize)
 
-    for (let x = 0; x < width; x++) {
-      const i = rowOffset + x * 4
-      const xCoord = x * widthInv * frequency * scaleX
+  // Process pixels in larger steps
+  for (let y = 0; y < heightSteps; y++) {
+    const actualY = y * chunkSize
+    const yCoord = actualY * heightInv * frequency * scaleY
+    const rowOffset = actualY * width * 4
 
-      // Simplified noise calculation with fewer octaves
+    for (let x = 0; x < widthSteps; x++) {
+      const actualX = x * chunkSize
+      const i = rowOffset + actualX * 4
+      const xCoord = actualX * widthInv * frequency * scaleX
+
+      // Calculate noise once for each chunk
       const n = noise3D.value(xCoord, yCoord, time)
       const factor = n * 0.5 + 0.5
 
-      // Batch pixel operations
-      data[i] = (data[i] * factor) | 0 // Red
-      data[i + 1] = (data[i + 1] * factor) | 0 // Green
-      data[i + 2] = (data[i + 2] * factor) | 0 // Blue
-      // Alpha channel (i + 3) remains unchanged
+      // Apply to all pixels in the chunk
+      for (let dy = 0; dy < chunkSize && actualY + dy < height; dy++) {
+        for (let dx = 0; dx < chunkSize && actualX + dx < width; dx++) {
+          const pixelIndex = i + (dy * width + dx) * 4
+          data[pixelIndex] = (data[pixelIndex] * factor) | 0
+          data[pixelIndex + 1] = (data[pixelIndex + 1] * factor) | 0
+          data[pixelIndex + 2] = (data[pixelIndex + 2] * factor) | 0
+        }
+      }
     }
   }
 
@@ -208,7 +266,9 @@ function animate() {
     animateAurora(ctx)
   }
 
-  animationFrameId = requestAnimationFrame(animate)
+  animationFrameId = setTimeout(() => {
+    animationFrameId = requestAnimationFrame(animate)
+  }, 20) as unknown as number
 }
 
 function startAnimation() {
@@ -229,6 +289,7 @@ function pauseAnimation() {
   isAnimating.value = false
   pausedTime.value = Date.now()
   if (animationFrameId !== null) {
+    clearTimeout(animationFrameId)
     cancelAnimationFrame(animationFrameId)
     animationFrameId = null
   }
@@ -236,6 +297,11 @@ function pauseAnimation() {
 
 function stopAnimation() {
   pauseAnimation()
+  if (animationFrameId !== null) {
+    clearTimeout(animationFrameId)
+    cancelAnimationFrame(animationFrameId)
+    animationFrameId = null
+  }
   // Reset all timing variables
   startTime.value = null
   pausedTime.value = null

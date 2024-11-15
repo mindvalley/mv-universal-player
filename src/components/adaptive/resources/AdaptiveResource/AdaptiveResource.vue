@@ -723,18 +723,15 @@ defineExpose({
   opacity: 1;
 }
 
-.scenario-fade-enter-active,
-.scenario-fade-leave-active {
-  transition: opacity 1.5s ease;
+.scenario-fade-enter-active {
+  transition: opacity 3s ease;
 }
 
-.scenario-fade-enter-from,
-.scenario-fade-leave-to {
+.scenario-fade-enter-from {
   opacity: 0;
 }
 
-.scenario-fade-enter-to,
-.scenario-fade-leave-from {
+.scenario-fade-enter-to {
   opacity: 1;
 }
 </style>
