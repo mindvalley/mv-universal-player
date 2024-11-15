@@ -507,7 +507,7 @@ defineExpose({
       <div
         data-testid="adaptive-full-screen"
         v-show="isFullScreen"
-        class="fixed inset-0 z-50"
+        class="fixed inset-0 z-50 bg-black"
         @mouseenter="handleMouseEnter(false)"
         @mouseleave="handleMouseLeave(false)"
         @mousemove="handleMouseMove"
@@ -723,15 +723,18 @@ defineExpose({
   opacity: 1;
 }
 
-.scenario-fade-enter-active {
+.scenario-fade-enter-active,
+.scenario-fade-leave-active {
   transition: opacity 1.5s ease;
 }
 
-.scenario-fade-enter-from {
+.scenario-fade-enter-from,
+.scenario-fade-leave-to {
   opacity: 0;
 }
 
-.scenario-fade-enter-to {
+.scenario-fade-enter-to,
+.scenario-fade-leave-from {
   opacity: 1;
 }
 </style>
