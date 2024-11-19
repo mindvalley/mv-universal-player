@@ -12,7 +12,7 @@ app.use(svgSpriteDirectivePlugin, {
 })
 
 app.use(FloatingVue, {
-  disabled: window.innerWidth < 768,
+  disabled: window.innerWidth < 1280,
   themes: {
     tooltip: {
       triggers: ['hover', 'click', 'focus', 'touch']

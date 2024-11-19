@@ -16,7 +16,7 @@ export interface MVUniversalPlayerOptions {
 const MVUniversalPlayer = {
   install(app: App, options: MVUniversalPlayerOptions) {
     app.use(FloatingVue, {
-      disabled: window.innerWidth < 768,
+      disabled: window.innerWidth < 1280,
       themes: {
         tooltip: {
           triggers: ['hover', 'click', 'focus', 'touch']
