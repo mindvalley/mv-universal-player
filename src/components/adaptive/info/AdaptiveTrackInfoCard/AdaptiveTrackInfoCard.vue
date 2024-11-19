@@ -113,7 +113,7 @@ const handleImageClick = () => {
       <div
         data-testid="title"
         class="heading-9 text-white truncate"
-        :class="{ ' xl:max-w-[50%]': props.size === Size.BIG }"
+        :class="{ ' xl:max-w-[420px]': props.size === Size.BIG }"
       >
         <span @click="handleTitleClick" class="cursor-pointer hover:underline">
           {{ title }}

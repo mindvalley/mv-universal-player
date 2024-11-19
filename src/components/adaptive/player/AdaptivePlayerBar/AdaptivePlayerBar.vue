@@ -341,7 +341,7 @@ const handleMuted = (muted: boolean) => {
           :class="[isFullScreen ? 'px-0' : 'px-6']"
         >
           <!-- Left column -->
-          <div data-testid="left-column" class="min-w-28 sm:min-w-48 w-full">
+          <div data-testid="left-column" class="min-w-28 sm:min-w-48 w-full max-w-[420px]">
             <MVAdaptiveTrackInfoCard
               v-if="!isFullScreen"
               :title="title"
