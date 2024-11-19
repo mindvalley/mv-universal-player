@@ -103,8 +103,7 @@ const handleImageClick = () => {
     </div>
     <div
       data-testid="container"
-      class="flex flex-col justify-center min-w-0 w-full"
-      :class="[props.size === Size.BIG ? 'ml-2 sm:ml-4' : 'ml-2 sm:ml-3']"
+      class="flex flex-col justify-center min-w-0 w-full ml-2 md:ml-3"
       :style="textContainerStyle"
     >
       <div data-testid="control" class="mb-0.5 inline-flex">
