@@ -1,5 +1,7 @@
 <script setup lang="ts">
-defineProps({
+import { watch, onUnmounted } from 'vue-demi'
+
+const props = defineProps({
   show: {
     type: Boolean,
     required: true
@@ -7,6 +9,23 @@ defineProps({
 })
 
 defineEmits(['close'])
+
+// Watch for changes to show prop and toggle body scroll
+watch(
+  () => props.show,
+  (isShown) => {
+    if (isShown) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+  }
+)
+
+// Clean up when component is unmounted
+onUnmounted(() => {
+  document.body.style.overflow = ''
+})
 </script>
 
 <template>
