@@ -8,7 +8,7 @@ const props = defineProps({
   }
 })
 
-defineEmits(['close'])
+const emit = defineEmits(['close'])
 
 // Watch for changes to show prop and toggle body scroll
 watch(
@@ -22,9 +22,31 @@ watch(
   }
 )
 
+watch(
+  () => props.show,
+  (newVal) => {
+    if (newVal) {
+      window.addEventListener('keydown', escapeListener)
+    } else {
+      window.removeEventListener('keydown', escapeListener)
+    }
+  }
+)
+
+function escapeListener(e: KeyboardEvent) {
+  if (e.key === 'Escape') {
+    close()
+  }
+}
+
+const close = () => {
+  emit('close')
+}
+
 // Clean up when component is unmounted
 onUnmounted(() => {
   document.body.style.overflow = ''
+  window.removeEventListener('keydown', escapeListener)
 })
 </script>
 
@@ -47,12 +69,10 @@ onUnmounted(() => {
         data-testid="content-container"
         class="fixed inset-0 overflow-hidden"
         :style="{ zIndex: 150 }"
+        @click="close"
+        @keyup.esc
       >
-        <div
-          data-testid="content"
-          class="absolute inset-0 flex items-center justify-center"
-          @click="$emit('close')"
-        >
+        <div data-testid="content" class="absolute inset-0 flex items-center justify-center">
           <div @click.stop>
             <slot></slot>
           </div>
