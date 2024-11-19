@@ -72,7 +72,8 @@ const updateVolume = (volume: number) => {
 <template>
   <div
     data-testid="adaptive-background-mixer"
-    class="bg-black h-[235px] w-[calc(100vw-32px)] sm:h-[265px] sm:max-w-[748px] rounded-3xl relative py-4 sm:px-6"
+    class="h-[235px] w-[calc(100vw-32px)] sm:h-[265px] sm:max-w-[748px] rounded-3xl relative py-4 sm:px-6"
+    :style="{ backgroundColor: 'rgba(0, 0, 0, 0.9)' }"
   >
     <button
       data-testid="close-button"

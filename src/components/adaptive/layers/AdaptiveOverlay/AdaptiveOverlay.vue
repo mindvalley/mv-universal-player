@@ -16,7 +16,7 @@ defineEmits(['close'])
       <div
         v-if="show"
         data-testid="overlay"
-        class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-[2px]"
+        class="fixed inset-0 bg-black-70a backdrop-blur-[2px]"
         :style="{ zIndex: 100 }"
       ></div>
     </transition>
