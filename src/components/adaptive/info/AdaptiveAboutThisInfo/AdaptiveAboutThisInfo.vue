@@ -55,10 +55,10 @@ const isControlAvailable = computed(() => {
 <template>
   <div
     data-testid="adaptive-about-this-info"
-    class="rounded-3xl w-[calc(100vw-32px)] sm:max-w-[480px] py-4 px-6 relative max-h-[calc(70vh)] flex flex-col"
+    class="rounded-3xl w-[calc(100vw-32px)] sm:max-w-[480px] py-4 px-6 relative max-h-[calc(60vh)] flex flex-col"
     :style="{ backgroundColor: 'rgba(0, 0, 0, 0.9)' }"
   >
-    <div data-testid="header-title" class="heading-9 text-white mb-1">{{ headerTitle }}</div>
+    <div data-testid="header-title" class="heading-9 text-white pb-3">{{ headerTitle }}</div>
     <button
       data-testid="close-button"
       class="absolute top-4 right-6 rounded-full hover:bg-white-24a p-1"
@@ -66,7 +66,7 @@ const isControlAvailable = computed(() => {
     >
       <svg v-svg symbol="x-filled" class="h-4 w-4 text-white-70a"></svg>
     </button>
-    <div class="flex-1 overflow-y-auto custom-scrollbar">
+    <div class="flex-1 overflow-y-auto custom-scrollbar pt-2">
       <MVAdaptiveAboutThisInfoCard
         :title="title"
         :image="image"

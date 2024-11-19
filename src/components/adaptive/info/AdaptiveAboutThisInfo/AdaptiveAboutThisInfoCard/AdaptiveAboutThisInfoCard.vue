@@ -44,7 +44,7 @@ const handleClose = () => {
 <template>
   <div data-testid="adaptive-about-this-info-card">
     <!-- Track Info -->
-    <div data-testid="track-info" class="flex items-center mt-6">
+    <div data-testid="track-info" class="flex items-center">
       <div data-testid="track-image">
         <BaseImage
           class="h-[100px] w-[100px] sm:h-[140px] sm:w-[140px]"
