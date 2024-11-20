@@ -65,6 +65,8 @@ const stopDrag = () => {
       v-tooltip="muted ? 'Unmute' : 'Mute'"
       @click="toggleMute"
       class="w-5 h-5"
+      @mouseenter="isHovering = true"
+      @mouseleave="isHovering = false"
     >
       <svg
         v-svg
