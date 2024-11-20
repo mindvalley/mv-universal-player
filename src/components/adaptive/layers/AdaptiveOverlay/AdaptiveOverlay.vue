@@ -95,7 +95,7 @@ onUnmounted(() => {
 
 .slide-up-enter-active,
 .slide-up-leave-active {
-  transition: all 0.48s ease-out;
+  transition: all 0.4s ease-out;
 }
 
 .slide-up-enter-from,
