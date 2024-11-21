@@ -93,7 +93,7 @@ const handleImageClick = () => {
   <div data-testid="adaptive-track-info-card" class="flex w-full" :style="containerStyle">
     <div data-testid="image" class="cursor-pointer" @click="handleImageClick">
       <BaseImage
-        :class="[props.size !== Size.BIG && 'h-12 w-12 sm:h-14 sm:w-14']"
+        :class="[props.size !== Size.BIG && 'h-12 w-12 xl:h-14 xl:w-14']"
         :style="props.size === Size.BIG ? imageStyle : {}"
         :src="image"
         :img-class="shape === Shape.ROUND ? 'rounded-full' : 'rounded-lg'"

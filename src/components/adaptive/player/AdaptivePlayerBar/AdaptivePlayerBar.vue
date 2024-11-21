@@ -192,7 +192,7 @@ const handleMuted = (muted: boolean) => {
       data-testid="container"
       :class="[
         'transition-transform duration-[600ms] ease-in-out',
-        isFullScreen ? 'z-[60] px-4 sm:px-10  xl:pb-2' : 'bg-black',
+        isFullScreen ? 'z-[60] px-4 xl:px-10  xl:pb-2' : 'bg-black',
         isFullScreen ? (showSetDuration || showMeditationMixer ? 'pb-[70px]' : 'pb-3') : 'pb-0',
         {
           'translate-y-[80px] xl:translate-y-full': isFullScreen && !isMiniBarVisible
@@ -206,7 +206,7 @@ const handleMuted = (muted: boolean) => {
       <div
         data-testid="track-info-card"
         v-if="isFullScreen"
-        class="flex items-center mb-3 sm:mb-4 w-full"
+        class="flex items-center mb-3 xl:mb-4 w-full"
       >
         <MVAdaptiveTrackInfoCard
           :title="title"
@@ -341,7 +341,7 @@ const handleMuted = (muted: boolean) => {
           :class="[isFullScreen ? 'px-0' : 'px-6']"
         >
           <!-- Left column -->
-          <div data-testid="left-column" class="min-w-28 sm:min-w-48 w-full max-w-[420px]">
+          <div data-testid="left-column" class="min-w-28 xl:min-w-48 w-full max-w-[420px]">
             <MVAdaptiveTrackInfoCard
               v-if="!isFullScreen"
               :title="title"
@@ -417,7 +417,7 @@ const handleMuted = (muted: boolean) => {
     <!-- Set duration and meditation mixer -->
     <div
       data-testid="duration-or-meditation-mixer-container"
-      class="xl:hidden pb-[34px] z-[65] bottom-0 left-0 right-0 absolute px-4 sm:px-10"
+      class="xl:hidden pb-[34px] z-[65] bottom-0 left-0 right-0 absolute px-4 xl:px-10"
       v-if="isFullScreen"
     >
       <div class="inline-flex">

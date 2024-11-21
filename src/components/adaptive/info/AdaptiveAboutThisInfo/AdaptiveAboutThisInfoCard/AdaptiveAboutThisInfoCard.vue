@@ -47,7 +47,7 @@ const handleClose = () => {
     <div data-testid="track-info" class="flex items-center">
       <div data-testid="track-image">
         <BaseImage
-          class="h-[100px] w-[100px] sm:h-[140px] sm:w-[140px]"
+          class="h-[100px] w-[100px] xl:h-[140px] xl:w-[140px]"
           :src="image"
           :img-class="shape === Shape.ROUND ? 'rounded-full' : 'rounded-lg'"
           aspect-ratio="square"
