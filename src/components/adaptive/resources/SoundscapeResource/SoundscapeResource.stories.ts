@@ -136,6 +136,33 @@ export const Default: Story = {
   }
 }
 
+export const DefaultScrollable: Story = {
+  render: (args: any, { argTypes }) => ({
+    title: 'Soundscape',
+    components: { MVSoundscapeResource },
+    methods: { logEvent: action('') },
+    setup() {
+      return { args }
+    },
+    template: `<div class="mv-universal-player">hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br><div class="mt-20 absolute bottom-0 left-0 right-0"><MVSoundscapeResource v-bind="args"
+       @play="logEvent('play', $event)"
+    @pause="logEvent('pause', $event)" @maximize="logEvent('maximize', $event)" @minimize="logEvent('minimize', $event)" @muted="logEvent('muted', $event)" @close="logEvent('close', $event)" @collection-open="logEvent('collection-open', $event)" @setDuration="logEvent('setDuration', $event)"  @ended="logEvent('ended', $event)" @error="logEvent('error', $event)" @playtime="logEvent('playtime', $event)" @seeking="logEvent('seeking', $event)"  /></div></div>`
+  }),
+  args: {
+    key: audio1.assetId,
+    id: audio1.assetId,
+    audioSources: audio1.sources,
+    duration: audio1.duration,
+    posterUrl: audio1.posterUrl,
+    title: audio1.title,
+    artistName: audio1.artistName,
+    description: audio1.description,
+    ratings: audio1.ratings,
+    tags: audio1.tags,
+    autoPlay: false
+  }
+}
+
 export const LoopingEnabled: Story = {
   render: (args: any, { argTypes }) => ({
     title: 'Looping Enabled',

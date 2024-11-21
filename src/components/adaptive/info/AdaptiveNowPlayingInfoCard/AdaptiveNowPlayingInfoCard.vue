@@ -40,7 +40,7 @@ const props = defineProps({
       >
         {{ title }}
       </div>
-      <div data-testid="sub-title" class="heading-9 text-white text-center sm:text-start">
+      <div data-testid="sub-title" class="heading-9 text-white text-center xl:text-start">
         {{ subTitle }}
       </div>
     </div>

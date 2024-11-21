@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue-demi'
+import { ref, watch, computed, onMounted, onUnmounted } from 'vue-demi'
 
 const props = defineProps({
   volume: {
@@ -38,98 +38,209 @@ const emit = defineEmits<{
 
 const localVolume = ref(props.volume)
 
-const handleVolumeChange = (event: any) => {
-  const volume = Number(event.target.value)
-  localVolume.value = volume
-  emit('change', volume)
+const sliderRef = ref<HTMLDivElement | null>(null)
+const isDragging = ref(false)
+
+const calculateValue = (clientX: number) => {
+  if (!sliderRef.value) return
+
+  const rect = sliderRef.value.getBoundingClientRect()
+  const position = clientX - rect.left
+  const percentage = Math.max(0, Math.min(1, position / rect.width))
+  const value = props.min + percentage * (props.max - props.min)
+
+  // Round to nearest step
+  const steps = Math.round((value - props.min) / props.step)
+  return Math.min(props.max, Math.max(props.min, props.min + steps * props.step))
 }
 
-watch(
-  () => props.isDisabled,
-  (newVal) => {
-    // Set background volume to 0 when disabled
-    if (newVal) {
-      emit('change', 0)
-    } else {
-      emit('change', localVolume.value)
-    }
+const handleMouseDown = (event: MouseEvent) => {
+  if (props.isDisabled) return
+  isDragging.value = true
+  const value = calculateValue(event.clientX)
+  if (value !== undefined) {
+    localVolume.value = value
+    emit('change', value)
   }
-)
+}
+
+const handleMouseMove = (event: MouseEvent) => {
+  if (!isDragging.value) return
+  const value = calculateValue(event.clientX)
+  if (value !== undefined) {
+    localVolume.value = value
+    emit('change', value)
+  }
+}
+
+const handleMouseUp = () => {
+  isDragging.value = false
+}
+
+// Add and remove event listeners
+onMounted(() => {
+  window.addEventListener('mousemove', handleMouseMove)
+  window.addEventListener('mouseup', handleMouseUp)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('mousemove', handleMouseMove)
+  window.removeEventListener('mouseup', handleMouseUp)
+})
+
+const thumbPosition = computed(() => {
+  const percentage = (localVolume.value - props.min) / (props.max - props.min)
+  return `${percentage * 100}%`
+})
+
+const progressWidth = computed(() => {
+  const percentage = ((localVolume.value - props.min) / (props.max - props.min)) * 100
+  return `${percentage}%`
+})
 </script>
 
 <template>
   <span class="flex h-full w-full items-center justify-center" :class="{ disabled: isDisabled }">
-    <span class="text-cool-grey-250 caption-disclaimer">{{ leftText }}</span>
-    <input
-      data-testid="volume-slider"
-      :min="min"
-      :max="max"
-      :step="step"
-      type="range"
-      :value="localVolume"
-      class="w-full mx-4"
+    <span class="text-cool-grey-100 caption-disclaimer">{{ leftText }}</span>
+    <div
+      ref="sliderRef"
+      class="custom-slider mx-4 w-full"
       :class="[isDisabled ? 'cursor-not-allowed' : 'cursor-pointer']"
-      @input="handleVolumeChange"
-      :disabled="isDisabled"
-    />
-    <span class="text-cool-grey-250 caption-disclaimer">{{ rightText }}</span>
+      @mousedown="handleMouseDown"
+    >
+      <div class="track">
+        <div class="progress-bar" :style="{ width: progressWidth }" />
+        <div class="thumb" :style="{ left: thumbPosition }">
+          <div class="thumb-content">
+            <svg v-svg symbol="volume-2-filled" class="text-black h-[14px] w-[14px] no-drag"></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="text-cool-grey-100 caption-disclaimer">{{ rightText }}</span>
   </span>
 </template>
 
 <style scoped lang="scss">
 .disabled {
-  filter: brightness(0.5);
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
 }
 
-$track-background-color: #fff;
-$track-border-radius: 5rem;
-$track-height: 3px;
-$thumb-margin: -12px;
-$thumb-appearance: none;
-$thumb-height: 28px;
-$thumb-width: 26px;
-$thumb-border: 0;
-$thumb-background-url: url("data:image/svg+xml,<svg width='26' height='28' viewBox='0 0 26 28' fill='none' xmlns='http://www.w3.org/2000/svg'><rect width='26' height='26' rx='13' fill='white'/> <path d='M17.5366 9.4634C17.3089 9.23556 16.9395 9.2355 16.7117 9.46327C16.4838 9.69104 16.4838 10.0604 16.7115 10.2882C17.6958 11.2728 18.2487 12.6079 18.2487 14C18.2487 15.3921 17.6958 16.7272 16.7115 17.7117C16.4838 17.9396 16.4838 18.3089 16.7117 18.5367C16.9395 18.7645 17.3089 18.7644 17.5366 18.5366C18.7396 17.3333 19.4153 15.7015 19.4153 14C19.4153 12.2985 18.7396 10.6667 17.5366 9.4634Z' fill='%23000000'/> <path d='M15.4775 11.5226C15.2497 11.2947 14.8803 11.2947 14.6525 11.5224C14.4247 11.7502 14.4246 12.1196 14.6524 12.3474C15.0898 12.785 15.3356 13.3783 15.3356 13.9971C15.3356 14.6158 15.0898 15.2092 14.6524 15.6467C14.4246 15.8746 14.4247 16.2439 14.6525 16.4717C14.8803 16.6995 15.2497 16.6994 15.4775 16.4716C16.1336 15.8152 16.5022 14.9251 16.5022 13.9971C16.5022 13.069 16.1336 12.1789 15.4775 11.5226Z' fill='%23000000'/> <path d='M12.9999 9.91669C12.9999 9.69246 12.8714 9.48807 12.6693 9.39093C12.4672 9.2938 12.2273 9.32111 12.0522 9.46119L9.2953 11.6667H7.16659C6.84442 11.6667 6.58325 11.9279 6.58325 12.25V15.75C6.58325 16.0722 6.84442 16.3334 7.16659 16.3334H9.2953L12.0522 18.5389C12.2273 18.6789 12.4672 18.7063 12.6693 18.6091C12.8714 18.512 12.9999 18.3076 12.9999 18.0834V9.91669Z' fill='%23000000'/></svg>");
+.custom-slider {
+  position: relative;
+  height: 28px;
+  display: flex;
+  align-items: center;
 
-/********** Range Input Styles **********/
-input[type='range'] {
-  -webkit-appearance: none; /* Override default look */
-  appearance: none;
-  border-radius: 40rem !important;
-  background: transparent;
+  // Add base transition
+  opacity: 1;
+  transition: opacity 0.3s ease;
 }
 
-/***** Chrome, Safari, Opera and Edge Chromium styles *****/
-input[type='range']::-webkit-slider-runnable-track {
-  background-color: $track-background-color;
-  border-radius: $track-border-radius;
-  height: $track-height;
+.track,
+.progress-bar {
+  // Add base transition
+  opacity: 1;
+  transition: opacity 0.3s ease;
 }
 
-input[type='range']::-webkit-slider-thumb {
-  margin-top: $thumb-margin;
-  -webkit-appearance: $thumb-appearance;
-  appearance: $thumb-appearance;
-  width: $thumb-width;
-  height: $thumb-height;
-  border: $thumb-border;
-  background: $thumb-background-url;
+.track {
+  width: 100%;
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.6); // Bar: white 60A
+  border-radius: 5rem;
+  position: relative;
+  top: 1px;
 }
 
-/******** Firefox styles ********/
-input[type='range']::-moz-range-track {
-  background-color: $track-background-color;
-  border-radius: $track-border-radius;
-  height: $track-height;
+.custom-slider:not(.cursor-not-allowed) .track:hover {
+  background-color: #fff; // Bar: white on hover
 }
 
-input[type='range']::-moz-range-thumb {
-  margin-top: $thumb-margin;
-  -webkit-appearance: $thumb-appearance;
-  appearance: $thumb-appearance;
-  width: $thumb-width;
-  height: $thumb-height;
-  border: $thumb-border;
-  background: $thumb-background-url;
+.progress-bar {
+  position: absolute;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.6); // Bar: white 60A
+  border-radius: 5rem;
+  left: 0;
+}
+
+.thumb {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  transform: translateX(-50%) translateY(-50%);
+  top: 50%;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 50%;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+
+  .thumb-content {
+    width: 100%;
+    height: 100%;
+    background: white;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-width 0.2s ease;
+
+    svg {
+      user-select: none;
+      pointer-events: none;
+    }
+  }
+
+  // Thick border for hover state
+  &::after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    width: calc(100% + 16px);
+    height: calc(100% + 16px);
+    border-radius: 50%;
+    border: 8px solid rgba(255, 255, 255, 0.24);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+  }
+
+  &:hover:not(.disabled) {
+    border: none;
+  }
+
+  &:hover:not(.disabled)::after {
+    opacity: 1;
+  }
+}
+
+// Update disabled styles
+.disabled {
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+
+  .track,
+  .progress-bar {
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+  }
+
+  .thumb {
+    cursor: not-allowed;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      border: 1px solid rgba(255, 255, 255, 0.24);
+    }
+
+    &:hover::after {
+      opacity: 0;
+    }
+  }
 }
 </style>

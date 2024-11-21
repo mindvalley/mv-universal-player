@@ -20,7 +20,7 @@
   align-items: center;
   white-space: nowrap;
   flex-shrink: 0;
-  animation: marquee 30s linear infinite;
+  animation: marquee 60s linear infinite;
 }
 
 @keyframes marquee {
