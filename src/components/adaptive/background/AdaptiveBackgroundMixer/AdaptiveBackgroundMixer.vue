@@ -72,12 +72,12 @@ const updateVolume = (volume: number) => {
 <template>
   <div
     data-testid="adaptive-background-mixer"
-    class="h-[235px] w-[calc(100vw-32px)] md:h-[265px] md:max-w-[748px] rounded-3xl relative py-4 md:px-6"
+    class="h-[235px] w-[calc(100vw-16px)] md:w-[calc(100vw-36px)] md:h-[265px] xl:max-w-[748px] rounded-3xl relative py-4 md:px-6"
     :style="{ backgroundColor: 'rgba(0, 0, 0, 0.9)' }"
   >
     <button
       data-testid="close-button"
-      class="hidden md:flex absolute top-4 right-6 rounded-full hover:bg-white-24a p-1"
+      class="absolute top-4 right-6 rounded-full hover:bg-white-24a p-1"
       @click="handleClose"
     >
       <svg v-svg symbol="x-filled" class="h-4 w-4 text-white-70a"></svg>
