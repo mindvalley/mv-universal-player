@@ -72,12 +72,12 @@ const updateVolume = (volume: number) => {
 <template>
   <div
     data-testid="adaptive-background-mixer"
-    class="h-[235px] w-[calc(100vw-32px)] sm:h-[265px] sm:max-w-[748px] rounded-3xl relative py-4 sm:px-6"
+    class="h-[235px] w-[calc(100vw-32px)] md:h-[265px] md:max-w-[748px] rounded-3xl relative py-4 md:px-6"
     :style="{ backgroundColor: 'rgba(0, 0, 0, 0.9)' }"
   >
     <button
       data-testid="close-button"
-      class="hidden sm:flex absolute top-4 right-6 rounded-full hover:bg-white-24a p-1"
+      class="hidden md:flex absolute top-4 right-6 rounded-full hover:bg-white-24a p-1"
       @click="handleClose"
     >
       <svg v-svg symbol="x-filled" class="h-4 w-4 text-white-70a"></svg>
@@ -92,8 +92,9 @@ const updateVolume = (volume: number) => {
         data-testid="carousel"
         @after-slide-change="handleTrackChange"
         ref="carouselRef"
-        :disable3d="true"
-        :space="100"
+        :disable3d="false"
+        :perspective="0"
+        :space="120"
         :display="7"
         :loop="true"
         :width="136"
@@ -116,7 +117,7 @@ const updateVolume = (volume: number) => {
       </button>
     </div>
     <!-- Add volume slider -->
-    <div class="mt-6 flex items-center px-6 sm:px-0">
+    <div class="mt-6 flex items-center px-6 md:px-0">
       <MVAdaptiveBackgroundVolumeSlider
         :is-disabled="isVolumeSliderDisabled"
         :volume="volume"
@@ -128,57 +129,58 @@ const updateVolume = (volume: number) => {
 
 <style scoped>
 .carousel-3d-container {
-  @apply h-[120px] sm:h-[140px] !important;
+  @apply h-[120px] md:h-[140px] !important;
 }
 
 .carousel-3d-slide {
   background-color: transparent !important;
-  transition: all 0.5s ease;
+  transition: linear 0.5s ease;
+  /* @apply border border-white; */
 }
 
 .carousel-3d-slide.current {
   border: 4px solid #e85546 !important;
   border-radius: 50% !important;
-  @apply h-[116px] w-[116px] sm:h-[136px] sm:w-[136px] ml-4 sm:ml-0 !important;
+  @apply h-[116px] w-[116px] md:h-[136px] md:w-[136px] ml-4 md:ml-1 !important;
 }
 
 .carousel-3d-slide:not(.current) {
-  @apply h-[54px] w-[54px] sm:h-[64px] sm:w-[64px] top-[75px] sm:top-[85px] !important;
+  @apply h-[54px] w-[54px] md:h-[64px] md:w-[64px] top-[75px] md:top-[85px] !important;
 }
 
 /* Left slides */
 .carousel-3d-slide.left-1 {
-  @apply opacity-90 h-[90px] w-[90px] sm:h-[100px] sm:w-[100px] top-[27px] sm:top-[40px] left-[16px] sm:-left-[10px] !important;
+  @apply opacity-90 h-[130px] w-[130px] md:h-[140px] md:w-[140px] top-[10px] md:top-[20px] -left-[28px] md:-left-[60px] !important;
 }
 
 .carousel-3d-slide.left-2 {
-  @apply opacity-70 h-[70px] w-[70px] sm:h-[80px] sm:w-[80px] top-[47px] sm:top-[60px] left-[36px] sm:left-0 !important;
+  @apply opacity-70 h-[120px] w-[120px] md:h-[120px] md:w-[120px] top-[24px] md:top-[46px] -left-[60px] md:-left-[95px] !important;
 }
 
 .carousel-3d-slide.left-3 {
-  @apply opacity-50 h-[54px] w-[54px] sm:h-[64px] sm:w-[64px] top-[70px] sm:top-[75px] left-[27px] !important;
+  @apply opacity-50 h-[110px] w-[110px] md:h-[104px] md:w-[104px] top-[40px] md:top-[70px] -left-[95px] md:-left-[125px] !important;
 }
 
 /* Right slides */
 .carousel-3d-slide.right-1 {
-  @apply opacity-90 h-[90px] w-[90px] sm:h-[100px] sm:w-[100px] top-[27px] sm:top-[40px] left-[40px] sm:left-[50px] !important;
+  @apply opacity-90 h-[130px] w-[130px] md:h-[140px] md:w-[140px] top-[10px] md:top-[20px] left-[50px] md:left-[60px] !important;
 }
 
 .carousel-3d-slide.right-2 {
-  @apply opacity-70 h-[70px] w-[70px] sm:h-[80px] sm:w-[80px] top-[47px] sm:top-[60px] left-[36px] sm:left-[60px] !important;
+  @apply opacity-70 h-[120px] w-[120px] md:h-[120px] md:w-[120px] top-[24px] md:top-[46px] left-[90px] md:left-[115px] !important;
 }
 
 .carousel-3d-slide.right-3 {
-  @apply opacity-50 h-[54px] w-[54px] sm:h-[64px] sm:w-[64px] top-[70px] sm:top-[75px] left-[50px] !important;
+  @apply opacity-50 h-[110px] w-[110px] md:h-[104px] md:w-[104px] top-[40px] md:top-[70px] left-[130px] md:left-[160px] !important;
 }
 
 .carousel-3d-slide.far {
-  @apply opacity-30 h-[40px] w-[40px] sm:h-[50px] sm:w-[50px] top-[80px] sm:top-[90px] !important;
+  @apply opacity-30 h-[40px] w-[40px] md:h-[50px] md:w-[50px] top-[80px] md:top-[90px] !important;
 }
 
 /* Remove the following CSS classes as they're now in the Tailwind classes */
 .carousel-nav-button {
-  @apply sm:flex hidden absolute top-[90%] -translate-y-1/2 backdrop-blur-md rounded-full bg-white/[0.12] items-center justify-center w-12 h-12 border-none cursor-pointer transition-all duration-300 ease-in-out z-10;
+  @apply md:flex hidden absolute top-[90%] -translate-y-1/2 backdrop-blur-md rounded-full bg-white/[0.12] items-center justify-center w-12 h-12 border-none cursor-pointer transition-all duration-300 ease-in-out z-10;
 }
 
 .carousel-nav-button:hover {
