@@ -3,6 +3,7 @@ import type { Source, Marker, Player } from './../../../types/video'
 import MVVideoItem from '../VideoItem'
 import MVVideoControls from './../VideoControls'
 import { ref, defineExpose } from 'vue-demi'
+import type { OverlayControlsPosition } from '../../../types/video'
 
 const props = defineProps({
   id: {
@@ -52,6 +53,10 @@ const props = defineProps({
   overlayControls: {
     type: Boolean,
     default: false
+  },
+  overlayControlsPosition: {
+    type: String as () => OverlayControlsPosition,
+    default: 'BOTTOM'
   },
   pictureInPicture: {
     type: Boolean,
@@ -148,6 +153,7 @@ defineExpose({
       :autoplay="autoplay"
       :progressControl="progressControl"
       :overlay-controls="overlayControls"
+      :overlay-controls-position="overlayControlsPosition"
       :picture-in-picture="pictureInPicture"
       :muted="muted"
       :loop="loop"

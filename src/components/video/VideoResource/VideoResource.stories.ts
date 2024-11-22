@@ -97,6 +97,30 @@ export const OverlayControls: Story = {
   }
 }
 
+export const OverlayControlsTop: Story = {
+  render: (args: any, { argTypes }) => ({
+    components: { MVVideoResource },
+    methods: { logEvent: action('') },
+    setup() {
+      return { args }
+    },
+    template: `<div class="mv-universal-player"><div class="overflow-hidden rounded-[20px] bg-black"><MVVideoResource v-bind="args" @play="logEvent('play', $event)" @pause="logEvent('pause', $event)" @seeking="logEvent('seeking', $event)" @ended="logEvent('ended', $event)" @rewind="logEvent('rewind', $event)" @fastforward="logEvent('fastforward', $event)" @playbackSpeed="logEvent('playbackSpeed', $event)" @favourite="logEvent('favourite', $event)" @timeupdate="logEvent('timeupdate', $event)" @error="logEvent('error', $event)"></MVVideoResource></div></div>`
+  }),
+  args: {
+    assetId: video.id,
+    markers: video.markers,
+    sources: video.sources,
+    duration: video.duration,
+    posterUrl: video.posterUrl,
+    title: video.title,
+    artistName: video.artistName,
+    ratings: video.ratings,
+    totalRatings: video.totalRatings,
+    overlayControls: true,
+    overlayControlsPosition: 'TOP'
+  }
+}
+
 export const WithDescription: Story = {
   render: (args: any, { argTypes }) => ({
     components: { MVVideoResource, MVVideoDescription },

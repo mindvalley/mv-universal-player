@@ -4,6 +4,7 @@ import 'video.js/dist/video-js.css'
 import { onMounted, onUnmounted, ref, provide, readonly, defineExpose, watch } from 'vue-demi'
 import type { Player, Source, Marker } from '../../../types/video'
 import MVVideoMarkerItem from './../VideoMarkerItem'
+import type { OverlayControlsPosition } from '../../../types/video'
 
 const StateConfig = {
   src: {
@@ -145,6 +146,10 @@ const props = defineProps({
   overlayControls: {
     type: Boolean,
     default: false
+  },
+  overlayControlsPosition: {
+    type: String as () => OverlayControlsPosition,
+    default: 'BOTTOM'
   },
   pictureInPicture: {
     type: Boolean,
@@ -487,8 +492,13 @@ provide('videoState', readonly(state))
 
     <!-- TODO: hide it based on useSlot -->
     <div
+      data-testid="video-controls"
       v-if="overlayControls && playedOnce"
-      class="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 md:bottom-6 md:right-6"
+      :class="{
+        'video-controls absolute right-2 sm:right-4 md:right-6': true,
+        'bottom-2 sm:bottom-4 md:bottom-6': overlayControlsPosition === 'BOTTOM',
+        'top-2 sm:top-4 md:top-6': overlayControlsPosition === 'TOP'
+      }"
     >
       <slot
         name="video-controls"

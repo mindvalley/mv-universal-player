@@ -21,4 +21,6 @@ interface Marker {
   time: number
 }
 
-export type { Player, Source, Marker }
+type OverlayControlsPosition = 'TOP' | 'BOTTOM'
+
+export type { Player, Source, Marker, OverlayControlsPosition }
