@@ -150,14 +150,13 @@ onUnmounted(() => {
 const initialize = (id: string) => {
   audioInstance = createInstance(id, {
     poster: props.posterUrl,
-    fluid: true,
+    fluid: false,
     muted: props.muted,
     controls: false,
     autoplay: props.autoPlay,
     playbackRates: props.playbackRates,
     loop: props.loop,
-    audioOnlyMode: props.audioOnlyMode,
-    aspectRatio: '16:9'
+    audioOnlyMode: props.audioOnlyMode
   })
 
   createState()
@@ -294,7 +293,7 @@ provide('audioState', readonly(state))
 
 <template>
   <div class="mv-universal-player-container h-full w-full">
-    <div class="h-full w-full" :class="[hideVideo ? 'hidden' : 'flex items-center justify-center']">
+    <div class="h-full w-full" :class="[hideVideo ? 'hidden' : 'block']">
       <video
         :data-testid="props.id"
         :id="props.id"
