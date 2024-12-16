@@ -150,13 +150,14 @@ onUnmounted(() => {
 const initialize = (id: string) => {
   audioInstance = createInstance(id, {
     poster: props.posterUrl,
-    fluid: false,
+    fluid: true,
     muted: props.muted,
     controls: false,
     autoplay: props.autoPlay,
     playbackRates: props.playbackRates,
     loop: props.loop,
-    audioOnlyMode: props.audioOnlyMode
+    audioOnlyMode: props.audioOnlyMode,
+    aspectRatio: '16:9'
   })
 
   createState()
@@ -293,7 +294,7 @@ provide('audioState', readonly(state))
 
 <template>
   <div class="mv-universal-player-container h-full w-full">
-    <div class="h-full w-full" :class="[hideVideo ? 'hidden' : 'block']">
+    <div class="h-full w-full" :class="[hideVideo ? 'hidden' : 'flex items-center justify-center']">
       <video
         :data-testid="props.id"
         :id="props.id"
@@ -324,12 +325,31 @@ provide('audioState', readonly(state))
   </div>
 </template>
 
-<style scoped>
-/* video[poster] {
-  object-fit: cover;
+<style scoped lang="scss">
+:deep(.vjs-poster) {
+  height: 100% !important;
+  width: 100% !important;
+
+  img {
+    object-fit: cover !important;
+  }
 }
-.vjs-poster {
-  background-size: cover;
-  background-position: inherit;
-} */
+
+:deep(.video-js) {
+  object-fit: cover !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+:deep(.video-js video) {
+  object-fit: cover !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+:deep(.vjs-tech) {
+  object-fit: cover !important;
+  width: 100% !important;
+  height: 100% !important;
+}
 </style>
