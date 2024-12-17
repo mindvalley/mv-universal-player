@@ -394,7 +394,7 @@ const handleMuted = (muted: boolean) => {
                 @click="handleMeditationMixerClick"
               />
             </div>
-            <div class="flex items-center">
+            <div class="flex items-center" v-if="showCollection">
               <MVAdaptiveCollectionButton @click="handleCollectionClick" />
             </div>
             <div>

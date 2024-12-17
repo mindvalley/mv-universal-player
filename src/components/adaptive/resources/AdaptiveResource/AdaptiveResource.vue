@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, nextTick, onMounted } from 'vue-demi'
+import { useFullscreen } from '@vueuse/core'
 import { extractColorsFromImageData } from 'extract-colors'
 import type { Source } from './../../../../types/audio'
 import { AdaptiveShape } from './../../../../types/adaptive'
@@ -49,7 +50,7 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  showCollections: {
+  showCollection: {
     type: Boolean,
     default: false
   },
@@ -113,6 +114,10 @@ const props = defineProps({
   mixerTrackTitle: {
     type: String,
     default: ''
+  },
+  fullscreenElement: {
+    type: Object,
+    default: null
   }
 })
 
@@ -146,8 +151,8 @@ const emit = defineEmits<{
   (e: any, payload: any): void
 }>()
 
-// const fullscreenElement = ref<HTMLElement | null>(null)
-const isFullScreen = ref(false)
+const { isFullscreen, toggle } = useFullscreen(props.fullscreenElement)
+
 const isMiniBarVisible = ref(true)
 let hideTimeout: number | null = null
 const adaptiveItem = ref(null)
@@ -177,7 +182,7 @@ const handleTouchStart = () => {
 }
 
 // Watch fullscreen changes
-watch(isFullScreen, (newValue, oldValue) => {
+watch(isFullscreen, (newValue, oldValue) => {
   if (newValue !== oldValue) {
     isFullscreenTransitioning.value = true
     // Reset after transition completes (adjust timeout to match your fullscreen transition duration)
@@ -191,7 +196,7 @@ onMounted(() => {
   extractColorPalette(props.posterUrl)
 })
 
-watch(isFullScreen, (newVal) => {
+watch(isFullscreen, (newVal) => {
   if (newVal) {
     if (!immersiveSetOnce.value) {
       isImmersive.value = true
@@ -204,14 +209,14 @@ watch(isFullScreen, (newVal) => {
 })
 
 const playLoopingVideo = async () => {
-  if (isFullScreen.value && isImmersive.value) {
+  if (isFullscreen.value && isImmersive.value) {
     await nextTick()
     loopingVideoAdaptiveItemRef.value?.player?.play()
   }
 }
 
 const pauseLoopingVideo = async () => {
-  if (isFullScreen.value && isImmersive.value) {
+  if (isFullscreen.value && isImmersive.value) {
     await nextTick()
     loopingVideoAdaptiveItemRef.value?.player?.pause()
   }
@@ -219,7 +224,7 @@ const pauseLoopingVideo = async () => {
 
 // Modify the handleMouseEnter function
 const handleMouseEnter = (isMiniPlayer = false) => {
-  if (isFullScreen.value) {
+  if (isFullscreen.value) {
     isMouseOverMiniPlayer.value = isMiniPlayer
     showMiniBar()
   }
@@ -227,7 +232,7 @@ const handleMouseEnter = (isMiniPlayer = false) => {
 
 // Modify the handleMouseLeave function
 const handleMouseLeave = (isMiniPlayer = false) => {
-  if (isFullScreen.value) {
+  if (isFullscreen.value) {
     if (isMiniPlayer) {
       isMouseOverMiniPlayer.value = false
     }
@@ -254,16 +259,17 @@ const startHideTimer = () => {
 }
 
 const handleMouseMove = () => {
-  if (isFullScreen.value) {
+  if (isFullscreen.value) {
     showMiniBar()
   }
 }
 
 // Modify the toggleFullScreen function
 const toggleFullScreen = () => {
-  isFullScreen.value = !isFullScreen.value
+  toggle()
   showMiniBar()
-  emitEvent('fullscreen', { isFullScreen: isFullScreen.value })
+  // TODO: change it to isFullscreen
+  emitEvent('fullscreen', { isFullScreen: isFullscreen.value })
 }
 
 const emitEvent = (eventName: string, payload?: any) => {
@@ -388,7 +394,7 @@ const setVolume = (event: any) => {
 }
 
 const handleFullscreenLayerClick = () => {
-  if (!isFullScreen.value) {
+  if (!isFullscreen.value) {
     return
   }
 
@@ -483,7 +489,7 @@ defineExpose({
   <div
     data-testid="adaptive-resource"
     class="h-full w-full flex flex-col"
-    :class="{ 'overflow-hidden': isFullScreen }"
+    :class="{ 'overflow-hidden': isFullscreen }"
   >
     <MVAdaptivePlayer :loop="loopingEnabled" :audio-only-mode="true" :auto-play="autoPlay">
       <MVAdaptiveItem
@@ -505,8 +511,8 @@ defineExpose({
 
     <Transition :name="isMobileOrTablet ? 'slide' : 'fade'">
       <div
+        v-show="isFullscreen"
         data-testid="adaptive-full-screen"
-        v-show="isFullScreen"
         class="fixed inset-0 z-50 bg-black"
         @mouseenter="handleMouseEnter(false)"
         @mouseleave="handleMouseLeave(false)"
@@ -524,7 +530,7 @@ defineExpose({
               <MVAdaptiveFullScreenButton
                 is-mobile-layout
                 @toggleFullScreen="toggleFullScreen"
-                :is-full-screen="isFullScreen"
+                :is-full-screen="isFullscreen"
               />
             </div>
             <div
@@ -542,7 +548,7 @@ defineExpose({
         </div>
 
         <TransitionGroup
-          :name="isFullScreen && !isFullscreenTransitioning ? 'scenario-fade' : undefined"
+          :name="isFullscreen && !isFullscreenTransitioning ? 'scenario-fade' : undefined"
         >
           <!-- Scenario 1: Show looping video when there is one -->
           <div
@@ -573,7 +579,7 @@ defineExpose({
               :is-immersive-mode-active="isImmersive"
               :playing="adaptiveItem?.state?.playing"
               :color-palette="colorPalette"
-              :visible="isFullScreen"
+              :visible="isFullscreen"
             />
           </div>
 
@@ -632,7 +638,7 @@ defineExpose({
         :progress-bar-current-time="
           overrideProgressBarCurrentTime ? progressBarCurrentTime : localCurrentTime
         "
-        :is-full-screen="isFullScreen"
+        :is-full-screen="isFullscreen"
         :is-mini-bar-visible="isMiniBarVisible"
         :is-immersive="isImmersive"
         :is-mixer-enabled="isMixerEnabled"
@@ -642,7 +648,7 @@ defineExpose({
         :show-set-duration="showSetDuration"
         :show-playback-speed="showPlaybackSpeed"
         :show-meditation-mixer="showMeditationMixer"
-        :show-collections="showCollections"
+        :show-collection="showCollection"
         :show-immersive="showImmersive"
         :mixer-track-title="mixerTrackTitle"
         @track-info-title-click="handleTrackInfoTitleClick"

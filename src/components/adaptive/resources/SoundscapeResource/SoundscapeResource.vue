@@ -34,7 +34,7 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  showCollections: {
+  showCollection: {
     type: Boolean,
     default: false
   },
@@ -87,6 +87,7 @@ const emit = defineEmits<{
   (e: any, payload: any): void
 }>()
 
+const fullscreenElement = ref<HTMLElement | null>(null)
 const adaptiveResource = ref(null)
 const localLoopingEnabled = ref(true)
 const localDuration = ref(240) // 4 minutes
@@ -270,7 +271,7 @@ const emitEvent = (eventName: string, payload?: any) => {
 </script>
 
 <template>
-  <div data-testid="soundscape-resource">
+  <div data-testid="soundscape-resource" ref="fullscreenElement">
     <MVAdaptiveOverlay :show="showDurationSelector" @close="handleCloseDurationSelector">
       <MVAdaptiveDurationSelector
         :duration="localDuration"
@@ -302,6 +303,7 @@ const emitEvent = (eventName: string, payload?: any) => {
     <MVAdaptiveResource
       ref="adaptiveResource"
       :id="id"
+      :fullscreen-element="fullscreenElement"
       :auto-play="autoPlay"
       :audio-sources="audioSources"
       :video-sources="videoSources"
@@ -312,6 +314,7 @@ const emitEvent = (eventName: string, payload?: any) => {
       :looping-enabled="localLoopingEnabled"
       show-set-duration
       show-immersive
+      :show-collection="showCollection"
       :track-info-cover-shape="Shape.ROUND"
       :show-previous-next="showPreviousNext"
       :progress-bar-current-time="localCurrentTime"

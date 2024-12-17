@@ -39,6 +39,10 @@ const props = defineProps({
     required: true,
     type: Number
   },
+  showCollection: {
+    type: Boolean,
+    default: false
+  },
   showPreviousNext: {
     type: Boolean,
     default: false
@@ -103,6 +107,7 @@ const emit = defineEmits<{
   (e: any, payload: any): void
 }>()
 
+const fullscreenElement = ref<HTMLElement | null>(null)
 const showMeditationMixer = ref(false)
 const adaptiveResource = ref(null)
 const meditationMixerItem = ref(null)
@@ -363,7 +368,7 @@ const emitBackgroundMixerEvent = (eventName: string, payload?: any) => {
 </script>
 
 <template>
-  <div data-testid="meditation-resource">
+  <div data-testid="meditation-resource" ref="fullscreenElement">
     <MVAdaptivePlayer loop :audio-only-mode="true">
       <MVAdaptiveItem
         ref="meditationMixerItem"
@@ -415,13 +420,15 @@ const emitBackgroundMixerEvent = (eventName: string, payload?: any) => {
     <MVAdaptiveResource
       ref="adaptiveResource"
       :id="id"
-      :audioSources="audioSources"
+      :fullscreen-element="fullscreenElement"
+      :audio-sources="audioSources"
       :duration="duration"
       :poster-url="posterUrl"
       :title="title"
       :artist-name="artistName"
       show-rewind-and-fast-forward
       show-immersive
+      :show-collection="showCollection"
       :show-meditation-mixer="backgroundSounds && backgroundSounds.length > 0"
       :track-info-cover-shape="Shape.SQUARE"
       :show-previous-next="showPreviousNext"
