@@ -448,7 +448,7 @@ const unmute = () => {
   }
 }
 
-const goFullScreen = () => {
+const goFullscreen = () => {
   if (videoInstance) {
     videoInstance.requestFullscreen()
   }
@@ -463,7 +463,7 @@ const player: Player = {
   setPlaybackRate,
   mute,
   unmute,
-  goFullScreen
+  goFullscreen
 }
 
 defineExpose({
@@ -508,7 +508,7 @@ provide('videoState', readonly(state))
         :pause="pause"
         :mute="mute"
         :unmute="unmute"
-        :goFullScreen="goFullScreen"
+        :goFullscreen="goFullscreen"
       ></slot>
     </div>
 

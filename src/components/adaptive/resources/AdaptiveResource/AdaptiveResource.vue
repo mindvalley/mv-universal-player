@@ -8,7 +8,7 @@ import { Shape } from './../../../../models/adaptive.enums'
 import { useDetectBrowser } from '../../../../composables/use-detect-browser'
 import { MVAdaptiveItem, MVAdaptivePlayer, MVAdaptivePlayerBar } from '../../player'
 import { MVAdaptiveImmersiveLayer } from '../../layers'
-import { MVAdaptivePlayButton, MVAdaptiveFullScreenButton } from '../../controls'
+import { MVAdaptivePlayButton, MVAdaptiveFullscreenButton } from '../../controls'
 import { MVAdaptiveNowPlayingInfoCard } from '../../info'
 import BaseImage from './../../../../components/global/BaseImage.vue'
 import { Size } from '../../../../models/adaptive.enums'
@@ -141,7 +141,7 @@ const emit = defineEmits<{
   (e: 'maximize'): void
   (e: 'playtime', { time }: any): void
   (e: 'collection'): void
-  (e: 'fullscreen', { isFullScreen }: any): void
+  (e: 'fullscreen', { isFullscreen }: any): void
   (e: 'toggleImmersive', { isImmersive }: any): void
   (e: 'playbackSpeed', { playbackSpeed }: any): void
   (e: 'trackInfoTitleClick'): void
@@ -264,12 +264,10 @@ const handleMouseMove = () => {
   }
 }
 
-// Modify the toggleFullScreen function
-const toggleFullScreen = () => {
+const toggleFullscreen = () => {
   toggle()
   showMiniBar()
-  // TODO: change it to isFullscreen
-  emitEvent('fullscreen', { isFullScreen: isFullscreen.value })
+  emitEvent('fullscreen', { isFullscreen: isFullscreen.value })
 }
 
 const emitEvent = (eventName: string, payload?: any) => {
@@ -527,10 +525,10 @@ defineExpose({
         >
           <div class="flex items-center justify-between xl:justify-start">
             <div class="xl:hidden">
-              <MVAdaptiveFullScreenButton
+              <MVAdaptiveFullscreenButton
                 is-mobile-layout
-                @toggleFullScreen="toggleFullScreen"
-                :is-full-screen="isFullscreen"
+                @toggleFullscreen="toggleFullscreen"
+                :is-fullscreen="isFullscreen"
               />
             </div>
             <div
@@ -638,7 +636,7 @@ defineExpose({
         :progress-bar-current-time="
           overrideProgressBarCurrentTime ? progressBarCurrentTime : localCurrentTime
         "
-        :is-full-screen="isFullscreen"
+        :is-fullscreen="isFullscreen"
         :is-mini-bar-visible="isMiniBarVisible"
         :is-immersive="isImmersive"
         :is-mixer-enabled="isMixerEnabled"
@@ -665,7 +663,7 @@ defineExpose({
         @collection="handleCollectionClick"
         @meditationMixer="handleMeditationMixerClick"
         @setDuration="handleSetDurationClick"
-        @toggleFullScreen="toggleFullScreen"
+        @toggleFullscreen="toggleFullscreen"
         @toggleImmersive="handleImmersiveClick"
         @muted="handleMuted"
       />

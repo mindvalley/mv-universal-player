@@ -120,8 +120,8 @@ const unmute = () => {
   videoItem.value?.player?.unmute()
 }
 
-const goFullScreen = () => {
-  videoItem.value?.player?.goFullScreen()
+const goFullscreen = () => {
+  videoItem.value?.player?.goFullscreen()
 }
 
 const player: Player = {
@@ -133,7 +133,7 @@ const player: Player = {
   setPlaybackRate,
   mute,
   unmute,
-  goFullScreen
+  goFullscreen
 }
 
 defineExpose({
@@ -169,7 +169,7 @@ defineExpose({
       @fullscreen="emitEvent('fullscreen', $event)"
       @error="emitEvent('error', $event)"
     >
-      <template #video-controls="{ state, play, pause, mute, unmute, goFullScreen }">
+      <template #video-controls="{ state, play, pause, mute, unmute, goFullscreen }">
         <MVVideoControls
           :playing="state.playing"
           :mute="state.muted"
@@ -182,7 +182,7 @@ defineExpose({
           @pause="pause"
           @mute="mute"
           @unmute="unmute"
-          @fullscreen="goFullScreen"
+          @fullscreen="goFullscreen"
         />
       </template>
     </MVVideoItem>

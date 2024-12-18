@@ -1,4 +1,4 @@
-import MVAdaptiveFullScreenButton from './AdaptiveFullScreenButton.vue'
+import MVAdaptiveFullscreenButton from './AdaptiveFullscreenButton.vue'
 
-export { MVAdaptiveFullScreenButton }
-export default MVAdaptiveFullScreenButton
+export { MVAdaptiveFullscreenButton }
+export default MVAdaptiveFullscreenButton

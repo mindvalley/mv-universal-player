@@ -7,7 +7,7 @@ interface Player {
   setPlaybackRate: (rate: number) => void
   mute: () => void
   unmute: () => void
-  goFullScreen: () => void
+  goFullscreen: () => void
 }
 
 interface Source {

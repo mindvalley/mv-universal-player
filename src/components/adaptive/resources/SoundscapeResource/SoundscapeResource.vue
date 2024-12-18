@@ -92,7 +92,6 @@ const adaptiveResource = ref(null)
 const localLoopingEnabled = ref(true)
 const localDuration = ref(240) // 4 minutes
 const showDurationSelector = ref(false)
-const isFullScreenEnabled = ref(false)
 const showAboutThisInfo = ref(false)
 
 const elapsedTime = ref(0)
@@ -243,10 +242,8 @@ const handlePlaytime = ({ time }: any) => {
   emitEvent('playtime', { time })
 }
 
-const handleFullscreen = ({ isFullScreen }: any) => {
-  isFullScreenEnabled.value = isFullScreen
-
-  if (isFullScreen) {
+const handleFullscreen = ({ isFullscreen }: any) => {
+  if (isFullscreen) {
     adaptiveResource.value?.player?.player?.setAudioOnlyMode(false)
     emitEvent('maximize')
   } else {

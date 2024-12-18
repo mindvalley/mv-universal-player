@@ -13,7 +13,7 @@ import {
   MVAdaptiveRewindButton,
   MVAdaptiveMeditationMixerButton,
   MVAdaptiveVolumeSlider,
-  MVAdaptiveFullScreenButton
+  MVAdaptiveFullscreenButton
 } from '../../controls'
 import { MVAdaptiveTrackInfoCard } from '../../info'
 import type { AdaptiveSize } from '../../../../types/adaptive'
@@ -39,7 +39,7 @@ const props = defineProps({
     type: String as () => AdaptiveSize,
     default: 'round'
   },
-  isFullScreen: {
+  isFullscreen: {
     type: Boolean,
     default: false
   },
@@ -110,7 +110,7 @@ const emit = defineEmits<{
   (e: 'collection'): void
   (e: 'close'): void
   (e: 'seek', time: number): void
-  (e: 'toggleFullScreen'): void
+  (e: 'toggleFullscreen'): void
   (e: 'toggleImmersive'): void
   (e: 'trackInfoTitleClick'): void
   (e: 'trackInfoImageClick'): void
@@ -165,8 +165,8 @@ const handleCollectionClick = () => {
   emit('collection')
 }
 
-const toggleFullScreen = () => {
-  emit('toggleFullScreen')
+const toggleFullscreen = () => {
+  emit('toggleFullscreen')
 }
 
 const handleImmersiveClick = () => {
@@ -192,20 +192,20 @@ const handleMuted = (muted: boolean) => {
       data-testid="container"
       :class="[
         'transition-transform duration-[600ms] ease-in-out',
-        isFullScreen ? 'z-[60] px-4 xl:px-10  xl:pb-2' : 'bg-black',
-        isFullScreen ? (showSetDuration || showMeditationMixer ? 'pb-[70px]' : 'pb-3') : 'pb-0',
+        isFullscreen ? 'z-[60] px-4 xl:px-10  xl:pb-2' : 'bg-black',
+        isFullscreen ? (showSetDuration || showMeditationMixer ? 'pb-[70px]' : 'pb-3') : 'pb-0',
         {
-          'translate-y-[80px] xl:translate-y-full': isFullScreen && !isMiniBarVisible
+          'translate-y-[80px] xl:translate-y-full': isFullscreen && !isMiniBarVisible
         },
         {
-          'bg-gradient-to-t from-black to-transparent': isFullScreen
+          'bg-gradient-to-t from-black to-transparent': isFullscreen
         }
       ]"
     >
       <!-- Track Info Card -->
       <div
         data-testid="track-info-card"
-        v-if="isFullScreen"
+        v-if="isFullscreen"
         class="flex items-center mb-3 xl:mb-4 w-full"
       >
         <MVAdaptiveTrackInfoCard
@@ -247,19 +247,19 @@ const handleMuted = (muted: boolean) => {
           :looping-enabled="loopingEnabled"
           @seek="hanldeSeek"
           :is-playing="isPlaying"
-          :size="isFullScreen ? Size.BIG : Size.SMALL"
+          :size="isFullscreen ? Size.BIG : Size.SMALL"
         />
       </div>
 
       <!-- Mobile/Tablet -->
       <div
         class="xl:hidden w-full items-center flex justify-between"
-        :class="[isFullScreen ? 'px-0 py-3' : 'px-4 pt-3 pb-4 md:px-6 md:py-3']"
+        :class="[isFullscreen ? 'px-0 py-3' : 'px-4 pt-3 pb-4 md:px-6 md:py-3']"
       >
-        <div class="flex items-center" :class="{ 'max-w-[60%] md:max-w-[60%]': !isFullScreen }">
+        <div class="flex items-center" :class="{ 'max-w-[60%] md:max-w-[60%]': !isFullscreen }">
           <div class="w-full">
             <MVAdaptiveTrackInfoCard
-              v-if="!isFullScreen"
+              v-if="!isFullscreen"
               :title="title"
               :sub-title="artistName"
               :image="posterUrl"
@@ -269,11 +269,11 @@ const handleMuted = (muted: boolean) => {
             />
           </div>
           <div class="ml-2">
-            <MVAdaptiveFullScreenButton
-              v-if="!isFullScreen"
+            <MVAdaptiveFullscreenButton
+              v-if="!isFullscreen"
               is-mobile-layout
-              :is-full-screen="isFullScreen"
-              @toggleFullScreen="toggleFullScreen"
+              :is-fullscreen="isFullscreen"
+              @toggleFullscreen="toggleFullscreen"
             />
           </div>
         </div>
@@ -281,7 +281,7 @@ const handleMuted = (muted: boolean) => {
         <!-- When full screen -->
         <div
           data-testid="controls"
-          v-if="isFullScreen"
+          v-if="isFullscreen"
           class="w-full transition-opacity duration-[600ms] ease-in-out"
           :class="{ 'opacity-0': !isMiniBarVisible, 'opacity-100': isMiniBarVisible }"
         >
@@ -303,7 +303,7 @@ const handleMuted = (muted: boolean) => {
             <div
               data-testid="right-column"
               class="flex items-center justify-end"
-              v-if="showImmersive && isFullScreen"
+              v-if="showImmersive && isFullscreen"
             >
               <MVAdaptiveImmersiveButton
                 :is-immersive="isImmersive"
@@ -338,12 +338,12 @@ const handleMuted = (muted: boolean) => {
       <div data-testid="desktop-controls" class="hidden xl:block">
         <div
           class="w-full py-3 grid grid-cols-3 items-center"
-          :class="[isFullScreen ? 'px-0' : 'px-6']"
+          :class="[isFullscreen ? 'px-0' : 'px-6']"
         >
           <!-- Left column -->
           <div data-testid="left-column" class="min-w-28 xl:min-w-48 w-full max-w-[420px]">
             <MVAdaptiveTrackInfoCard
-              v-if="!isFullScreen"
+              v-if="!isFullscreen"
               :title="title"
               :sub-title="artistName"
               :image="posterUrl"
@@ -366,7 +366,7 @@ const handleMuted = (muted: boolean) => {
                 @play="handlePlay"
                 @pause="handlePause"
                 :playing="isPlaying"
-                :size="isFullScreen ? Size.BIG : Size.SMALL"
+                :size="isFullscreen ? Size.BIG : Size.SMALL"
               />
               <div v-if="showPreviousNext" class="flex items-center">
                 <MVAdaptiveNextButton @click="handleNext" />
@@ -379,7 +379,7 @@ const handleMuted = (muted: boolean) => {
 
           <!-- Right column -->
           <div data-testid="right-column" class="flex items-center justify-end space-x-3">
-            <div class="flex items-center" v-if="showImmersive && isFullScreen">
+            <div class="flex items-center" v-if="showImmersive && isFullscreen">
               <MVAdaptiveImmersiveButton
                 :is-immersive="isImmersive"
                 @click="handleImmersiveClick"
@@ -401,12 +401,12 @@ const handleMuted = (muted: boolean) => {
               <MVAdaptiveVolumeSlider @update:volume="handleSetVolume" @muted="handleMuted" />
             </div>
             <div class="flex items-center">
-              <MVAdaptiveFullScreenButton
-                :is-full-screen="isFullScreen"
-                @toggleFullScreen="toggleFullScreen"
+              <MVAdaptiveFullscreenButton
+                :is-fullscreen="isFullscreen"
+                @toggleFullscreen="toggleFullscreen"
               />
             </div>
-            <div v-if="!isFullScreen" class="flex items-center">
+            <div v-if="!isFullscreen" class="flex items-center">
               <MVAdaptiveCloseButton @click="handleClose" />
             </div>
           </div>
@@ -418,7 +418,7 @@ const handleMuted = (muted: boolean) => {
     <div
       data-testid="duration-or-meditation-mixer-container"
       class="xl:hidden pb-[34px] z-[65] bottom-0 left-0 right-0 absolute px-4 xl:px-10"
-      v-if="isFullScreen"
+      v-if="isFullscreen"
     >
       <div class="inline-flex">
         <div class="flex items-center" v-if="showSetDuration">

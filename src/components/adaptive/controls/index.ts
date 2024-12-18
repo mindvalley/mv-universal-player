@@ -7,7 +7,7 @@ import { default as MVAdaptiveRewindButton } from './AdaptiveRewindButton'
 import { default as MVAdaptiveMeditationMixerButton } from './AdaptiveMeditationMixerButton'
 import { default as MVAdaptiveCollectionButton } from './AdaptiveCollectionButton'
 import { default as MVAdaptiveVolumeSlider } from './AdaptiveVolumeSlider'
-import { default as MVAdaptiveFullScreenButton } from './AdaptiveFullScreenButton'
+import { default as MVAdaptiveFullscreenButton } from './AdaptiveFullscreenButton'
 import { default as MVAdaptiveCloseButton } from './AdaptiveCloseButton'
 import { default as MVAdaptiveImmersiveButton } from './AdaptiveImmersiveButton'
 import { default as MVAdaptiveProgressBar } from './AdaptiveProgressBar'
@@ -22,7 +22,7 @@ export {
   MVAdaptiveMeditationMixerButton,
   MVAdaptiveCollectionButton,
   MVAdaptiveVolumeSlider,
-  MVAdaptiveFullScreenButton,
+  MVAdaptiveFullscreenButton,
   MVAdaptiveCloseButton,
   MVAdaptiveImmersiveButton,
   MVAdaptiveProgressBar

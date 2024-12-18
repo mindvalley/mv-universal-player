@@ -249,7 +249,7 @@ const setMixing = (enabled: boolean) => {
   updateState('mixing', enabled)
 }
 
-const goFullScreen = () => {
+const goFullscreen = () => {
   if (audioInstance) {
     audioInstance.requestFullscreen()
   }
@@ -277,7 +277,7 @@ const player: Player = {
   setAudio,
   setPlaybackRate,
   setMixing,
-  goFullScreen,
+  goFullscreen,
   setAudioOnlyMode,
   setAudioPosterMode
 }

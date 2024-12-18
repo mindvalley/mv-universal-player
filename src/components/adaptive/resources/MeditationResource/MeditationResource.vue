@@ -240,8 +240,8 @@ const handlePause = ({ id, currentTime }: { id: string; currentTime: string }) =
   pauseMeditationTrack()
 }
 
-const handleFullscreen = ({ isFullScreen }: any) => {
-  if (isFullScreen) {
+const handleFullscreen = ({ isFullscreen }: any) => {
+  if (isFullscreen) {
     emitEvent('maximize')
   } else {
     emitEvent('minimize')

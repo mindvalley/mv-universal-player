@@ -221,8 +221,8 @@ const setMixing = (enabled: boolean) => {
   adaptivePlayer.setMixing(enabled)
 }
 
-const goFullScreen = () => {
-  adaptivePlayer?.goFullScreen()
+const goFullscreen = () => {
+  adaptivePlayer?.goFullscreen()
 }
 
 const setAudioOnlyMode = (enabled: boolean) => {
@@ -258,7 +258,7 @@ const adaptiveItemPlayer = {
   setMixing: setMixing,
   setCurrentTime: setCurrentTime,
   reset: reset,
-  goFullScreen: goFullScreen,
+  goFullscreen: goFullscreen,
   setAudioOnlyMode: setAudioOnlyMode,
   setAudioPosterMode: setAudioPosterMode
 }
