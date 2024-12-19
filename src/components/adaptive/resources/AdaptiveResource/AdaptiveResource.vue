@@ -209,17 +209,13 @@ watch(isFullscreen, (newVal) => {
 })
 
 const playLoopingVideo = async () => {
-  if (isFullscreen.value && isImmersive.value) {
-    await nextTick()
-    loopingVideoAdaptiveItemRef.value?.player?.play()
-  }
+  await nextTick()
+  loopingVideoAdaptiveItemRef.value?.player?.play()
 }
 
 const pauseLoopingVideo = async () => {
-  if (isFullscreen.value && isImmersive.value) {
-    await nextTick()
-    loopingVideoAdaptiveItemRef.value?.player?.pause()
-  }
+  await nextTick()
+  loopingVideoAdaptiveItemRef.value?.player?.pause()
 }
 
 // Modify the handleMouseEnter function
