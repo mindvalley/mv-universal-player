@@ -56,7 +56,15 @@ const buttonSizeClasses = computed(() => {
   >
     <svg
       v-svg
-      :symbol="playing ? 'pause-circle-filled' : 'play-circle-filled'"
+      v-show="playing"
+      symbol="pause-circle-filled"
+      class="h-full w-full rounded-full text-white-70a transition-colors duration-200"
+      :class="[iconColor, { 'hover:text-white': showHoverEffect }]"
+    ></svg>
+    <svg
+      v-svg
+      v-show="!playing"
+      symbol="play-circle-filled"
       class="h-full w-full rounded-full text-white-70a transition-colors duration-200"
       :class="[iconColor, { 'hover:text-white': showHoverEffect }]"
     ></svg>

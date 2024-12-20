@@ -34,6 +34,10 @@ const props = defineProps({
     type: String,
     default: ''
   },
+  backgroundPosterUrl: {
+    type: String,
+    default: ''
+  },
   showCollection: {
     type: Boolean,
     default: false
@@ -306,6 +310,7 @@ const emitEvent = (eventName: string, payload?: any) => {
       :video-sources="videoSources"
       :duration="localDuration"
       :poster-url="posterUrl"
+      :background-poster-url="backgroundPosterUrl"
       :title="title"
       :artist-name="artistName"
       :looping-enabled="localLoopingEnabled"

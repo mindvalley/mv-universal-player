@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, nextTick, onMounted } from 'vue-demi'
+import { ref, watch, nextTick, onMounted, computed } from 'vue-demi'
 import { useFullscreen } from '@vueuse/core'
 import { extractColorsFromImageData } from 'extract-colors'
 import type { Source } from './../../../../types/audio'
@@ -39,6 +39,10 @@ const props = defineProps({
     default: false
   },
   posterUrl: {
+    type: String,
+    default: ''
+  },
+  backgroundPosterUrl: {
     type: String,
     default: ''
   },
@@ -151,7 +155,17 @@ const emit = defineEmits<{
   (e: any, payload: any): void
 }>()
 
-const { isFullscreen, toggle } = useFullscreen(props.fullscreenElement)
+const {
+  isFullscreen: isNativeFullscreen,
+  toggle,
+  isSupported
+} = useFullscreen(props.fullscreenElement)
+
+// Browser Fullscreen is a fallback for iOS devices. iOS doesn't support fullscreen on non-video elements. So on iOS, in any browser, the fullscreen will cover only browser part and not viewport.
+const isBrowserFullscreen = ref(false)
+const isFullscreen = computed(() => {
+  return isNativeFullscreen.value || isBrowserFullscreen.value
+})
 
 const isMiniBarVisible = ref(true)
 let hideTimeout: number | null = null
@@ -185,6 +199,7 @@ const handleTouchStart = () => {
 watch(isFullscreen, (newValue, oldValue) => {
   if (newValue !== oldValue) {
     isFullscreenTransitioning.value = true
+    emitEvent('fullscreen', { isFullscreen: newValue })
     // Reset after transition completes (adjust timeout to match your fullscreen transition duration)
     setTimeout(() => {
       isFullscreenTransitioning.value = false
@@ -193,7 +208,7 @@ watch(isFullscreen, (newValue, oldValue) => {
 })
 
 onMounted(() => {
-  extractColorPalette(props.posterUrl)
+  extractColorPalette(props.backgroundPosterUrl ?? props.posterUrl)
 })
 
 watch(isFullscreen, (newVal) => {
@@ -261,9 +276,13 @@ const handleMouseMove = () => {
 }
 
 const toggleFullscreen = () => {
-  toggle()
+  // This is for fallback.
+  if (!isSupported.value) {
+    isBrowserFullscreen.value = !isBrowserFullscreen.value
+  } else {
+    toggle()
+  }
   showMiniBar()
-  emitEvent('fullscreen', { isFullscreen: isFullscreen.value })
 }
 
 const emitEvent = (eventName: string, payload?: any) => {
@@ -551,7 +570,7 @@ defineExpose({
             v-show="videoSources.length > 0 && isImmersive"
             :key="'looping-video'"
           >
-            <MVAdaptivePlayer :poster-url="posterUrl" loop muted auto-play>
+            <MVAdaptivePlayer :poster-url="backgroundPosterUrl ?? posterUrl" loop muted auto-play>
               <MVAdaptiveItem
                 ref="loopingVideoAdaptiveItemRef"
                 :sources="videoSources"
@@ -569,7 +588,6 @@ defineExpose({
             :key="'dynamic-video'"
           >
             <MVAdaptiveImmersiveLayer
-              :image="posterUrl"
               :is-immersive-mode-active="isImmersive"
               :playing="adaptiveItem?.state?.playing"
               :color-palette="colorPalette"
@@ -582,7 +600,7 @@ defineExpose({
             <BaseImage
               class="w-full h-full"
               img-class="object-cover h-full"
-              :src="posterUrl"
+              :src="backgroundPosterUrl"
               :width="1024"
             />
           </div>

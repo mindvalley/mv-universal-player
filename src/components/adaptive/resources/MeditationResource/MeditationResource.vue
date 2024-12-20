@@ -35,6 +35,10 @@ const props = defineProps({
     type: String,
     default: ''
   },
+  backgroundPosterUrl: {
+    type: String,
+    default: ''
+  },
   duration: {
     required: true,
     type: Number
@@ -424,6 +428,7 @@ const emitBackgroundMixerEvent = (eventName: string, payload?: any) => {
       :audio-sources="audioSources"
       :duration="duration"
       :poster-url="posterUrl"
+      :background-poster-url="backgroundPosterUrl"
       :title="title"
       :artist-name="artistName"
       show-rewind-and-fast-forward

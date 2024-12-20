@@ -280,6 +280,11 @@ const initialize = (id: string, controls = true, loop = false) => {
     aspectRatio: '16:9',
     loop,
     playbackRates: props.showPlaybackRates ? props.playbackRates : [],
+    html5: {
+      vhs: {
+        overrideNative: false
+      }
+    },
     controlBar: {
       progressControl: props.progressControl,
       preferFullWindow: true,

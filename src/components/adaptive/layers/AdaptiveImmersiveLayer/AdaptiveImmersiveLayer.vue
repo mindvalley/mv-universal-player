@@ -3,10 +3,6 @@ import { ref, onMounted, onUnmounted, watch, nextTick, watchEffect, computed } f
 import { createNoise3D } from 'simplex-noise'
 
 const props = defineProps({
-  image: {
-    type: String,
-    default: ''
-  },
   isImmersiveModeActive: {
     type: Boolean,
     default: false

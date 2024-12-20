@@ -69,8 +69,15 @@ const stopDrag = () => {
       @mouseleave="isHovering = false"
     >
       <svg
+        v-show="muted"
         v-svg
-        :symbol="muted ? 'volume-x-filled' : 'volume-2-filled'"
+        symbol="volume-x-filled"
+        class="h-full w-full text-white-70a hover:text-white"
+      ></svg>
+      <svg
+        v-show="!muted"
+        v-svg
+        symbol="volume-2-filled"
         class="h-full w-full text-white-70a hover:text-white"
       ></svg>
     </button>

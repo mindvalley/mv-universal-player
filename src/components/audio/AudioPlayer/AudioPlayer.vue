@@ -131,7 +131,12 @@ const initialize = (id: string, loop = false) => {
   audioInstance = createInstance(id, {
     controls: false,
     playbackRates: props.playbackRates,
-    loop: loop
+    loop: loop,
+    html5: {
+      vhs: {
+        overrideNative: false
+      }
+    }
   })
 
   createState()

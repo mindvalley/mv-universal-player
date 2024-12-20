@@ -156,7 +156,12 @@ const initialize = (id: string) => {
     autoplay: props.autoPlay,
     playbackRates: props.playbackRates,
     loop: props.loop,
-    audioOnlyMode: props.audioOnlyMode
+    audioOnlyMode: props.audioOnlyMode,
+    html5: {
+      vhs: {
+        overrideNative: false
+      }
+    }
   })
 
   createState()
