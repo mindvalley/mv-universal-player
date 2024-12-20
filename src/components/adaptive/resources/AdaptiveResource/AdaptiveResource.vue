@@ -635,6 +635,10 @@ defineExpose({
     <!-- Mini Player -->
     <div
       class="z-[50] w-full"
+      :class="{
+        relative: !isFullscreen,
+        'fixed bottom-0 left-0 right-0': isFullscreen
+      }"
       @mouseenter="handleMouseEnter(true)"
       @mouseleave="handleMouseLeave(true)"
       @mousemove="handleMouseMove"
