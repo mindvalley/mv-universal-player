@@ -18,16 +18,6 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['play', 'pause'])
-
-const togglePlay = () => {
-  if (props.playing) {
-    emit('pause')
-  } else {
-    emit('play')
-  }
-}
-
 const buttonSizeClasses = computed(() => {
   return props.size === Size.BIG
     ? 'w-14 h-14' // 56px for both desktop and mobile/tablet
@@ -36,25 +26,40 @@ const buttonSizeClasses = computed(() => {
 </script>
 <template>
   <button
-    data-testid="adaptive-play-button"
-    v-tooltip="playing ? 'Pause' : 'Play'"
-    @click="togglePlay"
+    data-testid="adaptive-zoom-play-button"
     class="outline-none transition-all duration-500"
-    :class="[buttonSizeClasses]"
+    :class="[buttonSizeClasses, 'zoom-fade-effect cursor-default']"
   >
     <svg
       v-svg
       v-show="playing"
       symbol="pause-circle-filled"
-      class="h-full w-full rounded-full text-white-70a transition-colors duration-200 hover:text-white"
+      class="h-full w-full rounded-full duration-200"
       :class="[iconColor]"
     ></svg>
     <svg
       v-svg
       v-show="!playing"
       symbol="play-circle-filled"
-      class="h-full w-full rounded-full text-white-70a transition-colors duration-200 hover:text-white"
+      class="h-full w-full rounded-full duration-200"
       :class="[iconColor]"
     ></svg>
   </button>
 </template>
+
+<style scoped>
+@keyframes zoom-fade {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+.zoom-fade-effect {
+  animation: zoom-fade 1s ease-out forwards;
+}
+</style>

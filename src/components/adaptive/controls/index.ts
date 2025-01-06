@@ -1,4 +1,5 @@
 import { default as MVAdaptivePlayButton } from './AdaptivePlayButton'
+import { default as MVAdaptiveZoomPlayButton } from './AdaptiveZoomPlayButton'
 import { default as MVAdaptiveSetDurationButton } from './AdaptiveSetDurationButton'
 import { default as MVAdaptivePreviousButton } from './AdaptivePreviousButton'
 import { default as MVAdaptiveNextButton } from './AdaptiveNextButton'
@@ -13,6 +14,7 @@ import { default as MVAdaptiveImmersiveButton } from './AdaptiveImmersiveButton'
 import { default as MVAdaptiveProgressBar } from './AdaptiveProgressBar'
 
 export {
+  MVAdaptiveZoomPlayButton,
   MVAdaptivePlayButton,
   MVAdaptiveSetDurationButton,
   MVAdaptivePreviousButton,

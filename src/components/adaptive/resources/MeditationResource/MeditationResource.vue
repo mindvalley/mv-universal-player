@@ -118,7 +118,7 @@ const meditationMixerItem = ref(null)
 const selectedMeditationTrackItem = ref<BackgroundTrackItem | null>(null)
 const meditationMixerVolume = ref(0.5)
 const showAboutThisInfo = ref(false)
-const mainVolume = ref(1)
+const sliderVolume = ref(1)
 
 // TODO: Might have to change this to 0.5 for both if the default background sound is set.
 const backgroundSoundVolume = ref(1)
@@ -158,6 +158,14 @@ const handleEnded = ({ id, currentTime }: { id: string; currentTime: number }) =
   emitEvent('ended', { currentTime })
   emitBackgroundMixerEvent('backgroundMixerEnded', { currentTime })
 }
+
+const mainSoundBeforeFadeVolume = computed(() => {
+  return sliderVolume.value * mainSoundVolume.value
+})
+
+const backgroundSoundBeforeFadeVolume = computed(() => {
+  return sliderVolume.value * backgroundSoundVolume.value
+})
 
 const backgroundTrackItems = computed(() => {
   let sounds = props.backgroundSounds || []
@@ -202,12 +210,12 @@ onMounted(() => {
   if (selectedMeditationTrackItem.value?.item) {
     mainSoundVolume.value = 0.5
     backgroundSoundVolume.value = 0.5
-    updateVolume(mainVolume.value, backgroundSoundVolume.value, mainSoundVolume.value)
+    updateVolume(sliderVolume.value, backgroundSoundVolume.value, mainSoundVolume.value)
   }
 
   if (props.autoPlay) {
     setTimeout(() => {
-      adaptiveResource.value?.player?.player?.play()
+      adaptiveResource.value?.play()
     }, 0)
   }
 })
@@ -261,12 +269,12 @@ const handlePlaytime = ({ time }: any) => {
 }
 
 const updateVolume = (
-  mainVolume: number,
+  sliderVolume: number,
   backgroundSoundVolume: number,
   mainSoundVolume: number
 ) => {
-  adaptiveResource.value?.player?.player.setVolume(mainVolume * mainSoundVolume)
-  meditationMixerItem.value?.player?.setVolume(mainVolume * backgroundSoundVolume)
+  adaptiveResource.value?.player?.player.setVolume(sliderVolume * mainSoundVolume)
+  meditationMixerItem.value?.player?.setVolume(sliderVolume * backgroundSoundVolume)
 }
 
 const handleVolumeChange = (volume: number) => {
@@ -277,11 +285,11 @@ const handleVolumeChange = (volume: number) => {
   if (selectedMeditationTrackItem.value?.item) {
     backgroundSoundVolume.value = 1 - volume
     mainSoundVolume.value = volume
-    updateVolume(mainVolume.value, backgroundSoundVolume.value, mainSoundVolume.value)
+    updateVolume(sliderVolume.value, backgroundSoundVolume.value, mainSoundVolume.value)
   } else {
     backgroundSoundVolume.value = 0
     mainSoundVolume.value = 1
-    updateVolume(mainVolume.value, backgroundSoundVolume.value, mainSoundVolume.value)
+    updateVolume(sliderVolume.value, backgroundSoundVolume.value, mainSoundVolume.value)
   }
 }
 
@@ -337,7 +345,7 @@ const toggleAboutThisInfo = () => {
 }
 
 const handleSetVolume = ({ volume }: { id: string; volume: number }) => {
-  mainVolume.value = volume
+  sliderVolume.value = volume
 }
 
 const handleBackgroundMixerPlay = (payload: any) => {
@@ -352,8 +360,8 @@ const handleBackroundMixerTimeupdate = (payload: any) => {
   emitBackgroundMixerEvent('backgroundMixerTimeupdate', payload)
 }
 
-watch(mainVolume, (newVolume) => {
-  updateVolume(newVolume, backgroundSoundVolume.value, mainSoundVolume.value)
+watch(sliderVolume, (newSliderVolume) => {
+  updateVolume(newSliderVolume, backgroundSoundVolume.value, mainSoundVolume.value)
 })
 
 const emitEvent = (eventName: string, payload?: any) => {
@@ -378,6 +386,7 @@ const emitBackgroundMixerEvent = (eventName: string, payload?: any) => {
         ref="meditationMixerItem"
         :sources="selectedMeditationTrackItem?.item?.sources || []"
         :id="selectedMeditationTrackItem?.id"
+        :before-fade-volume="backgroundSoundBeforeFadeVolume"
         @play="handleBackgroundMixerPlay"
         @pause="handleBackgroundMixerPause"
         @timeupdate="handleBackroundMixerTimeupdate"
@@ -424,6 +433,7 @@ const emitBackgroundMixerEvent = (eventName: string, payload?: any) => {
     <MVAdaptiveResource
       ref="adaptiveResource"
       :id="id"
+      :before-fade-volume="mainSoundBeforeFadeVolume"
       :fullscreen-element="fullscreenElement"
       :audio-sources="audioSources"
       :duration="duration"

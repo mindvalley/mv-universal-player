@@ -8,7 +8,7 @@ import { Shape } from './../../../../models/adaptive.enums'
 import { useDetectBrowser } from '../../../../composables/use-detect-browser'
 import { MVAdaptiveItem, MVAdaptivePlayer, MVAdaptivePlayerBar } from '../../player'
 import { MVAdaptiveImmersiveLayer } from '../../layers'
-import { MVAdaptivePlayButton, MVAdaptiveFullscreenButton } from '../../controls'
+import { MVAdaptiveZoomPlayButton, MVAdaptiveFullscreenButton } from '../../controls'
 import { MVAdaptiveNowPlayingInfoCard } from '../../info'
 import BaseImage from './../../../../components/global/BaseImage.vue'
 import { Size } from '../../../../models/adaptive.enums'
@@ -122,6 +122,10 @@ const props = defineProps({
   fullscreenElement: {
     type: Object,
     default: null
+  },
+  beforeFadeVolume: {
+    type: Number,
+    default: 1
   }
 })
 
@@ -182,6 +186,9 @@ const isMouseOverMiniPlayer = ref(false)
 const colorPalette = ref<string[]>([])
 const hidePlayButtonTimeout = ref<number | null>(null)
 
+// We could have used the player state but due to fade in/out sound feature, we maintain this local state based on the user action (play/pause button click).
+const isPlaying = ref(false)
+
 // Add this ref to track if we're in the middle of a fullscreen transition
 const isFullscreenTransitioning = ref(false)
 
@@ -206,6 +213,14 @@ watch(isFullscreen, (newValue, oldValue) => {
     }, 500) // Assuming 500ms transition
   }
 })
+
+// This is to sync player bar and fullscreen play button state.
+watch(
+  () => adaptiveItem.value?.state?.playing,
+  (newVal) => {
+    isPlaying.value = newVal
+  }
+)
 
 onMounted(() => {
   extractColorPalette(props.backgroundPosterUrl ?? props.posterUrl)
@@ -379,12 +394,14 @@ const handleSeek = (seeking: any) => {
   emitEvent('seek', { time: seeking })
 }
 
-const play = () => {
+const play = async () => {
+  isPlaying.value = true
   adaptiveItem.value?.player?.play()
   playLoopingVideo()
 }
 
-const pause = () => {
+const pause = async () => {
+  isPlaying.value = false
   adaptiveItem.value?.player?.pause()
   pauseLoopingVideo()
 }
@@ -401,9 +418,9 @@ const fastForward = (time: any) => {
   }
 }
 
-const setVolume = (event: any) => {
-  adaptiveItem.value?.player?.setVolume(event)
-  emitEvent('setVolume', { volume: event })
+const setVolume = (volume: any) => {
+  adaptiveItem.value?.player?.setVolume(volume)
+  emitEvent('setVolume', { volume: volume })
 }
 
 const handleFullscreenLayerClick = () => {
@@ -494,7 +511,9 @@ const extractColorPalette = async (imageSrc: string) => {
 defineExpose({
   player: adaptiveItem,
   restartPlayerTimer,
-  resetPlayerTimer
+  resetPlayerTimer,
+  play,
+  pause
 })
 </script>
 
@@ -509,6 +528,7 @@ defineExpose({
         ref="adaptiveItem"
         :sources="audioSources"
         :id="id"
+        :before-fade-volume="beforeFadeVolume"
         @play="handlePlay"
         @pause="handlePause"
         @ended="handleEnded"
@@ -610,23 +630,15 @@ defineExpose({
           v-show="showPlayButton"
           class="fixed inset-0 h-full w-full flex items-center justify-center"
         >
-          <MVAdaptivePlayButton
-            v-if="!adaptiveItem?.state?.playing"
+          <MVAdaptiveZoomPlayButton
+            v-if="!isPlaying"
             :playing="true"
-            :show-tooltip="false"
-            :show-hover-effect="false"
-            icon-color="text-black-70a"
             :size="isMobileOrTablet ? Size.BIG : Size.SMALL"
-            is-zooming
           />
-          <MVAdaptivePlayButton
+          <MVAdaptiveZoomPlayButton
             v-else
             :playing="false"
-            :show-tooltip="false"
-            :show-hover-effect="false"
-            icon-color="text-black-70a"
             :size="isMobileOrTablet ? Size.BIG : Size.SMALL"
-            is-zooming
           />
         </div>
       </div>
@@ -645,7 +657,7 @@ defineExpose({
       data-testid="adaptive-mini-player"
     >
       <MVAdaptivePlayerBar
-        :is-playing="adaptiveItem?.state?.playing"
+        :is-playing="isPlaying"
         :title="title"
         :artist-name="artistName"
         :poster-url="posterUrl"

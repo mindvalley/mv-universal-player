@@ -11,6 +11,10 @@ const props = defineProps({
     type: Array<Source>,
     required: true,
     default: () => []
+  },
+  beforeFadeVolume: {
+    type: Number,
+    default: 1
   }
 })
 
@@ -137,9 +141,11 @@ const play = () => {
     adaptivePlayer.setSources(props.sources)
   }
   adaptivePlayer.play(props.id)
+  fadeInVolume()
 }
 
-const pause = () => {
+const pause = async () => {
+  await fadeOutVolume()
   adaptivePlayer.pause()
 }
 
@@ -193,6 +199,64 @@ const setVolume = (volume: number) => {
   if (adaptiveState.value.audioItemId === props.id) {
     adaptivePlayer.setVolume(volume)
   }
+}
+
+const fadeInVolume = (): Promise<void> => {
+  return new Promise((resolve) => {
+    if (adaptiveState.value.audioItemId === props.id) {
+      const originalVolume = props.beforeFadeVolume
+      const duration = 300 // Duration in milliseconds
+      const steps = 20 // Number of steps for smooth transition
+      const initialVolume = 0
+      const increment = (originalVolume - initialVolume) / steps
+
+      let currentStep = 0
+      adaptivePlayer.setVolume(initialVolume)
+
+      const fadeInterval = setInterval(() => {
+        currentStep++
+        const newVolume = Math.min(initialVolume + increment * currentStep, originalVolume)
+        adaptivePlayer.setVolume(newVolume)
+
+        if (currentStep >= steps) {
+          clearInterval(fadeInterval)
+          // Reset to original volume after fade completes
+          adaptivePlayer.setVolume(originalVolume)
+          resolve()
+        }
+      }, duration / steps)
+    } else {
+      resolve() // Resolve immediately if not the current audio item
+    }
+  })
+}
+
+const fadeOutVolume = (): Promise<void> => {
+  return new Promise((resolve) => {
+    if (adaptiveState.value.audioItemId === props.id) {
+      const originalVolume = props.beforeFadeVolume
+      const duration = 300 // Duration in milliseconds
+      const steps = 20 // Number of steps for smooth transition
+      const targetVolume = 0
+      const decrement = (originalVolume - targetVolume) / steps
+
+      let currentStep = 0
+
+      const fadeInterval = setInterval(() => {
+        currentStep++
+        const newVolume = Math.max(originalVolume - decrement * currentStep, targetVolume)
+        adaptivePlayer.setVolume(newVolume)
+        if (currentStep >= steps) {
+          clearInterval(fadeInterval)
+          // Reset to original volume after fade completes
+          adaptivePlayer.setVolume(originalVolume)
+          resolve()
+        }
+      }, duration / steps)
+    } else {
+      resolve() // Resolve immediately if not the current audio item
+    }
+  })
 }
 
 const setPlaybackRate = (rate: number) => {
@@ -250,6 +314,8 @@ const adaptiveItemPlayer = {
   pause: pause,
   setAudio: setAudio,
   setVolume: setVolume,
+  fadeInVolume: fadeInVolume,
+  fadeOutVolume: fadeOutVolume,
   seek: seek,
   fastForward: fastForward,
   rewind: rewind,
@@ -287,6 +353,8 @@ defineExpose({
       :pause="pause"
       :setAudio="setAudio"
       :setVolume="setVolume"
+      :fadeInVolume="fadeInVolume"
+      :fadeOutVolume="fadeOutVolume"
       :seek="seek"
       :fastForward="fastForward"
       :rewind="rewind"

@@ -101,14 +101,19 @@ const showAboutThisInfo = ref(false)
 const elapsedTime = ref(0)
 const timerInterval = ref<number | null>(null)
 const localCurrentTime = ref(0)
+const mainSoundVolume = ref(1)
 
 onMounted(() => {
   if (props.autoPlay) {
     setTimeout(() => {
-      adaptiveResource.value?.player?.player?.play()
+      adaptiveResource.value?.play()
     }, 0)
   }
 })
+
+const handleSetVolume = ({ volume }: { id: string; volume: number }) => {
+  mainSoundVolume.value = volume
+}
 
 // This is for custom progress bar duration calculation.
 const startTimer = () => {
@@ -304,6 +309,7 @@ const emitEvent = (eventName: string, payload?: any) => {
     <MVAdaptiveResource
       ref="adaptiveResource"
       :id="id"
+      :before-fade-volume="mainSoundVolume"
       :fullscreen-element="fullscreenElement"
       :auto-play="autoPlay"
       :audio-sources="audioSources"
@@ -323,6 +329,7 @@ const emitEvent = (eventName: string, payload?: any) => {
       :override-progress-bar-current-time="!localLoopingEnabled"
       :now-playing-title="nowPlayingTitle"
       :now-playing-subtitle="nowPlayingSubtitle"
+      @set-volume="handleSetVolume"
       @track-info-title-click="toggleAboutThisInfo"
       @track-info-image-click="toggleAboutThisInfo"
       @close="handleClose"
