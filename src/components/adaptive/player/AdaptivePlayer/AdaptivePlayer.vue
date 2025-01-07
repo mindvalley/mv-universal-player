@@ -159,7 +159,7 @@ const initialize = (id: string) => {
     audioOnlyMode: props.audioOnlyMode,
     html5: {
       vhs: {
-        overrideNative: false
+        overrideNative: VideoJsPlayer.browser.IS_SAFARI
       }
     }
   })

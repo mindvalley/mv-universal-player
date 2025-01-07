@@ -282,7 +282,7 @@ const initialize = (id: string, controls = true, loop = false) => {
     playbackRates: props.showPlaybackRates ? props.playbackRates : [],
     html5: {
       vhs: {
-        overrideNative: false
+        overrideNative: VideoJsPlayer.browser.IS_SAFARI
       }
     },
     controlBar: {

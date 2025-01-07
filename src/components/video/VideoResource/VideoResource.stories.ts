@@ -3,6 +3,13 @@ import { action } from '@storybook/addon-actions'
 import { MVVideoResource } from '.'
 import { MVVideoDescription } from './../VideoDescription'
 
+// Sample Urls:
+// sources: [{ type: 'video/mp4', src: '//vjs.zencdn.net/v/oceans.mp4' }],
+// sources: [{
+//       type: 'application/x-mpegURL',
+//       src: 'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8'
+//     }]
+
 function getImageUrl(name: string) {
   return `/assets/images/${name}`
 }
@@ -29,7 +36,12 @@ const video = {
       time: 125
     }
   ],
-  sources: [{ type: 'video/mp4', src: '//vjs.zencdn.net/v/oceans.mp4' }],
+  sources: [
+    {
+      type: 'application/x-mpegURL',
+      src: 'https://otfp.mindvalley.com/94c8bd53-bb67-4730-bd17-485572f20245/7483bb66ab29c20034ab540cba8b3aaa.pxDaCRh6QvKykawqe-dXG84_0KpfYZeYIAelxdVFL4cj8AxPjoQvsoOetjKctK1kChQcwzUDNBAWUDmMLsRjypBKER7YcgCF1i2qmryfGb3J911MwTnCJUc1G07YTLif03Sh0sbo_XRGXrJrNKnRfW2PsRnehSjSqGdcSY-_DqY15vSlMJAkon432Pgr4FpfZscdkypH0V73EVmtw6lMB7oVNJajyWp_xX-AUSa1Vu00Iy6JRB66GZbpfrAQQNgQZARM0ESy05MSoGp6yXJvRjHmo_y7k78qcv3PFZnaUsx3xgY-84Q_ec5NS_oA78FU_EvJe5TrShHWP1cspPPUVHZN5Y31P0rIoIIqkcgG5CYKyIj7oyGVuHySvPyzVQcsO05cI1IwOaVk_NDZQZazl3mBCFqo1bIyvkNLMsnmSJVQ2KBIFE4m3xsSMZaVtB-1Om-nAjhvFEfuDsRvn7_42ID2LgXvIClCXdTypRNLu759LlLrNAvQKOUqtxQa_Sn8SMSVcCOUzGKsb3SHzQKn6eIbFhicK7wJ--_72jVBjCFduvIBUJeJVWsz0e5byWeECIKPlf9C5a6ufq2IaxTJdGf_3SGkUlfcF0LB5OeNbnpHbYapPK9wF5rKzcYoHD3NanqhrUaISKjFkJFO0G-djvDaA9Jz2ajPnsBkNNfaBSDdibnmw4GcK_E7yq4KkT7QnH3Xc_IrwQ8RJDdCvY33nV2y1d7Pyzzmw3Vs0F9n1XbQqRBLvpY9Oo0-YYuMVq2RoSbIXsalirL9OuTXSYLvHVf-F8O6oznmpI-DshbtCR_lmYg0UAqz-b3DW48ORsaVb9hbgSEgb3eJlDOyPaN_bsOHAPY3jjzwKVqM78mWVd_JZNkof3TEklT_OySO9gLQfnybbehFbud2JpuHSMyZFHWKE0u0tjn2qXDlIH0PCMUpSxUjH2vmFidavhzkpo4uQIv73WTV_jYtjLdBkzprMJI2HyKZx-BC-cVMxtegstchvrkduGqIMu2Fe9-ZHe5YOsi6N31qG-S1SiunmpNIIPQUo500xJ9Xer7IdE3R0UA94H7jsxFYVYVuvuQHzTfhlY34sW7Lhgaz_VLCSplqkkEnNytw07ahAw.1dd788be78ff780502d4aaf431cc60c98aa212596d9592969982347da13b4090/main.m3u8'
+    }
+  ],
   duration: 1932.669,
   posterUrl: getImageUrl('removing_inner_blocks_success.jpeg'),
   title: 'Removing Inner Block to Success',
@@ -62,7 +74,7 @@ export const Default: Story = {
     template: `<div class="mv-universal-player"><MVVideoResource v-bind="args" @play="logEvent('play', $event)" @pause="logEvent('pause', $event)" @seeking="logEvent('seeking', $event)" @ended="logEvent('ended', $event)" @rewind="logEvent('rewind', $event)" @fastforward="logEvent('fastforward', $event)" @playbackSpeed="logEvent('playbackSpeed', $event)" @favourite="logEvent('favourite', $event)" @timeupdate="logEvent('timeupdate', $event)" @error="logEvent('error', $event)"></MVVideoResource></div>`
   }),
   args: {
-    assetId: video.id,
+    id: video.id,
     markers: video.markers,
     sources: video.sources,
     duration: video.duration,
