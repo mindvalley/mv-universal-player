@@ -134,8 +134,10 @@ const initialize = (id: string, loop = false) => {
     loop: loop,
     html5: {
       vhs: {
-        overrideNative: VideoJsPlayer.browser.IS_SAFARI
-      }
+        overrideNative: true
+      },
+      nativeAudioTracks: false,
+      nativeVideoTracks: false
     }
   })
 
