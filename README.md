@@ -658,6 +658,13 @@ You can also access the `play` and `pause` methods of the component using `ref`.
 ```
 const soundscapeResource = ref()
 
+<div class="mv-universal-player">
+  <MVSoundscapeResource
+  ref="soundscapeResource"
+       ...
+  />
+</div>
+
 soundscapeResource.value?.play()
 soundscapeResource.value?.pause()
 ```
@@ -733,6 +740,13 @@ You can also access the `play` and `pause` methods of the component using `ref`.
 
 ```
 const meditationResource = ref()
+
+<div class="mv-universal-player">
+  <MVMeditationResource
+  ref="meditationResource"
+       ...
+  />
+</div>
 
 meditationResource.value?.play()
 meditationResource.value?.pause()
