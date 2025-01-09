@@ -590,7 +590,12 @@ defineExpose({
             v-show="videoSources.length > 0 && isImmersive"
             :key="'looping-video'"
           >
-            <MVAdaptivePlayer :poster-url="backgroundPosterUrl ?? posterUrl" loop muted auto-play>
+            <MVAdaptivePlayer
+              :poster-url="backgroundPosterUrl ?? posterUrl"
+              :loop="true"
+              muted
+              auto-play
+            >
               <MVAdaptiveItem
                 ref="loopingVideoAdaptiveItemRef"
                 :sources="videoSources"

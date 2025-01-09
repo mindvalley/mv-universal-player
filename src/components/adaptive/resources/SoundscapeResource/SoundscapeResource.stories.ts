@@ -10,6 +10,7 @@ const audio1 = {
   isFavourite: false,
   duration: 1932.669,
   posterUrl: getImageUrl('removing_inner_blocks_success.jpeg'),
+  backgroundPosterUrl: getImageUrl('removing_inner_blocks_success.jpeg'),
   title: 'Removing Inner Block to Success',
   artistName: 'Marisa Peer',
   ratings: 4,
@@ -27,6 +28,7 @@ const audio2 = {
   isFavourite: false,
   duration: 1831.24,
   posterUrl: getImageUrl('free_youself_from_depression.jpeg'),
+  backgroundPosterUrl: getImageUrl('free_youself_from_depression.jpeg'),
   title: 'Free Yourself from Depression and Anxiety',
   artistName: 'Marisa Peer',
   ratings: 4,
@@ -77,9 +79,15 @@ const video1 = {
       time: 125
     }
   ],
-  sources: [{ type: 'video/mp4', src: '//vjs.zencdn.net/v/oceans.mp4' }],
+  sources: [
+    {
+      type: 'application/x-mpegURL',
+      src: 'https://assets.mindvalley.com/api/v1/assets/266105a2-0888-46a3-b7ed-7070af7b69ba.m3u8'
+    }
+  ],
   duration: 46000,
   posterUrl: getImageUrl('removing_inner_blocks_success.jpeg'),
+  backgroundPosterUrl: getImageUrl('removing_inner_blocks_success.jpeg'),
   title: 'Removing Inner Block to Success',
   artistName: 'Marisa Peer',
   ratings: 5,
@@ -253,6 +261,7 @@ export const ImmersiveLoopingVideo: Story = {
     videoSources: video1.sources,
     duration: audio1.duration,
     posterUrl: audio1.posterUrl,
+    backgroundPosterUrl: audio1.backgroundPosterUrl,
     title: audio1.title,
     artistName: audio1.artistName,
     description: audio1.description,
