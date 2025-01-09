@@ -274,6 +274,19 @@ const emitEvent = (eventName: string, payload?: any) => {
   const data = { id: props.id, ...payload }
   emit(eventName, data)
 }
+
+const play = () => {
+  adaptiveResource.value?.play()
+}
+
+const pause = () => {
+  adaptiveResource.value?.pause()
+}
+
+defineExpose({
+  play,
+  pause
+})
 </script>
 
 <template>

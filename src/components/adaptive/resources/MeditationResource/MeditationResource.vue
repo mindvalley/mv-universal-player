@@ -377,6 +377,19 @@ const emitBackgroundMixerEvent = (eventName: string, payload?: any) => {
   }
   emit(eventName, data)
 }
+
+const play = () => {
+  adaptiveResource.value?.play()
+}
+
+const pause = () => {
+  adaptiveResource.value?.pause()
+}
+
+defineExpose({
+  play,
+  pause
+})
 </script>
 
 <template>

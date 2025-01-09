@@ -651,6 +651,17 @@ Think of this component as an extension to `AdaptiveResource` component. It enco
 </div>
 ```
 
+**_Ref_**
+
+You can also access the `play` and `pause` methods of the component using `ref`.
+
+```
+const soundscapeResource = ref()
+
+soundscapeResource.value?.play()
+soundscapeResource.value?.pause()
+```
+
 **MeditationResource (B2B)**
 
 This component is also an extension of `AdaptiveResource` component. It encompasses all basic features like _MiniPlayer_, _FullScreenMode_, _ImmersiveMode_, in addition to background sound mixer. Please check Storybook for more information.
@@ -669,7 +680,7 @@ This component is also an extension of `AdaptiveResource` component. It encompas
 | posterUrl              | `String`                 | ``            | The image to be shown in mini player thumbnail, fullscreen thumbnail.                                                                                                                                                                                                                      |
 | backgroundPosterUrl    | `String`                 | ``            | The background image shown in full screen when the immersive mode if off.                                                                                                                                                                                                                  |
 | duration               | `Number`                 | `0`           | Total duration of the sound in seconds. It is passed down to AudioProgressBar.                                                                                                                                                                                                             |
-|  |
+|                        |
 | showPreviousNext       | `Boolean`                | `false`       | Whether to show previous and next (left and right arrow icon) in the player bar.                                                                                                                                                                                                           |
 | autoPlay               | `Boolean`                | `true`        | Whether to autoplay the audio. Please take note that this is not guaranteed to work as it depends on the browser. Ideally some user action is needed.                                                                                                                                      |
 | nowPlayingTitle        | `String`                 | `NOW PLAYING` | The title to be shown in the now playing section.                                                                                                                                                                                                                                          |
@@ -714,6 +725,17 @@ This component is also an extension of `AdaptiveResource` component. It encompas
        ...
   />
 </div>
+```
+
+**_Ref_**
+
+You can also access the `play` and `pause` methods of the component using `ref`.
+
+```
+const meditationResource = ref()
+
+meditationResource.value?.play()
+meditationResource.value?.pause()
 ```
 
 **MVCarousel**
