@@ -148,8 +148,6 @@ onUnmounted(() => {
 })
 
 const initialize = (id: string) => {
-  console.log('initialize', id)
-  console.log(props.loop)
   audioInstance = createInstance(id, {
     poster: props.posterUrl,
     fluid: false,

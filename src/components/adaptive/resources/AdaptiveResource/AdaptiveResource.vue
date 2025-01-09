@@ -231,21 +231,33 @@ watch(isFullscreen, (newVal) => {
     if (!immersiveSetOnce.value) {
       isImmersive.value = true
       immersiveSetOnce.value = true
-      if (adaptiveItem?.value?.state?.playing) {
-        playLoopingVideo()
-      }
     }
   }
 })
 
+watch(
+  [() => adaptiveItem.value?.state?.playing, isFullscreen, isImmersive],
+  ([newPlaying, newIsFullscreen, newIsImmersive]) => {
+    if (newPlaying && newIsFullscreen && newIsImmersive) {
+      playLoopingVideo()
+    } else {
+      pauseLoopingVideo()
+    }
+  }
+)
+
 const playLoopingVideo = async () => {
-  await nextTick()
-  loopingVideoAdaptiveItemRef.value?.player?.play()
+  if (props.videoSources.length > 0 && !loopingVideoAdaptiveItemRef?.value?.state?.playing) {
+    await nextTick()
+    loopingVideoAdaptiveItemRef.value?.player?.play()
+  }
 }
 
 const pauseLoopingVideo = async () => {
-  await nextTick()
-  loopingVideoAdaptiveItemRef.value?.player?.pause()
+  if (loopingVideoAdaptiveItemRef?.value?.state?.playing) {
+    await nextTick()
+    loopingVideoAdaptiveItemRef.value?.player?.pause()
+  }
 }
 
 // Modify the handleMouseEnter function
@@ -397,13 +409,11 @@ const handleSeek = (seeking: any) => {
 const play = async () => {
   isPlaying.value = true
   adaptiveItem.value?.player?.play()
-  playLoopingVideo()
 }
 
 const pause = async () => {
   isPlaying.value = false
   adaptiveItem.value?.player?.pause()
-  pauseLoopingVideo()
 }
 
 const rewind = (time: number) => {
@@ -590,12 +600,7 @@ defineExpose({
             v-show="videoSources.length > 0 && isImmersive"
             :key="'looping-video'"
           >
-            <MVAdaptivePlayer
-              :poster-url="backgroundPosterUrl ?? posterUrl"
-              :loop="true"
-              muted
-              auto-play
-            >
+            <MVAdaptivePlayer :poster-url="backgroundPosterUrl ?? posterUrl" loop muted auto-play>
               <MVAdaptiveItem
                 ref="loopingVideoAdaptiveItemRef"
                 :sources="videoSources"
