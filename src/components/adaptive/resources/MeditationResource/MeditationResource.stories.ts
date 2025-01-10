@@ -97,6 +97,7 @@ const audio1 = {
   isFavourite: false,
   duration: 1932.669,
   posterUrl: getImageUrl('removing_inner_blocks_success.jpeg'),
+  backgroundPosterUrl: getImageUrl('free_youself_from_depression.jpeg'),
   title: 'Removing Inner Block to Success',
   artistName: 'Marisa Peer',
   ratings: 4,
@@ -114,6 +115,7 @@ const audio2 = {
   isFavourite: false,
   duration: 1831.24,
   posterUrl: getImageUrl('free_youself_from_depression.jpeg'),
+  backgroundPosterUrl: getImageUrl('removing_inner_blocks_success.jpeg'),
   title: 'Free Yourself from Depression and Anxiety',
   artistName: 'Marisa Peer',
   ratings: 4,
@@ -160,7 +162,8 @@ export const Default: Story = {
     posterUrl: audio2.posterUrl,
     title: audio2.title,
     artistName: audio2.artistName,
-    autoPlay: false
+    autoPlay: false,
+    backgroundPosterUrl: audio2.backgroundPosterUrl
   }
 }
 
@@ -182,7 +185,8 @@ export const PreviousNext: Story = {
     posterUrl: audio2.posterUrl,
     title: audio2.title,
     artistName: audio2.artistName,
-    showPreviousNext: true
+    showPreviousNext: true,
+    backgroundPosterUrl: audio2.backgroundPosterUrl
   }
 }
 
@@ -207,7 +211,8 @@ export const MeditationMixer: Story = {
     backgroundSounds: backgroundSounds,
     description: audio2.description,
     ratings: audio2.ratings,
-    tags: ['Achieving goals', 'Clarity on life vision', 'Focus']
+    tags: ['Achieving goals', 'Clarity on life vision', 'Focus'],
+    backgroundPosterUrl: audio2.backgroundPosterUrl
   }
 }
 
@@ -235,6 +240,7 @@ export const MeditationMixerDefaultSound: Story = {
     title: audio2.title,
     artistName: audio2.artistName,
     backgroundSounds: backgroundSounds,
-    defaultBackgroundSound: backgroundSounds[2]
+    defaultBackgroundSound: backgroundSounds[2],
+    backgroundPosterUrl: audio2.backgroundPosterUrl
   }
 }

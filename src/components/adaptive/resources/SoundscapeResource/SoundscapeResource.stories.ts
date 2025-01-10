@@ -10,7 +10,7 @@ const audio1 = {
   isFavourite: false,
   duration: 1932.669,
   posterUrl: getImageUrl('removing_inner_blocks_success.jpeg'),
-  backgroundPosterUrl: getImageUrl('removing_inner_blocks_success.jpeg'),
+  backgroundPosterUrl: getImageUrl('free_youself_from_depression.jpeg'),
   title: 'Removing Inner Block to Success',
   artistName: 'Marisa Peer',
   ratings: 4,
@@ -28,7 +28,7 @@ const audio2 = {
   isFavourite: false,
   duration: 1831.24,
   posterUrl: getImageUrl('free_youself_from_depression.jpeg'),
-  backgroundPosterUrl: getImageUrl('free_youself_from_depression.jpeg'),
+  backgroundPosterUrl: getImageUrl('removing_inner_blocks_success.jpeg'),
   title: 'Free Yourself from Depression and Anxiety',
   artistName: 'Marisa Peer',
   ratings: 4,
@@ -46,6 +46,7 @@ const audio3 = {
   isFavourite: false,
   duration: 103,
   posterUrl: getImageUrl('free_youself_from_depression.jpeg'),
+  backgroundPosterUrl: getImageUrl('removing_inner_blocks_success.jpeg'),
   title: 'Free Yourself from Depression and Anxiety',
   artistName: 'Marisa Peer',
   ratings: 4,
@@ -140,7 +141,8 @@ export const Default: Story = {
     description: audio1.description,
     ratings: audio1.ratings,
     tags: audio1.tags,
-    autoPlay: false
+    autoPlay: false,
+    backgroundPosterUrl: audio1.backgroundPosterUrl
   }
 }
 
@@ -167,7 +169,8 @@ export const DefaultScrollable: Story = {
     description: audio1.description,
     ratings: audio1.ratings,
     tags: audio1.tags,
-    autoPlay: false
+    autoPlay: false,
+    backgroundPosterUrl: audio1.backgroundPosterUrl
   }
 }
 
@@ -191,7 +194,8 @@ export const LoopingEnabled: Story = {
     artistName: audio1.artistName,
     description: audio1.description,
     ratings: audio1.ratings,
-    tags: audio1.tags
+    tags: audio1.tags,
+    backgroundPosterUrl: audio1.backgroundPosterUrl
   }
 }
 
@@ -215,7 +219,8 @@ export const LoopingEnabledShort: Story = {
     artistName: audio3.artistName,
     description: audio3.description,
     ratings: audio3.ratings,
-    tags: audio3.tags
+    tags: audio3.tags,
+    backgroundPosterUrl: audio3.backgroundPosterUrl
   }
 }
 
@@ -240,7 +245,8 @@ export const PreviousNext: Story = {
     showPreviousNext: true,
     description: audio1.description,
     ratings: audio1.ratings,
-    tags: audio1.tags
+    tags: audio1.tags,
+    backgroundPosterUrl: audio1.backgroundPosterUrl
   }
 }
 
@@ -292,6 +298,7 @@ export const ImmersiveDynamicVideo: Story = {
     description: audio2.description,
     ratings: audio2.ratings,
     tags: audio2.tags,
-    autoPlay: false
+    autoPlay: false,
+    backgroundPosterUrl: audio2.backgroundPosterUrl
   }
 }

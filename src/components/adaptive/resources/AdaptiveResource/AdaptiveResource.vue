@@ -189,6 +189,8 @@ const hidePlayButtonTimeout = ref<number | null>(null)
 // We could have used the player state but due to fade in/out sound feature, we maintain this local state based on the user action (play/pause button click).
 const isPlaying = ref(false)
 
+const isLoopingVideoPlaying = ref(false)
+
 // Add this ref to track if we're in the middle of a fullscreen transition
 const isFullscreenTransitioning = ref(false)
 
@@ -235,29 +237,32 @@ watch(isFullscreen, (newVal) => {
   }
 })
 
-watch(
-  [() => adaptiveItem.value?.state?.playing, isFullscreen, isImmersive],
-  ([newPlaying, newIsFullscreen, newIsImmersive]) => {
-    if (newPlaying && newIsFullscreen && newIsImmersive) {
+watch([isPlaying, isFullscreen, isImmersive], ([newIsPlaying, newIsFullscreen, newIsImmersive]) => {
+  if (props.videoSources.length > 0) {
+    if (newIsPlaying && newIsFullscreen && newIsImmersive) {
       playLoopingVideo()
     } else {
       pauseLoopingVideo()
     }
   }
-)
+})
 
 const playLoopingVideo = async () => {
-  if (props.videoSources.length > 0 && !loopingVideoAdaptiveItemRef?.value?.state?.playing) {
+  if (!isLoopingVideoPlaying.value) {
     await nextTick()
     loopingVideoAdaptiveItemRef.value?.player?.play()
   }
 }
 
 const pauseLoopingVideo = async () => {
-  if (loopingVideoAdaptiveItemRef?.value?.state?.playing) {
+  if (isLoopingVideoPlaying.value) {
     await nextTick()
     loopingVideoAdaptiveItemRef.value?.player?.pause()
   }
+}
+
+const toggleLoopingVideo = (value: boolean) => {
+  isLoopingVideoPlaying.value = value
 }
 
 // Modify the handleMouseEnter function
@@ -409,10 +414,12 @@ const handleSeek = (seeking: any) => {
 const play = async () => {
   isPlaying.value = true
   adaptiveItem.value?.player?.play()
+  adaptiveItem.value?.player?.fadeInVolume()
 }
 
 const pause = async () => {
   isPlaying.value = false
+  await adaptiveItem.value?.player?.fadeOutVolume()
   adaptiveItem.value?.player?.pause()
 }
 
@@ -605,6 +612,9 @@ defineExpose({
                 ref="loopingVideoAdaptiveItemRef"
                 :sources="videoSources"
                 :id="id + '-looping-video'"
+                @play="toggleLoopingVideo(true)"
+                @pause="toggleLoopingVideo(false)"
+                @ended="toggleLoopingVideo(false)"
               >
               </MVAdaptiveItem>
             </MVAdaptivePlayer>

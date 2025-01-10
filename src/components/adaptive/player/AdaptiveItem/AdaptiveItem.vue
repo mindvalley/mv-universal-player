@@ -141,11 +141,9 @@ const play = () => {
     adaptivePlayer.setSources(props.sources)
   }
   adaptivePlayer.play(props.id)
-  fadeInVolume()
 }
 
-const pause = async () => {
-  await fadeOutVolume()
+const pause = () => {
   adaptivePlayer.pause()
 }
 
