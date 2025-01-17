@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import { action } from '@storybook/addon-actions'
-
 import { MVAudioResource } from '.'
 import { MVAudioPlayer } from './../AudioPlayer'
 import { MVAudioDescription } from './../AudioDescription'
+import { MVAudioPreviewCard } from './../AudioPreviewCard'
 import { MVMeditationMixer, MVMeditationTrackItem, MVMeditationVolumeSlider } from './../Meditation'
 import { MVCarousel } from './../../carousel'
 import { Slide } from 'vue3-carousel'
@@ -173,6 +173,108 @@ export const Default: Story = {
     blurEffect: true,
     overlay: true,
     showFavourite: true
+  }
+}
+
+export const PreviewCardNotForSale: Story = {
+  render: (args: any, { argTypes }) => ({
+    components: { MVAudioPlayer, MVAudioResource, MVAudioPreviewCard },
+    methods: { logEvent: action(''), handlePreviewCallToAction: action('') },
+    setup() {
+      return { args }
+    },
+    template: `<div class="mv-universal-player"><MVAudioPlayer><MVAudioResource  v-bind="args" :show-controls="!args.isPreviewMode" class="my-10 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"   :style="{
+      'background-image': 'url(' + posterUrl + ')'
+    }"
+    @play="logEvent('play', $event)"
+    @pause="logEvent('pause', $event)"
+    @seeking="logEvent('seeking', $event)"
+    @ended="logEvent('ended', $event)"
+    @rewind="logEvent('rewind', $event)"
+    @fastforward="logEvent('fastforward', $event)"
+    @playbackSpeed="logEvent('playbackSpeed', $event)"
+    @favourite="logEvent('favourite', $event)"
+    @timeupdate="logEvent('timeupdate', $event)"
+    @error="logEvent('error', $event)"
+    >
+       <template v-if="args.isPreviewMode" #preview-card>
+          <MVAudioPreviewCard
+            :preview-mode-variant="args.purchaseFlowMode"
+            :preview-mode-style="args.purchaseFlowStyle"
+            :custom-text="{ header: 'This meditation is unavailable for purchase', button: 'Return to home', subtext: 'Explore more meditations on Home.' }"
+            @previewCallToAction="handlePreviewCallToAction"
+          />
+        </template>
+        </MVAudioResource>
+    </MVAudioPlayer></div>`
+  }),
+  args: {
+    assetId: audio1.assetId,
+    sources: audio1.sources,
+    duration: audio1.duration,
+    posterUrl: audio1.posterUrl,
+    title: audio1.title,
+    artistName: audio1.artistName,
+    ratings: audio1.ratings,
+    totalRatings: audio1.totalRatings,
+    isFavourite: audio1.isFavourite,
+    blurEffect: true,
+    overlay: true,
+    showFavourite: true,
+    purchaseFlowMode: 'not-for-sale',
+    purchaseFlowStyle: 'secondary',
+    isPreviewMode: true
+  }
+}
+
+export const PreviewCardMembership: Story = {
+  render: (args: any, { argTypes }) => ({
+    components: { MVAudioPlayer, MVAudioResource, MVAudioPreviewCard },
+    methods: { logEvent: action(''), handlePreviewCallToAction: action('') },
+    setup() {
+      return { args }
+    },
+    template: `<div class="mv-universal-player"><MVAudioPlayer><MVAudioResource  v-bind="args" :show-controls="!args.isPreviewMode" class="my-10 relative overflow-hidden p-6 lg:p-8 rounded-3xl bg-cover bg-center"   :style="{
+      'background-image': 'url(' + posterUrl + ')'
+    }"
+    @play="logEvent('play', $event)"
+    @pause="logEvent('pause', $event)"
+    @seeking="logEvent('seeking', $event)"
+    @ended="logEvent('ended', $event)"
+    @rewind="logEvent('rewind', $event)"
+    @fastforward="logEvent('fastforward', $event)"
+    @playbackSpeed="logEvent('playbackSpeed', $event)"
+    @favourite="logEvent('favourite', $event)"
+    @timeupdate="logEvent('timeupdate', $event)"
+    @error="logEvent('error', $event)"
+    >
+       <template v-if="args.isPreviewMode" #preview-card>
+          <MVAudioPreviewCard
+            :preview-mode-variant="args.purchaseFlowMode"
+            :preview-mode-style="args.purchaseFlowStyle"
+            :custom-text="{ header: 'This meditation is unavailable for purchase', button: 'Return to home', subtext: 'Explore more meditations on Home.' }"
+            @previewCallToAction="handlePreviewCallToAction"
+          />
+        </template>
+        </MVAudioResource>
+    </MVAudioPlayer></div>`
+  }),
+  args: {
+    assetId: audio1.assetId,
+    sources: audio1.sources,
+    duration: audio1.duration,
+    posterUrl: audio1.posterUrl,
+    title: audio1.title,
+    artistName: audio1.artistName,
+    ratings: audio1.ratings,
+    totalRatings: audio1.totalRatings,
+    isFavourite: audio1.isFavourite,
+    blurEffect: true,
+    overlay: true,
+    showFavourite: true,
+    purchaseFlowMode: 'membership',
+    purchaseFlowStyle: 'primary',
+    isPreviewMode: true
   }
 }
 
