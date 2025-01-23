@@ -200,12 +200,12 @@ const handlePause = (event: any) => {
             </span>
           </div>
 
-          <p v-if="artistName" class="text-sm text-cool-grey-250">
+          <p v-if="artistName" class="title-8 text-cool-grey-250">
             {{ artistName }}
           </p>
           <div
             v-if="ratings && totalRatings"
-            class="justify-content mt-1 flex items-center text-left text-xs text-cool-grey-300"
+            class="justify-content mt-1 flex items-center text-left caption-disclaimer text-cool-grey-300"
           >
             <svg v-svg symbol="star-filled" size="16" class="mr-1" color="#E8AD11"></svg>
             <span> {{ ratings.toFixed(2) }} ({{ totalRatings }}) </span>

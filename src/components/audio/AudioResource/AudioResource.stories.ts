@@ -381,7 +381,7 @@ export const WithMeditationMixer: Story = {
 
         <template #meditation-mixer>
         <MVMeditationMixer>
-          <div class="text-cool-grey-350 mb-2 text-xs">Mix Track</div>
+          <div class="text-cool-grey-350 mb-2 caption-disclaimer">Mix Track</div>
           <div class="gap-x-2 px-6">
             <MVCarousel>
               <Slide :key="0">
@@ -481,7 +481,7 @@ export const MultipleAudios: Story = {
 
         <template #meditation-mixer>
         <MVMeditationMixer>
-          <div class="text-cool-grey-350 mb-2 text-xs">Mix Track</div>
+          <div class="text-cool-grey-350 mb-2 caption-disclaimer">Mix Track</div>
           <div class="gap-x-2 px-6">
             <MVCarousel>
               <Slide :key="0">

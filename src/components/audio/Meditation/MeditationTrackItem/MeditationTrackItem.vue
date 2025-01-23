@@ -155,7 +155,7 @@ const emitEvent = (eventName: string, payload?: any) => {
       <div
         data-testid="no-background-sound"
         v-if="sources.length === 0"
-        class="flex h-full w-full text-white items-center justify-center bg-black text-center text-[10px]"
+        class="flex h-full w-full text-white items-center justify-center bg-black text-center body-2-xs"
       >
         <slot>NO BG SOUND</slot>
       </div>

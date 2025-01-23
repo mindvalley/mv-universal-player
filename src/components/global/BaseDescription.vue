@@ -46,12 +46,12 @@ const showFullDescription = ref(false)
         </div>
       </div>
       <div class="flex flex-col pl-3">
-        <span class="text-sm text-cool-grey-200">{{ props.name }}</span>
-        <span class="text-xs text-cool-grey-350">{{ props.headline }}</span>
+        <span class="title-9 text-cool-grey-200">{{ props.name }}</span>
+        <span class="caption-disclaimer text-cool-grey-350">{{ props.headline }}</span>
       </div>
     </section>
 
-    <section class="text-sm text-cool-grey-350">
+    <section class="body-small text-cool-grey-350">
       <div v-if="props.description.length <= 250 || showFullDescription === true">
         <div
           :class="{ 'cursor-pointer': props.description.length > 250 }"
@@ -59,7 +59,7 @@ const showFullDescription = ref(false)
           v-html="props.description"
         />
         <button
-          class="mt-2 text-purple-500"
+          class="mt-2 text-purple-500 title-8"
           @click="showFullDescription = false"
           v-if="props.description.length > 250"
         >
@@ -74,7 +74,7 @@ const showFullDescription = ref(false)
           {{ `${props.description.slice(0, 250)}...` }}
         </div>
         <button
-          class="mt-2 text-purple-500"
+          class="mt-2 text-purple-500 title-8"
           @click="showFullDescription = true"
           v-if="!showFullDescription"
         >

@@ -95,7 +95,7 @@ watchEffect(async () => {
   @apply flex h-full w-full items-center justify-center;
 }
 .meditation-volume-slider__label {
-  @apply text-cool-grey-250 text-xs;
+  @apply text-cool-grey-250 caption-disclaimer;
 }
 
 $track-background-color: #ba62fd;

@@ -71,7 +71,7 @@ function decrementMinutes() {
         @decrement="decrementHours"
       />
     </div>
-    <div class="text-xl">:</div>
+    <div class="body-large">:</div>
     <div data-testid="minutes-picker">
       <MVAdaptiveDurationTimerUnitPicker
         :selectedUnit="minutes"

@@ -233,7 +233,7 @@ watch(
     <span
       data-testid="current-time"
       v-if="size === Size.BIG && !loopingEnabled"
-      class="flex items-center justify-center text-xs w-8"
+      class="flex items-center justify-center caption-disclaimer w-8"
       :class="[size === Size.BIG ? 'mr-4' : 'mr-0']"
     >
       {{ humanizeTime(localCurrentTime) }}
@@ -285,7 +285,7 @@ watch(
     <span
       data-testid="duration"
       v-if="size === Size.BIG"
-      class="flex items-center justify-center text-xs ml-4"
+      class="flex items-center justify-center caption-disclaimer ml-4"
       :class="[!loopingEnabled ? 'w-8' : 'w-5']"
     >
       <template v-if="!loopingEnabled">

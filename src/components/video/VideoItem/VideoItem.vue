@@ -537,7 +537,7 @@ provide('videoState', readonly(state))
 
     <button
       v-if="sortedMarkers?.length > 0"
-      class="vjs-markers-button absolute top-4 right-6 hidden h-8 w-24 rounded-full border-2 border-white bg-black/[.3] text-sm text-white"
+      class="vjs-markers-button absolute top-4 right-6 hidden h-8 w-24 rounded-full border-2 border-white bg-black/[.3] caption-disclaimer text-white"
       @click="toggleMarkersMenu"
     >
       Jump-To
@@ -550,7 +550,7 @@ provide('videoState', readonly(state))
     >
       <ul class="h-full overflow-auto">
         <li
-          class="flex h-16 items-center border-b border-b-cool-grey-600 pt-px pr-6 pl-14 text-base text-cool-grey-400"
+          class="flex h-16 items-center border-b border-b-cool-grey-600 pt-px pr-6 pl-14 title-7 text-cool-grey-400"
         >
           JUMP TO
           <span @click="toggleMarkersMenu" class="ml-auto cursor-pointer">

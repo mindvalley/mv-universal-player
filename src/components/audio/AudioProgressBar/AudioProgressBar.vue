@@ -59,7 +59,7 @@ const progressPercentage = computed(() => {
 
 .audio-progress-bar__current_time,
 .audio-progress-bar__duration {
-  @apply flex shrink-0 items-center justify-center text-xs;
+  @apply flex shrink-0 items-center justify-center caption-disclaimer;
 }
 
 .audio-progess-bar__container {

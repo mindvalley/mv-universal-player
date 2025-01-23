@@ -50,8 +50,8 @@ watch(currentMarker, (newCurrentMarker) => {
         <svg class="mx-auto" v-svg symbol="play-filled" size="20"></svg>
       </div>
     </section>
-    <section class="grow pr-2 text-sm">{{ marker.name }}</section>
-    <section class="w-12 shrink-0 text-center text-sm">
+    <section class="grow pr-2 caption-disclaimer">{{ marker.name }}</section>
+    <section class="w-12 shrink-0 text-center caption-disclaimer">
       {{ humanizeTime(marker.time) }}
     </section>
   </li>

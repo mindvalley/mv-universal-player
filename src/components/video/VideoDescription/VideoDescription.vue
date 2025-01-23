@@ -69,7 +69,7 @@ const props = defineProps({
 
       <div class="mt-2 flex items-center" v-if="averageRating">
         <svg v-svg symbol="star-filled" class="text-yellow-600" size="20"></svg>
-        <div class="ml-2 text-sm text-cool-grey-300">
+        <div class="ml-2 caption-disclaimer text-cool-grey-300">
           {{ `${averageRating?.toFixed(2)} (${ratingsCount})` }}
         </div>
       </div>
