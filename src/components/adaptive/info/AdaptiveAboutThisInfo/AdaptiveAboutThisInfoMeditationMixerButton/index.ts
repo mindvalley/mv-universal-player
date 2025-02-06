@@ -1,0 +1,4 @@
+import MVAdaptiveAboutThisInfoMeditationMixerButton from './AdaptiveAboutThisInfoMeditationMixerButton.vue'
+
+export { MVAdaptiveAboutThisInfoMeditationMixerButton }
+export default MVAdaptiveAboutThisInfoMeditationMixerButton

@@ -1,0 +1,17 @@
+.v-popper--theme-tooltip .v-popper__inner {
+  background-color: rgba(0, 0, 0, 0.8);
+  font-family: 'Sharp Grotesk Cyr Book 19';
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.5px;
+}
+
+.v-popper--theme-tooltip .v-popper__arrow-outer {
+  visibility: hidden;
+}
+
+.v-popper--theme-tooltip .v-popper__arrow-inner {
+  visibility: hidden;
+}

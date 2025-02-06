@@ -11,7 +11,7 @@ This library is an upgraded version of [Universal Player](https://github.com/min
 - [Mindvalley Design System](https://www.npmjs.com/package/@mindvalley/design-system) integration (icons, styles, fonts, etc)
 - Browser Detection utility
 
-(Note: Currenlty only Audio Player is supported. Video Player will be added later.)
+The library supports both B2C (Mindvalley Web) and B2B (Workway) resources
 
 ## Setup
 
@@ -42,18 +42,23 @@ yarn dev
 The components are grouped in below categories. Each category has its own reason to exist. The components are built keeping in mind that they are **loosely coupled** and **higly cohesive** at the same time. This pattern allows us to extend the independent components based on requirements.
 
 - **Headless**
-  - AudioPlayer
-  - AudioItem
+  - AudioPlayer (B2C)
+  - AudioItem (B2C)
+  - AdaptivePlayer (B2B)
+  - AdaptiveItem (B2B)
 - **Raw**
   - AudioPlayButton
   - AudioFastForwardButton
   - AudioRewindButton
   - AudioProgressBar
   - AudioDescription
+  - ... plus many more
 - **Abstraction**
-  - AudioResource
-  - MeditationMixer
-  - Carousel
+  - AudioResource (B2C)
+  - MeditationMixer (B2C)
+  - SoundscapeResource (B2B)
+  - MeditationResource (B2B)
+  - Carousel (B2C)
 - **Utils**
   - Browser Detection
   - Format Sources
@@ -64,7 +69,7 @@ _Important_: When above components are consumed, they are used with **MV** prefi
 
 The components under this category play crucial role. Their main purpose is to provide player functionality (play, pause, seek, rewind, fastforward, etc) and leave styling for other components consuming them.
 
-**AudioPlayer**
+**AudioPlayer (B2C)**
 
 It is an instance of the [VideoJs](https://www.npmjs.com/package/video.js?activeTab=readme) without UI. It exposes all the features of the VideoJS along with few custom features. This component can be used independently but it makes more sense when used with **AudioItem**.
 
@@ -98,7 +103,7 @@ You can also reference the element and access all methods and the current state 
 
 Although you can use the state and all the actions directly, they are specially meant for **AudioItem** to consume when used together. E.g, set the audio sources through AudioItem instead of setting it through player.
 
-**AudioItem**
+**AudioItem (B2C)**
 
 This component represents the _virtual_ instance of a player. It means, that all the communication to the player (AudioPlayer) happens through this component. It is dependent on AudioPlayer. You cannot use it standalone.
 
@@ -262,6 +267,8 @@ The above structure is useful in Meditation Mixer context where one audio can be
 ```
 
 Above structure is useful when you want only one player across the app.
+
+Now we also have B2B components `AdaptivePlayer` and `AdaptiveItem` which are used in Workway. These components are almost same as B2C components like `AudioPlayer` and `AudioItem` , but they are extended to support more features to be used by `SoundscapeResource` and `MeditationResource`. So there are rare chances you might have to use them directly. Check the documentation of `SoundscapeResource` and `MeditationResource` for more information.
 
 ### Raw
 
@@ -427,6 +434,8 @@ The progress bar showing the current status of an audio. User can also _seek_ th
 </MVAudioPlayer>
 ```
 
+Now we do have many more components which are used in B2B (Workway) like `MVAdaptiveCloseButton`, `MVAdaptivePlayButton`, `MVAdaptiveRewindButton`, `MVAdaptiveFastForwardButton`, `MVAdaptiveProgressBar`, `MVAdaptiveDescription`, `MVAdaptiveMixer`, etc. These raw components are not meant to be used directly in the application but they are available for your customizations. These components are used in `AdaptiveResource` component.
+
 ### Abstraction
 
 _Headless_ and _Raw_ components are enough to serve the needs of an audio player. But if you want to use readymade component which clubs all _Headless_ and _Raw_ components so that it is easy to integrate in the consuming application, you can use components under this category. It is most likely that you will use these components.
@@ -437,32 +446,36 @@ You can think of this component as an extension to _AudioItem_ component because
 
 **_Props_**
 
-| Name          | Type            | Default | Description                                                                                                                                                                                                                                                                  |
-| ------------- | --------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| assetID       | `String`        | ''      | It is required. The unique identifier of the resource (AudioItem). The assetID passed will be used to further pass it down to AudioItem and will also be used while emitting events so that user knows which AudioItem (virtual instance of a player) has emitted the event. |
-| sources       | `Array<Source>` | `[]`    | It is required. The audio sources that need to be played. `Source` represents `{ type?: string, src: string}` interface. The sources are passed down to AudioItem.                                                                                                           |
-| title         | `String`        | ``      | Audio title.                                                                                                                                                                                                                                                                 |
-| artistName    | `String`        | ``      | Artist's name.                                                                                                                                                                                                                                                               |
-| duration      | `Number`        | `0`     | Total duration of the sound in seconds. It is passed down to AudioProgressBar.                                                                                                                                                                                               |
-| posterUrl     | `String`        | ``      | Poster of the audio. It is also used to give blur effect in the background.                                                                                                                                                                                                  |
-| ratings       | `Number`        | `0`     | Ratings of the audio.                                                                                                                                                                                                                                                        |
-| totalRatings  | `Number`        | `0`     | Total ratings of the audio. E.g, 3/5 (here 3 is ratings and 5 is totalRatings)                                                                                                                                                                                               |
-| overlay       | `Boolean`       | `false` | Overlay effect in the background.                                                                                                                                                                                                                                            |
-| blurEffect    | `Boolean`       | `false` | Blur effect in the background.                                                                                                                                                                                                                                               |
-| showFavourite | `Boolean`       | `false` | Whether to show favourite (heart icon) on the top right corner.                                                                                                                                                                                                              |
-| isFavourite   | `Boolean`       | `false` | To show whether the audio is favourite or not. It is dependend on `showFavourite`.                                                                                                                                                                                           |
+| Name               | Type            | Default         | Description                                                                                                                                                                                                                                                                  |
+| ------------------ | --------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| assetID            | `String`        | ''              | It is required. The unique identifier of the resource (AudioItem). The assetID passed will be used to further pass it down to AudioItem and will also be used while emitting events so that user knows which AudioItem (virtual instance of a player) has emitted the event. |
+| sources            | `Array<Source>` | `[]`            | It is required. The audio sources that need to be played. `Source` represents `{ type?: string, src: string}` interface. The sources are passed down to AudioItem.                                                                                                           |
+| title              | `String`        | ``              | Audio title.                                                                                                                                                                                                                                                                 |
+| artistName         | `String`        | ``              | Artist's name.                                                                                                                                                                                                                                                               |
+| duration           | `Number`        | `0`             | Total duration of the sound in seconds. It is passed down to AudioProgressBar.                                                                                                                                                                                               |
+| posterUrl          | `String`        | ``              | Poster of the audio. It is also used to give blur effect in the background.                                                                                                                                                                                                  |
+| ratings            | `Number`        | `0`             | Ratings of the audio.                                                                                                                                                                                                                                                        |
+| totalRatings       | `Number`        | `0`             | Total ratings of the audio. E.g, 3/5 (here 3 is ratings and 5 is totalRatings)                                                                                                                                                                                               |
+| overlay            | `Boolean`       | `false`         | Overlay effect in the background.                                                                                                                                                                                                                                            |
+| blurEffect         | `Boolean`       | `false`         | Blur effect in the background.                                                                                                                                                                                                                                               |
+| showFavourite      | `Boolean`       | `false`         | Whether to show favourite (heart icon) on the top right corner.                                                                                                                                                                                                              |
+| isFavourite        | `Boolean`       | `false`         | To show whether the audio is favourite or not. It is dependent on `showFavourite`.                                                                                                                                                                                           |
+| favouriteIcon      | `String`        | `heart-filled`  | Any valid Mindvalley Design System icon. It is dependent on `showFavourite`.                                                                                                                                                                                                 |
+| unfavouriteIcon    | `String`        | `heart-outline` | Any valid Mindvalley Design System icon. It is dependent on `showFavourite`.                                                                                                                                                                                                 |
+| favouriteIconColor | `String`        | `#A3313E`       | Any valid color. It is dependent on `showFavourite`.                                                                                                                                                                                                                         |
 
 **_Events_**
 
-| Name        | Payload                                                       | Description                                                                                 |
-| ----------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| timeupdate  | `{assetId: '...', currentTime: '...'}`                        | The current time of the audio being played. The currentTime will be in seconds.             |
-| play        | `{assetId: '...'}`                                            | It will emit when the audio has started to play.                                            |
-| pause       | `{assetId: '...'}`                                            | It will emit when the audio has paused.                                                     |
-| seeking     | `{assetId: '...', seeking: '...'}`                            | It will emit when the audio is seeked through progress bar. The seeking will be in seconds. |
-| ended       | `{assetId: '...'}`                                            | It will emit the audio has ended.                                                           |
-| rewind      | `{assetId: '...', {previousTime: '...', currentTime: '...'}}` | It will emit when the audio is rewinded.                                                    |
-| fastforward | `{assetId: '...', {previousTime: '...', currentTime: '...'}}` | It will emit when the audio is fast forwarded.                                              |
+| Name        | Payload                                                       | Description                                                                                                                                                                                                                                                                                                        |
+| ----------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| timeupdate  | `{assetId: '...', currentTime: '...'}`                        | The current time of the audio being played. The currentTime will be in seconds.                                                                                                                                                                                                                                    |
+| play        | `{assetId: '...'}`                                            | It will emit when the audio has started to play.                                                                                                                                                                                                                                                                   |
+| pause       | `{assetId: '...'}`                                            | It will emit when the audio has paused.                                                                                                                                                                                                                                                                            |
+| seeking     | `{assetId: '...', seeking: '...'}`                            | It will emit when the audio is seeked through progress bar. The seeking will be in seconds.                                                                                                                                                                                                                        |
+| ended       | `{assetId: '...'}`                                            | It will emit the audio has ended.                                                                                                                                                                                                                                                                                  |
+| rewind      | `{assetId: '...', {previousTime: '...', currentTime: '...'}}` | It will emit when the audio is rewinded.                                                                                                                                                                                                                                                                           |
+| fastforward | `{assetId: '...', {previousTime: '...', currentTime: '...'}}` | It will emit when the audio is fast forwarded.                                                                                                                                                                                                                                                                     |
+| playtime    | `{time: 0}`                                                   | It will emit the actual play time. For exampe, if the audio is of 60 seconds, and user starts playing it and pauses at 30 seconds and drags the slider forward or backward, it will still record only 30 seconds. It means actual play time and not the current time. It will reset only when the audio completes. |
 
 **_Usage_**
 
@@ -576,6 +589,169 @@ _**Usage**_
       </MVAudioResource>
 ```
 
+---
+
+**AdaptiveResource (B2B)**
+
+This component can also be treated as a base component for B2B resources. It encompasses all the necessary `AdaptiveItem` and `AdaptivePlayer` components to provide good user experience. For example, it includes _MiniPlayer_, _FullScreenMode_, _ImmersiveMode_, _Looping Mode_, etc.
+
+**SoundscapeResource (B2B)**
+
+Think of this component as an extension to `AdaptiveResource` component. It encompasses all basic features like _MiniPlayer_, _FullScreenMode_, _ImmersiveMode_, _Looping Mode_ in addition to setting duration manually. Please check Storybook for more information.
+
+**_Props_**
+
+| Name                | Type            | Default       | Description                                                                                                                                                                                                                                                                                |
+| ------------------- | --------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| id                  | `String`        | ''            | It is required. The unique identifier of the resource. The id passed will be used to further pass it down to AdaptiveResource and AdaptiveItem components and will also be used while emitting events so that user knows which sound (virtual instance of a player) has emitted the event. |
+| audioSources        | `Array<Source>` | `[]`          | It is required. The audio sources that need to be played. `Source` represents `{ type?: string, src: string}` interface. The sources are passed down to AdaptiveItem.                                                                                                                      |
+| videoSources        | `Array<Source>` | `[]`          | It is optional. These sources are used for creating looping video. `Source` represents `{ type?: string, src: string}` interface. The sources are passed down to AdaptiveItem.                                                                                                             |
+| title               | `String`        | ``            | Audio title. This is used in `AboutThisInfo` component. E.g, when user clicks on the title in fullscreen mode, we show the modal.                                                                                                                                                          |
+| artistName          | `String`        | ``            | Artist's name. This is used in `AboutThisInfo` component.                                                                                                                                                                                                                                  |
+| posterUrl           | `String`        | ``            | The image to be shown in mini player thumbnail, fullscreen thumbnail and also in fullscreen mode when there is no looping video or immersive mode.                                                                                                                                         |
+| duration            | `Number`        | `0`           | Total duration of the sound in seconds. It is passed down to AudioProgressBar.                                                                                                                                                                                                             |
+| posterUrl           | `String`        | ``            | Poster of the audio.                                                                                                                                                                                                                                                                       |
+| backgroundPosterUrl | `String`        | ``            | Poster of the looping video. It is also used to give blur effect in the background.                                                                                                                                                                                                        |
+| showCollection      | `Boolean`       | `false`       | Whether to show collection icon in the player bar.                                                                                                                                                                                                                                         |
+| showPreviousNext    | `Boolean`       | `false`       | Whether to show previous and next (left and right arrow icon) in the player bar.                                                                                                                                                                                                           |
+| autoPlay            | `Boolean`       | `true`        | Whether to autoplay the audio. Please take note that this is not guaranteed to work as it depends on the browser. Ideally some user action is needed.                                                                                                                                      |
+| nowPlayingTitle     | `String`        | `NOW PLAYING` | The title to be shown in the now playing section. This is useful when you want to distinguish whether the audio is being played from collection or not. E.g, NOW PLAYING FROM COLLECTION.                                                                                                  |
+| nowPlayingSubtitle  | `String`        | `Soundscape`  | The subtitle to be shown in the now playing section.                                                                                                                                                                                                                                       |
+| ratings             | `Number`        | `0`           | Ratings of the audio. It is used in the About This Info modal.                                                                                                                                                                                                                             |
+| tags                | `Array<String>` | `[]`          | Tags of the audio. It is used in the About This Info modal. E.g,`Achieving goals`, `Focus`, `Sleep`, etc.                                                                                                                                                                                  |
+
+**_Events_**
+
+| Name           | Payload                           | Description                                                                                                                                                                                                                                                                                                        |
+| -------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| timeupdate     | `{id: '...', currentTime: '...'}` | The current time of the audio being played. The currentTime will be in seconds.                                                                                                                                                                                                                                    |
+| play           | `{id: '...'}`                     | It will emit when the audio has started to play.                                                                                                                                                                                                                                                                   |
+| pause          | `{id: '...'}`                     | It will emit when the audio has paused.                                                                                                                                                                                                                                                                            |
+| seeking        | `{id: '...', seeking: '...'}`     | It will emit when the audio is seeked through progress bar. The seeking will be in seconds.                                                                                                                                                                                                                        |
+| ended          | `{id: '...'}`                     | It will emit the audio has ended.                                                                                                                                                                                                                                                                                  |
+| close          | `{id: '...'}`                     | It will emit when the mini player is closed.                                                                                                                                                                                                                                                                       |
+| collectionOpen | `{id: '...'}`                     | It will emit when the collection button is clicked. This allows the host application to open collection modal. Because this modal is not controlled by the library.                                                                                                                                                |
+| minimize       | `{id: '...'}`                     | It will emit when the player is minimized.                                                                                                                                                                                                                                                                         |
+| maximize       | `{id: '...'}`                     | It will emit when the player is maximized.                                                                                                                                                                                                                                                                         |
+| previous       | `{id: '...'}`                     | It will emit when the previous button is clicked.                                                                                                                                                                                                                                                                  |
+| next           | `{id: '...'}`                     | It will emit when the next button is clicked.                                                                                                                                                                                                                                                                      |
+| muted          | `{id: '...', muted: ''}`          | It will emit when the audio is muted or unumted.                                                                                                                                                                                                                                                                   |
+| setDuration    | `{id: '', seconds: 0}`            | It will emit when the duration is set manually. If the seconds is 0, it means it is set for forever/infinite.                                                                                                                                                                                                      |
+| playtime       | `{time: 0}`                       | It will emit the actual play time. For exampe, if the audio is of 60 seconds, and user starts playing it and pauses at 30 seconds and drags the slider forward or backward, it will still record only 30 seconds. It means actual play time and not the current time. It will reset only when the audio completes. |
+
+| error | `{id: '...', error: '...'}` | It will emit when the resource encounters an error.|
+
+**_Usage_**
+
+```
+<div class="mv-universal-player">
+  <MVSoundscapeResource
+       ...
+  />
+</div>
+```
+
+**_Ref_**
+
+You can also access the `play` and `pause` methods of the component using `ref`.
+
+```
+const soundscapeResource = ref()
+
+<div class="mv-universal-player">
+  <MVSoundscapeResource
+  ref="soundscapeResource"
+       ...
+  />
+</div>
+
+soundscapeResource.value?.play()
+soundscapeResource.value?.pause()
+```
+
+**MeditationResource (B2B)**
+
+This component is also an extension of `AdaptiveResource` component. It encompasses all basic features like _MiniPlayer_, _FullScreenMode_, _ImmersiveMode_, in addition to background sound mixer. Please check Storybook for more information.
+
+**_Props_**
+
+| Name                   | Type                     | Default       | Description                                                                                                                                                                                                                                                                                |
+| ---------------------- | ------------------------ | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| id                     | `String`                 | ''            | It is required. The unique identifier of the resource. The id passed will be used to further pass it down to AdaptiveResource and AdaptiveItem components and will also be used while emitting events so that user knows which sound (virtual instance of a player) has emitted the event. |
+| audioSources           | `Array<Source>`          | `[]`          | It is required. The audio sources that need to be played. `Source` represents `{ type?: string, src: string}` interface. The sources are passed down to AdaptiveItem.                                                                                                                      |
+| videoSources           | `Array<Source>`          | `[]`          | It is optional. These sources are used for creating looping video. `Source` represents `{ type?: string, src: string}` interface. The sources are passed down to AdaptiveItem.                                                                                                             |
+| backgroundSounds       | `Array<BackgroundSound>` | `[]`          | It is optional. These sources are used for creating background sound mixer. `BackgroundSound` represents `{ id: string, title: string, image: string, sources: Source[]}` interface. If backgroundSounds are not passed, then meditation mixer button will not be visible.                 |
+| defaultBackgroundSound | `BackgroundSound`        | `null`        | It is optional. This is the default background sound that will be played with the main audio. If it is not passed, by default 'No background sound' would be selected in the background sound mixer.                                                                                       |
+| title                  | `String`                 | ``            | Audio title. This is used in `AboutThisInfo` component. E.g, when user clicks on the title in fullscreen mode, we show the modal.                                                                                                                                                          |
+| artistName             | `String`                 | ``            | Artist's name. This is used in `AboutThisInfo` component.                                                                                                                                                                                                                                  |
+| posterUrl              | `String`                 | ``            | The image to be shown in mini player thumbnail, fullscreen thumbnail.                                                                                                                                                                                                                      |
+| backgroundPosterUrl    | `String`                 | ``            | The background image shown in full screen when the immersive mode if off.                                                                                                                                                                                                                  |
+| duration               | `Number`                 | `0`           | Total duration of the sound in seconds. It is passed down to AudioProgressBar.                                                                                                                                                                                                             |
+|                        |
+| showPreviousNext       | `Boolean`                | `false`       | Whether to show previous and next (left and right arrow icon) in the player bar.                                                                                                                                                                                                           |
+| autoPlay               | `Boolean`                | `true`        | Whether to autoplay the audio. Please take note that this is not guaranteed to work as it depends on the browser. Ideally some user action is needed.                                                                                                                                      |
+| nowPlayingTitle        | `String`                 | `NOW PLAYING` | The title to be shown in the now playing section.                                                                                                                                                                                                                                          |
+| nowPlayingSubtitle     | `String`                 | `Soundscape`  | The subtitle to be shown in the now playing section.                                                                                                                                                                                                                                       |
+| ratings                | `Number`                 | `0`           | Ratings of the audio. It is used in the About This Info modal.                                                                                                                                                                                                                             |
+
+| tags | `Array<String>` | `[]` | Tags of the audio. It is used in the About This Info modal. E.g, `Achieving goals`, `Focus`, `Sleep`, etc. |
+
+**_Events_**
+
+| Name                      | Payload                                                     | Description                                                                                                                                                                                                                                                                                                        |
+| ------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| timeupdate                | `{id: '...', currentTime: '...'}`                           | The current time of the audio being played. The currentTime will be in seconds.                                                                                                                                                                                                                                    |
+| play                      | `{id: '...'}`                                               | It will emit when the audio has started to play.                                                                                                                                                                                                                                                                   |
+| pause                     | `{id: '...'}`                                               | It will emit when the audio has paused.                                                                                                                                                                                                                                                                            |
+| seeking                   | `{id: '...', seeking: '...'}`                               | It will emit when the audio is seeked through progress bar. The seeking will be in seconds.                                                                                                                                                                                                                        |
+| ended                     | `{id: '...'}`                                               | It will emit the audio has ended.                                                                                                                                                                                                                                                                                  |
+| rewind                    | `{id: '...', previousTime: '...', currentTime: '...'}`      | It will emit when the audio is rewinded. The previousTime and currentTime will be in seconds.                                                                                                                                                                                                                      |
+| fastforward               | `{id: '...', previousTime: '...', currentTime: '...'}`      | It will emit when the audio is fastforwarded. The previousTime and currentTime will be in seconds.                                                                                                                                                                                                                 |
+| close                     | `{id: '...'}`                                               | It will emit when the mini player is closed.                                                                                                                                                                                                                                                                       |
+| collectionOpen            | `{id: '...'}`                                               | It will emit when the collection button is clicked. This allows the host application to open collection modal. Because this modal is not controlled by the library.                                                                                                                                                |
+| meditationMixerOpen       | `{id: '...'}`                                               | It will emit when the meditation mixer is opened.                                                                                                                                                                                                                                                                  |
+| meditationMixerClose      | `{id: '...'}`                                               | It will emit when the meditation mixer is closed.                                                                                                                                                                                                                                                                  |
+| minimize                  | `{id: '...'}`                                               | It will emit when the player is minimized.                                                                                                                                                                                                                                                                         |
+| maximize                  | `{id: '...'}`                                               | It will emit when the player is maximized.                                                                                                                                                                                                                                                                         |
+| previous                  | `{id: '...'}`                                               | It will emit when the previous button is clicked.                                                                                                                                                                                                                                                                  |
+| next                      | `{id: '...'}`                                               | It will emit when the next button is clicked.                                                                                                                                                                                                                                                                      |
+| muted                     | `{id: '...', muted: ''}`                                    | It will emit when the audio is muted or unumted.                                                                                                                                                                                                                                                                   |
+| backgroundMixerPlay       | `{id: '...', backgroundSoundId: '...', currentTime: '...'}` | It will emit when the background mixer is enabled.                                                                                                                                                                                                                                                                 |
+| backgroundMixerPause      | `{id: '...', backgroundSoundId: '...', currentTime: '...'}` | It will emit when the background mixer is paused.                                                                                                                                                                                                                                                                  |
+| backgroundMixerTimeupdate | `{id: '...', backgroundSoundId: '...', currentTime: '...'}` | It will emit every second.                                                                                                                                                                                                                                                                                         |
+| backgroundMixerEnded      | `{id: '...', backgroundSoundId: '...', volume: '...'}`      | It will emit when the background mixer is ended. E.g, when the main audio ends, this also gets ended.                                                                                                                                                                                                              |
+| playtime                  | `{time: 0}`                                                 | It will emit the actual play time. For exampe, if the audio is of 60 seconds, and user starts playing it and pauses at 30 seconds and drags the slider forward or backward, it will still record only 30 seconds. It means actual play time and not the current time. It will reset only when the audio completes. |
+
+| error | `{id: '...', error: '...'}` | It will emit when the resource encounters an error. |
+
+**_Usage_**
+
+```
+<div class="mv-universal-player">
+  <MVMeditationResource
+       ...
+  />
+</div>
+```
+
+**_Ref_**
+
+You can also access the `play` and `pause` methods of the component using `ref`.
+
+```
+const meditationResource = ref()
+
+<div class="mv-universal-player">
+  <MVMeditationResource
+  ref="meditationResource"
+       ...
+  />
+</div>
+
+meditationResource.value?.play()
+meditationResource.value?.pause()
+```
+
 **MVCarousel**
 
 This component uses [Vue Carousel](https://www.npmjs.com/package/vue-carousel) under the hood. Currently it is configured (e.g number of slides per breakpoint) keeping MeditationMixer in mind, but you can also use it elsewhere.
@@ -623,13 +799,14 @@ It exposes below properties:
 - isiPhone
 - isiPad
 - isTouchDevice
+- isMobileOrTablet
 
 Usage:
 
 ```
 import { useDetectBrowser } from "@mindvalley/mv-universal-player";
 
-const { isiPhone, isiPad, isiPhoneOriPadSafari } = useDetectBrowser();
+const { isiPhone, isiPad, isiPhoneOriPadSafari, isMobileOrTablet } = useDetectBrowser();
 ```
 
 **useGlobal**
@@ -651,6 +828,8 @@ _formatSources_ accepts two parameters:
 | sources | [{id: string, contentType: string, url: string}] | []      | The list of sources which contains renditions.                                                                                |
 | isAudio | boolean                                          | true    | It is to identify whether the sources are of audio or video. For audio '.mp4a' is considered as priority and for video, .hls. |
 
+It also includes UUIDV4 utility. So, if you want to access UUIDV4 just use `const { getUUID } = useGlobal();` and then `console.log(getUUID())`.
+
 ## Package Configuration
 
 **Vue Version Support**
@@ -670,6 +849,8 @@ For compatibility of Vue 2 with Vite, `@vitejs/plugin-vue2` library is used.
 This option can be enabled/disabled using `preserveModules` option in `vite.config.ts` file. Setting `true` enables treeshaking.
 
 ## Build/Publish Package
+
+IMPORTANT: Before you build the package, always increase the version number in `package.json` file. No matter whether you are publishing the package to NPM registry or creating a tar ball else the new changes won't be reflected.
 
 **Build Package**
 
@@ -724,6 +905,10 @@ yarn add @mindvalley/mv-universal-player
 
 **IMPORTANT**: In package.json, do NOT set the caret symbol in front of the version. Have exact version else it will download the latest version which might be of any version.
 
+If you are using tarball approach, then you can copy the tarball (ending with .tgz) and use it in your project. Assuming you have placed it at node_modules (root) level, you can run `yarn add ./path/to/tarball.tgz` to install the package. This will automatically install the package and and update your package.json file as well.
+
+**Note**: Tarball approach is only recommended for development purposes. For production, always use NPM registry. If you want to check it in preview environment, you can commit the tar ball, but before it is merged to main branch, you should remove it. Saying this, there is no harm if it is committed to main branch as well, but as a good practice, it is recommended to remove it. We have this approach because we don't want to increase the package version for every small change.
+
 ## Using Package
 
 **Whole Package**
@@ -753,7 +938,9 @@ import {
   MVMeditationTrackItem,
   MVCarousel,
   MVCarouselSlide,
-  MVAudioDescription
+  MVAudioDescription,
+  MVSoundscapeResource,
+  MVMeditationResource,
 } from "@mindvalley/mv-universal-player";
 ```
 

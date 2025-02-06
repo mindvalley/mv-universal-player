@@ -1,2 +1,4 @@
 @import './fonts.css';
 @import './tailwind.css';
+@import 'floating-vue/dist/style.css';
+@import './tooltip.css';

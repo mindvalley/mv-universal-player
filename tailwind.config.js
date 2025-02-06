@@ -1,16 +1,26 @@
 /** @type {import('tailwindcss').Config} */
 
 import { colors } from '@mindvalley/design-system'
+import { colors as b2bColors } from '@mindvalley/design-system/b2b'
 
 module.exports = {
   content: ['./src/**/*.{vue,js,ts,jsx,tsx}'],
   important: '.mv-universal-player',
   theme: {
+    screens: {
+      xs: '375px', // Mobile Portrait
+      sm: '480px', // Mobile Landscape
+      md: '768px', // Tablet Portrait
+      lg: '992px', // Tablet Landscape
+      xl: '1280px', // Desktop
+      '2xl': '1800px' // Large Desktop
+    },
     fontFamily: {
       sans: ['"Sharp Grotesk Book 19"', 'sans-serif']
     },
     colors: {
-      ...colors
+      ...colors,
+      ...b2bColors
     },
     // Place custom config here. This will generate Tailwind config + custom config.
     extend: {
@@ -71,6 +81,10 @@ module.exports = {
       35: '600'
     }
   },
-  safelist: ['aspect-square', 'aspect-video', 'aspect-portait'],
-  plugins: [require('@mindvalley/design-system/dist/tailwind/plugins/typography.js')()]
+  safelist: ['aspect-square', 'aspect-video', 'aspect-portrait', 'carousel'],
+  plugins: [
+    require('@mindvalley/design-system/dist/tailwind/plugins/typography.js')({
+      brands: ['mindvalley', 'b2b']
+    })
+  ]
 }

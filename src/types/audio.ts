@@ -7,6 +7,9 @@ interface Player {
   setAudio: (audioItemId: string) => void
   setMixing: (enabled: boolean) => void
   setPlaybackRate: (rate: number) => void
+  goFullscreen?: () => void
+  setAudioOnlyMode?: (enabled: boolean) => void
+  setAudioPosterMode?: (enabled: boolean) => void
 }
 
 interface Source {

@@ -1,15 +1,31 @@
 import * as components from './components'
 import './assets/main.css'
-import svgSprite from '@mindvalley/design-system/dist/svg-sprite/svg-defs.svg'
-import SvgSprite from 'vue-svg-sprite'
+import svgSprite from '@mindvalley/design-system/dist/icons/sprites/ui-icons.svg'
+import { svgSpriteDirectivePlugin } from 'vue-svg-sprite'
+import FloatingVue from 'floating-vue'
 
 import type { App } from 'vue-demi'
 
 const defaultComponents: any = components
+export interface MVUniversalPlayerOptions {
+  svgSpriteOptions: {
+    url: string
+  }
+}
+
 const MVUniversalPlayer = {
-  install(app: App) {
-    app.use(SvgSprite, {
-      url: svgSprite
+  install(app: App, options: MVUniversalPlayerOptions) {
+    app.use(FloatingVue, {
+      disabled: window.innerWidth < 1280,
+      themes: {
+        tooltip: {
+          triggers: ['hover', 'click', 'focus', 'touch']
+        }
+      }
+    })
+
+    app.use(svgSpriteDirectivePlugin, {
+      url: options?.svgSpriteOptions?.url ?? svgSprite
     })
 
     Object.keys(defaultComponents).forEach((name) => {
@@ -28,6 +44,7 @@ export {
   MVAudioItem,
   MVAudioPlayButton,
   MVAudioProgressBar,
+  MVAudioPreviewCard,
   MVAudioRewindButton,
   MVAudioResource,
   MVAudioDescription,
@@ -35,5 +52,13 @@ export {
   MVMeditationTrackItem,
   MVMeditationVolumeSlider,
   MVCarousel,
-  MVCarouselSlide
+  MVCarouselSlide,
+  MVVideoPlayer,
+  MVVideoItem,
+  MVVideoMakerItem,
+  MVVideoResource,
+  MVVideoControls,
+  MVVideoDescription,
+  MVSoundscapeResource,
+  MVMeditationResource
 } from './components'

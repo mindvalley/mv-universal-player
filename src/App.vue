@@ -1,6 +1,6 @@
 <template>
   <div class="mv-universal-player">
-    <MVAudioPlayer>
+    <!-- <MVAudioPlayer>
       <MVAudioResource
         :key="audio.id"
         :asset-id="audio.id"
@@ -18,6 +18,9 @@
         blurEffect
         overlay
         showFavourite
+        favouriteIcon="bookmark-filled"
+        unfavouriteIcon="bookmark-outlined"
+        favouriteIconColor="red"
         @play="logEvent('play', $event)"
         @pause="logEvent('pause', $event)"
         @seeking="logEvent('seeking', $event)"
@@ -28,6 +31,7 @@
         @favourite="logEvent('favourite', $event)"
         @timeupdate="logEvent('timeupdate', $event)"
         @error="logEvent('error', $event)"
+        @playtime="logEvent('playtime', $event)"
       >
         <template #audio-description>
           <MVAudioDescription
@@ -43,23 +47,24 @@
 
         <template #meditation-mixer>
           <MVMeditationMixer>
-            <div class="text-cool-grey-350 mb-2 text-xs">Mix Track</div>
+            <div class="text-cool-grey-350 mb-2 caption-disclaimer">Mix Track</div>
             <div class="gap-x-2 px-6">
-              <MVCarousel tagName="Slide">
-                <MVCarouselSlide :key="0">
+              <MVCarousel tag-name="Slide">
+                <Slide :key="0">
                   <MVMeditationTrackItem :volume="0"></MVMeditationTrackItem>
-                </MVCarouselSlide>
-                <MVCarouselSlide v-for="(sound, index) in backgroundSounds" :key="index + 1">
+                </Slide>
+                <Slide v-for="(sound, index) in backgroundSounds" :key="index + 1">
                   <MVMeditationTrackItem
                     :sources="sound.sources"
                     :background-src="sound.image"
                     :id="sound.id"
+                    :is-selected="index === 0"
                     @play="logEvent('play', $event)"
                     @pause="logEvent('pause', $event)"
                     @timeupdate="logEvent('timeupdate', $event)"
                     @error="logEvent('error', $event)"
                   />
-                </MVCarouselSlide>
+                </Slide>
               </MVCarousel>
             </div>
             <div
@@ -70,26 +75,28 @@
           </MVMeditationMixer>
         </template>
       </MVAudioResource>
-    </MVAudioPlayer>
+    </MVAudioPlayer> -->
   </div>
 </template>
 
 <script setup lang="ts">
 import type { Source } from './types/audio'
-import { MVAudioPlayer } from '.'
+import { MVAudioPlayer, MVVideoPlayer } from '.'
 import MVAudioResource from './components/audio/AudioResource/'
+import MVVideoResource from './components/video/VideoResource/'
 import MVAudioDescription from './components/audio/AudioDescription'
-
-import { MVCarousel, MVCarouselSlide } from './components/carousel'
+import MVVideoDescription from './components/video/VideoDescription'
+import { MVCarousel } from './components/carousel'
+import { MVCarouselSlide } from './components/carousel/CarouselSlide'
 import { MVMeditationTrackItem, MVMeditationVolumeSlider, MVMeditationMixer } from '.'
+import { ref } from 'vue-demi'
+import { Slide } from 'vue3-carousel'
+
+const videoResource = ref()
 
 const logEvent = (event: string, data: any) => {
-  console.log(event, data)
+  // console.log(event, data)
 }
-
-const sources = [
-  { type: 'audio/mpeg', src: getSoundUrl('removing_inner_blocks_success_audio.mp3.mp3') }
-]
 
 const backgroundSounds = [
   {
@@ -166,7 +173,7 @@ const backgroundSounds = [
 
 const audio = {
   id: '1',
-  sources: sources,
+  sources: [{ type: 'video/mpeg', src: '' }],
   duration: 1932.669,
   posterUrl: getImageUrl('removing_inner_blocks_success.jpeg'),
   title: 'Removing Inner Block to Success',
@@ -179,12 +186,52 @@ const audio = {
     'An internationally award-winning qualified hypnotherapist with advanced certificates in hypnotherapy from the Hypnotism Training Institute of Los Angeles. Marisa has completed additional studies in hypno-healing, advanced hypnotherapy, medical hypnotherapy and Gestalt Analysis.\r\n\r\nHaving undertaken further studies at the Proudfoot School of Hypnotherapy and Psychotherapy and the Atkinson Ball College of Hypnotherapy, Marisa has dedicated the last three decades to researching, testing and applying the most beneficial principles of Hypnotherapy, Psychotherapy, NLP, CBT and Neuroscience. \r\n\r\nThe result of over 30 years of careful and rigorous study, Marisa’s unique, Rapid Transformational Therapy®️ (RTT®️), has helped tens of thousands of people worldwide to overcome their own, personal challenges and lead happier, more fulfilling lives. '
 }
 
+const video = {
+  id: '1',
+  markers: [
+    {
+      __typename: 'Marker',
+      id: '3e13b3af-9d39-4147-b724-2d8125f7d1f1',
+      name: 'Marker 1',
+      time: 35
+    },
+    {
+      __typename: 'Marker',
+      id: 'c329b19f-fb46-4bc1-983e-099ce011dc13',
+      name: 'Marker 2 minutes',
+      time: 120
+    },
+    {
+      __typename: 'Marker',
+      id: '4966c85c-401e-4590-8bcb-2ed3ad74072b',
+      name: 'Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus nibh.',
+      time: 125
+    }
+  ],
+  sources: [{ type: 'video/mp4', src: '//vjs.zencdn.net/v/oceans.mp4' }],
+  duration: 1932.669,
+  posterUrl: getImageUrl('removing_inner_blocks_success.jpeg'),
+  title: 'Removing Inner Block to Success',
+  artistName: 'Marisa Peer',
+  ratings: 5,
+  totalRatings: 4,
+  coverAsset: getImageUrl('removing_inner_blocks_success.jpeg'),
+  authorImage: getImageUrl('rtt_marisa_author.jpeg'),
+  headline: 'Creator Of Rapid Transformational Therapy®',
+  description:
+    'An internationally award-winning qualified hypnotherapist with advanced certificates in hypnotherapy from the Hypnotism Training Institute of Los Angeles. Marisa has completed additional studies in hypno-healing, advanced hypnotherapy, medical hypnotherapy and Gestalt Analysis.\r\n\r\nHaving undertaken further studies at the Proudfoot School of Hypnotherapy and Psychotherapy and the Atkinson Ball College of Hypnotherapy, Marisa has dedicated the last three decades to researching, testing and applying the most beneficial principles of Hypnotherapy, Psychotherapy, NLP, CBT and Neuroscience. \r\n\r\nThe result of over 30 years of careful and rigorous study, Marisa’s unique, Rapid Transformational Therapy®️ (RTT®️), has helped tens of thousands of people worldwide to overcome their own, personal challenges and lead happier, more fulfilling lives. '
+}
+
 function getImageUrl(name: string) {
   return `/assets/images/${name}`
 }
 
 function getSoundUrl(name: string) {
   return `/assets/sounds/${name}`
+}
+
+function getVideoUrl(name: string) {
+  return `/assets/videos/${name}`
 }
 </script>
 

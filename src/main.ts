@@ -1,13 +1,23 @@
-import Vue from 'vue'
+import { createApp } from 'vue-demi'
 import App from './App.vue'
-import svgSprite from '@mindvalley/design-system/dist/svg-sprite/svg-defs.svg'
-import SvgSprite from 'vue-svg-sprite'
-import './../public/assets/main.css'
+import svgSprite from '@mindvalley/design-system/dist/icons/sprites/ui-icons.svg'
+import { svgSpriteDirectivePlugin } from 'vue-svg-sprite'
+import FloatingVue from 'floating-vue'
+import './assets/main.css'
+import 'floating-vue/dist/style.css'
 
-Vue.use(SvgSprite, {
+const app = createApp(App)
+app.use(svgSpriteDirectivePlugin, {
   url: svgSprite
 })
 
-new Vue({
-  render: (h) => h(App)
-}).$mount('#app')
+app.use(FloatingVue, {
+  disabled: window.innerWidth < 1280,
+  themes: {
+    tooltip: {
+      triggers: ['hover', 'click', 'focus', 'touch']
+    }
+  }
+})
+
+app.mount('#app')

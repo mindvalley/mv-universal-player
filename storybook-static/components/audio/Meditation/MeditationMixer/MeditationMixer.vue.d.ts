@@ -1,2 +1,2 @@
-declare const _sfc_main: import('./vue/dist/vue.esm.js').DefineComponent<{}, {}, {}, {}, {}, import('./vue/dist/vue.esm.js/types/v3-component-options').ComponentOptionsMixin, import('./vue/dist/vue.esm.js/types/v3-component-options').ComponentOptionsMixin, {}, string, Readonly<import('./vue/dist/vue.esm.js').ExtractPropTypes<{}>>, {}>;
+declare const _sfc_main: import('./vue/dist/vue.esm-bundler.js').DefineComponent<{}, {}, {}, {}, {}, import('./vue/dist/vue.esm-bundler.js').ComponentOptionsMixin, import('./vue/dist/vue.esm-bundler.js').ComponentOptionsMixin, {}, string, import('./vue/dist/vue.esm-bundler.js').PublicProps, Readonly<{}>, {}, {}, {}, {}, string, import('./vue/dist/vue.esm-bundler.js').ComponentProvideOptions, true, {}>;
 export default _sfc_main;

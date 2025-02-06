@@ -1,20 +1,49 @@
 @font-face {
-  font-family: "Sharp Grotesk Semibold 21";
-  font-weight: 600;
-  font-display: swap;
-  src: url("https://assets.mindvalley.com/api/v1/assets/270944f2-bb71-4559-b461-aabb0b351d6b.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Sharp Grotesk Medium 20";
+  font-family: 'Sharp Grotesk Cyr Semibold 21';
   font-weight: 500;
   font-display: swap;
-  src: url("https://assets.mindvalley.com/api/v1/assets/faf3d1e3-d18c-461e-aafa-9e56f9f16ce0.woff2") format("woff2");
+  /* We load fonts from assets.mindvalley.com cdn but you can choose to host the files yourself */
+  src: url('https://assets.mindvalley.com/api/v1/assets/270944f2-bb71-4559-b461-aabb0b351d6b.woff2')
+    format('woff2');
 }
 
 @font-face {
-  font-family: "Sharp Grotesk Book 19";
+  font-family: 'Sharp Grotesk Cyr Semibold 20';
+  font-weight: 600;
+  font-display: swap;
+  /* We load fonts from assets.mindvalley.com cdn but you can choose to host the files yourself */
+  src: url('https://assets.mindvalley.com/api/v1/assets/85092275-d096-483e-a271-7d6094cafca1.woff2')
+    format('woff2');
+}
+
+@font-face {
+  font-family: 'Sharp Grotesk Cyr Medium 22';
+  font-weight: 500;
+  font-display: swap;
+  src: url('https://assets.mindvalley.com/api/v1/assets/b61f86ec-3dbd-4674-907a-f3f26f5101ce.woff2')
+    format('woff2');
+}
+
+@font-face {
+  font-family: 'Sharp Grotesk Cyr Medium 20';
+  font-weight: 500;
+  font-display: swap;
+  src: url('https://assets.mindvalley.com/api/v1/assets/faf3d1e3-d18c-461e-aafa-9e56f9f16ce0.woff2')
+    format('woff2');
+}
+
+@font-face {
+  font-family: 'Sharp Grotesk Cyr Book 19';
   font-weight: 400;
   font-display: swap;
-  src: url("https://assets.mindvalley.com/api/v1/assets/0982041e-3874-48dc-bba5-a15c6fb960d1.woff2") format("woff2");
+  src: url('https://assets.mindvalley.com/api/v1/assets/0982041e-3874-48dc-bba5-a15c6fb960d1.woff2')
+    format('woff2');
+}
+
+@font-face {
+  font-family: 'Sharp Grotesk Cyr Bold 16';
+  font-weight: 700;
+  font-display: swap;
+  src: url('https://assets.mindvalley.com/api/v1/assets/d0e0425c-3c29-4d67-b4d6-77567bec96ba.woff2')
+    format('woff2');
 }

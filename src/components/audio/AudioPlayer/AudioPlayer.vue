@@ -122,8 +122,6 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  audioInstance.dispose()
-
   if (audioInstance) {
     audioInstance.dispose()
   }
@@ -133,7 +131,14 @@ const initialize = (id: string, loop = false) => {
   audioInstance = createInstance(id, {
     controls: false,
     playbackRates: props.playbackRates,
-    loop: loop
+    loop: loop,
+    html5: {
+      vhs: {
+        overrideNative: true
+      },
+      nativeAudioTracks: false,
+      nativeVideoTracks: false
+    }
   })
 
   createState()
