@@ -106,7 +106,8 @@ const audio1 = {
   headline: 'Creator Of Rapid Transformational Therapy®',
   description:
     'An internationally award-winning qualified hypnotherapist with advanced certificates in hypnotherapy from the Hypnotism Training Institute of Los Angeles. Marisa has completed additional studies in hypno-healing, advanced hypnotherapy, medical hypnotherapy and Gestalt Analysis.\r\n\r\nHaving undertaken further studies at the Proudfoot School of Hypnotherapy and Psychotherapy and the Atkinson Ball College of Hypnotherapy, Marisa has dedicated the last three decades to researching, testing and applying the most beneficial principles of Hypnotherapy, Psychotherapy, NLP, CBT and Neuroscience. \r\n\r\nThe result of over 30 years of careful and rigorous study, Marisa’s unique, Rapid Transformational Therapy®️ (RTT®️), has helped tens of thousands of people worldwide to overcome their own, personal challenges and lead happier, more fulfilling lives. ',
-  backgroundSounds: backgroundSounds
+  backgroundSounds: backgroundSounds,
+  tags: ['Achieving goals', 'Clarity on life vision', 'Focus']
 }
 
 const audio2 = {
@@ -125,6 +126,49 @@ const audio2 = {
   description:
     "Celebrity therapist Marisa Peer's proven techniques will free you from a life of negative patterns and thinking. This hypnosis session softly guides us into a state of deep introspection, where we boost our self-esteem and free ourselves from negative thoughts and patterns by programming healthier habits around eating, exercise, hobbies, thinking, self-love and self-esteem, and relating to others.",
   backgroundSounds: backgroundSounds
+}
+
+const video1 = {
+  id: '1',
+  markers: [
+    {
+      __typename: 'Marker',
+      id: '3e13b3af-9d39-4147-b724-2d8125f7d1f1',
+      name: 'Marker 1',
+      time: 35
+    },
+    {
+      __typename: 'Marker',
+      id: 'c329b19f-fb46-4bc1-983e-099ce011dc13',
+      name: 'Marker 2 minutes',
+      time: 120
+    },
+    {
+      __typename: 'Marker',
+      id: '4966c85c-401e-4590-8bcb-2ed3ad74072b',
+      name: 'Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus nibh.',
+      time: 125
+    }
+  ],
+  sources: [
+    {
+      type: 'application/x-mpegURL',
+      src: 'https://assets.mindvalley.com/api/v1/assets/266105a2-0888-46a3-b7ed-7070af7b69ba.m3u8'
+    }
+  ],
+  duration: 46000,
+  posterUrl: getImageUrl('removing_inner_blocks_success.jpeg'),
+  backgroundPosterUrl: getImageUrl('removing_inner_blocks_success.jpeg'),
+  title: 'Removing Inner Block to Success',
+  artistName: 'Marisa Peer',
+  ratings: 5,
+  totalRatings: 4,
+  coverAsset: getImageUrl('removing_inner_blocks_success.jpeg'),
+  authorImage: getImageUrl('rtt_marisa_author.jpeg'),
+  headline: 'Creator Of Rapid Transformational Therapy®',
+  description:
+    'An internationally award-winning qualified hypnotherapist with advanced certificates in hypnotherapy from the Hypnotism Training Institute of Los Angeles. Marisa has completed additional studies in hypno-healing, advanced hypnotherapy, medical hypnotherapy and Gestalt Analysis.\r\n\r\nHaving undertaken further studies at the Proudfoot School of Hypnotherapy and Psychotherapy and the Atkinson Ball College of Hypnotherapy, Marisa has dedicated the last three decades to researching, testing and applying the most beneficial principles of Hypnotherapy, Psychotherapy, NLP, CBT and Neuroscience. \r\n\r\nThe result of over 30 years of careful and rigorous study, Marisa’s unique, Rapid Transformational Therapy®️ (RTT®️), has helped tens of thousands of people worldwide to overcome their own, personal challenges and lead happier, more fulfilling lives. ',
+  tags: ['Achieving goals', 'Clarity on life vision', 'Focus']
 }
 
 const audios = [audio1, audio2]
@@ -242,5 +286,32 @@ export const MeditationMixerDefaultSound: Story = {
     backgroundSounds: backgroundSounds,
     defaultBackgroundSound: backgroundSounds[2],
     backgroundPosterUrl: audio2.backgroundPosterUrl
+  }
+}
+
+export const ImmersiveLoopingVideo: Story = {
+  render: (args: any, { argTypes }) => ({
+    title: 'Immersive - Looping Video',
+    components: { MVMeditationResource },
+    methods: { logEvent: action('') },
+    setup() {
+      return { args }
+    },
+    template: `<div class="mv-universal-player"><div>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br>hello <br></div><div class="mt-20 absolute bottom-0 left-0 right-0"><MVMeditationResource v-bind="args" /></div></div>`
+  }),
+  args: {
+    key: audio1.assetId,
+    id: audio1.assetId,
+    audioSources: audio1.sources,
+    videoSources: video1.sources,
+    duration: audio1.duration,
+    posterUrl: audio1.posterUrl,
+    backgroundPosterUrl: audio1.backgroundPosterUrl,
+    title: audio1.title,
+    artistName: audio1.artistName,
+    description: audio1.description,
+    ratings: audio1.ratings,
+    tags: audio1.tags,
+    autoPlay: false
   }
 }
