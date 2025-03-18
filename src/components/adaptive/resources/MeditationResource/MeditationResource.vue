@@ -20,7 +20,7 @@ const props = defineProps({
     default: () => []
   },
   videoSources: {
-    type: Array,
+    type: Array<Source>,
     default: () => []
   },
   title: {
@@ -449,6 +449,7 @@ defineExpose({
       :before-fade-volume="mainSoundBeforeFadeVolume"
       :fullscreen-element="fullscreenElement"
       :audio-sources="audioSources"
+      :video-sources="videoSources"
       :duration="duration"
       :poster-url="posterUrl"
       :background-poster-url="backgroundPosterUrl"
